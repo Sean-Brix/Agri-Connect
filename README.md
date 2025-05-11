@@ -12,12 +12,19 @@
 
 ## _iRateTESDA : A Mobile App for Client Satisfaction and Citizen’s Charter Awareness of TESDA Provincial Office - Trece Martirez Cavite_
 
-### 1. Mobile
-- 
+### 1. Mobile App
+- Form Submission
+- User Guidelines (Citizen's Charter Step by Step Procedure)
+- Downloadable Forms
+- Transaction Tracking ( Tracks the process and direct the user for the next step )
+- Dashboard and Analytics ( Charter Awareness / Satisfactory / Transactions )
+- Program Registration Availability
+- Scholarships
 
 ### 2. Kiosk
-- 
+- Form Submission
+- Records Client Log
 
 <br/>
 
-## _Traffic Management Office_
+## _"RoadWatch: A Web Platform for Traffic Violation Monitoring and Incident Report with Policy Awareness for the Traffic Management Office of General Trias, Cavite_
