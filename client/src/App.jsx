@@ -1,12 +1,8 @@
-import { useState } from 'react'
+import Sample from './Services/Chat/Client/Sample.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      
-    </>
+    <Sample />
   )
 }
 
