@@ -1,8 +1,9 @@
-import Sample from './Services/Chat/Client/Sample.jsx'
+import Navbar from './Components/Navigation/Navbar.jsx'
+
 
 function App() {
   return (
-    <Sample />
+    <Navbar />
   )
 }
 
