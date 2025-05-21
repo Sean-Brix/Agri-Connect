@@ -2,51 +2,68 @@ import React from 'react';
 
 export default function Navbar() {
 
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+
   return (
     <>
-      {/* Main container */}
       <div className="flex h-screen">
         {/* Sidebar for desktop */}
-        <aside className="w-64 bg-gradient-to-b from-blue-600 to-blue-800 text-white shadow-md hidden md:block">
-          <div className="p-4 border-b border-blue-500">
-            <h1 className="text-xl font-bold ml-7">Home</h1>
+        <aside className="w-64 bg-gradient-to-b from-blue-600 to-blue-800 text-white shadow-md hidden md:flex flex-col justify-between">
+          <div>
+            <div className="p-4 border-b border-blue-500">
+              <h1 className="text-xl font-bold ml-7">Home</h1>
+            </div>
+            <nav className="mt-4">
+              <ul className="space-y-2">
+                {/* Home Link */}
+                <li className="p-4 hover:bg-blue-700 rounded-lg transition">
+                  <a href="main.html" className="flex items-center space-x-3">
+                    <i className="fas fa-home h-5 w-5"></i>
+                    <span>Home</span>
+                  </a>
+                </li>
+                {/* Analytics Link */}
+                <li className="p-4 hover:bg-blue-700 rounded-lg transition">
+                  <a href="analytics.html" className="flex items-center space-x-3">
+                    <i className="fas fa-chart-line h-5 w-5"></i>
+                    <span>Analytics</span>
+                  </a>
+                </li>
+                {/* Settings Link */}
+                <li className="p-4 hover:bg-blue-700 rounded-lg transition">
+                  <a href="settings.html" className="flex items-center space-x-3">
+                    <i className="fas fa-cog h-5 w-5"></i>
+                    <span>Settings</span>
+                  </a>
+                </li>
+                {/* Profile Link */}
+                <li className="p-4 hover:bg-blue-700 rounded-lg transition">
+                  <a href="profile.html" className="flex items-center space-x-3">
+                    <i className="fas fa-user h-5 w-5"></i>
+                    <span>Profile</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
-          <nav className="mt-4">
-            <ul className="space-y-2">
-              {/* Home Link */}
-              <li className="p-4 hover:bg-blue-700 rounded-lg transition">
-                <a href="main.html" className="flex items-center space-x-3">
-                  <i className="fas fa-home h-5 w-5"></i>
-                  <span>Home</span>
-                </a>
-              </li>
-              {/* Analytics Link */}
-              <li
-                className="p-4 hover:bg-blue-700 rounded-lg transition">
-                <a href="analytics.html" className="flex items-center space-x-3">
-                  <i className="fas fa-chart-line h-5 w-5"></i>
-                  <span>Analytics</span>
-                </a>
-              </li>
-              {/* Settings Link */}
-              <li
-                className="p-4 hover:bg-blue-700 rounded-lg transition">
-                <a href="settings.html" className="flex items-center space-x-3">
-                  <i className="fas fa-cog h-5 w-5"></i>
-                  <span>Settings</span>
-                </a>
-              </li>
-              {/* Profile Link */}
-              <li
-                className="p-4 hover:bg-blue-700 rounded-lg transition">
- 
-                <a href="profile.html" className="flex items-center space-x-3">
-                  <i className="fas fa-user h-5 w-5"></i>
-                  <span>Profile</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
+          {/* Profile and Logout at the bottom */}
+          <div className="p-4 border-t border-blue-500 flex flex-col items-center">
+            <div className="flex items-start space-x-2 mb-4 w-full justify-around mr-10">
+              <img src="SRC/profile.png" alt="Profile" className="h-10 w-10 rounded-full ml-10" />
+              <div className="flex-col flex ">
+                <span className="font-bold">Rhenzy H. Cruzat</span>
+                <span className="text-sm text-gray-300">Front-End Developer</span>
+              </div>
+            </div>
+            {/* Logout button (desktop sidebar, bottom) */}
+            <a
+              href="logout.html"
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-800 rounded-lg transition text-white w-full justify-center"
+            >
+              <i className="fas fa-sign-out-alt h-5"></i>
+              <span className="font-bold">Logout</span>
+            </a>
+          </div>
         </aside>
 
         {/* Main content area with header only */}
@@ -56,14 +73,16 @@ export default function Navbar() {
             <div className="flex items-center space-x-4 justify-center">
               {/* Logo */}
               <img src="SRC/logo.png" alt="Logo" className="h-10 w-10 rounded-full" />
-             
               <h1 className="text-lg font-semibold text-white text-center items-center">
                 FITS Tanza - Municipal Agriculture Office
               </h1>
-             
             </div>
             {/* Mobile menu toggle button */}
-            <button className="md:hidden text-white mt-2 md:mt-0" id="menu-toggle">
+            <button
+              className="md:hidden text-white mt-2 md:mt-0"
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Open menu"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -83,59 +102,105 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Sidebar for mobile (hidden by default, toggled with menu button) */}
+      
+      {mobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-grey bg-opacity-10 backdrop-blur-sm z-40 md:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+          aria-label="Close menu overlay"
+        />
+      )}
+
+      
       <aside
-        className="fixed inset-y-0 left-0 bg-gradient-to-b from-blue-600 to-blue-800 text-white shadow-lg w-64 z-50 transform -translate-x-full transition-transform"
+        className={`fixed inset-y-0 left-0 bg-gradient-to-b from-blue-600 to-blue-800 text-white shadow-lg w-64 z-50 transform transition-transform duration-300 ${
+          mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:hidden`}
         id="mobile-menu"
       >
-        <div className="p-4 border-b border-blue-500">
+        <div className="p-4 border-b border-blue-500 flex justify-between items-center">
           <h1 className="text-2xl font-bold">Dashboard</h1>
+          <button
+            className="text-white"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Close menu"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
         </div>
         <nav className="mt-6">
           <ul className="space-y-2">
             {/* Home Link */}
-            <li
-              className="p-4 hover:bg-blue-700 rounded-lg transition">
+            <li className="p-4 hover:bg-blue-700 rounded-lg transition">
               <a href="main.html" className="flex items-center space-x-3">
                 <i className="fas fa-home h-5 w-5"></i>
                 <span>Home</span>
               </a>
             </li>
             {/* Analytics Link */}
-                  <li
-                    className="p-4 hover:bg-blue-700 rounded-lg transition"
-                  >
-                    <a href="analytics.html" className="flex items-center space-x-3">
-                    <i className="fas fa-chart-line h-5 w-5"></i>
-                    <span>Analytics</span>
-                    </a>
-                  </li>
-            <li
-              className="p-4 hover:bg-blue-700 rounded-lg transition">
+            <li className="p-4 hover:bg-blue-700 rounded-lg transition">
+              <a href="analytics.html" className="flex items-center space-x-3">
+                <i className="fas fa-chart-line h-5 w-5"></i>
+                <span>Analytics</span>
+              </a>
+            </li>
+            {/* Settings Link */}
+            <li className="p-4 hover:bg-blue-700 rounded-lg transition">
               <a href="settings.html" className="flex items-center space-x-3">
                 <i className="fas fa-cog h-5 w-5"></i>
                 <span>Settings</span>
               </a>
             </li>
             {/* Profile Link */}
-            <li
-              className="p-4 hover:bg-blue-700 rounded-lg transition">
+            <li className="p-4 hover:bg-blue-700 rounded-lg transition">
               <a href="profile.html" className="flex items-center space-x-3">
                 <i className="fas fa-user h-5 w-5"></i>
                 <span>Profile</span>
               </a>
             </li>
-           {/* Logout Link */}
-            <li
-              className="p-4 hover:bg-blue-700 rounded-lg transition mt-8">
-              <a href="logout.html" className="flex items-center space-x-3">
-                <i className="fas fa-sign-out-alt h-5 w-5"></i>
-                <span>Logout</span>
-              </a>
-            </li>
           </ul>
+         
         </nav>
+         {/* Profile and Logout at the bottom */}
+          <div className="p-4 border-t border-blue-500 flex flex-col items-center ">
+            <div className="flex items-start space-x-2 mb-4 w-full justify-around mr-10">
+              <img src="SRC/profile.png" alt="Profile" className="h-10 w-10 rounded-full ml-10" />
+              <div className="flex-col flex ">
+                <span className="font-bold">Rhenzy H. Cruzat</span>
+                <span className="text-sm text-gray-300">Front-End Developer</span>
+              
+              </div>
+            </div>  
+            {/* Logout button (mobile sidebar, bottom) */}
+            <a
+              href="logout.html"
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-800 rounded-lg transition text-white w-full justify-center" 
+            >
+              <i className="fas fa-sign-out-alt h-5"></i>
+              <span className="font-bold">Logout</span>
+            </a>
+          </div>
+              
+            
+         
+       
+          
+       
       </aside>
+      
     </>
   );
 }
