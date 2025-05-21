@@ -1,91 +1,141 @@
-import React from 'react'
+import React from 'react';
 
 export default function Navbar() {
+
   return (
     <>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+      {/* Main container */}
+      <div className="flex h-screen">
+        {/* Sidebar for desktop */}
+        <aside className="w-64 bg-gradient-to-b from-blue-600 to-blue-800 text-white shadow-md hidden md:block">
+          <div className="p-4 border-b border-blue-500">
+            <h1 className="text-xl font-bold ml-7">Home</h1>
+          </div>
+          <nav className="mt-4">
+            <ul className="space-y-2">
+              {/* Home Link */}
+              <li className="p-4 hover:bg-blue-700 rounded-lg transition">
+                <a href="main.html" className="flex items-center space-x-3">
+                  <i className="fas fa-home h-5 w-5"></i>
+                  <span>Home</span>
+                </a>
+              </li>
+              {/* Analytics Link */}
+              <li
+                className="p-4 hover:bg-blue-700 rounded-lg transition">
+                <a href="analytics.html" className="flex items-center space-x-3">
+                  <i className="fas fa-chart-line h-5 w-5"></i>
+                  <span>Analytics</span>
+                </a>
+              </li>
+              {/* Settings Link */}
+              <li
+                className="p-4 hover:bg-blue-700 rounded-lg transition">
+                <a href="settings.html" className="flex items-center space-x-3">
+                  <i className="fas fa-cog h-5 w-5"></i>
+                  <span>Settings</span>
+                </a>
+              </li>
+              {/* Profile Link */}
+              <li
+                className="p-4 hover:bg-blue-700 rounded-lg transition">
+ 
+                <a href="profile.html" className="flex items-center space-x-3">
+                  <i className="fas fa-user h-5 w-5"></i>
+                  <span>Profile</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </aside>
 
-    <header
-    class="bg-primary flex krona text-3xl justify-between px-7 py-4.5 items-center text-white md:hidden">
-    <img
-        id="home-btn"
-        class="size-12 cursor-pointer"
-        src="../assets/icons/school-icon.svg"
-        alt="" />
-
-    <h1 id="home-btn" class="cursor-pointer">MyRi Clinic</h1>
-
-    <img
-        id="menu-btn"
-        class="z-21 size-9 cursor-pointer invert"
-        src="../assets/icons/menu-icon.svg"
-        alt="menu-btn" />
-    </header>
-
-    <nav
-    id="SideBar"
-    class="z-20 w-62 md:sm:w-24 lg:w-72 md:h-dvh xl:lg:w-82 translate-x-[50rem]  drop-shadow-2xl md:drop-shadow-none h-dvh md:translate-x-0 fixed duration-500 right-0 top-[-17px] md:top-0 md:left-0 md:block">
-    <main
-        class="grid text-white h-[70%] grid-rows-[100px_1fr_60px] md:h-dvh ">
-        <section
-        class="row-start-1 invisible md:visible cursor-pointer shadow-2xl bg-secondary flex items-center justify-center text-2xl krona">
-        <img
-            class="md:block size-12 lg:hidden"
-            src="../assets/icons/school-icon.svg"
-            alt="school-img" />
-        <h1 class="md:hidden text-3xl lg:block">MyRi Clinic</h1>
-        </section>
-
-        
-        <section
-        class="poppins uppercase row-start-2 bg-primary flex gap-y-3 flex-col  px-3 py-4 text-lg">
-        
-        <a
-            class="flex gap-x-4 px-3.5 py-3.5 leading-6 hover:bg-[#ffffff1f] rounded-lg md:flex md:justify-center lg:justify-start"
-            href="../pages/visitor.php"><img src="../assets/icons/visit-icon.svg" alt="visitor-icon" />
-            <p class="md:hidden lg:block">visitor</p>
-        </a>
-
-        
-        <a
-            class="flex gap-x-4 px-3.5 py-3.5 leading-6 hover:bg-[#ffffff1f] rounded-lg md:flex md:justify-center lg:justify-start"
-            href="../pages/visithistory.php"><img src="../assets/icons/history-icon.svg" alt="history-icon" />
-            <p class="md:hidden lg:block">visit history</p>
-        </a>
-        
-        <a
-            class="flex gap-x-4 px-3.5 py-3.5 leading-6 hover:bg-[#ffffff1f] rounded-lg md:flex md:justify-center lg:justify-start"
-            href="../pages/medicalform.php"><img src="../assets/icons/medicalform-icon.svg" alt="inforamation-icon" />
-            <p class="md:hidden lg:block">medical form</p>
-        </a>
-        
-        <a
-            class="flex gap-x-4 px-3.5 py-3.5 leading-6 hover:bg-[#ffffff1f] rounded-lg md:flex md:justify-center lg:justify-start"
-            href="../pages/studentlist.php"><img src="../assets/icons/student-icon.svg" alt="inforamation-icon" />
-            <p class="md:hidden lg:block">student list</p>
-        </a>
-
-        
-        
-        </section>
-        <section
-        class="rounded-bl-2xl md:rounded-none row-start-3 bg-secondary poppins uppercase px-5 py-3.5 flex text-lg w-full items-center gap-x-5">
-
-        
-        <form action="../../Controller/logout.php" method="POST">
-            <button
-            id="logout-btn"
-            type="submit"
-            name="submit"
-            class="flex gap-x-4 px-3.5 py-3.5 leading-6 rounded-lg md:flex md:justify-center lg:justify-start"
-            href="../pages/index.php"><img src="../assets/icons/exit-icon.svg" alt="inforamation-icon" />
-            <p class="md:hidden lg:block">logout</p>
+        {/* Main content area with header only */}
+        <div className="flex-1 flex flex-col">
+          {/* Top Navbar/Header */}
+          <header className="bg-blue-700 shadow-md p-3 flex justify-evenly md:justify-center md:px-8 items-center">
+            <div className="flex items-center space-x-4 justify-center">
+              {/* Logo */}
+              <img src="SRC/logo.png" alt="Logo" className="h-10 w-10 rounded-full" />
+             
+              <h1 className="text-lg font-semibold text-white text-center items-center">
+                FITS Tanza - Municipal Agriculture Office
+              </h1>
+             
+            </div>
+            {/* Mobile menu toggle button */}
+            <button className="md:hidden text-white mt-2 md:mt-0" id="menu-toggle">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16m-7 6h7"
+                />
+              </svg>
             </button>
-        </form>
-        </section>
-    </main>
-    </nav>
+          </header>
+        </div>
+      </div>
 
-</>
-  )
+      {/* Sidebar for mobile (hidden by default, toggled with menu button) */}
+      <aside
+        className="fixed inset-y-0 left-0 bg-gradient-to-b from-blue-600 to-blue-800 text-white shadow-lg w-64 z-50 transform -translate-x-full transition-transform"
+        id="mobile-menu"
+      >
+        <div className="p-4 border-b border-blue-500">
+          <h1 className="text-2xl font-bold">Dashboard</h1>
+        </div>
+        <nav className="mt-6">
+          <ul className="space-y-2">
+            {/* Home Link */}
+            <li
+              className="p-4 hover:bg-blue-700 rounded-lg transition">
+              <a href="main.html" className="flex items-center space-x-3">
+                <i className="fas fa-home h-5 w-5"></i>
+                <span>Home</span>
+              </a>
+            </li>
+            {/* Analytics Link */}
+                  <li
+                    className="p-4 hover:bg-blue-700 rounded-lg transition"
+                  >
+                    <a href="analytics.html" className="flex items-center space-x-3">
+                    <i className="fas fa-chart-line h-5 w-5"></i>
+                    <span>Analytics</span>
+                    </a>
+                  </li>
+            <li
+              className="p-4 hover:bg-blue-700 rounded-lg transition">
+              <a href="settings.html" className="flex items-center space-x-3">
+                <i className="fas fa-cog h-5 w-5"></i>
+                <span>Settings</span>
+              </a>
+            </li>
+            {/* Profile Link */}
+            <li
+              className="p-4 hover:bg-blue-700 rounded-lg transition">
+              <a href="profile.html" className="flex items-center space-x-3">
+                <i className="fas fa-user h-5 w-5"></i>
+                <span>Profile</span>
+              </a>
+            </li>
+           {/* Logout Link */}
+            <li
+              className="p-4 hover:bg-blue-700 rounded-lg transition mt-8">
+              <a href="logout.html" className="flex items-center space-x-3">
+                <i className="fas fa-sign-out-alt h-5 w-5"></i>
+                <span>Logout</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+    </>
+  );
 }
