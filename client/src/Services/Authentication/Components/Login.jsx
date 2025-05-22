@@ -1,8 +1,14 @@
 import React from 'react';
 
-export default function Containers() {
+
+export default function Login() {
+    const Image = "/Services/Authentication/Components/Assets/Cover.jpg";
+    const myImage = Image;
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-100 overflow-y-auto ">
+            <img src={myImage} alt="Background" className="absolute inset-0 object-cover w-full h-full opacity-100" />
+            
+         
             <div className="w-full flex flex-col items-center justify-center mt-50 mb-20 ">
                 <div className="flex items-center justify-center mb-10 text-center flex-col">
                     <img src="SRC/logo.png" alt="" className="rounded-full mb-6 h-20 w-20" />
@@ -82,5 +88,6 @@ export default function Containers() {
                 </div>
             </div>
         </div>
+        
     )
 }

@@ -34,57 +34,33 @@ return (
                             id="password"
                             name="password"
                             required
-                            className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-gray-300 backdrop-blur-sm backdrop-brightness-95"
+                            className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-gray-300 "
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-4">
-                            Gender
-                        </label>
-                        <div className="flex items-center space-x-4 mb-4"> 
-                            <label className="flex items-center">
-                                <input
-                                    type="radio"
-                                    name="gender"
-                                    value="male"
-                                    required
-                                    className="form-radio text-blue-600"
-                                />
-                                <span className="ml-2 text-gray-700">Male</span>
-                            </label>
-                            <label className="flex items-center">
-                                <input
-                                    type="radio"
-                                    name="gender"
-                                    value="female"
-                                    required
-                                    className="form-radio text-blue-600"
-                                />
-                                <span className="ml-2 text-gray-700">Female</span>
-                            </label>
-                            <label className="flex items-center">
-                                <input
-                                    type="radio"
-                                    name="gender"
-                                    value="other"
-                                    required
-                                    className="form-radio text-blue-600"
-                                />
-                                <span className="ml-2 text-gray-700">Other</span>
-                            </label>
-                        </div>
+                       
                     </div>
-                    
-                    
+                    {/* Remember Me checkbox */}
+                    <div className="flex items-center my-5">
+                        <input
+                            id="remember"
+                            name="remember"
+                            type="checkbox"
+                            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        />
+                        <label htmlFor="remember" className="ml-2 block text-sm text-gray-900">
+                            Remember me
+                        </label>
+                    </div>
                     <button
                         type="submit"
-                        className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-500"
+                        className="w-full px-4 py-4 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-500"
                     >
                         Next
                     </button>
                     <div className="flex items-center my-4">
                         <span className="flex-grow border-t border-gray-300"></span>
-                        <span className="mx-2 text-gray-500 text-sm">OR</span>
+                        <span className="mx-2 text-gray-500 text-sm ">or</span>
                         <span className="flex-grow border-t border-gray-300"></span>
                     </div>
                     <button
@@ -100,7 +76,7 @@ return (
                     </button>
                     <p className="mt-6 text-center text-sm text-gray-700">
                         Already have an account?{' '}
-                        <a href="register.html" className="text-blue-600 hover:underline">
+                        <a href="login.html" className="text-blue-600 hover:underline">
                             Sign in
                         </a>
                     </p>
