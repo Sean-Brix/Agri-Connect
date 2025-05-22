@@ -126,7 +126,7 @@ export default function Reg_2() {
                         </div>
                         <button
                             type="submit"
-                            className="w-full px-4 py-4 text-white bg-blue-600 rounded-md hover:bg-blue-700 mt-5 focus:ring-4 focus:ring-blue-500"
+                            className="w-full px-4 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 mt-5 focus:ring-4 focus:ring-blue-500"
                         >
                             Next
                         </button>

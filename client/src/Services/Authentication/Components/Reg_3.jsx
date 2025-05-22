@@ -15,7 +15,7 @@ return (
                 <form className="space-y-4">
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                            First Name
+                            Username
                         </label>
                         <input
                             type="email"
@@ -27,7 +27,7 @@ return (
                     </div>
                     <div>
                         <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                            Last Name
+                            Password
                         </label>
                         <input
                             type="password"
@@ -54,9 +54,9 @@ return (
                     </div>
                     <button
                         type="submit"
-                        className="w-full px-4 py-4 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-500"
+                        className="w-full px-4 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-500"
                     >
-                        Next
+                        Register
                     </button>
                     <div className="flex items-center my-4">
                         <span className="flex-grow border-t border-gray-300"></span>

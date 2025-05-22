@@ -8,12 +8,12 @@ function App() {
     
   return (
     < >
-    <Login />
-      {/* 
+      {/* <Login />
+    
     <Reg_1 />
-    <Reg_2 /> 
-    <Reg_3 />
-    */}
+    <Reg_3 />     */}
+
+    <Reg_2 />
     
  
 
