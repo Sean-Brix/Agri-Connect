@@ -9,7 +9,11 @@ function App() {
   return (
     < >
     <Login />
-    
+      {/* 
+    <Reg_1 />
+    <Reg_2 /> 
+    <Reg_3 />
+    */}
     
  
 
