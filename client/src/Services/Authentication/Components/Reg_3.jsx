@@ -1,10 +1,13 @@
 import React from 'react'
+import cover from '../../../Services/Authentication/Assets/Cover.jpg'
+import logo from '../../../Services/Authentication/Assets/Logo.png'
 
 export default function Reg_1() {
 return (
     <div className="fixed inset-0 flex items-center justify-center min-h-screen bg-gray-100 overflow-y-auto">
+         <img src={cover} alt="Background" className="absolute inset-0 object-fit w-full h-full opacity-60 blur-sm  " />
         <div className="w-full flex flex-col items-center justify-center mt-60 mb-20">
-            <div className="flex items-center justify-center mb-10 text-center flex-col">
+            <div className="flex items-center justify-center mb-10 text-center flex-col z-index-999 relative">
                 <img src="SRC/logo.png" alt="" className="rounded-full mb-6 h-20 w-20" />
                 <h1 className="px-6 items-center justify-center font-bold text-2xl text-center">
                     FITS Tanza - Municipal Agriculture Office

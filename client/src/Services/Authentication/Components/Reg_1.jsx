@@ -1,16 +1,20 @@
 import React from 'react'
 
+import cover from '../../../Services/Authentication/Assets/Cover.jpg'
+import logo from '../../../Services/Authentication/Assets/Logo.png'
+
 export default function Reg_1() {
 return (
     <div className="fixed inset-0 flex items-center justify-center min-h-screen bg-gray-100 overflow-y-auto">
+        <img src={cover} alt="Background" className="absolute inset-0 object-fit w-full h-full opacity-60 blur-sm  " />
         <div className="w-full flex flex-col items-center justify-center mt-60 mb-20">
-            <div className="flex items-center justify-center mb-10 text-center flex-col">
-                <img src="SRC/logo.png" alt="" className="rounded-full mb-6 h-20 w-20" />
+            <div className="flex items-center justify-center mb-10 text-center flex-col z-index-999 relative">
+                <img src={logo} alt="" className="rounded-full mb-6 h-20 w-20" />
                 <h1 className="px-6 items-center justify-center font-bold text-2xl text-center">
                     FITS Tanza - Municipal Agriculture Office
                 </h1>
             </div>
-            <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg transform hover:-translate-y-2 transition duration-300 ease-in-out border border-gray-300 backdrop-blur-sm backdrop-brightness-95 shadow-black bg-gray-500 bg-opacity-70 backdrop-blur-md">
+            <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg transform hover:-translate-y-2 transition duration-300 ease-in-out border border-gray-300 backdrop-blur-sm backdrop-brightness-95 shadow-black bg-gray-500 bg-opacity-70 backdrop-blur-md ">
                 <h2 className="text-2xl font-bold text-center text-gray-800">Register Now</h2>
                 <form className="space-y-4">
                     <div>
@@ -34,7 +38,7 @@ return (
                             id="password"
                             name="password"
                             required
-                            className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-gray-300 backdrop-blur-sm backdrop-brightness-95"
+                            className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-gray-300 "
                         />
                     </div>
                     <div>
@@ -84,7 +88,7 @@ return (
                     </button>
                     <div className="flex items-center my-4">
                         <span className="flex-grow border-t border-gray-300"></span>
-                        <span className="mx-2 text-gray-500 text-sm">OR</span>
+                        <span className="mx-2 text-gray-500 text-sm">or</span>
                         <span className="flex-grow border-t border-gray-300"></span>
                     </div>
                     <button
