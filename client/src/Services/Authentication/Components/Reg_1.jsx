@@ -14,7 +14,7 @@ return (
                     FITS Tanza - Municipal Agriculture Office
                 </h1>
             </div>
-            <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg transform hover:-translate-y-2 transition duration-300 ease-in-out border border-gray-300 backdrop-blur-sm backdrop-brightness-95 shadow-black bg-gray-500 bg-opacity-70 backdrop-blur-md ">
+            <div className="w-full max-w-md p-8 space-y-6 rounded-lg shadow-lg transform hover:-translate-y-2 transition duration-300 ease-in-out border border-white/20 backdrop-blur-lg backdrop-brightness-95 bg-white/50 shadow-black">
                 <h2 className="text-2xl font-bold text-center text-gray-800">Register Now</h2>
                 <form className="space-y-4">
                     <div>
@@ -26,7 +26,7 @@ return (
                             id="email"
                             name="email"
                             required
-                            className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-gray-300"
+                            className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-black-300"
                         />
                     </div>
                     <div>
@@ -38,7 +38,7 @@ return (
                             id="password"
                             name="password"
                             required
-                            className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-gray-300 "
+                            className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-black-300 "
                         />
                     </div>
                     <div>
@@ -87,9 +87,9 @@ return (
                         Next
                     </button>
                     <div className="flex items-center my-4">
-                        <span className="flex-grow border-t border-gray-300"></span>
-                        <span className="mx-2 text-gray-500 text-sm">or</span>
-                        <span className="flex-grow border-t border-gray-300"></span>
+                        <span className="flex-grow border-t border-black-300"></span>
+                        <span className="mx-2 text-black-500 text-sm">or</span>
+                        <span className="flex-grow border-t border-black-300"></span>
                     </div>
                     <button
                         type="button"
