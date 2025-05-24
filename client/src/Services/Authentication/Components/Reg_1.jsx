@@ -1,5 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
+// COMPONENT
 import cover from '../../../Services/Authentication/Assets/Cover.jpg'
 import logo from '../../../Services/Authentication/Assets/Logo.png'
 
@@ -84,7 +86,9 @@ return (
                         type="submit"
                         className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-500"
                     >
-                        Next
+                        <Link to="/register/2">
+                            Next
+                        </Link>
                     </button>
                     <div className="flex items-center my-4">
                         <span className="flex-grow border-t border-black-300"></span>

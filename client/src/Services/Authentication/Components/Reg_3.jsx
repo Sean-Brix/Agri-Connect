@@ -2,7 +2,7 @@ import React from 'react'
 import cover from '../../../Services/Authentication/Assets/Cover.jpg'
 import logo from '../../../Services/Authentication/Assets/Logo.png'
 
-export default function Reg_1() {
+export default function Reg_3() {
 return (
     <div className="fixed inset-0 flex items-center justify-center min-h-screen bg-gray-100 overflow-y-auto">
          <img src={cover} alt="Background" className="absolute inset-0 object-fit w-full h-full opacity-60 blur-sm  " />

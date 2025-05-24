@@ -1,4 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+
+// COMPONENT
 import cover from '../../../Services/Authentication/Assets/Cover.jpg'
 import logo from '../../../Services/Authentication/Assets/Logo.png'
 
@@ -131,7 +134,9 @@ export default function Reg_2() {
                             type="submit"
                             className="w-full px-4 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 mt-5 focus:ring-4 focus:ring-blue-500"
                         >
-                            Next
+                            <Link to="/register/3">
+                                Next
+                            </Link>
                         </button>
                     </form>
                     <p className="text-sm text-center text-gray-600"></p>
