@@ -9,11 +9,17 @@ import Landing from './Services/Landing_Page/Landing/Landing.jsx'
 import EIC from './Services/EIC_Borrow/Client/EIC.jsx'
 import Survey from './Components/Survey/Survey.jsx'
 
+// SERVER TEST
+import API_Request from './TEST/api_request.jsx'
+
 function App() {
   
   return (
     <BrowserRouter>
       <Routes>
+
+
+        {/* DEVELOPMENT ROUTE */}
 
         <Route path='/' element = { <Landing/> } />
         <Route path='/login' element = { <Login/> } />
@@ -22,6 +28,12 @@ function App() {
         <Route path='/register/3' element = { <Reg_3/> } />
         <Route path='/eic' element = { <EIC/> } />
         <Route path='/survey' element = { <Survey/> } />
+
+
+        {/* SERVER TESTING */}
+
+        <Route path='/testing/request' element = { <API_Request/> } />
+
         
       </Routes>
     </BrowserRouter>

@@ -17,7 +17,7 @@ function sendResponse(int $statusCode = 200, string $status = "success", array $
     }
 
     if (!empty($data)) {
-        $response["data"] = $data;
+        $response["payload"] = $data;
     }
 
     // Output JSON and stop script execution
