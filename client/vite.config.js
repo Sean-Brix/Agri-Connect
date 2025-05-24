@@ -9,11 +9,11 @@ export default defineConfig({
 
     proxy: {
       '/api': {
-        target: 'http:/localhost',
+        target: 'http://localhost/Agri-Connect/server',
         changeOrigin: true
       },
       '/auth': {
-        target: 'http:/localhost',
+        target: 'http://localhost/Agri-Connect/server',
         changeOrigin: true
       }
     }
