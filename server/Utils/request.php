@@ -1,20 +1,24 @@
 <?php
 
-function getJsonBody() {
+require_once './response.php';
+
+function getJsonBody($assoc = true) {
     
+    // Get HTTP Request
     $input = file_get_contents("php://input");
-    $decoded = json_decode($input, true);
+
+    // Decode Request Body into PHP array/object
+    $decoded = json_decode($input, $assoc);
     
+    // Error Handling
     if (json_last_error() !== JSON_ERROR_NONE) {
-        header("Content-Type: application/json; charset=UTF-8");
-        http_response_code(400);
-        echo json_encode([
-            "status" => "error",
-            "message" => "Invalid JSON"
-        ]);
+
+        sendResponse(400, "Error", [], "Invalid JSON: Failed to parse data request");
         exit;
+
     }
 
+    // Returns the Parsed Body
     return $decoded;
 }
 
