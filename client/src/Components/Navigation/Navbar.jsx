@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from '../../Assets/Logo.png'
+import { Link } from 'react-router-dom';
 
 export default function Navbar({ children }) {
 
@@ -18,37 +19,51 @@ export default function Navbar({ children }) {
               </div>
               <nav className="mt-4">
                 <ul className="space-y-2">
+
                   {/* Home Link */}
                   <li className="p-4 hover:bg-blue-700 rounded-lg transition">
-                    <a href="main.html" className="flex items-center space-x-3">
+
+                    <Link to="/" className="flex items-center space-x-3">
                       <i className="fas fa-home h-5 w-5"></i>
                       <span>Home</span>
-                    </a>
+                    </Link>
+
                   </li>
+
                   {/* Analytics Link */}
                   <li className="p-4 hover:bg-blue-700 rounded-lg transition">
-                    <a href="analytics.html" className="flex items-center space-x-3">
+
+                    <Link to="/" className="flex items-center space-x-3">
                       <i className="fas fa-chart-line h-5 w-5"></i>
                       <span>Analytics</span>
-                    </a>
+                    </Link>
+
                   </li>
+
                   {/* Settings Link */}
                   <li className="p-4 hover:bg-blue-700 rounded-lg transition">
-                    <a href="settings.html" className="flex items-center space-x-3">
+
+                    <Link to="/" className="flex items-center space-x-3">
                       <i className="fas fa-cog h-5 w-5"></i>
                       <span>Settings</span>
-                    </a>
+                    </Link>
+
                   </li>
+
                   {/* Profile Link */}
                   <li className="p-4 hover:bg-blue-700 rounded-lg transition">
-                    <a href="profile.html" className="flex items-center space-x-3">
+
+                    <Link to="/" className="flex items-center space-x-3">
                       <i className="fas fa-user h-5 w-5"></i>
                       <span>Profile</span>
-                    </a>
+                    </Link>
+
                   </li>
+
                 </ul>
               </nav>
             </div>
+
             {/* Profile and Logout at the bottom */}
             <div className="p-4 border-t border-blue-500 flex flex-col items-center mt-auto">
               <div className="flex items-start space-x-2 mb-4 w-full justify-around mr-10">
@@ -58,27 +73,33 @@ export default function Navbar({ children }) {
                   <span className="text-sm text-gray-300">Front-End Developer</span>
                 </div>
               </div>
+
               {/* Logout button (desktop sidebar, bottom) */}
-              <a
-                href="logout.html"
+              <Link
+                to="/login"
                 className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-800 rounded-lg transition text-white w-full justify-center"
               >
                 <i className="fas fa-sign-out-alt h-5"></i>
                 <span className="font-bold">Logout</span>
-              </a>
+              </Link>
+
             </div>
           </div>
         </aside>
 
         <div className="flex-1 flex flex-col min-h-screen ml-0 md:ml-64 transition-all">
+          
           {/* Top Navbar/Header */}
           <header className="bg-blue-700 shadow-md p-3 flex justify-evenly md:justify-center md:px-8 items-center w-full fixed top-0 left-0 z-20 md:left-64 md:w-[calc(100%-16rem)]">
+            
             <div className="flex items-center space-x-4 justify-center">
+              
               {/* Logo */}
               <img src={logo} alt="Logo" className="h-10 w-10 rounded-full" />
               <h1 className="text-lg font-semibold text-white text-center items-center">
                 FITS Tanza - Municipal Agriculture Office
               </h1>
+
             </div>
 
             {/* Mobile menu toggle button */}
@@ -155,35 +176,40 @@ export default function Navbar({ children }) {
             <ul className="space-y-2">
               {/* Home Link */}
               <li className="p-4 hover:bg-blue-700 rounded-lg transition">
-                <a href="main.html" className="flex items-center space-x-3">
+
+                <Link to="/" className="flex items-center space-x-3">
                   <i className="fas fa-home h-5 w-5"></i>
                   <span>Home</span>
-                </a>
+                </Link>
+
               </li>
+
               {/* Analytics Link */}
               <li className="p-4 hover:bg-blue-700 rounded-lg transition">
-                <a href="analytics.html" className="flex items-center space-x-3">
+                <Link to="/" className="flex items-center space-x-3">
                   <i className="fas fa-chart-line h-5 w-5"></i>
                   <span>Analytics</span>
-                </a>
+                </Link>
               </li>
+
               {/* Settings Link */}
               <li className="p-4 hover:bg-blue-700 rounded-lg transition">
-                <a href="settings.html" className="flex items-center space-x-3">
+                <Link to="/" className="flex items-center space-x-3">
                   <i className="fas fa-cog h-5 w-5"></i>
                   <span>Settings</span>
-                </a>
+                </Link>
               </li>
               {/* Profile Link */}
               <li className="p-4 hover:bg-blue-700 rounded-lg transition">
-                <a href="profile.html" className="flex items-center space-x-3">
+                <Link to="/" className="flex items-center space-x-3">
                   <i className="fas fa-user h-5 w-5"></i>
                   <span>Profile</span>
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
         </div>
+
         {/* Profile and Logout at the bottom */}
         <div className="p-4 border-t border-blue-500 flex flex-col items-center mt-auto">
           <div className="flex items-start space-x-2 mb-4 w-full justify-around mr-10">
@@ -193,14 +219,16 @@ export default function Navbar({ children }) {
               <span className="text-sm text-gray-300">Front-End Developer</span>
             </div>
           </div>
+
           {/* Logout button (mobile sidebar, bottom) */}
-          <a
-            href="logout.html"
+          <Link
+            to="/login"
             className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-800 rounded-lg transition text-white w-full justify-center"
           >
             <i className="fas fa-sign-out-alt h-5"></i>
             <span className="font-bold">Logout</span>
-          </a>
+          </Link>
+
         </div>
       </aside>
     </>

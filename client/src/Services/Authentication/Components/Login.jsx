@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
+// COMPONENTS
 import cover from '../../../Services/Authentication/Assets/Cover.jpg'
 import logo from '../../../Services/Authentication/Assets/Logo.png'
 
@@ -22,6 +24,7 @@ export default function Login() {
  
                     <h2 className="text-2xl font-bold text-center text-gray-800">Sign in to your account</h2>
                     <form className="space-y-4">
+                        
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                                 Email address
@@ -34,6 +37,7 @@ export default function Login() {
                                 className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-black-300"
                             />
                         </div>
+
                         <div>
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                                 Password
@@ -46,7 +50,9 @@ export default function Login() {
                                 className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-black-300 "
                             />
                         </div>
+
                         <div className="flex items-center justify-between">
+
                             <label className="flex items-center">
                                 <input
                                     type="checkbox"
@@ -54,22 +60,30 @@ export default function Login() {
                                 />
                                 <span className="ml-2 text-sm text-gray-600">Remember me</span>
                             </label>
-                            <a href="#" className="text-sm text-blue-600 hover:underline">
+
+                            <Link to="/" className="text-sm text-blue-600 hover:underline">
                                 Forgot password?
-                            </a>
+                            </Link>
+
                         </div>
+
                         <button
                             type="submit"
                             className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-500"
                         >
-                            Next
+                            <Link to="/">
+                                Next
+                            </Link>
                         </button>
+
                         <div className="flex items-center my-4">
                             <span className="flex-grow border-t border-black-300"></span>
                             <span className="mx-2 text-black-500 text-sm">or</span>
                             <span className="flex-grow border-t border-black-300"></span>
                         </div>
+
                         <button
+
                             type="button"
                             className="w-full flex items-center justify-center px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-md shadow-sm hover:bg-gray-100 transition"
                         >
@@ -79,12 +93,16 @@ export default function Login() {
                                 className="h-5 w-5 mr-2"
                             />
                             Connect with Google
+
                         </button>
+
                         <p className="mt-6 text-center text-sm text-gray-700">
                             Don't have an account?{' '}
-                            <a href="register.html" className="text-blue-600 hover:underline">
+
+                            <Link to="/register" className="text-blue-600 hover:underline">
                                 Sign up
-                            </a>
+                            </Link>
+
                         </p>
                     </form>
                     <p className="text-sm text-center text-gray-600"></p>

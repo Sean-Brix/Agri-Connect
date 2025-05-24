@@ -1,25 +1,29 @@
-import Navbar from './Components/Navigation/Navbar'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+// COMPONENTS
 import Login from './Services/Authentication/Components/Login.jsx'
 import Reg_1 from './Services/Authentication/Components/Reg_1.jsx'
-import Reg_2 from './Services/Authentication/Components/Reg_2.jsx'
-import Reg_3 from './Services/Authentication/Components/Reg_3.jsx'
 import Landing from './Services/Landing_Page/Landing/Landing.jsx'
 import EIC from './Services/EIC_Borrow/Client/EIC.jsx'
 import Survey from './Components/Survey/Survey.jsx'
 
+
+
 function App() {
     
   return (
-    < >
+    <BrowserRouter>
+      <Routes>
 
-      <Survey />
+        <Route path='/' element = { <Landing/> } />
+        <Route path='/Login' element = { <Login/> } />
+        <Route path='/Register' element = { <Reg_1/> } />
+        <Route path='/eic' element = { <EIC/> } />
+        <Route path='/survey' element = { <Survey/> } />
+        
       
-     
-    
- 
-
-    
-    </>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
