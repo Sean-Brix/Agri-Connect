@@ -15,7 +15,7 @@ export default function Navbar({ children }) {
           <div className="flex flex-col flex-1 justify-between h-full">
             <div>
               <div className="p-4 border-b border-blue-500">
-                <h1 className="text-xl font-bold ml-7">Home</h1>
+                <h1 className="text-xl font-bold ml-7">FITS - Tanza</h1>
               </div>
               <nav className="mt-4">
                 <ul className="space-y-2">
@@ -35,7 +35,7 @@ export default function Navbar({ children }) {
 
                     <Link to="/" className="flex items-center space-x-3">
                       <i className="fas fa-chart-line h-5 w-5"></i>
-                      <span>Analytics</span>
+                      <span>Profile</span>
                     </Link>
 
                   </li>
@@ -45,7 +45,7 @@ export default function Navbar({ children }) {
 
                     <Link to="/" className="flex items-center space-x-3">
                       <i className="fas fa-cog h-5 w-5"></i>
-                      <span>Settings</span>
+                      <span>Enrollment</span>
                     </Link>
 
                   </li>
@@ -55,7 +55,7 @@ export default function Navbar({ children }) {
 
                     <Link to="/" className="flex items-center space-x-3">
                       <i className="fas fa-user h-5 w-5"></i>
-                      <span>Profile</span>
+                      <span>EIC</span>
                     </Link>
 
                   </li>

@@ -1,7 +1,7 @@
 import React from 'react'
 import cover from '../../../Services/Authentication/Assets/Cover.jpg'
 import logo from '../../../Services/Authentication/Assets/Logo.png'
-
+import { Link } from 'react-router-dom'
 export default function Reg_3() {
 return (
     <div className="fixed inset-0 flex items-center justify-center min-h-screen bg-gray-100 overflow-y-auto">
