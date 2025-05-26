@@ -12,7 +12,6 @@ function API_Request() {
     const [dataList, setDataList] = useState([]);
 
     const testRequest = async ()=>{
-        console.log(inputData1 + inputData2);
 
         const response = await fetch("/api/TEST/API_Response.php", {
             method: 'POST',
@@ -32,8 +31,9 @@ function API_Request() {
             return;
         }
 
-        
+        console.log("\n________________________________________________\n\nData: ");
         console.log(data);
+
         setDataList((prev)=>[...prev, ...data.payload])
 
         setInputData1('');
@@ -43,8 +43,8 @@ function API_Request() {
     }
 
     useEffect(()=>{
+        console.log("\nCurrent: ");
         console.log(dataList);
-
     }, [dataList])
 
     return (
