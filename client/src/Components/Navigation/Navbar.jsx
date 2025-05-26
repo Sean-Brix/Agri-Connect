@@ -33,7 +33,7 @@ export default function Navbar({ children }) {
                   {/* Analytics Link */}
                   <li className="p-4 hover:bg-blue-700 rounded-lg transition">
 
-                    <Link to="/" className="flex items-center space-x-3">
+                    <Link to="/profiles" className="flex items-center space-x-3">
                       <i className="fas fa-chart-line h-5 w-5"></i>
                       <span>Profile</span>
                     </Link>
@@ -43,7 +43,7 @@ export default function Navbar({ children }) {
                   {/* Settings Link */}
                   <li className="p-4 hover:bg-blue-700 rounded-lg transition">
 
-                    <Link to="/" className="flex items-center space-x-3">
+                    <Link to="/enrollment" className="flex items-center space-x-3">
                       <i className="fas fa-cog h-5 w-5"></i>
                       <span>Enrollment</span>
                     </Link>
@@ -53,7 +53,7 @@ export default function Navbar({ children }) {
                   {/* Profile Link */}
                   <li className="p-4 hover:bg-blue-700 rounded-lg transition">
 
-                    <Link to="/" className="flex items-center space-x-3">
+                    <Link to="/EIC" className="flex items-center space-x-3">
                       <i className="fas fa-user h-5 w-5"></i>
                       <span>EIC</span>
                     </Link>

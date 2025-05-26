@@ -3,7 +3,7 @@ import Navbar from "../Navigation/Navbar";
 const SurveyForm = () => {
   return (
     <>
-    <Navbar>
+    
         
         <div className="max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden mt-25">
                 {/* Header */}
@@ -36,7 +36,7 @@ const SurveyForm = () => {
                 <button className="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-800 transition">Submit</button>
             </div>
             </div>
-            </Navbar>
+          
 </>
   );
 };
