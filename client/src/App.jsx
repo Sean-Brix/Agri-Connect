@@ -16,31 +16,30 @@ import API_Request from './TEST/api_request.jsx'
 function App() {
   
   return (
-  <> 
-    <Profiles/>
-  </> 
-    // <BrowserRouter>
-    //   <Routes>
+
+    <BrowserRouter>
+      <Routes>
 
 
-    //     {/* DEVELOPMENT ROUTE */}
+        {/* DEVELOPMENT ROUTE */}
         
-    //     <Route path='/' element = { <Landing/> } />
-    //     <Route path='/login' element = { <Login/> } />
-    //     <Route path='/register' element = { <Reg_1/> } />
-    //     <Route path='/register/2' element = { <Reg_2/> } />
-    //     <Route path='/register/3' element = { <Reg_3/> } />
-    //     <Route path='/eic' element = { <EIC/> } />
-    //     <Route path='/survey' element = { <Survey/> } />
+        <Route path='/' element = { <Landing/> } />
+        <Route path='/login' element = { <Login/> } />
+        <Route path='/register' element = { <Reg_1/> } />
+        <Route path='/register/2' element = { <Reg_2/> } />
+        <Route path='/register/3' element = { <Reg_3/> } />
+        <Route path='/eic' element = { <EIC/> } />
+        <Route path='/survey' element = { <Survey/> } />
+        <Route path='/profiles' element = { <Profiles/> } />
 
 
-    //     {/* SERVER TESTING */}
+        {/* SERVER TESTING */}
 
-    //     <Route path='/testing/request' element = { <API_Request/> } />
+        <Route path='/testing/request' element = { <API_Request/> } />
 
         
-    //   </Routes>
-    // </BrowserRouter>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
