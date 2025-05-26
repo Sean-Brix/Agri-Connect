@@ -8,6 +8,7 @@ import Reg_3 from './Services/Authentication/Components/Reg_3.jsx'
 import Landing from './Services/Landing_Page/Landing/Landing.jsx'
 import EIC from './Services/EIC_Borrow/Client/EIC.jsx'
 import Survey from './Components/Survey/Survey.jsx'
+import Profiles from './Services/Profile/Profiles/Profile.jsx'
 
 // SERVER TEST
 import API_Request from './TEST/api_request.jsx'
@@ -15,28 +16,31 @@ import API_Request from './TEST/api_request.jsx'
 function App() {
   
   return (
-    <BrowserRouter>
-      <Routes>
+  <> 
+    <Profiles/>
+  </> 
+    // <BrowserRouter>
+    //   <Routes>
 
 
-        {/* DEVELOPMENT ROUTE */}
+    //     {/* DEVELOPMENT ROUTE */}
+        
+    //     <Route path='/' element = { <Landing/> } />
+    //     <Route path='/login' element = { <Login/> } />
+    //     <Route path='/register' element = { <Reg_1/> } />
+    //     <Route path='/register/2' element = { <Reg_2/> } />
+    //     <Route path='/register/3' element = { <Reg_3/> } />
+    //     <Route path='/eic' element = { <EIC/> } />
+    //     <Route path='/survey' element = { <Survey/> } />
 
-        <Route path='/' element = { <Landing/> } />
-        <Route path='/login' element = { <Login/> } />
-        <Route path='/register' element = { <Reg_1/> } />
-        <Route path='/register/2' element = { <Reg_2/> } />
-        <Route path='/register/3' element = { <Reg_3/> } />
-        <Route path='/eic' element = { <EIC/> } />
-        <Route path='/survey' element = { <Survey/> } />
 
+    //     {/* SERVER TESTING */}
 
-        {/* SERVER TESTING */}
-
-        <Route path='/testing/request' element = { <API_Request/> } />
+    //     <Route path='/testing/request' element = { <API_Request/> } />
 
         
-      </Routes>
-    </BrowserRouter>
+    //   </Routes>
+    // </BrowserRouter>
   )
 }
 
