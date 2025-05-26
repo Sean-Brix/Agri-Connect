@@ -10,6 +10,7 @@ import EIC from './Services/EIC_Borrow/Client/EIC.jsx'
 import Survey from './Components/Survey/Survey.jsx'
 import Profiles from './Services/Profile/Profiles/Profile.jsx'
 import Edit_prof from './Services/Profile/Edit_Profile/Edit.jsx'
+import Enroll from './Services/Enrollment/Enrollments/enroll.jsx'
 
 // SERVER TEST
 import API_Request from './TEST/api_request.jsx'
@@ -33,6 +34,7 @@ function App() {
         <Route path='/survey' element = { <Survey/> } />
         <Route path='/profiles' element = { <Profiles/> } />
         <Route path='/profiles/edit' element = { <Edit_prof/> } />
+        <Route path='/enrollment' element = { <Enroll/> } />  
 
 
         {/* SERVER TESTING */}
