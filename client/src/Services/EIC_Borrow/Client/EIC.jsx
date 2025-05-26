@@ -28,6 +28,26 @@ const equipmentList = [
         desc: 'Used for turning over soil to prepare for planting.',
         img: 'plow-image-url',
     },
+     {
+        name: 'Plows',
+        desc: 'Used for turning over soil to prepare for planting.',
+        img: 'plow-image-url',
+    },
+     {
+        name: 'Plows',
+        desc: 'Used for turning over soil to prepare for planting.',
+        img: 'plow-image-url',
+    },
+     {
+        name: 'Plows',
+        desc: 'Used for turning over soil to prepare for planting.',
+        img: 'plow-image-url',
+    },
+     {
+        name: 'Plows',
+        desc: 'Used for turning over soil to prepare for planting.',
+        img: 'plow-image-url',
+    },
 ]
 
 export default function EIC() {
