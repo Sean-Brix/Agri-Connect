@@ -12,6 +12,7 @@ function API_Request() {
     const [dataList, setDataList] = useState([]);
 
     const testRequest = async ()=>{
+        console.log(inputData1 + inputData2);
 
         const response = await fetch("/api/TEST/API_Response.php", {
             method: 'POST',

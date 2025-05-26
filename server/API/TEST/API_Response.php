@@ -1,8 +1,7 @@
 <?php
 
 // UTILS
-require_once '../../Utils/request.php';
-require_once '../../Utils/response.php';
+require_once __DIR__ . '/../../fetch.php';
 
 // Request Body
 $req = getJsonBody();

@@ -1,6 +1,6 @@
 <?php
 
-require_once './response.php';
+require_once __DIR__ . '/./response.php';
 
 function getJsonBody($assoc = true) {
     
