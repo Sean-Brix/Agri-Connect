@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from '../../Assets/Logo.png'
 import { Link } from 'react-router-dom';
+import '../../index.css' 
 
 export default function Navbar({ children }) {
 
@@ -11,7 +12,7 @@ export default function Navbar({ children }) {
     <>
       <div className="flex h-screen ">
         {/* Sidebar for desktop */}
-        <aside className="w-64 bg-gradient-to-b from-blue-600 to-blue-800 text-white shadow-md hidden md:flex flex-col justify-between h-screen fixed left-0 top-0 z-30">
+        <aside className="w-64 bg-gradient-to-b from-blue-600 to-blue-400 text-white shadow-md hidden md:flex flex-col justify-between h-screen fixed left-0 top-0 z-30">
           <div className="flex flex-col flex-1 justify-between h-full">
             <div>
               <div className="p-4 border-b border-blue-500">
@@ -85,12 +86,12 @@ export default function Navbar({ children }) {
               {/* Logout button (desktop sidebar, bottom) */}
               <Link
                 to="/login"
-                className="flex items-center justify-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-800 rounded-lg transition text-white w-full"
+                className="flex items-center justify-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-800 rounded-lg transition text-white w-full  border "
               >
-                <span className="flex items-center py-2 ">
+                <span className="flex items-center py-2k">
                   <i className="fas fa-sign-out-alt h-5 w-5 translate-y-1"></i>
                 </span>
-                <span className="font-bold ">Logout</span>
+                <span className="font-bold">Logout</span>
               </Link>
 
             </div>
@@ -100,7 +101,7 @@ export default function Navbar({ children }) {
         <div className="flex-1 flex flex-col min-h-screen ml-0 md:ml-64 transition-all">
           
           {/* Top Navbar/Header */}
-          <header className="bg-blue-700 shadow-md p-3 flex justify-evenly md:justify-center md:px-8 items-center w-full fixed top-0 left-0 z-20 md:left-64 md:w-[calc(100%-16rem)]">
+          <header className="bg-gradient-to-b from-blue-600 to-blue-400 shadow-md p-3 flex justify-evenly md:justify-center md:px-8 items-center w-full fixed top-0 left-0 z-20 md:left-64 md:w-[calc(100%-16rem)]">
             
             <div className="flex items-center space-x-4 justify-center">
               
@@ -153,7 +154,7 @@ export default function Navbar({ children }) {
 
       {/* Mobile sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 bg-gradient-to-b from-blue-600 to-blue-800 text-white shadow-lg w-64 z-50 transform transition-transform duration-300 ${
+        className={`fixed inset-y-0 left-0 bg-gradient-to-b from-blue-600 to-blue-400 text-white shadow-lg w-64 z-50 transform transition-transform duration-300 ${
           mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
         } md:hidden flex flex-col justify-between`}
         id="mobile-menu"
@@ -241,7 +242,7 @@ export default function Navbar({ children }) {
           {/* Logout button (mobile sidebar, bottom) */}
           <Link
             to="/login"
-            className="flex items-center justify-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-800 rounded-lg transition text-white w-full"
+            className="flex items-center justify-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-800 rounded-lg transition text-white w-full border"
           >
             <span className="flex items-center py-2">
               <i className="fas fa-sign-out-alt h-5 w-5 translate-y-1"></i>

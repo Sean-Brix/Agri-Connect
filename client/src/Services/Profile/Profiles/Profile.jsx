@@ -42,7 +42,8 @@ export default function Profile() {
                                 <input type="text" className="mt-1 block w-full border rounded-lg p-2" defaultValue="Farmer" />
                             </label>
                         </form>
-                        <div className="flex flex-col items-center space-y-4 mb-6 md:mb-0 p-2 sm:p-4 w-full md:w-1/2">
+                        <div className="flex flex-col items-center space-y-4 mb-6 md:mb-0 p-2 sm:p-4 w-full md:w-1/2 ">
+                         
                             <img
                                 src="https://via.placeholder.com/100"
                                 className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-2 border-blue-800  mb-4 shadow-md "
