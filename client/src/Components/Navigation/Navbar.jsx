@@ -24,7 +24,9 @@ export default function Navbar({ children }) {
                   <li className="p-4 hover:bg-blue-700 rounded-lg transition">
 
                     <Link to="/" className="flex items-center space-x-3">
-                      <i className="fas fa-home h-5 w-5"></i>
+                      <span>
+                        <i className="fas fa-home h-5 w-5"></i>
+                      </span>
                       <span>Home</span>
                     </Link>
 
@@ -34,7 +36,9 @@ export default function Navbar({ children }) {
                   <li className="p-4 hover:bg-blue-700 rounded-lg transition">
 
                     <Link to="/profiles" className="flex items-center space-x-3">
-                      <i className="fas fa-chart-line h-5 w-5"></i>
+                      <span>
+                        <i className="fas fa-user-circle h-5 w-5"></i>
+                      </span>
                       <span>Profile</span>
                     </Link>
 
@@ -44,7 +48,9 @@ export default function Navbar({ children }) {
                   <li className="p-4 hover:bg-blue-700 rounded-lg transition">
 
                     <Link to="/enrollment" className="flex items-center space-x-3">
-                      <i className="fas fa-cog h-5 w-5"></i>
+                      <span>
+                        <i className="fas fa-user-plus h-5 w-5"></i>
+                      </span>
                       <span>Enrollment</span>
                     </Link>
 
@@ -54,7 +60,9 @@ export default function Navbar({ children }) {
                   <li className="p-4 hover:bg-blue-700 rounded-lg transition">
 
                     <Link to="/EIC" className="flex items-center space-x-3">
-                      <i className="fas fa-user h-5 w-5"></i>
+                      <span>
+                        <i className="fas fa-id-card h-5 w-5"></i>
+                      </span>
                       <span>EIC</span>
                     </Link>
 
@@ -77,10 +85,12 @@ export default function Navbar({ children }) {
               {/* Logout button (desktop sidebar, bottom) */}
               <Link
                 to="/login"
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-800 rounded-lg transition text-white w-full justify-center"
+                className="flex items-center justify-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-800 rounded-lg transition text-white w-full"
               >
-                <i className="fas fa-sign-out-alt h-5"></i>
-                <span className="font-bold">Logout</span>
+                <span className="flex items-center py-2 ">
+                  <i className="fas fa-sign-out-alt h-5 w-5 translate-y-1"></i>
+                </span>
+                <span className="font-bold ">Logout</span>
               </Link>
 
             </div>
@@ -178,32 +188,40 @@ export default function Navbar({ children }) {
               <li className="p-4 hover:bg-blue-700 rounded-lg transition">
 
                 <Link to="/" className="flex items-center space-x-3">
-                  <i className="fas fa-home h-5 w-5"></i>
+                  <span>
+                    <i className="fas fa-home h-5 w-5"></i>
+                  </span>
                   <span>Home</span>
                 </Link>
 
               </li>
 
-              {/* Analytics Link */}
+              {/* Profile Link */}
               <li className="p-4 hover:bg-blue-700 rounded-lg transition">
-                <Link to="/" className="flex items-center space-x-3">
-                  <i className="fas fa-chart-line h-5 w-5"></i>
-                  <span>Analytics</span>
+                <Link to="/profiles" className="flex items-center space-x-3">
+                  <span>
+                    <i className="fas fa-user-circle h-5 w-5"></i>
+                  </span>
+                  <span>Profile</span>
                 </Link>
               </li>
 
-              {/* Settings Link */}
+              {/* Enrollment Link */}
               <li className="p-4 hover:bg-blue-700 rounded-lg transition">
-                <Link to="/" className="flex items-center space-x-3">
-                  <i className="fas fa-cog h-5 w-5"></i>
-                  <span>Settings</span>
+                <Link to="/enrollment" className="flex items-center space-x-3">
+                  <span>
+                    <i className="fas fa-user-plus h-5 w-5"></i>
+                  </span>
+                  <span>Enrollment</span>
                 </Link>
               </li>
-              {/* Profile Link */}
+              {/* EIC Link */}
               <li className="p-4 hover:bg-blue-700 rounded-lg transition">
-                <Link to="/" className="flex items-center space-x-3">
-                  <i className="fas fa-user h-5 w-5"></i>
-                  <span>Profile</span>
+                <Link to="/EIC" className="flex items-center space-x-3">
+                  <span>
+                    <i className="fas fa-id-card h-5 w-5"></i>
+                  </span>
+                  <span>EIC</span>
                 </Link>
               </li>
             </ul>
@@ -223,9 +241,11 @@ export default function Navbar({ children }) {
           {/* Logout button (mobile sidebar, bottom) */}
           <Link
             to="/login"
-            className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-800 rounded-lg transition text-white w-full justify-center"
+            className="flex items-center justify-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-800 rounded-lg transition text-white w-full"
           >
-            <i className="fas fa-sign-out-alt h-5"></i>
+            <span className="flex items-center py-2">
+              <i className="fas fa-sign-out-alt h-5 w-5 translate-y-1"></i>
+            </span>
             <span className="font-bold">Logout</span>
           </Link>
 
