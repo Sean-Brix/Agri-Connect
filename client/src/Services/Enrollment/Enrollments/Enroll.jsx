@@ -64,8 +64,8 @@ export default function Enrollment() {
                                     <p className="text-gray-600 mb-4">{item.desc}</p>
                                 </div>
                                 <div className="flex space-x-2 absolute bottom-4 left-1/2 -translate-x-1/2">
-                                    <button className="bg-blue-900 text-white px-5 py-2 rounded-md border-2 border-black bg-green-800 hover:bg-green-600 transition-colors duration-200 font-black sfont-outline">Apply</button>
-                                    <button className="bg-gray-300 text-white px-4 py-2 rounded-md bg-white border-2 border-black hover:bg-gray-200 transition-colors duration-200 font-black font-outline">Details</button>
+                                    <button className="bg-blue-900 text-white px-5 py-2 rounded-md border-2 border-black bg-green-800 hover:bg-green-600 transition-colors duration-200 font-bold ">Apply</button>
+                                    <button className="bg-gray-300 text-black px-4 py-2 rounded-md bg-white border-2 border-black hover:bg-gray-200 transition-colors duration-200 font-bold">Details</button>
                                 </div>
                             </div>
                         ))}

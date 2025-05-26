@@ -69,8 +69,8 @@ export default function EIC() {
                                     <p className="text-gray-600 mb-4">{item.desc}</p>
                                 </div>
                                 <div className="flex space-x-2 absolute bottom-4 left-1/2 -translate-x-1/2">
-                                    <button className="bg-blue-900 text-white px-4 py-2 rounded-md border-2 border-black bg-blue-800 hover:bg-blue-600 transition-colors duration-200 font-black sfont-outline">Borrow</button>
-                                    <button className="bg-gray-300 text-black px-4 py-2 rounded-md bg-white border-2 border-black hover:bg-gray-200 transition-colors duration-200 font-outline font-black text-white">Details</button>
+                                    <button className="bg-blue-900 text-white px-4 py-2 rounded-md border-2 border-black bg-blue-800 hover:bg-blue-600 transition-colors duration-200 font-bold ">Borrow</button>
+                                    <button className="bg-gray-300 text-black px-4 py-2 rounded-md bg-white border-2 border-black hover:bg-gray-200 transition-colors duration-200  font-bold text-black">Details</button>
                                 </div>
                             </div>
                         ))}
