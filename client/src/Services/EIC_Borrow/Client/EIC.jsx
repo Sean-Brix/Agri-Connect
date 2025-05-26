@@ -50,7 +50,7 @@ export default function EIC() {
                                     <h3 className="text-xl font-semibold mb-2 text-black">{item.name}</h3>
                                     <p className="text-gray-600 mb-4">{item.desc}</p>
                                     <div className="flex space-x-2  ">
-                                        <button className="bg-blue-500 text-white px-4 rounded-md border-2 border-black bg-blue-800 hover:bg-blue-600">Borrow</button>
+                                        <button className="bg-blue-900 text-white px-4 rounded-md border-2 border-black bg-blue-800 hover:bg-blue-600">Borrow</button>
                                         <button className="bg-gray-300 text-black px-4 py-2 rounded-md bg-white border-2 border-black hover:bg-gray-200">Details</button>
                                     </div>
                                 </div>
