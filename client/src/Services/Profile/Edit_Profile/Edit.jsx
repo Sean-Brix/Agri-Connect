@@ -58,26 +58,44 @@ export default function Edit_prof() {
                                     className="border-2 border-blue-800 rounded-lg px-4 py-1 text-lg font-semibold text-black-700 w-fit text-center"
                                     placeholder="Enter name"
                                 />
-                                <input
-                                    type="text"
-                                    className="border rounded-lg px-4 py-1 text-base text-black-600 w-fit text-center"
-                                    placeholder="Enter gender"
-                                />
-                                <input
-                                    type="text"
-                                    className="border rounded-lg px-4 py-1 text-base text-black-600 w-fit text-center"
-                                    placeholder="Enter position"
-                                />
+                                {/* Gender dropdown */}
+                                <select
+                                    className="border rounded-lg  py-1 text-base text-black-600 w-fit text-center"
+                                    defaultValue=""
+                                >
+                                    <option value="" disabled className='items-center flex justify-center'>
+                                        Select gender
+                                    </option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+
+                                {/* Position dropdown */}
+                                <select
+                                    className="border rounded-lg px-2 py-1 text-base text-black-600 w-fit "
+                                    defaultValue=""
+                                >
+                                    <option value="" disabled>
+                                        Select position
+                                    </option>
+                                    <option value="farmer">Farmer</option>
+                                    <option value="agronomist">Fisherist</option>
+                                    <option value="trader">Programmer</option>
+                                    <option value="extension_officer">Manager</option>
+                                    <option value="researcher">P.R.O</option>
+                                    <option value="other">Other</option>
+                                </select>
                             </div>
                             <div className="text-center">
                                 <div>
-                                    <button
-                                        type="submit"
+                                    <Link
+                                        to="/profiles"
                                         className="flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-green-800 text-white rounded-lg hover:bg-green-500 transition text-sm sm:text-base border-2 border-blue-800"
                                     >
                                         <i className="fa fa-check " ></i>
                                         Save Profile
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
