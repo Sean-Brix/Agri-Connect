@@ -58,8 +58,12 @@ export default function Edit_prof() {
                                                 <span className="border-2 border-blue-800 rounded-lg px-4 py-1 text-lg font-semibold text-black-700 w-fit">
                                                     Rhenzy Cruzat
                                                 </span>
-                                                <span className="text-black-600 text-base">Male</span>
-                                                <span className="text-black-600 text-base">Field Supervisor</span>
+                                                   <span className="text-black-600 text-base">
+                                                    <i className="fa-solid fa-mars mr-2"></i>Male
+                                                </span>
+                                                <span className="text-black-600 text-base">
+                                                    <i className="fa-solid fa-user-tie mr-2"></i>Field Supervisor
+                                                </span>
                                             </div>
                                             <div className="text-center">
                                                 <div>
@@ -67,10 +71,8 @@ export default function Edit_prof() {
                                                         to="/profiles"
                                                         className="flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-green-800 text-white rounded-lg hover:bg-green-500 transition text-sm sm:text-base border-2 border-blue-800"
                                                     >
+                                                        <i className="fa fa-check " ></i>
                                                         Save Profile
-                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                                        </svg>
                                                     </Link>
                                                 </div>
                                             </div>
