@@ -9,12 +9,14 @@ export default defineConfig({
 
     proxy: {
       '/api': {
-        target: 'http://localhost/Agri-Connect/server',
-        changeOrigin: true
+        target: 'http://localhost:8080/',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, '/api')
       },
       '/auth': {
-        target: 'http://localhost/Agri-Connect/server',
-        changeOrigin: true
+        target: 'http://localhost:8080/',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, '/api')
       }
     }
   }

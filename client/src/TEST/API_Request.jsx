@@ -13,7 +13,7 @@ function API_Request() {
 
     const testRequest = async ()=>{
 
-        const response = await fetch("/api/TEST/API_Response.php", {
+        const response = await fetch("/api/TEST/API_Response", {
             method: 'POST',
             headers:{
                 'Content-Type':'application/json'
@@ -24,6 +24,7 @@ function API_Request() {
             })
         });
 
+        // console.log(await response.text());
         const data = await response.json();
 
         if(!response.ok){
