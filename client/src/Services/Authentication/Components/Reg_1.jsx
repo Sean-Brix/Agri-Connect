@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 import cover from '../../../Services/Authentication/Assets/Cover.jpg'
 import logo from '../../../Services/Authentication/Assets/Logo.png'
 
 export default function Reg_1() {
+
+    const firstName = useRef("");
+    const lastName = useRef("");
+    const gender = useRef("");
+
     return (
         <div className="relative min-h-screen h-screen w-screen flex items-center justify-center bg-gray-100 overflow-hidden">
             <img

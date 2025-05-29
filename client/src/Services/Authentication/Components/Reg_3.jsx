@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import cover from '../../../Services/Authentication/Assets/Cover.jpg';
 import logo from '../../../Services/Authentication/Assets/Logo.png';
 import { Link } from 'react-router-dom';
 
 export default function Reg_3() {
+    const username = useRef("");
+    const password = useRef("");
+    const confirmPass = useRef("");
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-100 overflow-hidden min-h-screen">
             <img

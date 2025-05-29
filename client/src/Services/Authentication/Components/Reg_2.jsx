@@ -1,10 +1,20 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 import cover from '../../../Services/Authentication/Assets/Cover.jpg'
 import logo from '../../../Services/Authentication/Assets/Logo.png'
 
 export default function Reg_2() {
+
+    const clientProfile = useRef("");
+    const address = useRef("");
+    const telephoneNumber = useRef("");
+    const cellphoneNumber = useRef("");
+    const occupation = useRef("");
+    const position = useRef("");
+    const institution = useRef("");
+    const email = useRef("");
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 relative">
             <img
