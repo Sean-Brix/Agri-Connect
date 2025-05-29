@@ -23,3 +23,5 @@ if(!$firstName || !$lastName || !$gender || $clientProfile === "default" || !$ad
 }
 
 // Add the account to the database
+
+// ...
