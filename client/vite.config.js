@@ -5,7 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
 
-  server: {
+  server : {
+
     port: 5173,
     open: true,
 
@@ -21,7 +22,7 @@ export default defineConfig({
         rewrite: path => path.replace(/^\/api/, '') + '.php'
       }
     }
-
-  }
   
+  }
+
 })
