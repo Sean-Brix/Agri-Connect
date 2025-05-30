@@ -48,8 +48,9 @@ export default function Enrollment() {
         <>
             <Navbar>
                 <div className="relative mt-30">
+
                     <hr className="border-black-300" />
-                    <span className="absolute left-1/8 -translate-x-1/4 -top-5 bg-white  rounded-lg px-4 text-2xl font-semibold text-gray-700">
+                    <span className="absolute left-20 -translate-x-1/4 -top-5 bg-white  rounded-lg px-4 text-2xl font-semibold text-gray-700">
                         Available Programs
                     </span>
                 </div>
@@ -59,7 +60,7 @@ export default function Enrollment() {
                         {equipmentList.map((item, idx) => (
                             <div key={idx} className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center w-full mb-8 relative" style={{ minHeight: '350px' }}>
                                 <img src={item.img} alt={item.name} className="w-full bg-blue-800 h-48 object-contain rounded-md mb-4" />
-                                <div className="flex flex-col justify-center p-2 w-full pb-15">
+                                <div className="flex flex-col justify-center p-2 w-full pb-10">
                                     <h3 className="text-xl font-semibold mb-2 text-black ">{item.name}</h3>
                                     <p className="text-gray-600 mb-4">{item.desc}</p>
                                 </div>
