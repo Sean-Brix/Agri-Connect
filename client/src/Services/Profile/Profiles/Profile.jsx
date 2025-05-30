@@ -11,6 +11,7 @@ export default function Profile() {
                     Account Settings
                 </span>
             </div>
+            
             <div className="flex flex-col items-center min-h-screen bg-white px-2 sm:px-0 mt-20 gap-10">
              
                                 <div className="border-2 border-blue-900 rounded-lg shadow-lg p-4 sm:p-6 w-full max-w-5xl bg-white">
