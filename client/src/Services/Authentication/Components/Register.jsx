@@ -16,15 +16,15 @@ class Register extends Component {
     inputs = {
         firstName: "",
         lastName: "",
-        gender: "other",
-        clientProfile: "default",
-        address: "none",
-        telephoneNumber: "none",
-        cellphoneNumber: "none",
-        occupation: "none",
-        position: "none",
-        institution: "none",
-        email: "none",
+        gender: "",
+        clientProfile: "",
+        address: "",
+        telephoneNumber: "",
+        cellphoneNumber: "",
+        occupation: "",
+        position: "",
+        institution: "",
+        email: "",
         username: "",
         password: "",
         confirmPass: "",
@@ -69,7 +69,11 @@ class Register extends Component {
                 
         }
 
-        this.setState({register: key});
+    }
+
+    // Input Reference
+    onChange_input = (event)=>{
+        this.inputs[event.target.name] = event.target.value;
     }
 
     // Register account
@@ -113,7 +117,8 @@ class Register extends Component {
                                 <input
                                     type="text"
                                     id="fname"
-                                    name="fname"
+                                    name="firstName"
+                                    onChange={this.onChange_input}
                                     required
                                     className="w-full px-3 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-black-300"
                                 />
@@ -125,7 +130,8 @@ class Register extends Component {
                                 <input
                                     type="text"
                                     id="lname"
-                                    name="lname"
+                                    name="lastName"
+                                    onChange={this.onChange_input}
                                     required
                                     className="w-full px-3 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-black-300"
                                 />
@@ -139,6 +145,7 @@ class Register extends Component {
                                         <input
                                             type="radio"
                                             name="gender"
+                                            onChange={this.onChange_input}
                                             value="male"
                                             required
                                             className="form-radio text-blue-600"
