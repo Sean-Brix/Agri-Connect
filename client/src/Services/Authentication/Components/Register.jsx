@@ -5,11 +5,12 @@ import cover from '../../../Services/Authentication/Assets/Cover.jpg'
 import logo from '../../../Services/Authentication/Assets/Logo.png'
 
 // Wrapper for passing in Navigate Hooks
-export default function register_wrapper(){
+function register_wrapper(){
     const navigate = useNavigate();
     return <Register navigate={navigate}/>
 }
 
+// Register Component
 class Register extends Component {
 
     // Fields
@@ -35,49 +36,35 @@ class Register extends Component {
         register: "first"
     }
 
-    // State Helper (Next)
-    next_form = (key)=>{
-
-        switch(key){
-
-            case "second":
-                if(!this.inputs.firstName || !this.inputs.lastName || !["Male", "Female", "Other"].includes(this.inputs.gender)){
-                    alert("Please fill in all required fields correctly");
-                    return;
-                }
-                
-                this.setState({register:"second"});
-                break;
-
-            case "third":
-                const validProfiles = [
-                    'Fishfolk', 'Rural Based Org', 'Student',
-                    'Agricultural/Fisheries Technician', 'Youth', 'Women', 
-                    "Gov't Employee", 'PWD', 'Indigenous People'
-                ];
-
-                if (!validProfiles.includes(this.inputs.clientProfile) || !this.inputs.address || !this.inputs.cellphoneNumber || !this.inputs.email) {
-                    alert("Please fill in all required fields correctly. Client Profile, Address, Cellphone No, and Email are required.");
-                    return;
-                }
-
-                this.setState({register:"third"});
-                break;
-
-            default:
-                return console.log("ERROR: Invalid Key");
-                
-        }
-
-    }
-
     // Input Reference
     onChange_input = (event)=>{
         this.inputs[event.target.name] = event.target.value;
     }
 
+    // Next Form
+    onNext = (event, key)=>{
+        event.preventDefault();
+
+        return key === "second"? 
+            this.setState({register:"second"}): 
+            this.setState({register:"third"});
+    }
+
     // Register account
-    post_account = async ()=>{
+    post_account = async (event)=>{
+
+        /* 
+        ?   TICKET: Add an account to the database
+
+            TODO: Fetch a POST request to PHP API
+            TODO: Fetch a POST request to Express API
+            TODO: Error Handling for the response http status
+            TODO: Prompt User for result
+        
+        */
+
+        event.preventDefault();
+        console.log(this.inputs);
         this.props.navigate("/login");
     } 
     
@@ -109,7 +96,7 @@ class Register extends Component {
                     </div>
                     <div className="w-[95%] max-w-xs sm:max-w-sm md:max-w-md px-4 sm:px-6 md:px-10 py-6 space-y-6 rounded-lg shadow-lg border border-white/20 backdrop-blur-lg backdrop-brightness-95 bg-white shadow-black">
                         <h2 className="text-lg md:text-2xl font-bold text-center text-gray-800">Register Now</h2>
-                        <div className="space-y-4">
+                        <form className="space-y-4" onSubmit={(e)=>this.onNext(e, "second")}>
                             <div>
                                 <label htmlFor="fname" className="block text-sm font-medium text-gray-700">
                                     First Name
@@ -156,6 +143,7 @@ class Register extends Component {
                                         <input
                                             type="radio"
                                             name="gender"
+                                            onChange={this.onChange_input}
                                             value="female"
                                             required
                                             className="form-radio text-blue-600"
@@ -166,6 +154,7 @@ class Register extends Component {
                                         <input
                                             type="radio"
                                             name="gender"
+                                            onChange={this.onChange_input}
                                             value="other"
                                             required
                                             className="form-radio text-blue-600"
@@ -177,7 +166,6 @@ class Register extends Component {
                             <button
                                 type="submit"
                                 className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-500"
-                                onClick={()=>this.next_form("second")}
                             >
                                 Next
                             </button>
@@ -203,7 +191,7 @@ class Register extends Component {
                                     Sign in
                                 </a>
                             </p>
-                        </div>
+                        </form>
                     </div>
                 </div>
 
@@ -229,7 +217,7 @@ class Register extends Component {
                     </div>
                     <div className="w-full p-4 sm:p-8 space-y-6 bg-white rounded-lg shadow-lg border border-gray-300 bg-opacity-80 backdrop-blur-md max-w-md sm:max-w-full">
                         <h2 className="text-2xl font-bold text-center text-gray-800">Register Now</h2>
-                        <div className="space-y-4">
+                        <form className="space-y-4" onSubmit={(e)=>this.onNext(e, "third")}>
                             <div>
                                 <hr className="my-4 border-black-300" />
                                 <div className="flex flex-col sm:flex-row items-start sm:items-center mb-4">
@@ -238,6 +226,7 @@ class Register extends Component {
                                     </label>
                                     <select
                                         id="clientProfile"
+                                        onChange={this.onChange_input}
                                         name="clientProfile"
                                         required
                                         className="flex-1 px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-black-300 min-w-0 w-full sm:w-auto"
@@ -268,6 +257,7 @@ class Register extends Component {
                                 <input
                                     type="text"
                                     id="address"
+                                    onChange={this.onChange_input}
                                     name="address"
                                     required
                                     className="flex-1 px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-black-300 min-w-0 w-full sm:w-auto"
@@ -280,7 +270,9 @@ class Register extends Component {
                                 <input
                                     type="tel"
                                     id="telephone"
-                                    name="telephone"
+                                    onChange={this.onChange_input}
+                                    required
+                                    name="telephoneNumber"
                                     className="flex-1 px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-black-300 min-w-0 w-full sm:w-auto"
                                 />
                             </div>
@@ -291,7 +283,8 @@ class Register extends Component {
                                 <input
                                     type="tel"
                                     id="cellphone"
-                                    name="cellphone"
+                                    onChange={this.onChange_input}
+                                    name="cellphoneNumber"
                                     required
                                     className="flex-1 px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-black-300 min-w-0 w-full sm:w-auto"
                                 />
@@ -303,6 +296,8 @@ class Register extends Component {
                                 <input
                                     type="text"
                                     id="occupation"
+                                    onChange={this.onChange_input}
+                                    required
                                     name="occupation"
                                     className="flex-1 px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-black-300 min-w-0 w-full sm:w-auto"
                                 />
@@ -314,6 +309,8 @@ class Register extends Component {
                                 <input
                                     type="text"
                                     id="position"
+                                    onChange={this.onChange_input}
+                                    required
                                     name="position"
                                     className="flex-1 px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-black-300 min-w-0 w-full sm:w-auto"
                                 />
@@ -325,6 +322,8 @@ class Register extends Component {
                                 <input
                                     type="text"
                                     id="institution"
+                                    onChange={this.onChange_input}
+                                    required
                                     name="institution"
                                     className="flex-1 px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-black-300 min-w-0 w-full sm:w-auto"
                                 />
@@ -336,6 +335,7 @@ class Register extends Component {
                                 <input
                                     type="email"
                                     id="email"
+                                    onChange={this.onChange_input}
                                     name="email"
                                     required
                                     className="flex-1 px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-black-300 min-w-0 w-full sm:w-auto"
@@ -344,11 +344,10 @@ class Register extends Component {
                             <button
                                 type="submit"
                                 className="w-full px-4 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 mt-5 focus:ring-4 focus:ring-blue-500"
-                                onClick={()=>this.next_form("third")}
                             >
                                 Next
                             </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -377,16 +376,17 @@ class Register extends Component {
 
                     <div className="w-full max-w-xs sm:max-w-md p-6 sm:p-8 space-y-6 bg-white rounded-lg shadow-lg border border-gray-300 backdrop-blur-md bg-gray-500 bg-opacity-70">
                         <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800">Register Now</h2>
-                        <div className="space-y-4">
+                        <form className="space-y-4" onSubmit={this.post_account}>
                             
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                                     Username
                                 </label>
                                 <input
-                                    type="email"
+                                    type="text"
                                     id="email"
-                                    name="email"
+                                    name="username"
+                                    onChange={this.onChange_input}
                                     required
                                     className="w-full px-3 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-gray-300"
                                 />
@@ -399,6 +399,7 @@ class Register extends Component {
                                 <input
                                     type="password"
                                     id="password"
+                                    onChange={this.onChange_input}
                                     name="password"
                                     required
                                     className="w-full px-3 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-gray-300"
@@ -418,8 +419,8 @@ class Register extends Component {
                             </div>
 
                                 <button
+                                    type="submit"
                                     className="w-full px-4 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-500"
-                                    onClick={this.post_account}
                                 >
                                     Register
                                 </button>
@@ -449,10 +450,13 @@ class Register extends Component {
                                 </Link>
                             </p>
 
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
         )
     }
 }
+
+
+export default register_wrapper;
