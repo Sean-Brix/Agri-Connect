@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import cover from '../../../Services/Authentication/Assets/Cover.jpg'
 import logo from '../../../Services/Authentication/Assets/Logo.png'
+
+// Wrapper for passing in Navigate Hooks
+export default function register_wrapper(){
+    const navigate = useNavigate();
+    return <Register navigate={navigate}/>
+}
 
 class Register extends Component {
 
@@ -23,12 +29,23 @@ class Register extends Component {
         password: "",
         confirmPass: "",
     }
+
+    // State
+    state = {
+        register: "first"
+    }
+
+    post_account = async ()=>{
+        this.props.navigate("/login");
+    } 
     
     // Main Component
     render(){
-        return (
-            this.render_first()
-        )
+        switch(this.state.register){
+            case "first": return this.render_first();
+            case "second": return this.render_second();
+            case "third": return this.render_third();
+        }
     }
 
     // First Register State
@@ -50,7 +67,7 @@ class Register extends Component {
                     </div>
                     <div className="w-[95%] max-w-xs sm:max-w-sm md:max-w-md px-4 sm:px-6 md:px-10 py-6 space-y-6 rounded-lg shadow-lg border border-white/20 backdrop-blur-lg backdrop-brightness-95 bg-white shadow-black">
                         <h2 className="text-lg md:text-2xl font-bold text-center text-gray-800">Register Now</h2>
-                        <form className="space-y-4">
+                        <div className="space-y-4">
                             <div>
                                 <label htmlFor="fname" className="block text-sm font-medium text-gray-700">
                                     First Name
@@ -142,7 +159,7 @@ class Register extends Component {
                                     Sign in
                                 </a>
                             </p>
-                        </form>
+                        </div>
                     </div>
                 </div>
 
@@ -168,7 +185,7 @@ class Register extends Component {
                     </div>
                     <div className="w-full p-4 sm:p-8 space-y-6 bg-white rounded-lg shadow-lg border border-gray-300 bg-opacity-80 backdrop-blur-md max-w-md sm:max-w-full">
                         <h2 className="text-2xl font-bold text-center text-gray-800">Register Now</h2>
-                        <form className="space-y-4">
+                        <div className="space-y-4">
                             <div>
                                 <hr className="my-4 border-black-300" />
                                 <div className="flex flex-col sm:flex-row items-start sm:items-center mb-4">
@@ -288,7 +305,7 @@ class Register extends Component {
                                     Next
                                 </Link>
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -317,7 +334,7 @@ class Register extends Component {
 
                     <div className="w-full max-w-xs sm:max-w-md p-6 sm:p-8 space-y-6 bg-white rounded-lg shadow-lg border border-gray-300 backdrop-blur-md bg-gray-500 bg-opacity-70">
                         <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800">Register Now</h2>
-                        <form className="space-y-4">
+                        <div className="space-y-4">
                             
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -357,12 +374,12 @@ class Register extends Component {
                                 </label>
                             </div>
 
-                            <button
-                                type="submit"
-                                className="w-full px-4 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-500"
-                            >
-                                Register
-                            </button>
+                                <button
+                                    className="w-full px-4 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-500"
+                                    onClick={this.post_account}
+                                >
+                                    Register
+                                </button>
 
                             <div className="flex items-center my-2">
                                 <span className="flex-grow border-t border-gray-300"></span>
@@ -389,12 +406,10 @@ class Register extends Component {
                                 </Link>
                             </p>
 
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
         )
     }
 }
-
-export default Register;
