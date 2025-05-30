@@ -35,6 +35,44 @@ class Register extends Component {
         register: "first"
     }
 
+    // State Helper (Next)
+    next_form = (key)=>{
+
+        switch(key){
+
+            case "second":
+                if(!this.inputs.firstName || !this.inputs.lastName || !["Male", "Female", "Other"].includes(this.inputs.gender)){
+                    alert("Please fill in all required fields correctly");
+                    return;
+                }
+                
+                this.setState({register:"second"});
+                break;
+
+            case "third":
+                const validProfiles = [
+                    'Fishfolk', 'Rural Based Org', 'Student',
+                    'Agricultural/Fisheries Technician', 'Youth', 'Women', 
+                    "Gov't Employee", 'PWD', 'Indigenous People'
+                ];
+
+                if (!validProfiles.includes(this.inputs.clientProfile) || !this.inputs.address || !this.inputs.cellphoneNumber || !this.inputs.email) {
+                    alert("Please fill in all required fields correctly. Client Profile, Address, Cellphone No, and Email are required.");
+                    return;
+                }
+
+                this.setState({register:"third"});
+                break;
+
+            default:
+                return console.log("ERROR: Invalid Key");
+                
+        }
+
+        this.setState({register: key});
+    }
+
+    // Register account
     post_account = async ()=>{
         this.props.navigate("/login");
     } 
@@ -132,10 +170,9 @@ class Register extends Component {
                             <button
                                 type="submit"
                                 className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-500"
+                                onClick={()=>this.next_form("second")}
                             >
-                                <Link to="/register/2" className="block w-full h-full">
-                                    Next
-                                </Link>
+                                Next
                             </button>
                             <div className="flex items-center my-4">
                                 <span className="flex-grow border-t border-black-300"></span>
@@ -300,10 +337,9 @@ class Register extends Component {
                             <button
                                 type="submit"
                                 className="w-full px-4 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 mt-5 focus:ring-4 focus:ring-blue-500"
+                                onClick={()=>this.next_form("third")}
                             >
-                                <Link to="/register/3">
-                                    Next
-                                </Link>
+                                Next
                             </button>
                         </div>
                     </div>
