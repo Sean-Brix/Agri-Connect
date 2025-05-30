@@ -50,7 +50,7 @@ export default function Enrollment() {
                 <div className="relative mt-30">
 
                     <hr className="border-black-300" />
-                    <span className="absolute left-20 -translate-x-1/4 -top-5 bg-white  rounded-lg px-4 text-2xl font-semibold text-gray-700">
+                    <span className="absolute left-1/8 -translate-x-1/4 -top-5 bg-white  rounded-lg px-4 text-2xl font-semibold text-gray-700">
                         Available Programs
                     </span>
                 </div>
