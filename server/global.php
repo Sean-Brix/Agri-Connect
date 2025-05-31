@@ -1,8 +1,9 @@
 <?php
 
-define("UTIL_PATH", __DIR__ . "/Utils/");
+define("UTIL", __DIR__ . "/Utils/");
 
-require_once UTIL_PATH."request.php";
-require_once UTIL_PATH."response.php";
-require_once UTIL_PATH."connect_db.php";
-require_once UTIL_PATH."statement.php";
+require_once UTIL."request.php";
+require_once UTIL."response.php";
+require_once UTIL."connect_db.php";
+require_once UTIL."statement.php";
+

@@ -1,17 +1,4 @@
 
-
-# MySQL Schema Definitions
-
-This document contains SQL `CREATE TABLE` statements used to define the structure of the database for the project. Each table is carefully designed to store specific sets of data with appropriate data types, constraints, and relationships where needed.
-
-Use these definitions to:
-- Initialize your database schema.
-- Reference column names, types, and rules during backend development.
-- Ensure consistency across database operations and migrations.
-
-
----------------------------------------------------------------------------------------------------------------------------------------------------------
-
 CREATE TABLE accounts (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
@@ -44,5 +31,3 @@ CREATE TABLE accounts (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-
----------------------------------------------------------------------------------------------------------------------------------------------------------
