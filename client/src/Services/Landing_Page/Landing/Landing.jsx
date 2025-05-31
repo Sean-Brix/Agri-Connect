@@ -16,40 +16,9 @@ import img5 from '../Assets/rabies.jpg'
 
 export default function Landing() {
 
-    const [nav_display, setNav_display] = useState({
-        username: "Guest Account", 
-        position: "User Client",
-        picture: ""
-    });
-
-    useEffect(()=>{
-
-        (async()=>{
-
-            const response = await fetch("/api/accounts/details");
-            const data = (await response.json()).payload;
-
-            if(!response.ok){
-                setNav_display({
-                    username: "Guest Account", 
-                    position: "User Client",
-                    picture: ""
-                });
-                return;
-            }
-
-            setNav_display({
-                username: data.username, 
-                position: data.position,
-                picture: ""
-            });
-
-        })()
-
-    }, []);
 
     return (
-        <Navbar details={nav_display}>
+        <Navbar>
             <main className="mt-15">
                 <div className="flex flex-col text-black mt-10 w-full max-w-full mx-auto rounded-lg shadow-lg p-8">
                     <div className="flex flex-col mt-10 mb-20">
@@ -84,7 +53,7 @@ export default function Landing() {
                                     alt="FITS Program"
                                     className="w-72 h-72 object-cover rounded mb-2 sm:mb-0 sm:mr-10 mx-auto sm:mx-0"
                                 />
-                                <span className="font-medium mx-0 sm:mx-0 mt-4 sm:mt-0 text-center sm:text-left text-justify">
+                                <span className="font-medium mx-0 sm:mx-0 mt-4 sm:mt-0 sm:text-left text-justify">
                                     FITS Program Lorem ipsum dolor sit amet consectetur, adipisicing elit. Temporibus molestiae officiis labore officia voluptatibus ex numquam. Dolor molestiae temporibus iusto quae dolorem non similique impedit debitis asperiores error! Architecto, nihil.
                                 </span>
                             </div>
@@ -97,7 +66,7 @@ export default function Landing() {
                                     alt="Crop Production"
                                     className="w-72 h-72 object-cover rounded mb-2 sm:mb-0 sm:mr-10 mx-auto sm:mx-0"
                                 />
-                                <span className="font-medium mx-0 sm:mx-0 mt-4 sm:mt-0 text-center sm:text-left text-justify">
+                                <span className="font-medium mx-0 sm:mx-0 mt-4 sm:mt-0 sm:text-left text-justify">
                                     Crop Production Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non consequuntur voluptatum provident eius minus ipsam qui possimus rem tempora maxime hic laborum reprehenderit quibusdam labore, recusandae beatae excepturi rerum dolor.
                                 </span>
                             </div>
@@ -110,7 +79,7 @@ export default function Landing() {
                                     alt="Fisheries Program"
                                     className="w-72 h-72 object-cover rounded mb-2 sm:mb-0 sm:mr-10 mx-auto sm:mx-0"
                                 />
-                                <span className="font-medium mx-0 sm:mx-0 mt-4 sm:mt-0 text-center sm:text-left text-justify">
+                                <span className="font-medium mx-0 sm:mx-0 mt-4 sm:mt-0 sm:text-left text-justify">
                                     Fisheries Program Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus modi aperiam impedit unde quod a voluptatem rerum aliquam possimus incidunt. Praesentium, excepturi blanditiis doloribus dolore dolor repellat doloremque quis officiis?
                                 </span>
                             </div>
@@ -123,7 +92,7 @@ export default function Landing() {
                                     alt="Organic Farming"
                                     className="w-72 h-72 object-cover rounded mb-2 sm:mb-0 sm:mr-10 mx-auto sm:mx-0"
                                 />
-                                <span className="font-medium mx-0 sm:mx-0 mt-4 sm:mt-0 text-center sm:text-left text-justify">
+                                <span className="font-medium mx-0 sm:mx-0 mt-4 sm:mt-0 sm:text-left text-justify">
                                     Organic Farming Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptate quod doloribus at exercitationem voluptates eaque possimus non necessitatibus ut laborum soluta vitae quia, incidunt ipsam labore suscipit recusandae fugiat quasi.
                                 </span>
                             </div>
@@ -132,7 +101,7 @@ export default function Landing() {
                             {/* Rabies Control */}
                             <div className="flex flex-col items-center mb-10">
                                 <img src={img5} alt="Rabies Control" className="w-72 h-72 object-cover rounded mb-2 mx-auto" />
-                                <span className="font-medium my-10 text-center text-justify">
+                                <span className="font-medium my-10 text-justify">
                                     Rabies Control Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime quam deserunt voluptatem assumenda possimus repellendus exercitationem expedita, molestiae itaque perspiciatis dolorum nisi dignissimos ex non sapiente veniam velit! At, dolore.
                                 </span>
                             </div>

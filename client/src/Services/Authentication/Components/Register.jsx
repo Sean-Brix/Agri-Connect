@@ -28,7 +28,7 @@ class Register extends Component {
         email: "",
         username: "",
         password: "",
-        confirmPass: "121802",
+        confirmPass: "",
     }
 
     // State
@@ -413,7 +413,7 @@ class Register extends Component {
                 </h1>
                 </div>
 
-                <div className="w-full max-w-xs sm:max-w-md p-6 sm:p-8 space-y-6 bg-white rounded-lg shadow-lg border border-gray-300 backdrop-blur-md bg-gray-500 bg-opacity-70">
+                <div className="w-full max-w-xs sm:max-w-md p-6 sm:p-8 space-y-6 bg-white rounded-lg shadow-lg border border-gray-300 backdrop-blur-md bg-opacity-70">
                 <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800">Register Now</h2>
                 <form className="space-y-4" onSubmit={this.post_account}>
                     

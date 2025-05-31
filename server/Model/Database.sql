@@ -1,8 +1,4 @@
 
-
---?   Copy all of this and execute it to the phpMyAdmin SQL section
---*   This creates the whole MYSQL database tables ready for use in local setting
-
 CREATE TABLE accounts (
     id INT AUTO_INCREMENT PRIMARY KEY,
 

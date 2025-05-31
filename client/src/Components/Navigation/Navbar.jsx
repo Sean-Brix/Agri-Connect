@@ -1,11 +1,80 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../../Assets/Logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../index.css';
 import me from '../../Services/Profile/Assets/me.png';
 
-export default function Navbar({ details, children }) {
+export default function Navbar({children}) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const navigate = useNavigate();
+
+  // Login/Logout Button
+  const [logButton, setLogButton] = useState("Login Now");
+
+  // User Account Details
+  const [details, setDetails] = useState({
+          username: "Guest Account", 
+          position: "User Client",
+          picture: ""
+      });
+  
+
+  // Initial Request on Mount
+  useEffect(()=>{
+
+      (async()=>{
+
+          const response = await fetch("/api/accounts/details");
+          const data = (await response.json()).payload;
+
+          if(!response.ok){
+              setDetails({
+                  username: "Guest Account", 
+                  position: "User Client",
+                  picture: ""
+              });
+              return;
+          }
+
+          setDetails({
+              username: data.username, 
+              position: data.position,
+              picture: ""
+          });
+
+      })()
+
+  }, []);
+
+  // Change the button
+  useEffect(()=>{
+
+    if(details.username === "Guest Account") return;
+    setLogButton("Logout");
+
+  }, [details])
+
+  // Switch Between Logout and Login
+  const logging = async()=>{
+
+    if(details.username === "Guest Account"){
+      return navigate('/login');
+    } 
+
+    if(confirm("Are you sure you want to logout?")) {
+
+      await fetch('/api/authentication/logout');
+      setLogButton("Login Now");
+
+      setDetails({
+          username: "Guest Account", 
+          position: "User Client",
+          picture: ""
+      })
+
+    }
+
+  }
 
   return (
     <>
@@ -75,15 +144,15 @@ export default function Navbar({ details, children }) {
               </div>
 
               {/* Logout button (desktop sidebar, bottom) */}
-              <Link
-                to="/login"
+              <button
+                onClick={logging}
                 className="flex items-center justify-center space-x-2 px-4 py-2 element hover:element rounded-lg transition text w-full border"
               >
                 <span className="flex items-center py-2k">
                   <i className="fas fa-sign-out-alt h-5 w-5 translate-y-1"></i>
                 </span>
-                <span className="font-bold">Logout</span>
-              </Link>
+                <span className="font-bold">{logButton}</span>
+              </button>
             </div>
           </div>
         </aside>
@@ -227,15 +296,15 @@ export default function Navbar({ details, children }) {
           </div>
 
           {/* Logout button (mobile sidebar, bottom) */}
-          <Link
-            to="/login"
+          <button 
             className="flex items-center justify-center space-x-2 px-4 py-1 element hover:element rounded-lg transition text w-full border"
+            onClick={logging}
           >
             <span className="flex items-center py-2">
               <i className="fas fa-sign-out-alt h-5 w-5 translate-y-1"></i>
             </span>
-            <span className="font-bold">Logout</span>
-          </Link>
+            <span className="font-bold">{logButton}</span>
+          </button>
         </div>
       </aside>
     </>
