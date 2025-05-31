@@ -90,8 +90,16 @@ class Register extends Component {
         const data = await response.json();
 
         if(!response.ok){
+
             alert(data.message);
             console.log(data.payload.error);
+
+            if(response.status == 500){
+                this.setState({register:"first"});
+                return;
+            }
+
+            this.setState({register:"third"});
             return;
         }
 

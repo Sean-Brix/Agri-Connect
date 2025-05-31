@@ -69,9 +69,19 @@ $result = createAccount([
 ]);
 
 if($result){
-    sendResponse(201, "Success", [], "Account successfully created");
+    sendResponse(
+        201, 
+        "Success", 
+        [], 
+        "Account successfully created"
+    );
     exit();
 }
 
-sendResponse(500, "Server Error", [], "Something went wrong");
+sendResponse(
+    500, 
+    "Server Error", 
+    ["error"=>"ERROR: Register.php - createAccount() Function error"], 
+    "Something went wrong, try again later"
+);
 
