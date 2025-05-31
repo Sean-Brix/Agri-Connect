@@ -51,7 +51,6 @@ class Account {
     }
 
     public function initialized($account_id){
-        session_start();
 
         $query = "SELECT * FROM `accounts` WHERE id= ?";
         $result = statement($query, [$account_id], "s");
@@ -74,8 +73,11 @@ class Account {
             $this->created_at = $row["created_at"];
             $this->updated_at = $row["updated_at"];
         }
+    }
 
-        $_SESSION["ID"] = $this->id;
-        $_SESSION["username"] = $this->username;
+    public function save(){
+
+        return true;
+
     }
 }

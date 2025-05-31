@@ -39,6 +39,7 @@ if($password != $confirm){
         ["error"=>"Password & Confirm Password did not match"], 
         "Password doesn't match"
     );
+
     exit();
 }
 
@@ -48,10 +49,11 @@ if(usernameExist($username)){
         "Server Conflict", 
         ["error"=>"Password & Confirm Password did not match"], 
         "Username already exist"
-    );
-    exit();
-}
-
+        );
+        exit();
+    }
+    
+$password = password_hash($password, PASSWORD_DEFAULT);
 $result = createAccount([
     $firstName,
     $lastName,
