@@ -1,6 +1,8 @@
 <?php
 
-require_once __DIR__."../../global.php";
+require_once __DIR__."/../../global.php";
+require_once __DIR__."/../../Model/Accounts/userExist.php";
+require_once __DIR__."/../../Model/Accounts/createAccount.php";
 
 // Request Body
 $req = getJsonBody();
@@ -11,17 +13,50 @@ $gender = $req["gender"];
 $clientProfile = $req["clientProfile"];
 $address = $req["address"];
 $telNo = $req["telephoneNum"];
-$cellNo = $req["celphoneNum"];
+$cellNo = $req["cellphoneNum"];
 $occupation = $req["occupation"];
 $position = $req["position"];
 $institution = $req["institution"];
 $email = $req["email"];
+$username = $req["username"];
+$password = $req["password"];
+$confirm = $req["confirmPass"];
 
-if(!$firstName || !$lastName || !$gender || $clientProfile === "default" || !$address || !$occupation || !$position || !$institution || !$email){
+if(!$firstName || !$lastName || !$gender || $clientProfile === "default" || !$address || !$occupation || !$position || !$institution || !$email || !$username || !$password || !$confirm){
     sendResponse(404, "Bad Request", [], "All inputs are required");
     exit();
 }
 
-// Add the account to the database
+if($password != $confirm){
+    sendResponse(404, "Bad Request", [], "Password doesn't match");
+    exit();
+}
 
-// ...
+if(usernameExist($username)){
+    sendResponse(409, "Server Conflict", [], "Username already exist");
+    exit();
+}
+
+$result = createAccount([
+    $firstName,
+    $lastName,
+    $gender,
+    $clientProfile,
+    $address,
+    $telNo,
+    $cellNo,
+    $occupation,
+    $position,
+    $institution,
+    $email,
+    $username,
+    $password
+]);
+
+if($result){
+    sendResponse(201, "Success", [], "Account successfully created");
+    exit();
+}
+
+sendResponse(500, "Server Error", [], "Something went wrong");
+

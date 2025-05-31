@@ -28,7 +28,7 @@ class Register extends Component {
         email: "",
         username: "",
         password: "",
-        confirmPass: "",
+        confirmPass: "121802",
     }
 
     // State
@@ -52,6 +52,7 @@ class Register extends Component {
 
     // Register account
     post_account = async (event)=>{
+        event.preventDefault();
 
         /* 
         ?   TICKET: Add an account to the database
@@ -63,8 +64,37 @@ class Register extends Component {
         
         */
 
-        event.preventDefault();
-        console.log(this.inputs);
+        const response = await fetch("/api/Authentication/register", {
+            method: 'POST',
+            headers:{
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                firstName: this.inputs.firstName,
+                lastName: this.inputs.lastName,
+                gender: this.inputs.gender,
+                clientProfile: this.inputs.clientProfile,
+                address: this.inputs.address,
+                telephoneNum: this.inputs.telephoneNumber,
+                cellphoneNum: this.inputs.cellphoneNumber,
+                occupation: this.inputs.occupation,
+                position: this.inputs.position,
+                institution: this.inputs.institution,
+                email: this.inputs.email,
+                username: this.inputs.username,
+                password: this.inputs.password,
+                confirmPass: this.inputs.confirmPass
+            })
+        })
+
+        const data = await response.json();
+
+        if(!response.ok){
+            alert(data.message);
+            return;
+        }
+
+        alert(data.message);
         this.props.navigate("/login");
     } 
     
