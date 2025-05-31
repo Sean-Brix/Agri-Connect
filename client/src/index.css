@@ -1,4 +1,4 @@
-
+@import "tailwindcss";
 
 .font-outline {
   -webkit-text-stroke: 1px black;
