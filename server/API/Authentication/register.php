@@ -23,17 +23,32 @@ $password = $req["password"];
 $confirm = $req["confirmPass"];
 
 if(!$firstName || !$lastName || !$gender || $clientProfile === "default" || !$address || !$occupation || !$position || !$institution || !$email || !$username || !$password || !$confirm){
-    sendResponse(404, "Bad Request", [], "All inputs are required");
+    sendResponse(
+        404, 
+        "Bad Request", 
+        ["error"=>"Missing data for registration"], 
+        "All inputs are required"
+    );
     exit();
 }
 
 if($password != $confirm){
-    sendResponse(404, "Bad Request", [], "Password doesn't match");
+    sendResponse(
+        404, 
+        "Bad Request", 
+        ["error"=>"Password & Confirm Password did not match"], 
+        "Password doesn't match"
+    );
     exit();
 }
 
 if(usernameExist($username)){
-    sendResponse(409, "Server Conflict", [], "Username already exist");
+    sendResponse(
+        409, 
+        "Server Conflict", 
+        ["error"=>"Password & Confirm Password did not match"], 
+        "Username already exist"
+    );
     exit();
 }
 

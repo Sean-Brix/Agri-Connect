@@ -11,8 +11,19 @@ $data2 = $req['data2'];
 
 // Error Handling
 if($data1 == "" || $data2 == ""){
-    sendResponse(400, "Failed", [], "Bad Request: All Data is Required");
+    sendResponse(
+        400, 
+        "Failed", 
+        [], 
+        "Bad Request: All Data is Required"
+    );
+    exit();
 }
 
 // Response
-sendResponse(200, "Success", [$data1, $data2], "Successfully recieved the data");
+sendResponse(
+    200, 
+    "Success", 
+    [$data1, $data2], 
+    "Successfully recieved the data"
+);

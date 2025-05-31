@@ -57,10 +57,10 @@ class Register extends Component {
         /* 
         ?   TICKET: Add an account to the database
 
-            TODO: Fetch a POST request to PHP API
+        *   DONE: Fetch a POST request to PHP API
             TODO: Fetch a POST request to Express API
-            TODO: Error Handling for the response http status
-            TODO: Prompt User for result
+        *   DONE: Error Handling for the response http status
+        *   DONE: Prompt User for result
         
         */
 
@@ -91,6 +91,7 @@ class Register extends Component {
 
         if(!response.ok){
             alert(data.message);
+            console.log(data.payload.error);
             return;
         }
 

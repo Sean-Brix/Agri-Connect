@@ -1,5 +1,5 @@
 <?php
-function sendResponse(int $statusCode = 200, string $status = "success", array $data = [], string $message = ""): void {
+function sendResponse(int $statusCode = 200, string $status = "success", array $payload = [], string $message = ""): void {
     // Set HTTP status code
     http_response_code($statusCode);
 
@@ -16,8 +16,8 @@ function sendResponse(int $statusCode = 200, string $status = "success", array $
         $response["message"] = $message;
     }
 
-    if (!empty($data)) {
-        $response["payload"] = $data;
+    if (!empty($payload)) {
+        $response["payload"] = $payload;
     }
 
     // Output JSON and stop script execution
