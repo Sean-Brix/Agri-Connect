@@ -1,7 +1,9 @@
 <?php
-require_once __DIR__."/../../Utils/statement.php";
+require_once __DIR__."/../Utils/statement.php";
 
 class Account {
+
+    private $ACCESS_KEY = 'ACCESS_CONTROL_POINT_1828121802182804';
 
     private $id = null;
     private $access = "User";
@@ -25,9 +27,10 @@ class Account {
 
         $this->id = $account_id;
 
-        if($account_id) $this->initialized($account_id);
+        if($account_id) $this->initialize();
     }
 
+    // Get all details of an account
     public function getDetails(){
         return [
             'id' => $this->id,
@@ -46,14 +49,16 @@ class Account {
             'username' => $this->username,
             'password' => $this->password,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'updated_at' => $this->updated_at,
+            'ACCESS_KEY' => $this->ACCESS_KEY
         ];
     }
 
-    public function initialized($account_id){
+    public function initialize(){
 
+        // Initialized all fields
         $query = "SELECT * FROM `accounts` WHERE id= ?";
-        $result = statement($query, [$account_id], "s");
+        $result = statement($query, [$this->id], "s");
 
         while($row = mysqli_fetch_assoc($result)){
             $this->access = $row["access"];
@@ -75,9 +80,42 @@ class Account {
         }
     }
 
+    // Creates a new account
+    public function createAccount($params){
+
+        $query = "INSERT INTO `accounts` (
+            `firstname`, `lastname`, `gender`, 
+            `client_profile`, `address`, 
+            `telephone_no`, `cellphone_no`, 
+            `occupation`, `position`, 
+            `institution`, `email_address`, 
+            `username`, `password`) 
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        
+        $types = getTypes($params);
+        
+        $result = statement($query, $params, $types);
+
+        return $result;
+    }
+
+    // Save the account to the database
     public function save(){
+        $query = "UPDATE `accounts` SET 
+            access = ?, firstname = ?, lastname = ?, gender = ?, client_profile = ?, address = ?, 
+            telephone_no = ?, cellphone_no = ?, occupation = ?, position = ?, institution = ?, email_address = ? 
+            WHERE id = ?";
 
-        return true;
+        $params = [
+            $this->access, $this->firstname, $this->lastname,
+            $this->gender, $this->client_profile, $this->address,
+            $this->telephone_no, $this->cellphone_no, $this->occupation,
+            $this->position, $this->institution, $this->email_address,
+            $this->id
+        ];
 
+        $result = statement($query, $params, getTypes($params));
+
+        return $result !== false;
     }
 }

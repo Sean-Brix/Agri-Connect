@@ -1,8 +1,10 @@
 <?php
 
 require_once __DIR__."/../../global.php";
-require_once __DIR__."/../../Model/Accounts/userExist.php";
-require_once __DIR__."/../../Model/Accounts/createAccount.php";
+require_once __DIR__."/../../Controller/Account/userExist.php";
+
+// Account Model
+$Account = new Account(null);
 
 // Request Body
 $req = getJsonBody();
@@ -22,7 +24,7 @@ $username = $req["username"];
 $password = $req["password"];
 $confirm = $req["confirmPass"];
 
-if(!$firstName || !$lastName || !$gender || $clientProfile === "default" || !$address || !$occupation || !$position || !$institution || !$email || !$username || !$password || !$confirm){
+if(!$firstName || !$lastName || !$gender || !$clientProfile || !$address || !$occupation || !$position || !$institution || !$email || !$username || !$password || !$confirm){
     sendResponse(
         404, 
         "Bad Request", 
@@ -54,7 +56,7 @@ if(usernameExist($username)){
     }
     
 $password = password_hash($password, PASSWORD_DEFAULT);
-$result = createAccount([
+$result = $Account->createAccount([
     $firstName,
     $lastName,
     $gender,
