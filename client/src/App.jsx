@@ -9,6 +9,10 @@ import Survey from './Components/Survey/Survey.jsx'
 import Profiles from './Services/Profile/Profiles/Profile.jsx'
 import Edit_prof from './Services/Profile/Edit_Profile/Edit.jsx'
 import Enroll from './Services/Enrollment/Enrollments/enroll.jsx'
+import Available from './Services/EIC_Borrow/Admin/Available.jsx'
+import Borrow from './Services/EIC_Borrow/Admin/Borrowed.jsx'
+import Items from './Services/EIC_Borrow/Admin/Items.jsx'
+
 
 // SERVER TEST
 import API_Request from './TEST/api_request.jsx'
@@ -31,12 +35,21 @@ function App() {
         <Route path='/profiles' element = { <Profiles/> } />
         <Route path='/profiles/edit' element = { <Edit_prof/> } />
         <Route path='/enrollment' element = { <Enroll/> } />  
-
+       
+         {/* ADMIN ROUTES */}
+        <Route path='/avail' element = { <Available/> } />
+        <Route path='/borrow' element = { <Borrow/> } />
+        <Route path='/item' element = { <Items/> } />
 
         {/* SERVER TESTING */}
 
         <Route path='/testing/request' element = { <API_Request/> } />
 
+       
+    {/* Paayos Ako kc bat di nag shoshw output di sya matawga sa route\
+     */}
+        
+        {/* ADD MORE ROUTES HERE */}
         
       </Routes>
     </BrowserRouter>
