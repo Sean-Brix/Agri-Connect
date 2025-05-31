@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__."/../../global.php";
-require_once __DIR__."/../../Controller/jwt.php";
 require_once __DIR__."/../../Controller/Account/userExist.php";
 
 $req = getJsonBody();
@@ -34,17 +33,19 @@ if(!password_verify($password, $details["password"])){
         "Incorrect Password"
     );
 
+    exit();
 }
 
 // Sign a JWT token
 $payload = [
-    $details["id"],
-    $details["username"]
+    "ID" => $details["id"],
+    "username" => $details["username"]
 ];
-$token = create_token($payload, $details["ACCESS_KEY"]);
+$token = create_token($payload, ACCESS_KEY);
 
 // Send Cookie Token
 $_SESSION["token"] = $token;
+
 
 // Successfull Response
 sendResponse(

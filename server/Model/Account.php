@@ -3,8 +3,6 @@ require_once __DIR__."/../Utils/statement.php";
 
 class Account {
 
-    private $ACCESS_KEY = 'ACCESS_CONTROL_POINT_1828121802182804';
-
     private $id = null;
     private $access = "User";
     private $firstname = null;
@@ -50,7 +48,6 @@ class Account {
             'password' => $this->password,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'ACCESS_KEY' => $this->ACCESS_KEY
         ];
     }
 

@@ -1,6 +1,12 @@
-import React from 'react'
+// UTILS
+import React, { useEffect, useRef, useState } from 'react'
+import Cookies from 'js-cookie'
+
+// COMPONENTS
 import Navbar from '../../../Components/Navigation/Navbar'
 import cover from '../../../Services/Authentication/Assets/Cover.jpg'
+
+// IMAGES
 import fits from '../Assets/fits.jpg'
 import img1 from '../Assets/1.jpg'
 import img2 from '../Assets/2.jpg'
@@ -9,8 +15,41 @@ import img4 from '../Assets/4.jpg'
 import img5 from '../Assets/rabies.jpg'
 
 export default function Landing() {
+
+    const [nav_display, setNav_display] = useState({
+        username: "Guest Account", 
+        position: "User Client",
+        picture: ""
+    });
+
+    useEffect(()=>{
+
+        (async()=>{
+
+            const response = await fetch("/api/accounts/details");
+            const data = (await response.json()).payload;
+
+            if(!response.ok){
+                setNav_display({
+                    username: "Guest Account", 
+                    position: "User Client",
+                    picture: ""
+                });
+                return;
+            }
+
+            setNav_display({
+                username: data.username, 
+                position: data.position,
+                picture: ""
+            });
+
+        })()
+
+    }, []);
+
     return (
-        <Navbar>
+        <Navbar details={nav_display}>
             <main className="mt-15">
                 <div className="flex flex-col text-black mt-10 w-full max-w-full mx-auto rounded-lg shadow-lg p-8">
                     <div className="flex flex-col mt-10 mb-20">
@@ -37,6 +76,7 @@ export default function Landing() {
                             <div className="flex-1 h-px bg-gray-400"></div>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-1 gap-10">
+                            
                             {/* FITS Program */}
                             <div className="flex flex-col sm:flex-row items-center sm:items-start mb-10">
                                 <img
@@ -49,6 +89,7 @@ export default function Landing() {
                                 </span>
                             </div>
                             <div className="w-full h-px bg-gray-300 my-6"></div>
+                            
                             {/* Crop Production */}
                             <div className="flex flex-col sm:flex-row items-center sm:items-start mb-10">
                                 <img
@@ -61,6 +102,7 @@ export default function Landing() {
                                 </span>
                             </div>
                             <div className="w-full h-px bg-gray-300 my-6"></div>
+                            
                             {/* Fisheries Program */}
                             <div className="flex flex-col sm:flex-row items-center sm:items-start mb-10">
                                 <img
@@ -73,6 +115,7 @@ export default function Landing() {
                                 </span>
                             </div>
                             <div className="w-full h-px bg-gray-300 my-6"></div>
+                            
                             {/* Organic Farming */}
                             <div className="flex flex-col sm:flex-row items-center sm:items-start mb-10">
                                 <img
@@ -85,6 +128,7 @@ export default function Landing() {
                                 </span>
                             </div>
                             <div className="w-full h-px bg-gray-300 my-6"></div>
+                            
                             {/* Rabies Control */}
                             <div className="flex flex-col items-center mb-10">
                                 <img src={img5} alt="Rabies Control" className="w-72 h-72 object-cover rounded mb-2 mx-auto" />
@@ -92,6 +136,7 @@ export default function Landing() {
                                     Rabies Control Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime quam deserunt voluptatem assumenda possimus repellendus exercitationem expedita, molestiae itaque perspiciatis dolorum nisi dignissimos ex non sapiente veniam velit! At, dolore.
                                 </span>
                             </div>
+
                         </div>
                     </div>
                 </div>

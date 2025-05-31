@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from '../../Assets/Logo.png';
 import { Link } from 'react-router-dom';
 import '../../index.css';
 import me from '../../Services/Profile/Assets/me.png';
 
-export default function Navbar({ children }) {
+export default function Navbar({ details, children }) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   return (
@@ -69,8 +69,8 @@ export default function Navbar({ children }) {
               <div className="flex items-start space-x-2 mb-4 w-full justify-around mr-10">
                 <img src={me} alt="Profile" className="h-10 w-10 rounded-full ml-10 border-2 border-white" />
                 <div className="flex-col flex">
-                  <span className="font-bold">Rhenzy H. Cruzat</span>
-                  <span className="text-sm text-gray-300">Front-End Developer</span>
+                  <span className="font-bold">{ details.username }</span>
+                  <span className="text-sm text-gray-300">{ details.position }</span>
                 </div>
               </div>
 
@@ -221,8 +221,8 @@ export default function Navbar({ children }) {
           <div className="flex items-start space-x-2 mb-4 w-full justify-around mr-10">
             <img src={me} alt="Profile" className="h-10 w-10 rounded-full ml-10 border-2 border-white" />
             <div className="flex-col flex">
-              <span className="font-bold">Rhenzy H. Cruzat</span>
-              <span className="text-sm text-gray-300">Front-End Developer</span>
+              <span className="font-bold">{ details.username }</span>
+              <span className="text-sm text-gray-300">{ details.position }</span>
             </div>
           </div>
 

@@ -1,11 +1,40 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, {useRef} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 // COMPONENTS
 import cover from '../../../Services/Authentication/Assets/Cover.jpg';
 import logo from '../../../Services/Authentication/Assets/Logo.png';
 
 export default function Login() {
+
+    const navigate = useNavigate();
+    const username = useRef(null);
+    const password = useRef(null);
+
+    // Login Request
+    const login = async (event)=>{
+        event.preventDefault();
+
+        const response = await fetch("/api/Authentication/login", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username.current.value,
+                password: password.current.value
+            })
+        })
+
+        const data = await response.json();
+        if(!response.ok){
+            console.log(data.payload.error);
+            alert(data.message);
+        }
+
+        navigate("/");
+    }
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-100">
             <img
@@ -28,16 +57,17 @@ export default function Login() {
 
                 <div className="w-full max-w-md p-6 sm:p-8 space-y-6 rounded-lg shadow-lg border border-white/20 backdrop-brightness-95 bg-white shadow-black">
                     <h2 className="text-2xl font-bold text-center text-gray-800">Sign in to your account</h2>
-                    <form className="space-y-4">
+                    <form className="space-y-4" onSubmit={login}>
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                Email address
+                                Username
                             </label>
                             <input
-                                type="email"
-                                id="email"
-                                name="email"
+                                type="text"
+                                id="username"
+                                name="username"
                                 required
+                                ref={username}
                                 className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-black-300"
                             />
                         </div>
@@ -51,6 +81,7 @@ export default function Login() {
                                 id="password"
                                 name="password"
                                 required
+                                ref={password}
                                 className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-black-300"
                             />
                         </div>
@@ -73,7 +104,7 @@ export default function Login() {
                             type="submit"
                             className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-500"
                         >
-                            <Link to="/">Next</Link>
+                            Next
                         </button>
 
                         <div className="flex items-center my-4">
