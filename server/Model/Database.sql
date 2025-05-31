@@ -1,6 +1,7 @@
 
 CREATE TABLE accounts (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    access ENUM('User', 'Admin', 'Super Admin') NOT NULL,
 
     firstname VARCHAR(100) NOT NULL,
     lastname VARCHAR(100) NOT NULL,
@@ -26,7 +27,7 @@ CREATE TABLE accounts (
     institution VARCHAR(150),
     email_address VARCHAR(150),
     username VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL, -- Store encrypted/hash
+    password VARCHAR(255) NOT NULL,
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
