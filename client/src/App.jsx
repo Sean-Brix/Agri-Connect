@@ -46,7 +46,8 @@ function App() {
         <Route path='/testing/request' element = { <API_Request/> } />
 
        
-
+    {/* Paayos Ako kc bat di nag shoshw output di sya matawga sa route\
+     */}
         
         {/* ADD MORE ROUTES HERE */}
         
