@@ -85,7 +85,7 @@ export default function Navbar({children}) {
           <div className="flex flex-col flex-1 justify-between h-full">
             <div>
               <div className="p-4 border-b border-blue-500">
-                <h1 className="text-xl font-bold ml-7">FITS - Tanza</h1>
+                <h1 className="text-xl font-semibold ml-7 family">FITS - Tanza</h1>
               </div>
               <nav className="mt-4">
                 <ul className="space-y-4">
@@ -96,7 +96,7 @@ export default function Navbar({children}) {
                       <span>
                         <i className="fas fa-home h-5 w-5"></i>
                       </span>
-                      <span>Home</span>
+                      <span >Home</span>
                     </Link>
                   </li>
 
@@ -133,17 +133,21 @@ export default function Navbar({children}) {
               </nav>
             </div>
 
-            {/* Profile and Logout at the bottom */}
-            <div className="p-4 border-t logout flex flex-col items-center mt-auto">
-              <div className="flex items-start  mb-4 w-full justify-around mr-10">
-                <img src={me} alt="Profile" className="h-10 w-10 rounded-full ml-10 border-2 border-white" />
-                <div className="flex-col flex flex-start">
-                  <span className="font-bold">{ details.username }</span>
-                  <span className="text-sm text-gray-300">{ details.position }</span>
-                </div>
-              </div>
+           
+                  <div className="p-4 border-t logout flex flex-col items-center mt-auto">
 
-              {/* Logout button (desktop sidebar, bottom) */}
+                    <div className="flex items-start mb-4 w-full justify-evenly ">
+                    <div className=" rounded-full border-3 border-blue-800">
+                    
+                      <img src={me} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
+                    </div>
+                    <div className="flex-col flex flex-start">
+                      <span className="font-bold">{ details.username }</span>
+                      <span className="text-sm text-gray-300">{ details.position }</span>
+                    </div>
+                    </div>
+
+                    {/* Logout button (desktop sidebar, bottom) */}
               <button
                 onClick={logging}
                 className="flex items-center justify-center space-x-2 px-4 py-2 element hover:element rounded-lg transition text w-full border"
@@ -159,12 +163,12 @@ export default function Navbar({children}) {
 
         <div className="flex-1 flex flex-col min-h-screen ml-0 md:ml-64 transition-all">
 
-          /* Top Navbar/Header */
+         
           <header className="gradient-bg shadow-md drop-shadow-lg p-3 flex justify-evenly md:justify-center md:px-8 items-center w-full fixed top-0 left-0 z-20 md:left-64 md:w-[calc(100%-16rem)] ">
             <div className="flex items-center space-x-4 justify-center">
               {/* Logo */}
               <img src={logo} alt="Logo" className="h-10 w-10 rounded-full" />
-              <h1 className="text-lg font-semibold text text-center items-center">
+              <h1 className="text-lg font-semibold text text-center items-center family">
                 FITS Tanza - Municipal Agriculture Office
               </h1>
             </div>
@@ -217,7 +221,7 @@ export default function Navbar({children}) {
       >
         <div>
           <div className="p-4 border-b border-blue-500 flex justify-between items-center">
-            <h1 className="text-2xl font-bold">FITS -Tanza</h1>
+            <h1 className="text-2xl font-bold family">FITS -Tanza</h1>
             <button
               className="text-white"
               onClick={() => setMobileMenuOpen(false)}
@@ -286,14 +290,19 @@ export default function Navbar({children}) {
         </div>
 
         {/* Profile and Logout at the bottom */}
-        <div className="p-4 border-t border-blue-500 flex flex-col items-center mt-auto">
-          <div className="flex items-start mb-4 w-full justify-around mr-10">
-            <img src={me} alt="Profile" className="h-10 w-10 rounded-full ml-10 border-2 border-white" />
-            <div className="flex-col flex flex-start">
-              <span className="font-bold">{ details.username }</span>
-              <span className="text-sm text-gray-300">{ details.position }</span>
-            </div>
-          </div>
+        <div className="p-4 border-t logout flex flex-col items-center mt-auto">
+
+                    <div className="flex items-start mb-4 w-full justify-evenly ">
+                    <div className=" rounded-full border-3 border-blue-800">
+                    
+                      <img src={me} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
+                    </div>
+                    <div className="flex-col flex flex-start">
+                      <span className="font-bold">{ details.username }</span>
+                      <span className="text-sm text-gray-300">{ details.position }</span>
+                    </div>
+                    </div>
+
 
           {/* Logout button (mobile sidebar, bottom) */}
           <button 
