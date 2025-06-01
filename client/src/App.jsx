@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useEffect } from 'react'
 
 // COMPONENTS
 import Login from './Services/Authentication/Components/Login.jsx'
@@ -21,9 +22,10 @@ import Dashboard from '../src/Admin/Components/Navigation/Dashboard.jsx'
 
 // SERVER TEST
 import API_Request from './TEST/api_request.jsx'
+import Analytics from './Admin/Services/Analytics/Analytics.jsx'
 
 function App() {
-  
+
   return (
 
     <BrowserRouter>
@@ -49,6 +51,7 @@ function App() {
 
         {/* SERVER TESTING */}
         <Route path='/testing/request' element = { <API_Request/> } />
+        <Route path="/testing/analytics" element = {  <Analytics/>  } />
 
 
 

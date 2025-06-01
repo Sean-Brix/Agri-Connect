@@ -5,6 +5,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import cover from '../../../Services/Authentication/Assets/Cover.jpg';
 import logo from '../../../Services/Authentication/Assets/Logo.png';
 
+// ACCESS
+import Dashboard from '../../../Admin/Components/Navigation/Dashboard';
+
 export default function Login() {
 
     const navigate = useNavigate();
@@ -27,12 +30,17 @@ export default function Login() {
         })
 
         const data = await response.json();
+
         if(!response.ok){
             console.log(data.payload.error);
             alert(data.message);
         }
 
-        navigate("/");
+        if(data.payload.access == "User"){
+            navigate("/");
+            return;
+        }
+        navigate("/admin");
     }
 
     return (

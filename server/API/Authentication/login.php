@@ -32,7 +32,7 @@ if(!password_verify($password, $details["password"])){
         ["Error"=>"User input for password is incorrect"],
         "Incorrect Password"
     );
-
+    
     exit();
 }
 
@@ -51,6 +51,6 @@ $_SESSION["token"] = $token;
 sendResponse(
     200,
     "Successful",
-    [],
+    ["access" => $details["access"]],
     "Authentication Successful"
 );
