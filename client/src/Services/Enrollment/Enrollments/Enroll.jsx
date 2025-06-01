@@ -88,13 +88,13 @@ export default function Enrollment() {
                         />
                     </div>
                 </div>
-                {/* New Responsive Card List Layout */}
+                {/* New  Card List Layout */}
                 <div className="w-full flex flex-col items-center">
                     <div className="w-full max-w-5xl flex flex-col gap-6">
                         {filteredList.map((item, idx) => (
                             <div
                                 key={idx}
-                                className="bg-white border border-gray-200 rounded-lg flex flex-col md:flex-row items-center md:items-start p-4 transition-shadow hover:shadow-lg"
+                                className="bg-white border border-gray-200 rounded-lg flex flex-col md:flex-row items-center md:items-start p-4 transition-shadow hover:bg-gray-300 hover:shadow-lg shadow-sm mb-4 md:mb-0 w-full md:w-auto"
                             >
                                 <img
                                     src={item.img}
