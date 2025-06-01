@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import cover from '../../../Services/Authentication/Assets/Cover.jpg'
-import logo from '../../../Services/Authentication/Assets/Logo.png'
+import cover from '../Assets/Cover.jpg'
+import logo from '../../Assets/Logo.png'
 
 // Wrapper for passing in Navigate Hooks
 function register_wrapper(){

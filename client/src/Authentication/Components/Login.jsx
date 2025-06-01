@@ -1,47 +1,43 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // COMPONENTS
-import cover from '../../../Services/Authentication/Assets/Cover.jpg';
-import logo from '../../../Services/Authentication/Assets/Logo.png';
-
-// ACCESS
-import Dashboard from '../../../Admin/Components/Navigation/Dashboard';
+import cover from '../Assets/Cover.jpg'
+import logo from '../../Assets/Logo.png'
 
 export default function Login() {
-
     const navigate = useNavigate();
     const username = useRef(null);
     const password = useRef(null);
 
     // Login Request
-    const login = async (event)=>{
+    const login = async (event) => {
         event.preventDefault();
 
-        const response = await fetch("/api/Authentication/login", {
+        const response = await fetch('/api/Authentication/login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 username: username.current.value,
-                password: password.current.value
-            })
-        })
+                password: password.current.value,
+            }),
+        });
 
         const data = await response.json();
 
-        if(!response.ok){
+        if (!response.ok) {
             console.log(data.payload.error);
             alert(data.message);
         }
 
-        if(data.payload.access == "User"){
-            navigate("/");
+        if (data.payload.access == 'User') {
+            navigate('/');
             return;
         }
-        navigate("/admin");
-    }
+        navigate('/admin');
+    };
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-100">
@@ -64,10 +60,15 @@ export default function Login() {
                 </div>
 
                 <div className="w-full max-w-md p-6 sm:p-8 space-y-6 rounded-lg shadow-lg border border-white/20 backdrop-brightness-95 bg-white shadow-black">
-                    <h2 className="text-2xl font-bold text-center text-gray-800">Sign in to your account</h2>
+                    <h2 className="text-2xl font-bold text-center text-gray-800">
+                        Sign in to your account
+                    </h2>
                     <form className="space-y-4" onSubmit={login}>
                         <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                            <label
+                                htmlFor="email"
+                                className="block text-sm font-medium text-gray-700"
+                            >
                                 Username
                             </label>
                             <input
@@ -81,7 +82,10 @@ export default function Login() {
                         </div>
 
                         <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                            <label
+                                htmlFor="password"
+                                className="block text-sm font-medium text-gray-700"
+                            >
                                 Password
                             </label>
                             <input
@@ -100,10 +104,15 @@ export default function Login() {
                                     type="checkbox"
                                     className="w-4 h-4 text-blue-600 border-black-300 rounded focus:ring-blue-500"
                                 />
-                                <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                                <span className="ml-2 text-sm text-gray-600">
+                                    Remember me
+                                </span>
                             </label>
 
-                            <Link to="/" className="text-sm text-blue-600 hover:underline">
+                            <Link
+                                to="/"
+                                className="text-sm text-blue-600 hover:underline"
+                            >
                                 Forgot password?
                             </Link>
                         </div>
@@ -117,7 +126,9 @@ export default function Login() {
 
                         <div className="flex items-center my-4">
                             <span className="flex-grow border-t border-black-300"></span>
-                            <span className="mx-2 text-black-500 text-sm">or</span>
+                            <span className="mx-2 text-black-500 text-sm">
+                                or
+                            </span>
                             <span className="flex-grow border-t border-black-300"></span>
                         </div>
 
@@ -135,7 +146,10 @@ export default function Login() {
 
                         <p className="mt-6 text-center text-sm text-gray-700">
                             Don't have an account?{' '}
-                            <Link to="/register" className="text-blue-600 hover:underline">
+                            <Link
+                                to="/register"
+                                className="text-blue-600 hover:underline"
+                            >
                                 Sign up
                             </Link>
                         </p>

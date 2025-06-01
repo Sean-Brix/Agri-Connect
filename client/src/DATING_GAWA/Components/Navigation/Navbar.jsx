@@ -1,57 +1,39 @@
-import React, { useEffect, useState, useRef } from 'react';
-import logo from '../../../Assets/Logo.png';
+import React, { useEffect, useState } from 'react';
+import logo from '../../Assets/Logo.png';
 import { Link, useNavigate } from 'react-router-dom';
-import default_picture from '../../../Assets/default_picture.png';
+import '../../index.css';
+import me from '../../Services/Profile/Assets/me.png';
 
-// SERVICES
-import Analytics from '../../Services/Analytics/Analytics';
-import Profiles from '../../Services/Profiles/Profiles.jsx';
-import Seminar from '../../Services/Seminar/Seminar.jsx';
-import EIC from '../../Services/EIC/EIC.jsx';
-import Content from '../../Services/Content/Content.jsx';
-import Audit from '../../Services/Logs/Audit.jsx';
-import Survey from '../../Services/Survey/Survey.jsx';
-import Settings from '../../Services/Settings/Setting.jsx';
-
-export default function Dashboard() {
+export default function Navbar({children}) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const navigate = useNavigate();
 
+  // Login/Logout Button
+  const [logButton, setLogButton] = useState("Login Now");
 
   // User Account Details
   const [details, setDetails] = useState({
-    username: "Guest Account", 
-    position: "User Admin",
-    picture: ""
-  });
-
+          username: "Guest Account", 
+          position: "User Client",
+          picture: ""
+      });
   
-  // Content State
-  const elements = useRef({
-    analytics: ()=>Analytics,
-    profiles: ()=>Profiles,
-    enrollment: ()=>Seminar,
-    eic: ()=> EIC,
-    content: ()=> Content,
-    audit: ()=> Audit,
-    survey: ()=> Survey,
-    settings: ()=> Settings
-  });
-
-  const [Page, setPage] = useState(elements.current.analytics); // [ analytics, enrollment, profiles, eic, settings, audit, survey, content ]
-
 
   // Initial Request on Mount
   useEffect(()=>{
 
-    (async()=>{
+      (async()=>{
 
-        try{
           const response = await fetch("/api/accounts/details");
           const data = (await response.json()).payload;
 
           if(!response.ok){
-            throw new error(data.error);
+              setDetails({
+                  username: "Guest Account", 
+                  position: "User Client",
+                  picture: ""
+              });
+              return;
           }
 
           setDetails({
@@ -60,30 +42,36 @@ export default function Dashboard() {
               picture: ""
           });
 
-        }
-        catch(err){
-
-          console.log(err);
-          alert("Hahaha kala mo pede ka dito, d ka naman admin");
-          navigate('/login');
-          return;
-
-        }
-
-    })()
-
+      })()
 
   }, []);
 
+  // Change the button
+  useEffect(()=>{
+
+    if(details.username === "Guest Account") return;
+    setLogButton("Logout");
+
+  }, [details])
 
   // Switch Between Logout and Login
   const logging = async()=>{
 
-    
-    if(confirm("Are you sure you want to logout?")) {
-      
-      await fetch('/api/authentication/logout');
+    if(details.username === "Guest Account"){
       return navigate('/login');
+    } 
+
+    if(confirm("Are you sure you want to logout?")) {
+
+      await fetch('/api/authentication/logout');
+      setLogButton("Login Now");
+
+      setDetails({
+          username: "Guest Account", 
+          position: "User Client",
+          picture: ""
+      })
+
     }
 
   }
@@ -92,132 +80,95 @@ export default function Dashboard() {
     <>
       <div className="flex h-screen">
 
+        {/* Sidebar for desktop */}
         <aside className="w-64 gradient-bg text shadow-md  hidden md:flex flex-col justify-between h-screen fixed left-0 top-0 z-30">
           <div className="flex flex-col flex-1 justify-between h-full">
             <div>
               <div className="p-4 border-b border-blue-500">
-                <h1 className="text-xl font-semibold ml-7 family">Dashboard</h1>
+                <h1 className="text-xl font-semibold ml-7 family">FITS - Tanza</h1>
               </div>
               <nav className="mt-4">
                 <ul className="space-y-4">
 
-                  {/* Analytics */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["analytics"])}>
-                    <div className="flex items-center space-x-3">
+                  {/* Home Link */}
+                  <li className="p-6 hover:bg-blue-700 rounded-lg transition">
+                    <Link to="/" className="flex items-center space-x-3">
                       <span>
-                        <i className="fas fa-cog h-5 w-5"></i>
+                        <i className="fas fa-home h-5 w-5"></i>
                       </span>
-                      <span>Analytics</span>
-                    </div>
+                      <span >Home</span>
+                    </Link>
                   </li>
 
-                  {/* Profile */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["profiles"])}>
-                    <div className="flex items-center space-x-3">
+                  {/* Analytics Link */}
+                  <li className="p-6 hover:bg-blue-700 rounded-lg transition">
+                    <Link to="/profiles" className="flex items-center space-x-3">
                       <span>
                         <i className="fas fa-user-circle h-5 w-5"></i>
                       </span>
-                      <span>User Profiles</span>
-                    </div>
+                      <span>Profile</span>
+                    </Link>
                   </li>
 
-                  {/* Enrollment */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["enrollment"])}>
-                    <div className="flex items-center space-x-3">
+                  {/* Enrollment Link */}
+                  <li className="p-6 hover:bg-blue-700 rounded-lg transition">
+                    <Link to="/enrollment" className="flex items-center space-x-3">
                       <span>
                         <i className="fas fa-user-plus h-5 w-5"></i>
                       </span>
-                      <span>Seminar Programs</span>
-                    </div>
+                      <span>Enrollment</span>
+                    </Link>
                   </li>
                   
-                  {/* EIC */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["eic"])}>
-                    <div className="flex items-center space-x-3">
+                  {/* Profile Link */}
+                  <li className="p-6 hover:bg-blue-700 rounded-lg transition">
+                    <Link to="/EIC" className="flex items-center space-x-3">
                       <span>
                         <i className="fas fa-id-card h-5 w-5"></i>
                       </span>
-                      <span>EIC - Item Panel</span>
-                    </div>
+                      <span>EIC</span>
+                    </Link>
                   </li>
 
-                  {/* Content */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["content"])}>
-                    <div className="flex items-center space-x-3">
-                      <span>
-                        <i className="fas fa-home h-5 w-5"></i>
-                      </span>
-                      <span >Content Management</span>
-                    </div>
-                  </li>
-
-                  {/* EIC */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["audit"])}>
-                    <div className="flex items-center space-x-3">
-                      <span>
-                        <i className="fas fa-id-card h-5 w-5"></i>
-                      </span>
-                      <span>Logs / Audit Trail </span>
-                    </div>
-                  </li>
-
-                  {/* Survey */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["survey"])}>
-                    <div className="flex items-center space-x-3">
-                      <span>
-                        <i className="fas fa-home h-5 w-5"></i>
-                      </span>
-                      <span >Survey Forms</span>
-                    </div>
-                  </li>
-
-                  {/* Settings */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["settings"])}>
-                    <div className="flex items-center space-x-3">
+                  {/* Settings Link */}
+                  <li className="p-6 hover:bg-blue-700 rounded-lg transition">
+                    <Link to="/settings" className="flex items-center space-x-3">
                       <span>
                         <i className="fas fa-cog h-5 w-5"></i>
                       </span>
                       <span>Settings</span>
-                    </div>
+                    </Link>
                   </li>
-
                 </ul>
               </nav>
             </div>
 
            
-            <div className="p-4 border-t logout flex flex-col items-center mt-auto">
+                  <div className="p-4 border-t logout flex flex-col items-center mt-auto">
 
-              <div className="flex items-start mb-4 w-full justify-evenly ">
+                    <div className="flex items-start mb-4 w-full justify-evenly ">
+                    <div className=" rounded-full border-3 border-blue-800">
+                    
+                      <img src={me} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
+                    </div>
+                    <div className="flex-col flex flex-start">
+                      <span className="font-bold">{ details.username }</span>
+                      <span className="text-sm text-gray-300">{ details.position }</span>
+                    </div>
+                    </div>
 
-                <div className=" rounded-full border-3 border-blue-800">
-                  <img src={default_picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
-                </div>
-
-                <div className="flex-col flex flex-start">
-                  <span className="font-bold">{ details.username }</span>
-                  <span className="text-sm text-gray-300">{ details.position }</span>
-                </div>
-                
-              </div>
-
-                {/* Logout button (desktop sidebar, bottom) */}
+                    {/* Logout button (desktop sidebar, bottom) */}
               <button
                 onClick={logging}
                 className="flex items-center justify-center space-x-2 px-4 py-2 element hover:element rounded-lg transition text w-full border"
               >
-
                 <span className="flex items-center py-2k">
                   <i className="fas fa-sign-out-alt h-5 w-5 translate-y-1"></i>
                 </span>
-                <span className="font-bold">Logout</span>
-
+                <span className="font-bold">{logButton}</span>
               </button>
-
             </div>
-
           </div>
-
         </aside>
 
         <div className="flex-1 flex flex-col min-h-screen ml-0 md:ml-64 transition-all">
@@ -257,9 +208,7 @@ export default function Dashboard() {
 
           {/* Render children below the header */}
           <main className="flex-1 p-4 overflow-auto">
-
-              <Page/>
-
+            {children}
           </main>
         </div>
       </div>
@@ -366,7 +315,7 @@ export default function Dashboard() {
                     <div className="flex items-start mb-4 w-full justify-evenly ">
                     <div className=" rounded-full border-3 border-blue-800">
                     
-                      <img src={default_picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
+                      <img src={me} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
                     </div>
                     <div className="flex-col flex flex-start">
                       <span className="font-bold">{ details.username }</span>
@@ -383,7 +332,7 @@ export default function Dashboard() {
             <span className="flex items-center py-2">
               <i className="fas fa-sign-out-alt h-5 w-5 translate-y-1"></i>
             </span>
-            <span className="font-bold">Logout</span>
+            <span className="font-bold">{logButton}</span>
           </button>
         </div>
       </aside>
