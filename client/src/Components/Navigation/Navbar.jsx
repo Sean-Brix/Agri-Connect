@@ -110,7 +110,7 @@ export default function Navbar({children}) {
                     </Link>
                   </li>
 
-                  {/* Settings Link */}
+                  {/* Enrollment Link */}
                   <li className="p-6 hover:bg-blue-700 rounded-lg transition">
                     <Link to="/enrollment" className="flex items-center space-x-3">
                       <span>
@@ -127,6 +127,16 @@ export default function Navbar({children}) {
                         <i className="fas fa-id-card h-5 w-5"></i>
                       </span>
                       <span>EIC</span>
+                    </Link>
+                  </li>
+
+                  {/* Settings Link */}
+                  <li className="p-6 hover:bg-blue-700 rounded-lg transition">
+                    <Link to="/settings" className="flex items-center space-x-3">
+                      <span>
+                        <i className="fas fa-cog h-5 w-5"></i>
+                      </span>
+                      <span>Settings</span>
                     </Link>
                   </li>
                 </ul>
@@ -283,6 +293,16 @@ export default function Navbar({children}) {
                     <i className="fas fa-id-card h-5 w-5"></i>
                   </span>
                   <span>EIC</span>
+                </Link>
+              </li>
+
+              {/* Settings Link */}
+              <li className="p-6 hover:bg-blue-700 rounded-lg transition">
+                <Link to="/settings" className="flex items-center space-x-3">
+                  <span>
+                    <i className="fas fa-cog h-5 w-5"></i>
+                  </span>
+                  <span>Settings</span>
                 </Link>
               </li>
             </ul>

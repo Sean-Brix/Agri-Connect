@@ -88,7 +88,7 @@ export default function Enrollment() {
                         />
                     </div>
                 </div>
-                {/* Card List Layout */}
+                {/* New Responsive Card List Layout */}
                 <div className="w-full flex flex-col items-center">
                     <div className="w-full max-w-5xl flex flex-col gap-6">
                         {filteredList.map((item, idx) => (

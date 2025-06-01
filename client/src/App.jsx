@@ -9,6 +9,7 @@ import Survey from './Components/Survey/Survey.jsx'
 import Profiles from './Services/Profile/Profiles/Profile.jsx'
 import Edit_prof from './Services/Profile/Edit_Profile/Edit.jsx'
 import Enroll from './Services/Enrollment/Enrollments/enroll.jsx'
+import Settings from './Services/Settings/Client/Setting.jsx'
 import Available from './Services/EIC_Borrow/Admin/Available.jsx'
 import Borrow from './Services/EIC_Borrow/Admin/Borrowed.jsx'
 import Items from './Services/EIC_Borrow/Admin/Items.jsx'
@@ -34,7 +35,8 @@ function App() {
         <Route path='/survey' element = { <Survey/> } />
         <Route path='/profiles' element = { <Profiles/> } />
         <Route path='/profiles/edit' element = { <Edit_prof/> } />
-        <Route path='/enrollment' element = { <Enroll/> } />  
+        <Route path='/enrollment' element = { <Enroll/> } /> 
+        <Route path='/settings' element = { <Settings/> } /> 
        
          {/* ADMIN ROUTES */}
         <Route path='/avail' element = { <Available/> } />
