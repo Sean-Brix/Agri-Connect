@@ -2,15 +2,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 // IMAGES
-import fits from '../Assets/fits.jpg'
-import img1 from '../Assets/1.jpg'
-import img2 from '../Assets/2.jpg'
-import img3 from '../Assets/3.jpg' 
-import img4 from '../Assets/4.jpg'
-import img5 from '../Assets/rabies.jpg'
+import fits from './Assets/fits.jpg'
+import img1 from './Assets/1.jpg'
+import img2 from './Assets/2.jpg'
+import img3 from './Assets/3.jpg' 
+import img4 from './Assets/4.jpg'
+import img5 from './Assets/rabies.jpg'
 
 export default function Landing() {
-
 
     return (
         <main className="mt-15">
