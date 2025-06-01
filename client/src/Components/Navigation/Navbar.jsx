@@ -81,7 +81,7 @@ export default function Navbar({children}) {
       <div className="flex h-screen">
 
         {/* Sidebar for desktop */}
-        <aside className="w-64 gradient-bg text shadow-md hidden md:flex flex-col justify-between h-screen fixed left-0 top-0 z-30">
+        <aside className="w-64 gradient-bg text shadow-md  hidden md:flex flex-col justify-between h-screen fixed left-0 top-0 z-30">
           <div className="flex flex-col flex-1 justify-between h-full">
             <div>
               <div className="p-4 border-b border-blue-500">
@@ -135,9 +135,9 @@ export default function Navbar({children}) {
 
             {/* Profile and Logout at the bottom */}
             <div className="p-4 border-t logout flex flex-col items-center mt-auto">
-              <div className="flex items-start space-x-2 mb-4 w-full justify-around mr-10">
+              <div className="flex items-start  mb-4 w-full justify-around mr-10">
                 <img src={me} alt="Profile" className="h-10 w-10 rounded-full ml-10 border-2 border-white" />
-                <div className="flex-col flex">
+                <div className="flex-col flex flex-start">
                   <span className="font-bold">{ details.username }</span>
                   <span className="text-sm text-gray-300">{ details.position }</span>
                 </div>
@@ -159,8 +159,8 @@ export default function Navbar({children}) {
 
         <div className="flex-1 flex flex-col min-h-screen ml-0 md:ml-64 transition-all">
 
-          {/* Top Navbar/Header */}
-          <header className="gradient-bg shadow-md p-3 flex justify-evenly md:justify-center md:px-8 items-center w-full fixed top-0 left-0 z-20 md:left-64 md:w-[calc(100%-16rem)]">
+          /* Top Navbar/Header */
+          <header className="gradient-bg shadow-md drop-shadow-lg p-3 flex justify-evenly md:justify-center md:px-8 items-center w-full fixed top-0 left-0 z-20 md:left-64 md:w-[calc(100%-16rem)] ">
             <div className="flex items-center space-x-4 justify-center">
               {/* Logo */}
               <img src={logo} alt="Logo" className="h-10 w-10 rounded-full" />
@@ -210,7 +210,7 @@ export default function Navbar({children}) {
 
       {/* Mobile sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 gradient-bg text-white shadow-lg w-64 z-50 transform transition-transform duration-300 ${
+        className={`fixed inset-y-0 left-0 gradient-bg text-white drop-shadow-lg shadow-lg w-64 z-50 transform transition-transform duration-300 ${
           mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
         } md:hidden flex flex-col justify-between`}
         id="mobile-menu"
@@ -287,9 +287,9 @@ export default function Navbar({children}) {
 
         {/* Profile and Logout at the bottom */}
         <div className="p-4 border-t border-blue-500 flex flex-col items-center mt-auto">
-          <div className="flex items-start space-x-2 mb-4 w-full justify-around mr-10">
+          <div className="flex items-start mb-4 w-full justify-around mr-10">
             <img src={me} alt="Profile" className="h-10 w-10 rounded-full ml-10 border-2 border-white" />
-            <div className="flex-col flex">
+            <div className="flex-col flex flex-start">
               <span className="font-bold">{ details.username }</span>
               <span className="text-sm text-gray-300">{ details.position }</span>
             </div>

@@ -1,6 +1,6 @@
 // UTILS
 import React, { useEffect, useRef, useState } from 'react'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 
 // COMPONENTS
 import Navbar from '../../../Components/Navigation/Navbar'
