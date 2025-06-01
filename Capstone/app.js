@@ -27,12 +27,25 @@ app.use(cors({
 }));
 
 // Route
-import index from './API/index.js'
-app.use('/', index);
+import api_index from './API/index.js'
+app.use('/api', api_index);
 
 // 404 Request
 app.use((req, res)=>{
     res.status(404).send("<h1> 404 PAGE NOT FOUND </h1>");
 });
+
+// Error Handling
+app.use((err, req, res, next)=>{
+    console.error(err.stack);
+
+    res.status(err.status || 500).json({
+        payload:{
+            error: {
+                message: err.message || 'Internal Server Error',
+            }
+        }
+    });
+})
 
 export default app;
