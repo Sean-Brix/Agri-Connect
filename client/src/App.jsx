@@ -15,6 +15,10 @@ import Borrow from './Services/EIC_Borrow/Admin/Borrowed.jsx'
 import Items from './Services/EIC_Borrow/Admin/Items.jsx'
 
 
+//ADMIN
+import Dashboard from '../src/Admin/Components/Navigation/Dashboard.jsx'
+
+
 // SERVER TEST
 import API_Request from './TEST/api_request.jsx'
 
@@ -27,7 +31,6 @@ function App() {
 
 
         {/* DEVELOPMENT ROUTE */}
-        
         <Route path='/' element = { <Landing/> } />
         <Route path='/login' element = { <Login/> } />
         <Route path='/register' element = { <Register/> } />
@@ -45,8 +48,12 @@ function App() {
 
 
         {/* SERVER TESTING */}
-
         <Route path='/testing/request' element = { <API_Request/> } />
+
+
+
+        {/* ADMIN */}
+        <Route path="/admin" element={ <Dashboard/> } />
 
  
       </Routes>
