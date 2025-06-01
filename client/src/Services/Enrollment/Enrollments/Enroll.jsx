@@ -1,5 +1,7 @@
-import Navbar from '../../../Components/Navigation/Navbar'
-import '../../../index.css' 
+import { useState } from 'react';
+import Navbar from '../../../Components/Navigation/Navbar';
+import '../../../index.css';
+
 const equipmentList = [
     {
         name: 'Plows',
@@ -9,70 +11,118 @@ const equipmentList = [
     {
         name: 'Pandilig',
         desc: 'njwdwsdwdwd. ',
-        img: 'pandilig-image-url', // replace with actual URL or import variable
+        img: 'pandilig-image-url',
     },
     {
-        name: 'Plows',
+        name: 'Shovel',
         desc: 'Pang hukay ng bangkay to boss',
-        img: 'shovel-image-url', // replace with actual URL or import variable
+        img: 'shovel-image-url',
     },
-    {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
+      {
+        name: 'Shovel',
+        desc: 'Pang hukay ng bangkay to boss',
+        img: 'shovel-image-url',
     },
-    {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
+      {
+        name: 'Shovel',
+        desc: 'Pang hukay ng bangkay to boss',
+        img: 'shovel-image-url',
     },
-    {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
+      {
+        name: 'Shovel',
+        desc: 'Pang hukay ng bangkay to boss',
+        img: 'shovel-image-url',
     },
-    {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
+      {
+        name: 'Shovel',
+        desc: 'Pang hukay ng bangkay to boss',
+        img: 'shovel-image-url',
     },
-    {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
+      {
+        name: 'Shovel',
+        desc: 'Pang hukay ng bangkay to boss',
+        img: 'shovel-image-url',
     },
-]
+      {
+        name: 'Shovel',
+        desc: 'Pang hukay ng bangkay to boss',
+        img: 'shovel-image-url',
+    },
+    
+    // ...other items
+];
 
 export default function Enrollment() {
+    const [search, setSearch] = useState('');
+
+    const filteredList = equipmentList.filter(item =>
+        item.name.toLowerCase().includes(search.toLowerCase()) ||
+        item.desc.toLowerCase().includes(search.toLowerCase())
+    );
+
     return (
         <>
             <Navbar>
                 <div className="relative mt-30">
-
                     <hr className="border-black-300" />
-                    <span className="absolute left-1/8 -translate-x-1/4 -top-5 bg-white  rounded-lg px-4 text-2xl font-semibold text-gray-700">
+                    <span className="absolute left-1/4 md:left-1/8 -translate-x-1/4 family -top-5 bg-white rounded-lg px-4 text-2xl font-semibold text-gray-700">
                         Available Programs
                     </span>
                 </div>
-
-                <div className="bg-gradient-to-b from-blue-400 to-blue-200 text-white mt-10 w-full rounded-lg max-h-[70vh] overflow-y-auto p-10">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {equipmentList.map((item, idx) => (
-                            <div key={idx} className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center w-full mb-8 relative" style={{ minHeight: '350px' }}>
-                                <img src={item.img} alt={item.name} className="w-full bg-blue-800 h-48 object-contain rounded-md mb-4" />
-                                <div className="flex flex-col justify-center p-2 w-full pb-10">
-                                    <h3 className="text-xl font-semibold mb-2 text-black ">{item.name}</h3>
-                                    <p className="text-gray-600 mb-4">{item.desc}</p>
-                                </div>
-                                <div className="flex space-x-2 absolute bottom-4 left-1/2 -translate-x-1/2">
-                                    <button className="bg-blue-900 text-white px-5 py-2 rounded-md border-2 border-black bg-green-800 hover:bg-green-600 transition-colors duration-200 font-bold ">Apply</button>
-                                    <button className="bg-gray-300 text-black px-4 py-2 rounded-md bg-white border-2 border-black hover:bg-gray-200 transition-colors duration-200 font-bold">Details</button>
+                {/* Search Bar */}
+                <div className="flex justify-center mt-8 mb-6">
+                    <div className="relative w-full max-w-md">
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            {/* Search Icon (SVG) */}
+                            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                            </svg>
+                        </span>
+                        <input
+                            type="text"
+                            placeholder="Search equipment..."
+                            value={search}
+                            onChange={e => setSearch(e.target.value)}
+                            className="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
+                        />
+                    </div>
+                </div>
+                {/* Card List Layout */}
+                <div className="w-full flex flex-col items-center">
+                    <div className="w-full max-w-5xl flex flex-col gap-6">
+                        {filteredList.map((item, idx) => (
+                            <div
+                                key={idx}
+                                className="bg-white border border-gray-200 rounded-lg flex flex-col md:flex-row items-center md:items-start p-4 transition-shadow hover:shadow-lg"
+                            >
+                                <img
+                                    src={item.img}
+                                    alt={item.name}
+                                    className="w-24 h-24 object-contain rounded mb-3 md:mb-0 md:mr-6 bg-gray-100"
+                                />
+                                <div className="flex-1 flex flex-col items-center md:items-start">
+                                    <h3 className="text-lg font-medium text-gray-800 mb-1 text-center md:text-left">{item.name}</h3>
+                                    <p className="text-gray-500 text-sm text-center md:text-left mb-4">{item.desc}</p>
+                                    <div className="flex gap-2 w-full md:w-auto justify-center md:justify-start">
+                                        <button className="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700 text-sm font-semibold transition-colors w-28 max-w-xs">
+                                            Apply
+                                        </button>
+                                        <button className="bg-gray-100 text-gray-700 px-4 py-1 rounded border border-gray-300 hover:bg-gray-200 text-sm font-semibold transition-colors w-28 max-w-xs">
+                                            Details
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ))}
+                        {filteredList.length === 0 && (
+                            <div className="text-center text-gray-400 py-10">
+                                No equipment found.
+                            </div>
+                        )}
                     </div>
                 </div>
             </Navbar>
         </>
-    )
+    );
 }
