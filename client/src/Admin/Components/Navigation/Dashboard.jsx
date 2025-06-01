@@ -6,6 +6,8 @@ import default_picture from '../../../Assets/default_picture.png';
 // SERVICES
 import Analytics from '../../Services/Analytics/Analytics';
 import Profiles from '../../Services/Profiles/Profiles.jsx';
+import Seminar from '../../Services/Seminar/Seminar.jsx';
+import EIC from '../../Services/EIC/EIC.jsx';
 
 export default function Dashboard() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -23,7 +25,9 @@ export default function Dashboard() {
   // Content State
   const elements = useRef({
     analytics: ()=>Analytics,
-    profiles: ()=>Profiles
+    profiles: ()=>Profiles,
+    enrollment: ()=>Seminar,
+    eic: ()=> EIC
   });
 
   const [Page, setPage] = useState(elements.current.analytics); // [ analytics, enrollment, profiles, eic, settings, audit, survey, content ]
@@ -110,7 +114,7 @@ export default function Dashboard() {
                   </li>
 
                   {/* Enrollment */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setContent("enrollment")}>
+                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["enrollment"])}>
                     <div className="flex items-center space-x-3">
                       <span>
                         <i className="fas fa-user-plus h-5 w-5"></i>
@@ -120,7 +124,7 @@ export default function Dashboard() {
                   </li>
                   
                   {/* EIC */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setContent("eic")}>
+                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["eic"])}>
                     <div className="flex items-center space-x-3">
                       <span>
                         <i className="fas fa-id-card h-5 w-5"></i>
@@ -130,7 +134,7 @@ export default function Dashboard() {
                   </li>
 
                   {/* Content */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setContent("content")}>
+                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["content"])}>
                     <div className="flex items-center space-x-3">
                       <span>
                         <i className="fas fa-home h-5 w-5"></i>
@@ -140,7 +144,7 @@ export default function Dashboard() {
                   </li>
 
                   {/* EIC */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setContent("audit")}>
+                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["audit"])}>
                     <div className="flex items-center space-x-3">
                       <span>
                         <i className="fas fa-id-card h-5 w-5"></i>
@@ -150,7 +154,7 @@ export default function Dashboard() {
                   </li>
 
                   {/* Survey */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setContent("survey")}>
+                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["survey"])}>
                     <div className="flex items-center space-x-3">
                       <span>
                         <i className="fas fa-home h-5 w-5"></i>
@@ -160,7 +164,7 @@ export default function Dashboard() {
                   </li>
 
                   {/* Settings */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setContent("setting")}>
+                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["setting"])}>
                     <div className="flex items-center space-x-3">
                       <span>
                         <i className="fas fa-cog h-5 w-5"></i>

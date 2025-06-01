@@ -1,14 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-function Analytics() {
-
-  
-
+function Items() {
   return (
     <div className='flex flex-col justify-center items-center font-bold bg-blue-300 w-full h-[91%] mt-[5%]'>
-        <h1>Analytics</h1>
+        <h1>Item List</h1>
     </div>
   )
 }
 
-export default Analytics;
+export default Items
