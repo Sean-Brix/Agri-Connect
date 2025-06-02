@@ -78,7 +78,7 @@ export default function Seminar() {
                     </span>
                     <input
                         type="text"
-                        placeholder="Search equipment..."
+                        placeholder="Search programs..."
                         value={search}
                         onChange={e => setSearch(e.target.value)}
                         className="w-full pl-10 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
@@ -91,7 +91,7 @@ export default function Seminar() {
                     {filteredList.map((item, idx) => (
                         <div
                             key={idx}
-                            className="bg-white border border-gray-200 rounded-lg flex flex-col md:flex-row items-center md:items-start p-4 transition-shadow hover:bg-gray-300 hover:shadow-lg shadow-sm mb-4 md:mb-0 w-full md:w-auto"
+                            className="bg-white border border-gray-200 rounded-lg flex flex-col md:flex-row items-center md:items-start p-4 transition-shadow hover:bg-gray-100 hover:shadow-md shadow-sm mb-4 md:mb-0 w-full md:w-auto"
                         >
                             <img
                                 src={item.img}
