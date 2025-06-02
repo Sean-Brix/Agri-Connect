@@ -15,7 +15,15 @@ if(!$user){
     exit();
 }
 
+//! ERROR NOT RECEIVING ANY JSON ON DETAILS.PHP
+
 $Account = new Account($user['ID']);
 
 $details = $Account->getDetails();
 
+if($details['profile_picture'] != null){
+    sendImageResponse($details['profile_picture']);
+    exit();
+}
+
+echo "No Image Found";

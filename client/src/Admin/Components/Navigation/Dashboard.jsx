@@ -62,6 +62,7 @@ export default function Dashboard() {
         try{
           const response = await fetch("/api/accounts/details");
           const data = (await response.json()).payload;
+          // console.log(await response.text());
 
           if(!response.ok){
             throw new error(data.error);
