@@ -23,11 +23,9 @@ $Account = new Account($decoded["ID"]);
 
 $details = $Account->getDetails();
 
-// Remove sensitive data
-unset($details["access"]);
+// Remove data
 unset($details["password"]);
 unset($details["updated_at"]);
-unset($details["id"]);
 
 sendResponse(
     200,

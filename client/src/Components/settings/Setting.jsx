@@ -88,6 +88,7 @@ export default function Settings() {
                         <label htmlFor="notifications-toggle" style={{ fontSize: '1rem', color: '#444', cursor: 'pointer', fontWeight: 500 }}>
                             Enable Notifications
                         </label>
+                        
                     </div>
                 </div>
             </div>

@@ -1,7 +1,57 @@
 import { Link } from "react-router-dom";
 import default_picture from '../../../Assets/default_picture.png'
+import { useEffect, useState } from "react";
 
 export default function AccountProfile({admin_navigate}){
+
+    // Default Value
+    const [user, setUser] = useState({
+        access: "Admin",
+        address: "Address",
+        cellphone_no: "00000000000",
+        client_profile: "Citizen",
+        created_at: "0000-00-00 00:00:00",
+        email_address: "userAccount@gmail.com",
+        firstname: "First Name",
+        lastname: "Last Name",
+        gender: "Gender",
+        id: "0",
+        institution: "User Institution",
+        occupation: "Occupation",
+        position: "Position",
+        telephone_no: "0000-0000",
+        username: "Account Username"
+    });
+
+    useEffect(()=>{
+
+        (async()=>{
+
+            try {
+                const response = await fetch('/api/accounts/details', {method: 'GET'});
+                const data = await response.json();
+
+                if (!response.ok) {
+                    console.log(data.payload.error);
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                setUser(data.payload);
+
+            } 
+            catch (error) {
+                console.error('Error fetching user details:', error);
+                admin_navigate("analytics");
+            }
+
+        })()
+
+    }, []);
+
+    useEffect(()=>{
+        console.log(user);
+    }, [user])
+
     return (
         <>
             <div className="relative mt-30">
@@ -22,26 +72,41 @@ export default function AccountProfile({admin_navigate}){
                     </div>
                     <div className="bg-white flex flex-col-reverse md:flex-row border-b-none justify-center shadow-lg rounded-lg overflow-hidden p-4 sm:p-8 md:p-12 w-full max-w-5xl min-h-[400px] md:min-h-[600px]">
                         <form className="mt-4 md:mt-0 space-y-8 text-black-700 p-4 sm:p-4 w-full md:w-1/2">
-                            <label className="block">
+
+                            <div className="block">
+                                <span className="text-black-700 font-bold">🔑 User Access</span>
+                                <div className="mt-1 block w-full border rounded-lg p-2 pl-5 bg-white">{user.access}</div>
+                            </div>
+                            <div className="block">
                                 <span className="text-black-700 font-bold">💼 Occupation</span>
-                                <input type="text" className="mt-1 block w-full border rounded-lg p-2" defaultValue="Agricultural Engineer" />
-                            </label>
-                            <label className="block">
+                                <div className="mt-1 block w-full border rounded-lg p-2 pl-5 bg-white">{user.occupation}</div>
+                            </div>
+
+                            <div className="block">
                                 <span className="text-black-700 font-bold">📍 Address</span>
-                                <input type="text" className="mt-1 block w-full border rounded-lg p-2" defaultValue="Amaia Scapes Gentri Cavite" />
-                            </label>
-                            <label className="block">
+                                <div className="mt-1 block w-full border rounded-lg p-2 pl-5 bg-white">{user.address}</div>
+                            </div>
+
+                            <div className="block">
                                 <span className="text-black-700 font-bold">📞 Cellphone</span>
-                                <input type="text" className="mt-1 block w-full border rounded-lg p-2" defaultValue="09050540801" />
-                            </label>
-                            <label className="block">
+                                <div className="mt-1 block w-full border rounded-lg p-2 pl-5 bg-white">{user.cellphone_no}</div>
+                            </div>
+                            <div className="block">
                                 <span className="text-black-700 font-bold">🏢 Institution</span>
-                                <input type="text" className="mt-1 block w-full border rounded-lg p-2" defaultValue="Fasasxzc" />
-                            </label>
-                            <label className="block">
+                                <div className="mt-1 block w-full border rounded-lg p-2 pl-5 bg-white">{user.institution}</div>
+                            </div>
+
+                            <div className="block">
                                 <span className="text-black-700 font-bold">🌾 Commodities</span>
-                                <input type="text" className="mt-1 block w-full border rounded-lg p-2" defaultValue="Farmer" />
-                            </label>
+                                <div className="mt-1 block w-full border rounded-lg p-2 pl-5 bg-white">None</div>
+                            </div>
+
+                            <div className="block">
+                                <span className="text-black-700 font-bold">👥 Client Profile</span>
+                                <div className="mt-1 block w-full border rounded-lg p-2 pl-5 bg-white">{user.client_profile}</div>
+                            </div>
+
+
                         </form>
                         <div className="flex flex-col items-center space-y-4 mb-6 md:mb-0 p-2 sm:p-4 w-full md:w-1/2 ">
                             {/* Extra border wrapper */}
@@ -55,13 +120,13 @@ export default function AccountProfile({admin_navigate}){
                             </div>
                             <div className="flex flex-col items-center space-y-2 w-full">
                                 <span className="border-2 border-blue-800 rounded-lg px-4 py-1 text-lg font-semibold text-black-700 w-fit">
-                                    Rhenzy Cruzat
+                                    { user.firstname + " " + user.lastname }
                                 </span>
                                 <span className="text-black-600 text-base">
-                                    <i className="fa-solid fa-mars mr-2"></i>Male
+                                    <i className="fa-solid fa-mars mr-2"></i>{user.gender}
                                 </span>
                                 <span className="text-black-600 text-base">
-                                    <i className="fa-solid fa-user-tie mr-2"></i>Field Supervisor
+                                    <i className="fa-solid fa-user-tie mr-2"></i>{user.position}
                                 </span>
                             </div>
 
@@ -78,6 +143,7 @@ export default function AccountProfile({admin_navigate}){
                         </div>
                     </div>
                 </div>
+
                 <div className="border-2 border-blue-900 rounded-lg shadow-lg p-4 sm:p-6 w-full max-w-5xl bg-white">
                     <div className="flex items-center mb-4">
                         <span className="bg-white rounded-lg px-4 text-2xl sm:text-2xl font-semibold text-black-700 whitespace-nowrap z-10">
@@ -88,15 +154,15 @@ export default function AccountProfile({admin_navigate}){
                     <div className="flex flex-col w-full mt-4">
                         <div className="flex flex-row justify-between items-center py-2 border-b border-gray-200">
                             <span className="font-semibold text-black-700">Email</span>
-                            <span className="text-black-600">rhenzy.cruzat@email.com</span>
+                            <span className="text-black-600">{user.email_address}</span>
                         </div>
                         <div className="flex flex-row justify-between items-center py-2 border-b border-gray-200">
-                            <span className="font-semibold text-black-700">Alternate Phone</span>
-                            <span className="text-black-600">09171234567</span>
+                            <span className="font-semibold text-black-700">Telephone Number</span>
+                            <span className="text-black-600">{user.telephone_no}</span>
                         </div>
                         <div className="flex flex-row justify-between items-center py-2">
                             <span className="font-semibold text-black-700">Facebook</span>
-                            <span className="text-black-600">fb.com/rhenzy.cruzat</span>
+                            <span className="text-black-600">None</span>
                         </div>
                     </div>
                 </div>
