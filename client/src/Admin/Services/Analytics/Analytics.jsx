@@ -108,7 +108,7 @@ function Analytics() {
 
   return (
     <div className="w-full mx-auto px-2 py-8 bg-white min-h-screen">
-     <div className="relative mt-5 sm:mt-30 mb-10">
+     <div className="relative mt-5 sm:mt-30 mb-15">
                 <hr className="border-black-300" />
                 <span className="absolute left-1/4 md:left-1/8 -translate-x-1/4 family -top-5 bg-white rounded-lg px-4 text-2xl font-semibold text-gray-700">
                     Analytics Dashboard

@@ -90,6 +90,7 @@ export default function Dashboard() {
 
   return (
     <>
+    
       <div className="flex min-h-screen h-screen">
         {/* Desktop Sidebar */}
         <aside className="w-64 gradient-bg text shadow-md hidden md:flex flex-col fixed left-0 top-0 z-30 h-screen max-h-screen">
