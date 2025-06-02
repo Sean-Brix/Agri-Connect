@@ -11,7 +11,11 @@ import EIC from '../../Services/EIC/EIC.jsx';
 import Content from '../../Services/Content/Content.jsx';
 import Audit from '../../Services/Logs/Audit.jsx';
 import Survey from '../../Services/Survey/Survey.jsx';
-import Settings from '../../Services/Settings/Setting.jsx';
+
+// GLOBAL
+import Settings from '../../../Components/settings/Setting.jsx';
+import AccountProfile from '../../../Components/settings/AccountProfile/AccountProfile.jsx';
+import Edit_Profile from '../../../Components/settings/AccountProfile/Edit_Profile.jsx';
 
 export default function Dashboard() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -28,6 +32,8 @@ export default function Dashboard() {
   
   // Content State
   const elements = useRef({
+
+    // SERVICES
     analytics: ()=>Analytics,
     profiles: ()=>Profiles,
     enrollment: ()=>Seminar,
@@ -35,45 +41,52 @@ export default function Dashboard() {
     content: ()=> Content,
     audit: ()=> Audit,
     survey: ()=> Survey,
-    settings: ()=> Settings
+
+    // GLOBAL
+    settings: ()=> Settings,
+    account: ()=> AccountProfile,
+    edit_profile: ()=> Edit_Profile,
+
   });
 
   const [Page, setPage] = useState(elements.current.analytics); // [ analytics, enrollment, profiles, eic, settings, audit, survey, content ]
+  const admin_navigate = (page)=>{
+    setPage(elements.current[page]);
+  }
+
+  // Initial Request on Mount
+  useEffect(()=>{
+
+    (async()=>{
+
+        try{
+          const response = await fetch("/api/accounts/details");
+          const data = (await response.json()).payload;
+
+          if(!response.ok){
+            throw new error(data.error);
+          }
+
+          setDetails({
+              username: data.username, 
+              position: data.position,
+              picture: ""
+          });
+
+        }
+        catch(err){
+
+          console.log(err);
+          alert("Hahaha kala mo pede ka dito, d ka naman admin");
+          navigate('/login');
+          return;
+
+        }
+
+    })()
 
 
-  // // Initial Request on Mount
-  // useEffect(()=>{
-
-  //   (async()=>{
-
-  //       try{
-  //         const response = await fetch("/api/accounts/details");
-  //         const data = (await response.json()).payload;
-
-  //         if(!response.ok){
-  //           throw new error(data.error);
-  //         }
-
-  //         setDetails({
-  //             username: data.username, 
-  //             position: data.position,
-  //             picture: ""
-  //         });
-
-  //       }
-  //       catch(err){
-
-  //         console.log(err);
-  //         alert("Hahaha kala mo pede ka dito, d ka naman admin");
-  //         navigate('/login');
-  //         return;
-
-  //       }
-
-  //   })()
-
-
-  // }, []);
+  }, []);
 
 
   // Switch Between Logout and Login
@@ -165,29 +178,40 @@ export default function Dashboard() {
                         <span>Survey Forms</span>
                       </div>
                     </li>
+
                     {/* Settings */}
                     <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={()=>setPage(elements.current["settings"])}>
                       <div className="flex items-center space-x-3">
-                        <span>
-                          <i className="fas fa-cog h-5 w-5"></i>
-                        </span>
-                        <span>Settings</span>
+                      <span>
+                        <i className="fas fa-cog h-5 w-5"></i>
+                      </span>
+                      <span>Settings</span>
                       </div>
                     </li>
+
                   </ul>
                 </nav>
               </div>
             </div>
+
             <div className="p-4 border-t logout flex flex-col items-center mt-auto bg-gradient-to-t from-blue-900/80 via-blue-900/60 to-transparent">
-              <div className="flex items-start mb-4 w-full justify-evenly ">
+              
+              <div 
+                className="flex items-start mb-4 w-full justify-evenly cursor-pointer hover:font-bold hover:italic"
+                onClick={()=>setPage(elements.current["account"])}
+              >
+              
                 <div className="rounded-full border-3 border-blue-800">
                   <img src={default_picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
                 </div>
+                
                 <div className="flex-col flex flex-start">
                   <span className="font-bold">{ details.username }</span>
                   <span className="text-sm text-gray-300">{ details.position }</span>
                 </div>
+
               </div>
+              
               {/* Logout button (desktop sidebar, bottom) */}
               <button
                 onClick={logging}
@@ -198,7 +222,9 @@ export default function Dashboard() {
                 </span>
                 <span className="font-bold">Logout</span>
               </button>
+
             </div>
+
           </div>
         </aside>
 
@@ -236,7 +262,9 @@ export default function Dashboard() {
           </header>
           {/* Render children below the header */}
           <main className="flex-1 p-2 sm:p-4 overflow-auto pt-20 h-0 min-h-0 minimalist-scrollbar">
-            <Page/>
+
+            <Page admin_navigate = {admin_navigate} />
+
           </main>
         </div>
       </div>
