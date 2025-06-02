@@ -41,39 +41,39 @@ export default function Dashboard() {
   const [Page, setPage] = useState(elements.current.analytics); // [ analytics, enrollment, profiles, eic, settings, audit, survey, content ]
 
 
-  // Initial Request on Mount
-  useEffect(()=>{
+  // // Initial Request on Mount
+  // useEffect(()=>{
 
-    (async()=>{
+  //   (async()=>{
 
-        try{
-          const response = await fetch("/api/accounts/details");
-          const data = (await response.json()).payload;
+  //       try{
+  //         const response = await fetch("/api/accounts/details");
+  //         const data = (await response.json()).payload;
 
-          if(!response.ok){
-            throw new error(data.error);
-          }
+  //         if(!response.ok){
+  //           throw new error(data.error);
+  //         }
 
-          setDetails({
-              username: data.username, 
-              position: data.position,
-              picture: ""
-          });
+  //         setDetails({
+  //             username: data.username, 
+  //             position: data.position,
+  //             picture: ""
+  //         });
 
-        }
-        catch(err){
+  //       }
+  //       catch(err){
 
-          console.log(err);
-          alert("Hahaha kala mo pede ka dito, d ka naman admin");
-          navigate('/login');
-          return;
+  //         console.log(err);
+  //         alert("Hahaha kala mo pede ka dito, d ka naman admin");
+  //         navigate('/login');
+  //         return;
 
-        }
+  //       }
 
-    })()
+  //   })()
 
 
-  }, []);
+  // }, []);
 
 
   // Switch Between Logout and Login
@@ -90,139 +90,119 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="flex h-screen">
-
-        <aside className="w-64 gradient-bg text shadow-md  hidden md:flex flex-col justify-between h-screen fixed left-0 top-0 z-30">
-          <div className="flex flex-col flex-1 justify-between h-full">
-            <div>
-              <div className="p-4 border-b border-blue-500">
-                <h1 className="text-xl font-semibold ml-7 family">Dashboard</h1>
+      <div className="flex min-h-screen h-screen">
+        {/* Desktop Sidebar */}
+        <aside className="w-64 gradient-bg text shadow-md hidden md:flex flex-col fixed left-0 top-0 z-30 h-screen max-h-screen">
+          <div className="flex flex-col h-full max-h-screen">
+            <div className="flex-1 min-h-0 overflow-y-auto minimalist-scrollbar">
+              <div>
+                <div className="p-4 border-b border-blue-500">
+                  <h1 className="text-xl font-semibold ml-7 family">Dashboard</h1>
+                </div>
+                <nav className="mt-4">
+                  <ul className="space-y-2 px-2">
+                    {/* Analytics */}
+                    <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={()=>setPage(elements.current["analytics"])}>
+                      <div className="flex items-center space-x-3">
+                        <span>
+                          <i className="fas fa-cog h-5 w-5"></i>
+                        </span>
+                        <span>Analytics</span>
+                      </div>
+                    </li>
+                    {/* Profile */}
+                    <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={()=>setPage(elements.current["profiles"])}>
+                      <div className="flex items-center space-x-3">
+                        <span>
+                          <i className="fas fa-user-circle h-5 w-5"></i>
+                        </span>
+                        <span>User Profiles</span>
+                      </div>
+                    </li>
+                    {/* Enrollment */}
+                    <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={()=>setPage(elements.current["enrollment"])}>
+                      <div className="flex items-center space-x-3">
+                        <span>
+                          <i className="fas fa-user-plus h-5 w-5"></i>
+                        </span>
+                        <span>Seminar Programs</span>
+                      </div>
+                    </li>
+                    {/* EIC */}
+                    <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={()=>setPage(elements.current["eic"])}>
+                      <div className="flex items-center space-x-3">
+                        <span>
+                          <i className="fas fa-id-card h-5 w-5"></i>
+                        </span>
+                        <span>EIC - Item Panel</span>
+                      </div>
+                    </li>
+                    {/* Content */}
+                    <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={()=>setPage(elements.current["content"])}>
+                      <div className="flex items-center space-x-3">
+                        <span>
+                          <i className="fas fa-home h-5 w-5"></i>
+                        </span>
+                        <span>Content Management</span>
+                      </div>
+                    </li>
+                    {/* Audit */}
+                    <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={()=>setPage(elements.current["audit"])}>
+                      <div className="flex items-center space-x-3">
+                        <span>
+                          <i className="fas fa-id-card h-5 w-5"></i>
+                        </span>
+                        <span>Logs / Audit Trail</span>
+                      </div>
+                    </li>
+                    {/* Survey */}
+                    <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={()=>setPage(elements.current["survey"])}>
+                      <div className="flex items-center space-x-3">
+                        <span>
+                          <i className="fas fa-home h-5 w-5"></i>
+                        </span>
+                        <span>Survey Forms</span>
+                      </div>
+                    </li>
+                    {/* Settings */}
+                    <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={()=>setPage(elements.current["settings"])}>
+                      <div className="flex items-center space-x-3">
+                        <span>
+                          <i className="fas fa-cog h-5 w-5"></i>
+                        </span>
+                        <span>Settings</span>
+                      </div>
+                    </li>
+                  </ul>
+                </nav>
               </div>
-              <nav className="mt-4">
-                <ul className="space-y-4">
-
-                  {/* Analytics */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["analytics"])}>
-                    <div className="flex items-center space-x-3">
-                      <span>
-                        <i className="fas fa-cog h-5 w-5"></i>
-                      </span>
-                      <span>Analytics</span>
-                    </div>
-                  </li>
-
-                  {/* Profile */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["profiles"])}>
-                    <div className="flex items-center space-x-3">
-                      <span>
-                        <i className="fas fa-user-circle h-5 w-5"></i>
-                      </span>
-                      <span>User Profiles</span>
-                    </div>
-                  </li>
-
-                  {/* Enrollment */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["enrollment"])}>
-                    <div className="flex items-center space-x-3">
-                      <span>
-                        <i className="fas fa-user-plus h-5 w-5"></i>
-                      </span>
-                      <span>Seminar Programs</span>
-                    </div>
-                  </li>
-                  
-                  {/* EIC */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["eic"])}>
-                    <div className="flex items-center space-x-3">
-                      <span>
-                        <i className="fas fa-id-card h-5 w-5"></i>
-                      </span>
-                      <span>EIC - Item Panel</span>
-                    </div>
-                  </li>
-
-                  {/* Content */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["content"])}>
-                    <div className="flex items-center space-x-3">
-                      <span>
-                        <i className="fas fa-home h-5 w-5"></i>
-                      </span>
-                      <span >Content Management</span>
-                    </div>
-                  </li>
-
-                  {/* EIC */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["audit"])}>
-                    <div className="flex items-center space-x-3">
-                      <span>
-                        <i className="fas fa-id-card h-5 w-5"></i>
-                      </span>
-                      <span>Logs / Audit Trail </span>
-                    </div>
-                  </li>
-
-                  {/* Survey */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["survey"])}>
-                    <div className="flex items-center space-x-3">
-                      <span>
-                        <i className="fas fa-home h-5 w-5"></i>
-                      </span>
-                      <span >Survey Forms</span>
-                    </div>
-                  </li>
-
-                  {/* Settings */}
-                  <li className="p-6 hover:bg-blue-700 rounded-lg transition" onClick={()=>setPage(elements.current["settings"])}>
-                    <div className="flex items-center space-x-3">
-                      <span>
-                        <i className="fas fa-cog h-5 w-5"></i>
-                      </span>
-                      <span>Settings</span>
-                    </div>
-                  </li>
-
-                </ul>
-              </nav>
             </div>
-
-           
-            <div className="p-4 border-t logout flex flex-col items-center mt-auto">
-
+            <div className="p-4 border-t logout flex flex-col items-center mt-auto bg-gradient-to-t from-blue-900/80 via-blue-900/60 to-transparent">
               <div className="flex items-start mb-4 w-full justify-evenly ">
-
-                <div className=" rounded-full border-3 border-blue-800">
+                <div className="rounded-full border-3 border-blue-800">
                   <img src={default_picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
                 </div>
-
                 <div className="flex-col flex flex-start">
                   <span className="font-bold">{ details.username }</span>
                   <span className="text-sm text-gray-300">{ details.position }</span>
                 </div>
-                
               </div>
-
-                {/* Logout button (desktop sidebar, bottom) */}
+              {/* Logout button (desktop sidebar, bottom) */}
               <button
                 onClick={logging}
                 className="flex items-center justify-center space-x-2 px-4 py-2 element hover:element rounded-lg transition text w-full border"
               >
-
                 <span className="flex items-center py-2k">
                   <i className="fas fa-sign-out-alt h-5 w-5 translate-y-1"></i>
                 </span>
                 <span className="font-bold">Logout</span>
-
               </button>
-
             </div>
-
           </div>
-
         </aside>
 
-        <div className="flex-1 flex flex-col min-h-screen ml-0 md:ml-64 transition-all">
-
-         
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col min-h-screen h-screen ml-0 md:ml-64 transition-all">
           <header className="gradient-bg shadow-md drop-shadow-lg p-3 flex justify-evenly md:justify-center md:px-8 items-center w-full fixed top-0 left-0 z-20 md:left-64 md:w-[calc(100%-16rem)] ">
             <div className="flex items-center space-x-4 justify-center">
               {/* Logo */}
@@ -231,7 +211,6 @@ export default function Dashboard() {
                 FITS Tanza - Municipal Agriculture Office
               </h1>
             </div>
-
             {/* Mobile menu toggle button */}
             <button
               className="md:hidden text mt-2 md:mt-0 translate-y-[-4px] ml-4"
@@ -254,12 +233,9 @@ export default function Dashboard() {
               </svg>
             </button>
           </header>
-
           {/* Render children below the header */}
-          <main className="flex-1 p-4 overflow-auto">
-
-              <Page/>
-
+          <main className="flex-1 p-2 sm:p-4 overflow-auto pt-20 h-0 min-h-0 minimalist-scrollbar">
+            <Page/>
           </main>
         </div>
       </div>
@@ -277,12 +253,12 @@ export default function Dashboard() {
       <aside
         className={`fixed inset-y-0 left-0 gradient-bg text-white drop-shadow-lg shadow-lg w-64 z-50 transform transition-transform duration-300 ${
           mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:hidden flex flex-col justify-between`}
+        } md:hidden flex flex-col h-screen max-h-screen`}
         id="mobile-menu"
       >
-        <div>
+        <div className="flex flex-col h-full max-h-screen">
           <div className="p-4 border-b border-blue-500 flex justify-between items-center">
-            <h1 className="text-2xl font-bold family">FITS -Tanza</h1>
+            <h1 className="text-2xl font-bold family">Dashboard</h1>
             <button
               className="text-white"
               onClick={() => setMobileMenuOpen(false)}
@@ -304,89 +280,126 @@ export default function Dashboard() {
               </svg>
             </button>
           </div>
-          <nav className="mt-6">
-            <ul className="space-y-4">
-
-              {/* Home Link */}
-              <li className="p-6 hover:bg-blue-700 rounded-lg transition">
-                <Link to="/" className="flex items-center space-x-3">
-                  <span>
-                    <i className="fas fa-home h-5 w-5"></i>
-                  </span>
-                  <span>Home</span>
-                </Link>
-              </li>
-
-              {/* Profile Link */}
-              <li className="p-6 hover:bg-blue-700 rounded-lg transition">
-                <Link to="/profiles" className="flex items-center space-x-3">
-                  <span>
-                    <i className="fas fa-user-circle h-5 w-5"></i>
-                  </span>
-                  <span>Profile</span>
-                </Link>
-              </li>
-
-              {/* Enrollment Link */}
-              <li className="p-6 hover:bg-blue-700 rounded-lg transition">
-                <Link to="/enrollment" className="flex items-center space-x-3">
-                  <span>
-                    <i className="fas fa-user-plus h-5 w-5"></i>
-                  </span>
-                  <span>Enrollment</span>
-                </Link>
-              </li>
-
-              {/* EIC Link */}
-              <li className="p-6 hover:bg-blue-700 rounded-lg transition">
-                <Link to="/EIC" className="flex items-center space-x-3">
-                  <span>
-                    <i className="fas fa-id-card h-5 w-5"></i>
-                  </span>
-                  <span>EIC</span>
-                </Link>
-              </li>
-
-              {/* Settings Link */}
-              <li className="p-6 hover:bg-blue-700 rounded-lg transition">
-                <Link to="/settings" className="flex items-center space-x-3">
-                  <span>
-                    <i className="fas fa-cog h-5 w-5"></i>
-                  </span>
-                  <span>Settings</span>
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
-
-        {/* Profile and Logout at the bottom */}
-        <div className="p-4 border-t logout flex flex-col items-center mt-auto">
-
-                    <div className="flex items-start mb-4 w-full justify-evenly ">
-                    <div className=" rounded-full border-3 border-blue-800">
-                    
-                      <img src={default_picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
-                    </div>
-                    <div className="flex-col flex flex-start">
-                      <span className="font-bold">{ details.username }</span>
-                      <span className="text-sm text-gray-300">{ details.position }</span>
-                    </div>
-                    </div>
-
-
-          {/* Logout button (mobile sidebar, bottom) */}
-          <button 
-            className="flex items-center justify-center space-x-2 px-4 py-1 element hover:element rounded-lg transition text w-full border"
-            onClick={logging}
-          >
-            <span className="flex items-center py-2">
-              <i className="fas fa-sign-out-alt h-5 w-5 translate-y-1"></i>
-            </span>
-            <span className="font-bold">Logout</span>
-          </button>
+          <div className="flex-1 min-h-0 flex flex-col">
+            <nav className="mt-2 flex-1 overflow-y-auto minimalist-scrollbar">
+              <ul className="space-y-2 px-2">
+                {/* Analytics */}
+                <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={() => { setPage(elements.current["analytics"]); setMobileMenuOpen(false); }}>
+                  <div className="flex items-center space-x-3">
+                    <span>
+                      <i className="fas fa-cog h-5 w-5"></i>
+                    </span>
+                    <span>Analytics</span>
+                  </div>
+                </li>
+                {/* User Profiles */}
+                <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={() => { setPage(elements.current["profiles"]); setMobileMenuOpen(false); }}>
+                  <div className="flex items-center space-x-3">
+                    <span>
+                      <i className="fas fa-user-circle h-5 w-5"></i>
+                    </span>
+                    <span>User Profiles</span>
+                  </div>
+                </li>
+                {/* Seminar Programs */}
+                <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={() => { setPage(elements.current["enrollment"]); setMobileMenuOpen(false); }}>
+                  <div className="flex items-center space-x-3">
+                    <span>
+                      <i className="fas fa-user-plus h-5 w-5"></i>
+                    </span>
+                    <span>Seminar Programs</span>
+                  </div>
+                </li>
+                {/* EIC */}
+                <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={() => { setPage(elements.current["eic"]); setMobileMenuOpen(false); }}>
+                  <div className="flex items-center space-x-3">
+                    <span>
+                      <i className="fas fa-id-card h-5 w-5"></i>
+                    </span>
+                    <span>EIC - Item Panel</span>
+                  </div>
+                </li>
+                {/* Content Management */}
+                <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={() => { setPage(elements.current["content"]); setMobileMenuOpen(false); }}>
+                  <div className="flex items-center space-x-3">
+                    <span>
+                      <i className="fas fa-home h-5 w-5"></i>
+                    </span>
+                    <span>Content Management</span>
+                  </div>
+                </li>
+                {/* Audit */}
+                <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={() => { setPage(elements.current["audit"]); setMobileMenuOpen(false); }}>
+                  <div className="flex items-center space-x-3">
+                    <span>
+                      <i className="fas fa-id-card h-5 w-5"></i>
+                    </span>
+                    <span>Logs / Audit Trail</span>
+                  </div>
+                </li>
+                {/* Survey */}
+                <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={() => { setPage(elements.current["survey"]); setMobileMenuOpen(false); }}>
+                  <div className="flex items-center space-x-3">
+                    <span>
+                      <i className="fas fa-home h-5 w-5"></i>
+                    </span>
+                    <span>Survey Forms</span>
+                  </div>
+                </li>
+                {/* Settings */}
+                <li className="p-4 hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={() => { setPage(elements.current["settings"]); setMobileMenuOpen(false); }}>
+                  <div className="flex items-center space-x-3">
+                    <span>
+                      <i className="fas fa-cog h-5 w-5"></i>
+                    </span>
+                    <span>Settings</span>
+                  </div>
+                </li>
+              </ul>
+            </nav>
+            {/* Profile and Logout at the bottom, styled like desktop */}
+            <div className="p-4 border-t logout flex flex-col items-center mt-auto bg-gradient-to-t from-blue-900/80 via-blue-900/60 to-transparent">
+              <div className="flex items-start mb-4 w-full justify-evenly ">
+                <div className="rounded-full border-3 border-blue-800">
+                  <img src={default_picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
+                </div>
+                <div className="flex-col flex flex-start">
+                  <span className="font-bold">{ details.username }</span>
+                  <span className="text-sm text-gray-300">{ details.position }</span>
+                </div>
+              </div>
+              {/* Logout button (mobile sidebar, bottom) */}
+              <button 
+                className="flex items-center justify-center space-x-2 px-4 py-2 element hover:element rounded-lg transition text w-full border"
+                onClick={logging}
+              >
+                <span className="flex items-center py-2k">
+                  <i className="fas fa-sign-out-alt h-5 w-5 translate-y-1"></i>
+                </span>
+                <span className="font-bold">Logout</span>
+              </button>
+            </div>
+          </div>
         </div>
       </aside>
+      {/* Minimalist scrollbar utility */}
+      <style>{`
+        .minimalist-scrollbar::-webkit-scrollbar {
+          width: 8px;
+          background: transparent;
+        }
+        .minimalist-scrollbar::-webkit-scrollbar-thumb {
+          background: #cbd5e1;
+          border-radius: 4px;
+        }
+        .minimalist-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: #cbd5e1 transparent;
+        }
+        html, body, #root {
+          height: 100%;
+        }
+      `}</style>
     </>
   );
 }
