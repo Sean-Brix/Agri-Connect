@@ -47,7 +47,7 @@ const equipmentList = [
 
 export default function Available() {
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col items-center py-8 mt-30">
+        <div className="min-h-screen bg-gray-50 flex flex-col items-center py-8 mt-20">
             <div className="w-full max-w-6xl px-2 sm:px-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {equipmentList.map((item, idx) => (

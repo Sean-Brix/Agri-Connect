@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-function Audit() {
+export default function Audit() {
   return (
     <>
      <div className="relative mt-10 sm:mt-30">
@@ -134,7 +134,7 @@ function AuditLogsTable() {
     <div
       className="mt-10 p-2 sm:p-4 md:p-8"
       style={{
-        maxHeight: '32rem', // Set max height for scroll
+        maxHeight: '32rem',
         overflowY: 'auto',
         overflowX: 'hidden'
       }}
@@ -142,10 +142,17 @@ function AuditLogsTable() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-2 sm:gap-4">
         <div className="text-xl sm:text-2xl font-bold text-blue-800 tracking-tight">Recent Activities</div>
         <div className="relative w-full md:w-1/3 flex items-center gap-2">
+          {/* Search icon added inside the search bar */}
+          <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="7" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+          </span>
           <input
             type="text"
             placeholder="Search logs..."
-            className="w-full border border-gray-300 rounded px-2 py-1 text-xs"
+            className="w-full border border-gray-300 rounded pl-8 pr-2 py-1 text-xs"
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
@@ -250,7 +257,7 @@ function AuditLogsTable() {
                   style={{ height: '3.2rem' }} // Slightly bigger row
                 >
                   <td className="px-2 sm:px-3 py-3 sm:py-4 border-b border-blue-100 text-blue-900 whitespace-nowrap align-middle">{log.timestamp}</td>
-                  <td className="px-2 sm:px-3 py-3 sm:py-4 border-b border-blue-100 text-blue-900 whitespace-nowrap align-middle">{log.id}</td>
+                  <td className="px-2 sm:px-3 py-3 sm:py-4 border-b border-blue-100 text-blue-900 whitespace-nowrap align-middle text-center">{log.id}</td>
                   <td className="px-2 sm:px-3 py-3 sm:py-4 border-b border-blue-100 text-blue-900 whitespace-nowrap align-middle">
                     <span className="inline-flex items-center gap-2 sm:gap-2">
                       {log.user}

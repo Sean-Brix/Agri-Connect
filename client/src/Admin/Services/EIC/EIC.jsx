@@ -18,22 +18,20 @@ function EIC() {
 
 const [active, setActive] = useState("available");
 
-// Handler functions
+
 const handleFilter = () => {
     alert("Filter functionality coming soon!");
 };
 
-// Example function for adding an item
+
 const handleAdd = () => {
-    // You can replace this with your actual add logic
-    console.log("Add button clicked");
+    
     alert("Add functionality executed!");
 };
 
-// Example function for deleting an item
+
 const handleDelete = () => {
-    // You can replace this with your actual delete logic
-    console.log("Delete button clicked");
+    
     alert("Delete functionality executed!");
 };
 
@@ -50,7 +48,7 @@ return (
                                         ].map(({ key, label }) => (
                                         <button
                                                 key={key}
-                                                className={`px-5 py-2 rounded-lg font-semibold transition-all duration-200
+                                                className={`px-2 py-2 rounded-lg font-semibold transition-all duration-200
                                                 ${
                                                         active === key
                                                         ? "bg-gradient-to-r from-blue-600 to-blue-400 text-white shadow-md"
@@ -69,14 +67,16 @@ return (
                                 <div className="flex gap-2">
                                         {/* Filter Icon */}
                                         <button
-                                                className="p-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white transition"
-                                                title="Filter"
-                                                onClick={handleFilter}
+                                            type="button"
+                                            className=" px-2 py-1 rounded-sm border border-blue-300 bg-blue-50 text</svg>-blue-700 hover:bg-blue-100 transition-colors flex items-center gap-1"
+                                            title="Filter options"
+                                            onClick={() => setShowFilter((prev) => !prev)}
                                         >
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707l-6.414 6.414A2 2 0 0013 14.586V19a1 1 0 01-1.447.894l-2-1A1 1 0 019 18v-3.414a2 2 0 00-.293-1.293L2.293 6.707A1 1 0 012 6V4z" />
-                                                </svg>
-                                        </button>
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                            <path d="M3 4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2a2 2 0 0 1-.553 1.382l-5.894 6.183A2 2 0 0 0 14 15.118V19a1 1 0 0 1-1.447.894l-2-1A1 1 0 0 1 10 18v-2.882a2 2 0 0 0-.553-1.382L3.553 7.382A2 2 0 0 1 3 6V4Z" />
+                                            </svg>
+                                            <span className="hidden sm:inline text-xs">Filter</span>
+                                        </button>`
                                         {/* Add Icon */}
                                         <button
                                         className="p-2 rounded-full bg-green-500 hover:bg-green-600 text-white transition"
@@ -102,7 +102,7 @@ return (
                         </div>
                                  
                 {/* CONTENTS */}
-                <div className="bg-gradient-to-br from-white via-blue-50 to-blue-100 text-gray-900 mt-6 w-full rounded-b-xl shadow-xl p-8 border border-blue-100">
+                <div className="bg-gradient-to-br from-white via-blue-50 to-blue-100 text-gray-900 w-full rounded-b-xl shadow-xl p-8 border border-blue-100">
                         <Page />
                 </div>
         </>
