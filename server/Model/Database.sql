@@ -6,6 +6,7 @@ CREATE TABLE accounts (
     firstname VARCHAR(100) NOT NULL,
     lastname VARCHAR(100) NOT NULL,
     gender ENUM('Male', 'Female', 'Other') NOT NULL,
+    profile_picture LONGBLOB,
 
     client_profile ENUM(
         'Fishfolk',
@@ -19,6 +20,7 @@ CREATE TABLE accounts (
         'Indigenous People'
     ) NOT NULL,
 
+    commodity VARCHAR(255),
     address VARCHAR(255),
     telephone_no VARCHAR(20),
     cellphone_no VARCHAR(20),
@@ -33,3 +35,14 @@ CREATE TABLE accounts (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+CREATE TABLE EIC (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    description TEXT,
+    quantity INT NOT NULL,
+    status ENUM('Available', 'Borrowed', 'Maintenance', 'Damaged', 'Returned', 'Reserved') NOT NULL,
+    category ENUM('Farming Equipment', 'Harvesting Tools', 'Irrigation Systems', 'Storage Equipment', 'Processing Equipment', 'Safety Gear', 'Pest Control', 'Livestock Equipment', 'Measuring Tools', 'Fisheries', 'Machinery') NOT NULL,
+    photo LONGBLOB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

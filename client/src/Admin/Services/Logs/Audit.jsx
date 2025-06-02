@@ -3,7 +3,7 @@ import { useState } from 'react'
 export default function Audit({admin_navigate}) {
   return (
     <>
-     <div className="relative mt-10 sm:mt-30">
+      <div className="relative mt-10 sm:mt-30">
           <hr className="border-black-300" />
           <span className="absolute left-1/4 md:left-1/8 -translate-x-1/4 family -top-5 bg-white rounded-lg px-4 text-2xl font-semibold text-gray-700">
               Audit Trail
@@ -134,7 +134,7 @@ function AuditLogsTable(admin_navigate) {
     <div
       className="mt-10 p-2 sm:p-4 md:p-8"
       style={{
-        maxHeight: '32rem',
+        // maxHeight: '32rem',
         overflowY: 'auto',
         overflowX: 'hidden'
       }}

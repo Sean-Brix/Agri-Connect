@@ -5,49 +5,45 @@ require_once __DIR__ . "/connect_db.php";
 function statement(string $query, array $parameters = [], string $types = "") {
     global $conn;
 
-    // Prepare the statement
     $stmt = mysqli_prepare($conn, $query);
-    
+
     if (!$stmt) {
         die("Preparation failed: " . mysqli_error($conn));
     }
 
-    // Bind parameters if there are any
+    // Bind parameters by reference
     if (!empty($parameters)) {
-        // Ensure types string matches number of parameters
         if (strlen($types) !== count($parameters)) {
             die("Parameter types count does not match parameters count.");
         }
 
-        // You have to pass by reference for mysqli_stmt_bind_param
         $refs = [];
         foreach ($parameters as $key => $value) {
             $refs[$key] = &$parameters[$key];
         }
 
-        array_unshift($refs, $types); // prepend type string
-
+        array_unshift($refs, $types);
         call_user_func_array([$stmt, 'bind_param'], $refs);
+
+        // Send long data manually for blobs
+        foreach (str_split($types) as $i => $type) {
+            if ($type === 'b') {
+                mysqli_stmt_send_long_data($stmt, $i, $parameters[$i]);
+            }
+        }
     }
 
-    // Execute the statement
     $success = mysqli_stmt_execute($stmt);
 
-    // Execution failed
     if (!$success) {
-        return false; 
+        return false;
     }
 
-    // Return result set (or true/false for non-SELECT)
     $result = mysqli_stmt_get_result($stmt);
 
-    if ($result === false) {
-        // It's a non-SELECT query like INSERT/UPDATE
-        return true;
-    }
-
-    return $result;
+    return $result === false ? true : $result;
 }
+
 
 function getTypes(array $params): string {
     $types = '';

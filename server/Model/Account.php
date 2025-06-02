@@ -8,6 +8,8 @@ class Account {
     private $firstname = null;
     private $lastname = null;
     private $gender = null;
+
+    private $profile_picture = null;
     private $client_profile = null;
     private $address = null;
     private $telephone_no = null;
@@ -36,6 +38,7 @@ class Account {
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
             'gender' => $this->gender,
+            'profile_picture' => $this->profile_picture,
             'client_profile' => $this->client_profile,
             'address' => $this->address,
             'telephone_no' => $this->telephone_no,
@@ -62,6 +65,7 @@ class Account {
             $this->firstname = $row["firstname"];
             $this->lastname = $row["lastname"];
             $this->gender = $row["gender"];
+            $this->profile_picture = $row["profile_picture"];
             $this->client_profile = $row["client_profile"];
             $this->address = $row["address"];
             $this->telephone_no = $row["telephone_no"];
@@ -75,6 +79,29 @@ class Account {
             $this->created_at = $row["created_at"];
             $this->updated_at = $row["updated_at"];
         }
+    }
+
+    public function setProfilePicture($image) {
+        if (!$this->id) {
+            return false;
+        }
+
+        if (isset($image['tmp_name']) && is_uploaded_file($image['tmp_name'])) {
+            $imageData = file_get_contents($image['tmp_name']);
+            
+            $query = "UPDATE accounts SET profile_picture = ? WHERE id = ?";
+            $params = [$imageData, $this->id];
+            $types = "bs"; // b for blob, s for string (id)
+            
+            $result = statement($query, $params, $types);
+            
+            if ($result) {
+                $this->profile_picture = $imageData;
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     // Creates a new account

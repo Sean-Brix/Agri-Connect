@@ -6,10 +6,10 @@ require_once __DIR__."/../../global.php";
 $token = $_SESSION["token"];
 
 // Authenticate
-$decoded = verify_token($token, ACCESS_KEY);
+$user = verify_token($token, ACCESS_KEY);
 
 // No Account Response
-if(!$decoded){  
+if(!$user){  
     sendResponse(
         401,
         "Unauthorize",
@@ -19,7 +19,7 @@ if(!$decoded){
     exit();
 }
 
-$Account = new Account($decoded["ID"]);
+$Account = new Account($user["ID"]);
 
 $details = $Account->getDetails();
 
@@ -31,5 +31,5 @@ sendResponse(
     200,
     "success",
     $details,
-    "Account Details Retrieved - ". $details["username"]
+    "Account Details Retrieved - ". $user["username"]
 );
