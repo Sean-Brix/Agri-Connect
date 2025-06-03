@@ -54,16 +54,6 @@ class Register extends Component {
     post_account = async (event)=>{
         event.preventDefault();
 
-        /* 
-        ?   TICKET: Add an account to the database
-
-        *   DONE: Fetch a POST request to PHP API
-            TODO: Fetch a POST request to Express API
-        *   DONE: Error Handling for the response http status
-        *   DONE: Prompt User for result
-        
-        */
-
         const response = await fetch("/api/Authentication/register", {
             method: 'POST',
             headers:{
