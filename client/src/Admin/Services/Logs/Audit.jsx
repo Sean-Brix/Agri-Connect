@@ -14,7 +14,7 @@ export default function Audit({admin_navigate}) {
   )
 }
 
-function AuditLogsTable(admin_navigate) {
+function AuditLogsTable({ admin_navigate }) {
   const [logs] = useState([
     {
       id: 1,
@@ -98,10 +98,30 @@ function AuditLogsTable(admin_navigate) {
   const uniqueUsers = Array.from(new Set(logs.map(log => log.user)));
 
   // Filter and sort logs
+  // (removed duplicate filteredLogs declaration)
+
+  const handleSort = col => {
+    if (sortBy === col) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortBy(col);
+      setSortOrder('asc');
+    }
+  };
+
+  // Add filterColumn state to select which column to filter
+  const [filterColumn, setFilterColumn] = useState('user');
+
+  // Get unique values for the selected filter column
+  const uniqueFilterValues = Array.from(
+    new Set(logs.map(log => String(log[filterColumn])))
+  );
+
+  // Filter and sort logs (move this below filterColumn/filterUser state so it's always up-to-date)
   const filteredLogs = logs
     .filter(
       log =>
-        (filterUser === '' || log.user === filterUser) &&
+        (filterUser === '' || String(log[filterColumn]) === filterUser) &&
         (
           log.user.toLowerCase().includes(search.toLowerCase()) ||
           log.action.toLowerCase().includes(search.toLowerCase()) ||
@@ -114,27 +134,21 @@ function AuditLogsTable(admin_navigate) {
         return sortOrder === 'asc'
           ? new Date(a.timestamp) - new Date(b.timestamp)
           : new Date(b.timestamp) - new Date(a.timestamp);
+      } else if (sortBy === 'id') {
+        return sortOrder === 'asc'
+          ? a.id - b.id
+          : b.id - a.id;
       } else {
         return sortOrder === 'asc'
-          ? a[sortBy].localeCompare(b[sortBy])
-          : b[sortBy].localeCompare(a[sortBy]);
+          ? String(a[sortBy]).localeCompare(String(b[sortBy]))
+          : String(b[sortBy]).localeCompare(String(a[sortBy]));
       }
     });
-
-  const handleSort = col => {
-    if (sortBy === col) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortBy(col);
-      setSortOrder('asc');
-    }
-  };
 
   return (
     <div
       className="mt-10 p-2 sm:p-4 md:p-8"
       style={{
-        // maxHeight: '32rem',
         overflowY: 'auto',
         overflowX: 'hidden'
       }}
@@ -152,7 +166,7 @@ function AuditLogsTable(admin_navigate) {
           <input
             type="text"
             placeholder="Search logs..."
-            className="w-full border border-gray-300 rounded pl-8 pr-2 py-1 text-xs"
+            className="w-full pl-8 pr-2 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 text-xs sm:text-sm"
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
@@ -168,16 +182,31 @@ function AuditLogsTable(admin_navigate) {
             <span className="hidden sm:inline text-xs">Filter</span>
           </button>
           {showFilter && (
-            <div className="absolute right-0 top-10 z-10 bg-white border border-blue-200 rounded-lg shadow-lg p-3 w-48">
-              <div className="mb-2 font-semibold text-blue-800 text-xs">Filter by User</div>
+            <div className="absolute right-0 top-10 z-10 bg-white border border-blue-200 rounded-lg shadow-lg p-3 w-56">
+              <div className="mb-2 font-semibold text-blue-800 text-xs">Filter by Column</div>
+              <select
+                className="w-full border border-gray-300 rounded px-2 py-1 text-xs mb-2"
+                value={filterColumn}
+                onChange={e => {
+                  setFilterColumn(e.target.value);
+                  setFilterUser('');
+                }}
+              >
+                <option value="user">User</option>
+                <option value="id">User ID</option>
+                <option value="action">Action</option>
+                <option value="timestamp">Timestamp</option>
+                <option value="details">Details</option>
+              </select>
+              <div className="mb-2 font-semibold text-blue-800 text-xs">Filter Value</div>
               <select
                 className="w-full border border-gray-300 rounded px-2 py-1 text-xs"
                 value={filterUser}
                 onChange={e => setFilterUser(e.target.value)}
               >
-                <option value="">All Users</option>
-                {uniqueUsers.map(user => (
-                  <option key={user} value={user}>{user}</option>
+                <option value="">All</option>
+                {uniqueFilterValues.map(val => (
+                  <option key={val} value={val}>{val}</option>
                 ))}
               </select>
               <button
@@ -254,7 +283,7 @@ function AuditLogsTable(admin_navigate) {
                 <tr
                   key={log.id}
                   className="hover:bg-blue-100 transition-colors group"
-                  style={{ height: '3.2rem' }} // Slightly bigger row
+                  style={{ height: '3.2rem' }}
                 >
                   <td className="px-2 sm:px-3 py-3 sm:py-4 border-b border-blue-100 text-blue-900 whitespace-nowrap align-middle">{log.timestamp}</td>
                   <td className="px-2 sm:px-3 py-3 sm:py-4 border-b border-blue-100 text-blue-900 whitespace-nowrap align-middle text-center">{log.id}</td>
