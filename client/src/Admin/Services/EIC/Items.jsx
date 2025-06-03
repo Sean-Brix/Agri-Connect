@@ -47,41 +47,53 @@ const equipmentList = [
 
 export default function Items() {
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col items-center py-8 mt-20">
-            <div className="w-full max-w-6xl px-2 sm:px-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {equipmentList.map((item, idx) => (
+         <div className="pt-10 min-h-screen w-full pb-5 bg-gradient-to-br from-blue-50 to-green-50 flex flex-col items-center px-2 sm:px-6">
+                    <div className="w-full max-w-7xl">
+                        <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center tracking-tight">
+                           Items List
+                        </h2>
                         <div
-                            key={idx}
-                            className="bg-white rounded-lg shadow-sm flex flex-col justify-between items-center w-full min-h-[340px] p-4 relative"
+                            className="overflow-y-auto pr-2"
+                            style={{
+                                maxHeight: '600px',
+                            }}
                         >
-                            <img
-                                src={item.img}
-                                alt={item.name}
-                                className="w-full h-40 object-contain rounded mb-3 bg-gray-100"
-                            />
-                            <div className="flex-1 flex flex-col justify-start w-full text-center">
-                                <h3 className="text-lg font-medium text-gray-900 mb-1">{item.name}</h3>
-                                <p className="text-gray-500 text-sm mb-2">{item.desc}</p>
-                            </div>
-                            <div className="flex flex-col sm:flex-row gap-2 w-full absolute left-0 bottom-4 px-4">
-                                <Link
-                                    to={`/borrow/${idx}`}
-                                    className="flex-1 bg-blue-700 text-white py-2 rounded font-semibold text-sm hover:bg-blue-600 transition-colors border border-transparent text-center"
-                                >
-                                    Borrow
-                                </Link>
-                                <Link
-                                    to={`/details/${idx}`}
-                                    className="flex-1 bg-white text-blue-700 py-2 rounded font-semibold text-sm border border-blue-700 hover:bg-blue-50 transition-colors text-center"
-                                >
-                                    Details
-                                </Link>
+                            <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+                                {equipmentList.map((item, idx) => (
+                                    <div
+                                        key={idx}
+                                        className="bg-white rounded-2xl shadow-lg flex flex-col justify-between items-center w-full min-h-[370px] p-6 relative hover:shadow-2xl transition-shadow duration-300"
+                                    >
+                                        <div className="w-full flex justify-center mb-4">
+                                            <img
+                                                src={item.img}
+                                                alt={item.name}
+                                                className="w-32 h-32 object-contain rounded-xl bg-gray-100 shadow-sm"
+                                            />
+                                        </div>
+                                        <div className="flex-1 flex flex-col justify-start w-full text-center">
+                                            <h3 className="text-xl font-semibold text-gray-900 mb-2">{item.name}</h3>
+                                            <p className="text-gray-500 text-base mb-4">{item.desc}</p>
+                                        </div>
+                                        <div className="flex flex-col gap-2 w-full mt-2">
+                                            <Link
+                                                to={`/borrow/${idx}`}
+                                                className="w-full bg-gradient-to-r from-blue-600 to-green-500 text-white py-2.5 rounded-lg font-semibold text-base hover:from-blue-700 hover:to-green-600 transition-colors border border-transparent text-center shadow"
+                                            >
+                                                Borrow
+                                            </Link>
+                                            <Link
+                                                to={`/details/${idx}`}
+                                                className="w-full bg-white text-blue-700 py-2.5 rounded-lg font-semibold text-base border border-blue-600 hover:bg-blue-50 transition-colors text-center shadow"
+                                            >
+                                                Details
+                                            </Link>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
-                    ))}
+                    </div>
                 </div>
-            </div>
-        </div>
     )
 }
