@@ -82,77 +82,141 @@ const equipmentList = [
 ]
 
 export default function Available() {
-    // Handler to add a new product
     const [products, setProducts] = useState(equipmentList);
+    const [deleteMode, setDeleteMode] = useState(false);
+    const [selectedToDelete, setSelectedToDelete] = useState([]);
 
     const handleAddProduct = () => {
         const newProduct = {
             name: 'New Product',
-            desc: 'Description of the new product.',
+            desc: 'Description vevfefewfffefefefefefefof thef ef fe fef f f new product.',
             img: 'plow-image-url',
         };
         setProducts([...products, newProduct]);
     };
 
-    const handleRemoveProduct = (idx) => {
-        const updatedProducts = products.filter((_, i) => i !== idx);
+    const handleDeleteMode = () => {
+        setDeleteMode(!deleteMode);
+        setSelectedToDelete([]);
+    };
+
+    const handleSelectToDelete = (idx) => {
+        if (selectedToDelete.includes(idx)) {
+            setSelectedToDelete(selectedToDelete.filter(i => i !== idx));
+        } else {
+            setSelectedToDelete([...selectedToDelete, idx]);
+        }
+    };
+
+    const handleDeleteSelected = () => {
+        const updatedProducts = products.filter((_, idx) => !selectedToDelete.includes(idx));
         setProducts(updatedProducts);
+        setDeleteMode(false);
+        setSelectedToDelete([]);
+    };
+
+    // Helper to truncate description
+    const truncate = (str, n) => {
+        return str.length > n ? str.slice(0, n) + '...' : str;
     };
 
     return (
-       <div className="pt-10 min-h-screen w-full pb-5 bg-gradient-to-br from-indigo-100 via-sky-100 to-emerald-100 flex flex-col items-center px-2 sm:px-6">
+       <div className="pt-10 min-h-screen w-full pb-5 bg-gradient-to-br from-neutral-100 via-slate-100 to-zinc-200 flex flex-col items-center px-2 sm:px-6">
             <div className="w-full max-w-7xl">
-                <h2 className="text-3xl font-extrabold text-gray-900 mb-8 text-center tracking-tight drop-shadow">
-                    Available Equipment
-                </h2>
+                <div className="flex justify-between items-center mb-8">
+                    <h2 className="text-3xl font-extrabold text-neutral-900 text-center tracking-tight drop-shadow">
+                        Available Equipment
+                    </h2>
+                    <div className="flex gap-4">
+                        <button
+                            onClick={handleAddProduct}
+                            className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 text-white py-2 px-6 rounded-xl font-semibold text-base hover:from-blue-700 hover:to-blue-800 transition-colors border border-transparent shadow"
+                        >
+                            + Add Product
+                        </button>
+                        <button
+                            onClick={handleDeleteMode}
+                            className={`bg-gradient-to-r from-red-400 to-red-600 text-white py-2 px-6 rounded-xl font-semibold text-base border border-red-400 hover:from-red-500 hover:to-red-700 transition-colors shadow ${deleteMode ? 'ring-2 ring-red-400' : ''}`}
+                        >
+                            {deleteMode ? 'Cancel Delete' : '- Delete Products'}
+                        </button>
+                        {deleteMode && (
+                            <button
+                                onClick={handleDeleteSelected}
+                                disabled={selectedToDelete.length === 0}
+                                className={`ml-2 bg-red-700 text-white py-2 px-6 rounded-xl font-semibold text-base border border-red-700 shadow ${selectedToDelete.length === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-red-800'}`}
+                            >
+                                Delete Selected
+                            </button>
+                        )}
+                    </div>
+                </div>
                 <div
                     className="overflow-y-auto pr-2"
                     style={{
                         maxHeight: '600px',
                     }}
                 >
-                    <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+                    <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 p-5">
                         {products.map((item, idx) => (
                             <div
                                 key={idx}
-                                className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl flex flex-col justify-between items-center w-full min-h-[370px] p-7 relative hover:shadow-2xl transition-shadow duration-300 border border-slate-200"
+                                className={`bg-white/90 backdrop-blur-md rounded-3xl shadow-xl flex flex-col justify-between items-center w-full min-h-[370px] p-7 relative hover:shadow-2xl transition-shadow duration-300 border border-slate-200 ${deleteMode && selectedToDelete.includes(idx) ? 'ring-4 ring-red-400' : ''}`}
+                                onClick={deleteMode ? () => handleSelectToDelete(idx) : undefined}
+                                style={deleteMode ? { cursor: 'pointer' } : {}}
                             >
+                                {deleteMode && (
+                                    <div className="absolute top-4 right-4">
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedToDelete.includes(idx)}
+                                            onChange={() => handleSelectToDelete(idx)}
+                                            onClick={e => e.stopPropagation()}
+                                            className="w-6 h-6 accent-red-500"
+                                        />
+                                    </div>
+                                )}
                                 <div className="w-full flex justify-center mb-4">
                                     <img
                                         src={item.img}
                                         alt={item.name}
-                                        className="w-32 h-32 object-contain rounded-xl bg-gradient-to-br from-indigo-100 to-emerald-100 shadow"
+                                        className="w-32 h-32 object-contain rounded-xl bg-gradient-to-br from-neutral-100 to-zinc-200 shadow"
                                     />
                                 </div>
                                 <div className="flex-1 flex flex-col justify-start w-full text-center">
-                                    <h3 className="text-xl font-bold text-gray-800 mb-2">{item.name}</h3>
-                                    <p className="text-gray-500 text-base mb-4">{item.desc}</p>
+                                    <h3 className="text-xl font-bold text-neutral-800 mb-2">{item.name}</h3>
+                                    <p
+                                        className="text-neutral-500 text-base mb-4 overflow-hidden text-ellipsis"
+                                        style={{
+                                            display: '-webkit-box',
+                                            WebkitLineClamp: 2,
+                                            WebkitBoxOrient: 'vertical',
+                                            minHeight: '3.2em',
+                                        }}
+                                        title={item.desc}
+                                    >
+                                        {item.desc}
+                                    </p>
                                 </div>
                                 <div className="flex flex-col gap-2 w-full mt-2">
                                     <Link
                                         to={`/edit/${idx}`}
-                                        className="w-full bg-gradient-to-r from-indigo-500 via-sky-400 to-emerald-400 text-white py-2.5 rounded-xl font-semibold text-base hover:from-indigo-600 hover:to-emerald-500 transition-colors border border-transparent text-center shadow"
+                                        className="w-full bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 text-white py-2.5 rounded-xl font-semibold text-base hover:from-blue-700 hover:to-blue-800 transition-colors border border-transparent text-center shadow"
                                     >
                                         Edit Product
                                     </Link>
-                                    <button
-                                        onClick={() => handleRemoveProduct(idx)}
-                                        className="w-full bg-gradient-to-r from-pink-500 to-red-500 text-white py-2.5 rounded-xl font-semibold text-base border border-red-400 hover:from-pink-600 hover:to-red-600 transition-colors text-center shadow mt-2"
-                                    >
-                                        Remove
-                                    </button>
                                 </div>
                             </div>
                         ))}
                         {/* Plus button for adding a product */}
                         <button
                             onClick={handleAddProduct}
-                            className="flex flex-col items-center justify-center bg-white/80 backdrop-blur-md rounded-3xl shadow-xl w-full min-h-[370px] p-7 border-2 border-dashed border-indigo-400 hover:bg-indigo-50 transition-colors cursor-pointer"
-                            style={{ fontSize: '3rem', color: '#6366f1' }}
+                            className="flex flex-col items-center justify-center bg-white/90 backdrop-blur-md rounded-3xl shadow-xl w-full min-h-[370px] p-7 border-2 border-dashed border-blue-400 hover:bg-blue-50 transition-colors cursor-pointer"
+                            style={{ fontSize: '3rem', color: '#2563eb' }}
                             aria-label="Add Product"
                         >
                             <span className="text-6xl font-bold mb-2">+</span>
-                            <span className="text-lg font-semibold text-indigo-600">Add Product</span>
+                            <span className="text-lg font-semibold text-blue-700">Add Product</span>
                         </button>
                     </div>
                 </div>
