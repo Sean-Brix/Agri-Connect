@@ -130,7 +130,7 @@ export default function AccountProfile({admin_navigate, details}){
 
                             <div className="text-center">
                                 <div
-                                    className="flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-500 transition text-sm sm:text-base border-2 border-blue-800"
+                                    className="flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 cursor-pointer bg-blue-800 text-white rounded-lg hover:bg-blue-500 transition text-sm sm:text-base border-2 border-blue-800"
                                     onClick={()=>admin_navigate("edit_profile")}
                                 >
                                         <i className="fa-solid fa-pen-to-square"></i>
