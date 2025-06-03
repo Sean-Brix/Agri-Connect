@@ -98,53 +98,61 @@ export default function Seminar() {
             </div>
             {/* Add Program Modal */}
             {showAdd && (
-                <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
                     <form
-                        className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md relative"
+                        className="bg-white rounded-2xl shadow-2xl p-0 w-full max-w-sm relative border border-gray-100"
                         onSubmit={handleAddProgram}
+                        style={{ minWidth: 340 }}
                     >
-                        <button
-                            type="button"
-                            className="absolute top-2 right-2 text-gray-400 hover:text-gray-700"
-                            onClick={() => setShowAdd(false)}
-                        >
-                            &times;
-                        </button>
-                        <h2 className="text-xl font-semibold mb-4">Add New Program</h2>
-                        <div className="mb-3">
-                            <label className="block text-sm font-medium mb-1">Name</label>
-                            <input
-                                type="text"
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2"
-                                value={newProgram.name}
-                                onChange={e => setNewProgram({ ...newProgram, name: e.target.value })}
-                                required
-                            />
+                        <div className="flex justify-between items-center border-b border-gray-100 px-6 py-4">
+                            <h2 className="text-lg font-semibold text-gray-800">Add Program</h2>
+                            <button
+                                type="button"
+                                className="text-gray-400 hover:text-gray-700 text-2xl leading-none"
+                                onClick={() => setShowAdd(false)}
+                                aria-label="Close"
+                            >
+                                &times;
+                            </button>
                         </div>
-                        <div className="mb-3">
-                            <label className="block text-sm font-medium mb-1">Description</label>
-                            <textarea
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2"
-                                value={newProgram.desc}
-                                onChange={e => setNewProgram({ ...newProgram, desc: e.target.value })}
-                                required
-                            />
+                        <div className="px-6 py-6 flex flex-col gap-4">
+                            <div>
+                                <label className="block text-xs font-medium text-gray-500 mb-1">Name</label>
+                                <input
+                                    type="text"
+                                    className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                    value={newProgram.name}
+                                    onChange={e => setNewProgram({ ...newProgram, name: e.target.value })}
+                                    required
+                                    autoFocus
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-gray-500 mb-1">Description</label>
+                                <textarea
+                                    className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition resize-none"
+                                    value={newProgram.desc}
+                                    onChange={e => setNewProgram({ ...newProgram, desc: e.target.value })}
+                                    required
+                                    rows={3}
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-gray-500 mb-1">Image URL <span className="text-gray-300">(optional)</span></label>
+                                <input
+                                    type="text"
+                                    className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                    value={newProgram.img}
+                                    onChange={e => setNewProgram({ ...newProgram, img: e.target.value })}
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                className="mt-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg py-2 transition-colors shadow-none focus:ring-2 focus:ring-green-200 focus:outline-none"
+                            >
+                                Add Program
+                            </button>
                         </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium mb-1">Image URL (optional)</label>
-                            <input
-                                type="text"
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2"
-                                value={newProgram.img}
-                                onChange={e => setNewProgram({ ...newProgram, img: e.target.value })}
-                            />
-                        </div>
-                        <button
-                            type="submit"
-                            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 font-semibold w-full"
-                        >
-                            Add Program
-                        </button>
                     </form>
                 </div>
             )}

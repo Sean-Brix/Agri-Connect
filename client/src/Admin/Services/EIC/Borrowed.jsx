@@ -41,7 +41,7 @@ const equipmentList = [
     },
     {
         name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
+        desc: 'Used for turning over soil to prepare f</div>or planting.',
         img: 'plow-image-url',
     },
 ]

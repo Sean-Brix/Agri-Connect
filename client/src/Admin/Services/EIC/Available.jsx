@@ -4,95 +4,39 @@ import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 
 const equipmentList = [
-    {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-    {
-        name: 'Pandilig',
-        desc: 'njwdwsdwdwd. ',
-        img: Pandilig,
-    },
-    {
-        name: 'Plows',
-        desc: 'Pang hukay ng bangkay to boss',
-        img: Shovel,
-    },
-    {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-    {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-    {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-    {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-    {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-     {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-     {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-     {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-     {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-     {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-     {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-     {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-]
+    // ... your equipmentList as before ...
+];
 
 export default function Available() {
     const [products, setProducts] = useState(equipmentList);
     const [deleteMode, setDeleteMode] = useState(false);
     const [selectedToDelete, setSelectedToDelete] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [newProduct, setNewProduct] = useState({
+        name: '',
+        desc: '',
+        img: '',
+    });
 
-    const handleAddProduct = () => {
-        const newProduct = {
-            name: 'New Product',
-            desc: 'Description vevfefewfffefefefefefefof thef ef fe fef f f new product.',
-            img: 'plow-image-url',
-        };
+    const handleOpenModal = () => {
+        setShowModal(true);
+        setNewProduct({ name: '', desc: '', img: '' });
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewProduct(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleAddProduct = (e) => {
+        e.preventDefault();
+        if (!newProduct.name || !newProduct.desc || !newProduct.img) return;
         setProducts([...products, newProduct]);
+        setShowModal(false);
     };
 
     const handleDeleteMode = () => {
@@ -129,7 +73,7 @@ export default function Available() {
                     </h2>
                     <div className="flex gap-4">
                         <button
-                            onClick={handleAddProduct}
+                            onClick={handleOpenModal}
                             className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 text-white py-2 px-6 rounded-xl font-semibold text-base hover:from-blue-700 hover:to-blue-800 transition-colors border border-transparent shadow"
                         >
                             + Add Product
@@ -210,7 +154,7 @@ export default function Available() {
                         ))}
                         {/* Plus button for adding a product */}
                         <button
-                            onClick={handleAddProduct}
+                            onClick={handleOpenModal}
                             className="flex flex-col items-center justify-center bg-white/90 backdrop-blur-md rounded-3xl shadow-xl w-full min-h-[370px] p-7 border-2 border-dashed border-blue-400 hover:bg-blue-50 transition-colors cursor-pointer"
                             style={{ fontSize: '3rem', color: '#2563eb' }}
                             aria-label="Add Product"
@@ -221,6 +165,60 @@ export default function Available() {
                     </div>
                 </div>
             </div>
+            {/* Modern Minimalist Modal */}
+            {showModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+                    <div className="bg-white rounded-xl shadow-2xl px-8 py-10 w-full max-w-sm relative flex flex-col gap-6 border border-neutral-200">
+                        <button
+                            onClick={handleCloseModal}
+                            className="absolute top-4 right-4 text-neutral-400 hover:text-blue-600 transition-colors text-2xl"
+                            aria-label="Close"
+                            tabIndex={0}
+                        >
+                            <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M18 6 6 18M6 6l12 12"/>
+                            </svg>
+                        </button>
+                        <h3 className="text-xl font-semibold text-neutral-900 text-center mb-2 tracking-tight">Add New Product</h3>
+                        <form onSubmit={handleAddProduct} className="flex flex-col gap-4">
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Product Name"
+                                value={newProduct.name}
+                                onChange={handleInputChange}
+                                className="border border-neutral-200 rounded-lg px-4 py-2 bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                                required
+                                autoFocus
+                            />
+                            <textarea
+                                name="desc"
+                                placeholder="Description"
+                                value={newProduct.desc}
+                                onChange={handleInputChange}
+                                className="border border-neutral-200 rounded-lg px-4 py-2 bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition resize-none"
+                                rows={3}
+                                required
+                            />
+                            <input
+                                type="text"
+                                name="img"
+                                placeholder="Image URL"
+                                value={newProduct.img}
+                                onChange={handleInputChange}
+                                className="border border-neutral-200 rounded-lg px-4 py-2 bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                                required
+                            />
+                            <button
+                                type="submit"
+                                className="mt-2 bg-blue-600 hover:bg-blue-700 transition-colors text-white py-2 rounded-lg font-semibold text-base shadow-sm"
+                            >
+                                Add Product
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div> 
     )
 }
