@@ -15,8 +15,6 @@ if(!$user){
     exit();
 }
 
-//! ERROR NOT RECEIVING ANY JSON ON DETAILS.PHP
-
 $Account = new Account($user['ID']);
 
 $details = $Account->getDetails();

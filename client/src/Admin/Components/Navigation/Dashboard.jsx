@@ -54,40 +54,45 @@ export default function Dashboard() {
     setPage(elements.current[page]);
   }
 
-  // // Initial Request on Mount
-  // useEffect(()=>{
+  // Initial Request on Mount
+  useEffect(()=>{
 
-  //   (async()=>{
+    (async()=>{
 
-  //       try{
-  //         const response = await fetch("/api/accounts/details");
-  //         const data = (await response.json()).payload;
-  //         // console.log(await response.text());
+        try{
+          const response = await fetch("/api/accounts/details");
+          const data = (await response.json()).payload;
 
-  //         if(!response.ok){
-  //           throw new error(data.error);
-  //         }
+          if(!response.ok){
+            throw new error(data.error);
+          }
 
-  //         setDetails({
-  //             username: data.username, 
-  //             position: data.position,
-  //             picture: ""
-  //         });
+          const profile = await fetch("/api/accounts/getProfile");
+          const blob = await profile.blob();
+          const image_url = URL.createObjectURL(blob);
+          console.log(image_url);
+          console.log(blob);
 
-  //       }
-  //       catch(err){
+          setDetails({
+              username: data.username, 
+              position: data.position,
+              picture: image_url
+          });
 
-  //         console.log(err);
-  //         alert("Hahaha kala mo pede ka dito, d ka naman admin");
-  //         navigate('/login');
-  //         return;
+        }
+        catch(err){
 
-  //       }
+          console.log(err);
+          alert("Hahaha kala mo pede ka dito, d ka naman admin");
+          navigate('/login');
+          return;
 
-  //   })()
+        }
+
+    })()
 
 
-  // }, []);
+  }, []);
 
 
   // Switch Between Logout and Login
@@ -197,7 +202,12 @@ export default function Dashboard() {
                 onClick={()=>setPage(elements.current["account"])}
               >
                 <div className="relative rounded-full border-3 border-blue-800 neon-avatar">
-                  <img src={default_picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
+                  {
+                    details.picture?
+                    <img src={details.picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
+                    :
+                    <img src={default_picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
+                  }
                   <span className="neon-border"></span>
                 </div>
                 <div className="flex-col flex flex-start">
@@ -252,7 +262,9 @@ export default function Dashboard() {
           </header>
           {/* Render children below the header */}
           <main className="flex-1 p-2 sm:p-4 overflow-auto pt-20 h-0 min-h-0 minimalist-scrollbar">
-            <Page admin_navigate = {admin_navigate} />
+
+            <Page admin_navigate={admin_navigate} details={details} />
+
           </main>
         </div>
       </div>

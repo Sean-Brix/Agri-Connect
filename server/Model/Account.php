@@ -65,6 +65,7 @@ class Account {
             $this->firstname = $row["firstname"];
             $this->lastname = $row["lastname"];
             $this->gender = $row["gender"];
+            $this->profile_picture = $row["profile_picture"];
             $this->client_profile = $row["client_profile"];
             $this->address = $row["address"];
             $this->telephone_no = $row["telephone_no"];

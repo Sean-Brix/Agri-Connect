@@ -140,7 +140,8 @@ export default function Seminar() {
                             <div>
                                 <label className="block text-xs font-medium text-gray-500 mb-1">Image URL <span className="text-gray-300">(optional)</span></label>
                                 <input
-                                    type="text"
+                                    type="file"
+                                    accept='image/*'
                                     className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
                                     value={newProgram.img}
                                     onChange={e => setNewProgram({ ...newProgram, img: e.target.value })}

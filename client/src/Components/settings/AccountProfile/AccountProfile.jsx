@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import default_picture from '../../../Assets/default_picture.png'
 import { useEffect, useState } from "react";
 
-export default function AccountProfile({admin_navigate}){
+export default function AccountProfile({admin_navigate, details}){
 
     // Default Value
     const [user, setUser] = useState({
@@ -112,10 +112,21 @@ export default function AccountProfile({admin_navigate}){
                             {/* Extra border wrapper */}
                             <div className="flex items-center justify-center mb-4">
                                 <div className="rounded-full border-4 border-blue-800 p-1 flex items-center justify-center">
-                                    <img
-                                        src={default_picture}
-                                        alt="Profile"
-                                        className="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-full shadow-lg" />
+   
+                                    {
+                                        details.picture?
+                                        <img
+                                            src={details.picture}
+                                            alt="Profile"
+                                            className="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-full shadow-lg" />
+                                            :
+                                        <img
+                                            src={default_picture}
+                                            alt="Profile"
+                                            className="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-full shadow-lg" />
+
+                                    }
+                                    
                                 </div>
                             </div>
                             <div className="flex flex-col items-center space-y-2 w-full">
