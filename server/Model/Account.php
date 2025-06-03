@@ -65,7 +65,6 @@ class Account {
             $this->firstname = $row["firstname"];
             $this->lastname = $row["lastname"];
             $this->gender = $row["gender"];
-            $this->profile_picture = $row["profile_picture"];
             $this->client_profile = $row["client_profile"];
             $this->address = $row["address"];
             $this->telephone_no = $row["telephone_no"];
@@ -79,6 +78,7 @@ class Account {
             $this->created_at = $row["created_at"];
             $this->updated_at = $row["updated_at"];
         }
+
     }
 
     public function setProfilePicture($image) {
@@ -141,5 +141,9 @@ class Account {
         $result = statement($query, $params, getTypes($params));
 
         return $result !== false;
+    }
+
+    public function __toString(){
+        return "Account Owner: {$this->username}";
     }
 }

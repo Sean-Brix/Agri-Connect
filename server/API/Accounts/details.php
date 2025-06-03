@@ -21,11 +21,15 @@ if(!$user){
 
 $Account = new Account($user["ID"]);
 
+//var_dump($Account->getDetails());
+// echo $Account->getDetails();
+
 $details = $Account->getDetails();
 
 // Remove data
 unset($details["password"]);
 unset($details["updated_at"]);
+
 
 sendResponse(
     200,

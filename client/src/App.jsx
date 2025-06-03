@@ -11,6 +11,7 @@ import Dashboard from '../src/Admin/Components/Navigation/Dashboard.jsx';
 
 // SERVER TEST
 import API_Request from './TEST/api_request.jsx';
+import Details_php from './TEST/details_php.jsx';
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
 
                 {/* SERVER TESTING */}
                 <Route path="/testing/request" element={<API_Request />} />
+                <Route path="/testing/details" element={<Details_php />} />
                 
             </Routes>
         </BrowserRouter>
