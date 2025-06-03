@@ -193,11 +193,12 @@ export default function Dashboard() {
             </div>
             <div className="p-4 border-t logout flex flex-col items-center mt-auto bg-gradient-to-t from-blue-900/80 via-blue-900/60 to-transparent">
               <div 
-                className="flex items-start mb-4 w-full justify-evenly cursor-pointer hover:font-bold hover:italic"
+                className="flex items-start mb-4 w-full justify-evenly cursor-pointer hover:font-bold hover:italic neon-profile-hover"
                 onClick={()=>setPage(elements.current["account"])}
               >
-                <div className="rounded-full border-3 border-blue-800">
+                <div className="relative rounded-full border-3 border-blue-800 neon-avatar">
                   <img src={default_picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
+                  <span className="neon-border"></span>
                 </div>
                 <div className="flex-col flex flex-start">
                   <span className="font-bold">{ details.username }</span>
@@ -373,9 +374,10 @@ export default function Dashboard() {
             </nav>
             {/* Profile and Logout at the bottom, styled like desktop */}
             <div className="p-4 border-t logout flex flex-col items-center mt-auto bg-gradient-to-t from-blue-900/80 via-blue-900/60 to-transparent">
-              <div className="flex items-start mb-4 w-full justify-evenly ">
-                <div className="rounded-full border-3 border-blue-800">
+              <div className="flex items-start mb-4 w-full justify-evenly neon-profile-hover">
+                <div className="relative rounded-full border-3 border-blue-800 neon-avatar">
                   <img src={default_picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
+                  <span className="neon-border"></span>
                 </div>
                 <div className="flex-col flex flex-start">
                   <span className="font-bold">{ details.username }</span>
@@ -396,7 +398,7 @@ export default function Dashboard() {
           </div>
         </div>
       </aside>
-      {/* Minimalist scrollbar utility */}
+      {/* Minimalist scrollbar utility and neon profile effect */}
       <style>{`
         .minimalist-scrollbar::-webkit-scrollbar {
           width: 8px;
@@ -412,6 +414,43 @@ export default function Dashboard() {
         }
         html, body, #root {
           height: 100%;
+        }
+        .neon-profile-hover .neon-avatar {
+          transition: box-shadow 0.3s;
+        }
+        .neon-avatar {
+          display: inline-block;
+          position: relative;
+        }
+        .neon-avatar .neon-border {
+          content: '';
+          position: absolute;
+          top: -8px;
+          left: -8px;
+          width: 54px;
+          height: 54px;
+          border-radius: 22px;
+          pointer-events: none;
+          opacity: 0;
+          z-index: 1;
+          border: 3px solid transparent;
+        }
+        .neon-profile-hover:hover .neon-avatar .neon-border,
+        .neon-profile-hover:focus .neon-avatar .neon-border {
+          opacity: 1;
+          border-image: linear-gradient(270deg, #00fff0, #00f0ff, #00ffea, #00ffb7, #00fff0) 1;
+          animation: neon-rotate 1.0s linear infinite;
+          box-shadow: 0 0 8px 2px #00fff0, 0 0 14px 4px #00f0ff;
+        }
+        @keyframes neon-rotate {
+          0% {
+            border-image-source: linear-gradient(0deg, #00fff0, #00f0ff, #00ffea, #00ffb7, #00fff0);
+            transform: rotate(0deg);
+          }
+          100% {
+            border-image-source: linear-gradient(360deg, #00fff0, #00f0ff, #00ffea, #00ffb7, #00fff0);
+            transform: rotate(360deg);
+          }
         }
       `}</style>
     </>
