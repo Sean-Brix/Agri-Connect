@@ -30,6 +30,7 @@ export default function Login() {
         if (!response.ok) {
             console.log(data.payload.error);
             alert(data.message);
+            return;
         }
 
         if (data.payload.access == 'User') {

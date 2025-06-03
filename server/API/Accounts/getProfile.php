@@ -24,4 +24,12 @@ if($details['profile_picture'] != null){
     exit();
 }
 
-echo "No Image Found";
+sendResponse(
+    404,
+    "Not Found",
+    [
+        "error" => "Resource not found or User has no profile picture",
+        "value" => "None"
+    ],
+    "Profile picture defaulting"
+);

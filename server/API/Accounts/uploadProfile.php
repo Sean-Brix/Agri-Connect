@@ -30,9 +30,4 @@ if(!$upload){
     );
 }
 
-sendResponse(
-    200,
-    "success",
-    [$_FILES['image']],
-    "Image Uploaded Successfully"
-);
+sendImageResponse($Account->getProfile());

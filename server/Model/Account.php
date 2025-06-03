@@ -105,6 +105,10 @@ class Account {
         return false;
     }
 
+    public function getProfile(){
+        return $this->profile_picture;
+    }
+
     // Creates a new account
     public function createAccount($params){
 

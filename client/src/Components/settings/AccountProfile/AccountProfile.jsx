@@ -48,10 +48,6 @@ export default function AccountProfile({admin_navigate, details}){
 
     }, []);
 
-    useEffect(()=>{
-        console.log(user);
-    }, [user])
-
     return (
         <>
             <div className="relative mt-30">
@@ -113,19 +109,10 @@ export default function AccountProfile({admin_navigate, details}){
                             <div className="flex items-center justify-center mb-4">
                                 <div className="rounded-full border-4 border-blue-800 p-1 flex items-center justify-center">
    
-                                    {
-                                        details.picture?
-                                        <img
-                                            src={details.picture}
-                                            alt="Profile"
-                                            className="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-full shadow-lg" />
-                                            :
-                                        <img
-                                            src={default_picture}
-                                            alt="Profile"
-                                            className="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-full shadow-lg" />
-
-                                    }
+                                    <img
+                                        src={details.picture}
+                                        alt="Profile"
+                                        className="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-full shadow-lg" />
                                     
                                 </div>
                             </div>

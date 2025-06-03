@@ -26,7 +26,7 @@ export default function Dashboard() {
   const [details, setDetails] = useState({
     username: "Guest Account", 
     position: "User Admin",
-    picture: ""
+    picture: default_picture
   });
 
   
@@ -60,6 +60,7 @@ export default function Dashboard() {
     (async()=>{
 
         try{
+          // Get Account Details
           const response = await fetch("/api/accounts/details");
           const data = (await response.json()).payload;
 
@@ -67,16 +68,28 @@ export default function Dashboard() {
             throw new error(data.error);
           }
 
+          // Get Profile Picture
           const profile = await fetch("/api/accounts/getProfile");
-          const blob = await profile.blob();
-          const image_url = URL.createObjectURL(blob);
-          console.log(image_url);
-          console.log(blob);
+          let image_url;
+          
+          if (profile.ok && profile.headers.get('content-type').includes('image')) {
 
+            const blob = await profile.blob();
+            image_url = URL.createObjectURL(blob);
+
+          } 
+          else {
+
+            image_url = default_picture
+
+          }
+
+          // Render State
           setDetails({
               username: data.username, 
               position: data.position,
-              picture: image_url
+              picture: image_url,
+              setProfile: setDetails
           });
 
         }
@@ -202,12 +215,9 @@ export default function Dashboard() {
                 onClick={()=>setPage(elements.current["account"])}
               >
                 <div className="relative rounded-full border-3 border-blue-800 neon-avatar">
-                  {
-                    details.picture?
+
                     <img src={details.picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
-                    :
-                    <img src={default_picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
-                  }
+
                   <span className="neon-border"></span>
                 </div>
                 <div className="flex-col flex flex-start">
@@ -263,7 +273,7 @@ export default function Dashboard() {
           {/* Render children below the header */}
           <main className="flex-1 p-2 sm:p-4 overflow-auto pt-20 h-0 min-h-0 minimalist-scrollbar">
 
-            <Page admin_navigate={admin_navigate} details={details} />
+            <Page admin_navigate={admin_navigate} details={details}/>
 
           </main>
         </div>
@@ -388,7 +398,9 @@ export default function Dashboard() {
             <div className="p-4 border-t logout flex flex-col items-center mt-auto bg-gradient-to-t from-blue-900/80 via-blue-900/60 to-transparent">
               <div className="flex items-start mb-4 w-full justify-evenly neon-profile-hover">
                 <div className="relative rounded-full border-3 border-blue-800 neon-avatar">
-                  <img src={default_picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
+
+                  <img src={details.picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
+
                   <span className="neon-border"></span>
                 </div>
                 <div className="flex-col flex flex-start">

@@ -12,7 +12,7 @@ if(!usernameExist($username)){
     sendResponse(
         400, 
         "Failed",
-        [],
+        ["Error"=>"Username does not exist"],
         "User Account Doesn't Exist"
     );
     exit();
