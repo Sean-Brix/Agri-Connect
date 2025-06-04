@@ -215,9 +215,11 @@ export default function Dashboard() {
                 onClick={()=>setPage(elements.current["account"])}
               >
                 <div className="relative rounded-full border-3 border-blue-800 neon-avatar">
-
-                    <img src={details.picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
-
+                  <img 
+                    src={details.picture} 
+                    alt="Profile" 
+                    className="h-10 w-10 rounded-full border-2 border-white object-cover" 
+                  />
                   <span className="neon-border"></span>
                 </div>
                 <div className="flex-col flex flex-start">
@@ -398,9 +400,11 @@ export default function Dashboard() {
             <div className="p-4 border-t logout flex flex-col items-center mt-auto bg-gradient-to-t from-blue-900/80 via-blue-900/60 to-transparent">
               <div className="flex items-start mb-4 w-full justify-evenly neon-profile-hover">
                 <div className="relative rounded-full border-3 border-blue-800 neon-avatar">
-
-                  <img src={details.picture} alt="Profile" className="h-10 w-10 rounded-full border-2 border-white" />
-
+                  <img 
+                    src={details.picture} 
+                    alt="Profile" 
+                    className="h-10 w-10 rounded-full border-2 border-white object-cover" 
+                  />
                   <span className="neon-border"></span>
                 </div>
                 <div className="flex-col flex flex-start">
