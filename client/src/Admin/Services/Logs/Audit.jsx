@@ -117,8 +117,23 @@ function AuditLogsTable({ admin_navigate }) {
     new Set(logs.map(log => String(log[filterColumn])))
   );
 
-  // Filter and sort logs (move this below filterColumn/filterUser state so it's always up-to-date)
-  const filteredLogs = logs
+  // Add more log items to exceed 30
+  const extendedLogs = [
+    ...logs,
+    ...Array.from({ length: 25 }, (_, i) => ({
+      id: 11 + i,
+      user: `user${i + 1}`,
+      action: ['Created', 'Updated', 'Deleted', 'Viewed', 'Logged in', 'Logged out'][i % 6] + ' item',
+      timestamp: `2024-06-${13 + Math.floor(i / 10)} ${String(8 + (i % 12)).padStart(2, '0')}:${String((i * 7) % 60).padStart(2, '0')}:00`,
+      details: `Details for log ${i + 11}`
+    }))
+  ];
+
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 30;
+
+  // Filter and sort logs (use extendedLogs)
+  const filteredLogs = extendedLogs
     .filter(
       log =>
         (filterUser === '' || String(log[filterColumn]) === filterUser) &&
@@ -145,6 +160,9 @@ function AuditLogsTable({ admin_navigate }) {
       }
     });
 
+  const totalPages = Math.ceil(filteredLogs.length / itemsPerPage);
+  const paginatedLogs = filteredLogs.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+
   return (
     <div
       className="mt-10 p-2 sm:p-4 md:p-8"
@@ -168,7 +186,10 @@ function AuditLogsTable({ admin_navigate }) {
             placeholder="Search logs..."
             className="w-full pl-8 pr-2 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 text-xs sm:text-sm"
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={e => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
           />
           <button
             type="button"
@@ -190,22 +211,26 @@ function AuditLogsTable({ admin_navigate }) {
                 onChange={e => {
                   setFilterColumn(e.target.value);
                   setFilterUser('');
+                  setPage(1);
                 }}
               >
                 <option value="user">User</option>
                 <option value="id">User ID</option>
                 <option value="action">Action</option>
                 <option value="timestamp">Timestamp</option>
-                <option value="details">Details</option>
+                {/* Removed <option value="details">Details</option> */}
               </select>
               <div className="mb-2 font-semibold text-blue-800 text-xs">Filter Value</div>
               <select
                 className="w-full border border-gray-300 rounded px-2 py-1 text-xs"
                 value={filterUser}
-                onChange={e => setFilterUser(e.target.value)}
+                onChange={e => {
+                  setFilterUser(e.target.value);
+                  setPage(1);
+                }}
               >
                 <option value="">All</option>
-                {uniqueFilterValues.map(val => (
+                {Array.from(new Set(extendedLogs.map(log => String(log[filterColumn])))).map(val => (
                   <option key={val} value={val}>{val}</option>
                 ))}
               </select>
@@ -225,7 +250,7 @@ function AuditLogsTable({ admin_navigate }) {
             <tr>
               <th
                 className="px-2 sm:px-3 py-3 sm:py-4 text-left font-semibold text-blue-800 cursor-pointer select-none whitespace-nowrap"
-                onClick={() => handleSort('timestamp')}
+                onClick={() => { handleSort('timestamp'); setPage(1); }}
                 style={{ minWidth: 120 }}
               >
                 Timestamp
@@ -235,7 +260,7 @@ function AuditLogsTable({ admin_navigate }) {
               </th>
               <th
                 className="px-2 sm:px-3 py-3 sm:py-4 text-center font-semibold text-blue-800 cursor-pointer select-none whitespace-nowrap"
-                onClick={() => handleSort('id')}
+                onClick={() => { handleSort('id'); setPage(1); }}
                 style={{ minWidth: 60 }}
               >
                 User ID
@@ -245,7 +270,7 @@ function AuditLogsTable({ admin_navigate }) {
               </th>
               <th
                 className="px-2 sm:px-3 py-3 sm:py-4 text-left font-semibold text-blue-800 cursor-pointer select-none whitespace-nowrap"
-                onClick={() => handleSort('user')}
+                onClick={() => { handleSort('user'); setPage(1); }}
                 style={{ minWidth: 100 }}
               >
                 User
@@ -255,7 +280,7 @@ function AuditLogsTable({ admin_navigate }) {
               </th>
               <th
                 className="px-2 sm:px-3 py-3 sm:py-4 text-left font-semibold text-blue-800 cursor-pointer select-none whitespace-nowrap"
-                onClick={() => handleSort('action')}
+                onClick={() => { handleSort('action'); setPage(1); }}
                 style={{ minWidth: 120 }}
               >
                 Action
@@ -272,14 +297,14 @@ function AuditLogsTable({ admin_navigate }) {
             </tr>
           </thead>
           <tbody>
-            {filteredLogs.length === 0 ? (
+            {paginatedLogs.length === 0 ? (
               <tr>
                 <td colSpan={5} className="text-center py-12 text-gray-500 text-xs sm:text-sm">
                   No logs found.
                 </td>
               </tr>
             ) : (
-              filteredLogs.map(log => (
+              paginatedLogs.map(log => (
                 <tr
                   key={log.id}
                   className="hover:bg-blue-100 transition-colors group"
@@ -304,6 +329,34 @@ function AuditLogsTable({ admin_navigate }) {
           </tbody>
         </table>
       </div>
+      {/* Pagination controls */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center gap-2 mt-4">
+          <button
+            className="px-2 py-1 rounded border bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs"
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+          >
+            Prev
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i + 1}
+              className={`px-2 py-1 rounded border text-xs ${page === i + 1 ? 'bg-blue-200 text-blue-900 font-bold' : 'bg-blue-50 text-blue-700 hover:bg-blue-100'}`}
+              onClick={() => setPage(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            className="px-2 py-1 rounded border bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs"
+            disabled={page === totalPages}
+            onClick={() => setPage(page + 1)}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }

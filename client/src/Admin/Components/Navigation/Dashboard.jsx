@@ -55,57 +55,57 @@ export default function Dashboard() {
   }
 
   // Initial Request on Mount
-  useEffect(()=>{
+  // useEffect(()=>{
 
-    (async()=>{
+  //   (async()=>{
 
-        try{
-          // Get Account Details
-          const response = await fetch("/api/accounts/details");
-          const data = (await response.json()).payload;
+  //       try{
+  //         // Get Account Details
+  //         const response = await fetch("/api/accounts/details");
+  //         const data = (await response.json()).payload;
 
-          if(!response.ok){
-            throw new error(data.error);
-          }
+  //         if(!response.ok){
+  //           throw new error(data.error);
+  //         }
 
-          // Get Profile Picture
-          const profile = await fetch("/api/accounts/getProfile");
-          let image_url;
+  //         // Get Profile Picture
+  //         const profile = await fetch("/api/accounts/getProfile");
+  //         let image_url;
           
-          if (profile.ok && profile.headers.get('content-type').includes('image')) {
+  //         if (profile.ok && profile.headers.get('content-type').includes('image')) {
 
-            const blob = await profile.blob();
-            image_url = URL.createObjectURL(blob);
+  //           const blob = await profile.blob();
+  //           image_url = URL.createObjectURL(blob);
 
-          } 
-          else {
+  //         } 
+  //         else {
 
-            image_url = default_picture
+  //           image_url = default_picture
 
-          }
+  //         }
 
-          // Render State
-          setDetails({
-              username: data.username, 
-              position: data.position,
-              picture: image_url,
-              setProfile: setDetails
-          });
+  //         // Render State
+  //         setDetails({
+  //             username: data.username, 
+  //             position: data.position,
+  //             picture: image_url,
+  //             setProfile: setDetails
+  //         });
 
-        }
-        catch(err){
+  //       }
+  //       catch(err){
 
-          console.log(err);
-          alert("Hahaha kala mo pede ka dito, d ka naman admin");
-          navigate('/login');
-          return;
+  //         console.log(err);
+  //         alert("Hahaha kala mo pede ka dito, d ka naman admin");
+  //         navigate('/login');
+  //         return;
 
-        }
+  //       }
 
-    })()
+  //   })()
 
 
-  }, []);
+  // }, []);
 
 
   // Switch Between Logout and Login
