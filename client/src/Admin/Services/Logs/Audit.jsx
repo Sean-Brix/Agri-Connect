@@ -244,7 +244,7 @@ function AuditLogsTable({ admin_navigate }) {
           )}
         </div>
       </div>
-      <div className="rounded-lg shadow border border-blue-200 bg-white p-6">
+      <div className="rounded-lg shadow border border-blue-200 bg-white p-6 ">
         <table className="min-w-full w-full text-xs sm:text-sm table-fixed">
           <thead className="bg-blue-50">
             <tr>

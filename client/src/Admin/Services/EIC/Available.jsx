@@ -65,8 +65,8 @@ export default function Available() {
     };
 
     return (
-       <div className="pt-10 h-full w-full  bg-gradient-to-br from-neutral-100 via-slate-100 to-zinc-200 flex flex-col items-center px-2 sm:px-6">
-            <div className="w-full max-w-7xl">
+       <div className="pt-10 h-dvh w-full  bg-gradient-to-br from-neutral-100 via-slate-100 to-zinc-200 flex flex-col items-center px-2 sm:px-6">
+            <div className="w-full max-w-7xl h-dvh">
                 <div className="flex justify-between items-center mb-8">
                     <h2 className="text-3xl font-extrabold text-neutral-900 text-center tracking-tight drop-shadow">
                         Available Equipment
@@ -101,7 +101,7 @@ export default function Available() {
                         maxHeight: '600px',
                     }}
                 >
-                    <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 p-5">
+                    <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3  xl:grid-cols-4 p-5">
                         {products.map((item, idx) => (
                             <div
                                 key={idx}

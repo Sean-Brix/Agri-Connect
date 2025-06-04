@@ -212,7 +212,7 @@ export default function Seminar() {
                 </div>
             )}
             {/* Responsive Grid for Programs */}
-            <div className="w-full max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div className="w-full max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 [@media(min-width:1150px)]:grid-cols-3 gap-6 md:gap-8">
                 {filteredList.map((item, idx) => {
                     // Find the index in the main programList for selection
                     const realIdx = programList.indexOf(item);

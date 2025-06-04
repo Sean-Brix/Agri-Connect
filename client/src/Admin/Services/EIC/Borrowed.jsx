@@ -1,7 +1,7 @@
+import React, { useState } from 'react';
 import Shovel from './Assets/Shovel.webp'
 import Pandilig from './Assets/pandilig.webp'  
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 
 const equipmentList = [
     {
@@ -98,8 +98,23 @@ export default function Borrowed() {
         setSelectedToDelete([]);
     };
 
+    // Responsive columns: 1 (<=800px), 3 (801-1100px), 4 (>1100px)
+    const [columns, setColumns] = useState(4);
+
+    
+
+    // Set initial columns and update on resize
+    React.useEffect(() => {
+        function handleResize() {
+            setColumns(getColumns());
+        }
+        handleResize(); // Set initial value after mount
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
-        <div className="pt-10 h-full w-full pb-5 bg-neutral-50 flex flex-col items-center px-2 sm:px-6">
+        <div className="pt-10 h-dvh w-full pb-5 bg-neutral-50 flex flex-col items-center px-2 sm:px-6 overflow-y-auto">
             <div className="w-full max-w-7xl">
                 <div className="flex justify-between items-center mb-8">
                     <h2 className="text-3xl font-extrabold text-neutral-900 text-center tracking-tight">
@@ -123,13 +138,13 @@ export default function Borrowed() {
                         )}
                     </div>
                 </div>
-                <div
-                    className="overflow-y-auto pr-2"
-                    style={{
-                        maxHeight: '600px',
-                    }}
-                >
-                    <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 p-5">
+                <div>
+                    <div
+                        className="grid gap-8 p-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
+                        style={{
+                            gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+                        }}
+                    >
                         {products.map((item, idx) => (
                             <div
                                 key={idx}
