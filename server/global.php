@@ -14,3 +14,4 @@ require_once UTIL."jwt.php";
 
 // MODEL
 require_once MODEL."Account.php";
+require_once MODEL."Seminars.php";

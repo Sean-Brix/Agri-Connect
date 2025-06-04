@@ -20,7 +20,7 @@ if(!usernameExist($username)){
 
 // Get account
 $Account = new Account(usernameExist($username, true));
-$details = $Account->getDetails();
+$details = $Account->getDetails(false);
 
 // Check Password
 if(!password_verify($password, $details["password"])){

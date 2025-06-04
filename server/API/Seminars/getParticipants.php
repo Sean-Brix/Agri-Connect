@@ -2,16 +2,81 @@
 
 require_once __DIR__."/../../global.php";
 
-$query = $_GET['seminar_id'];
+try {
+    // Check if seminar_id is provided
+    if (!isset($_GET['seminar_id']) || empty($_GET['seminar_id'])) {
+        throw new Exception("Seminar ID is required");
+    }
 
-echo json_encode($query);
+    // query value
+    $query = $_GET['seminar_id'];
 
-// TRY THE JOIN
+    // find seminar record
+    try {
+        $Seminar = new Seminars($query);
+    } catch (Exception $e) {
+        throw new Exception("Invalid seminar ID or seminar not found");
+    }
 
-/*
+    // get all participants
+    $participants = $Seminar->getParticipants();
+    
+    // Check if participants exist
+    if (empty($participants)) {
+        sendResponse(
+            200,
+            "success",
+            ["list" => []],
+            "No participants found for this seminar"
+        );
+        exit;
+    }
 
-    SELECT * 
-    FROM `seminars` JOIN `seminar_participants`
-    ON seminars.id = seminar_participants.seminar_id;
+    // Prepare json body for response
+    $result = [];
+    foreach ($participants as $user) {
+        try {
+            $Account = new Account($user['account_id']);
+            $details = $Account->getDetails();
+            
+            // Remove data not needed
+            unset($details['telephone_no']);
+            unset($details['occupation']);
+            unset($details['position']);
+            unset($details['institution']);
+            unset($details['created_at']);
+            unset($details['client_profile']);
+            unset($details['address']);
+            unset($details['access']);
+            
+            $details['status'] = $user['status'];
+            $details['reg_date'] = $user['registration_date'];
 
-*/
+            // Append
+            $result[] = $details;
+
+        } 
+        catch (Exception $e) {
+            // Log the error but continue with other participants
+            error_log("Error processing participant ID {$user['account_id']}: " . $e->getMessage());
+            continue;
+        }
+    }
+
+    // Respond
+    sendResponse(
+        200,
+        "success",
+        ["list" => $result],
+        "Participants successfully fetched"
+    );
+
+} 
+catch (Exception $e) {
+    sendResponse(
+        400,
+        "error",
+        ["error"=>$e->getMessage()],
+        $e->getMessage()
+    );
+}

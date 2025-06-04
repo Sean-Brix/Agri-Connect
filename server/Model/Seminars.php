@@ -42,11 +42,16 @@ class Seminars {
     }
 
     public function getParticipants(){
-        $query = "SELECT * FROM `seminars` JOIN `seminar_participants` ON seminars.id = seminar_participants.seminar_id";
-        $result = statement($query);
 
-        var_dump(mysqli_fetch_assoc($result));
+        $query = "SELECT account_id, seminar_participants.status, registration_date FROM `seminars` JOIN `seminar_participants` ON seminars.id = seminar_participants.seminar_id WHERE seminars.id = ?";
+        $result = statement($query, [$this->id], getTypes([$this->id]));
 
+        $participants = [];
+        while($row = mysqli_fetch_assoc($result)){
+            $participants[] = $row;
+        }
+
+        return $participants;
     }
 
     public function initialize(){

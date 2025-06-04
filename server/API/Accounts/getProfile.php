@@ -17,7 +17,7 @@ if(!$user){
 
 $Account = new Account($user['ID']);
 
-$details = $Account->getDetails();
+$details = $Account->getDetails(false);
 
 if($details['profile_picture'] != null){
     sendImageResponse($details['profile_picture']);

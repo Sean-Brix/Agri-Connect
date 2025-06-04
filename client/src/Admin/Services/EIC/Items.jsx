@@ -117,7 +117,7 @@ export default function Items() {
     const filteredProducts = products.filter(product => {
         if (filter === 'all') return true;
         if (filter === 'available') return product.available;
-        if (filter === 'unavailable') return !product.available;
+        if (filter === 'Returned') return !product.available;
         return true;
     });
 
@@ -148,10 +148,16 @@ export default function Items() {
                             Available
                         </button>
                         <button
-                            className={`px-4 py-2 rounded-lg font-semibold ${filter === 'unavailable' ? 'bg-red-500 text-white' : 'bg-white text-red-600 border border-red-300'} transition`}
-                            onClick={() => setFilter('unavailable')}
+                            className={`px-4 py-2 rounded-lg font-semibold ${filter === 'Returned' ? 'bg-red-500 text-white' : 'bg-white text-blue-500 border border-blue-300'} transition`}
+                            onClick={() => setFilter('Returned')}
                         >
-                            Unavailable
+                            Returned
+                        </button>
+                        <button
+                            className={`px-4 py-2 rounded-lg font-semibold ${filter === 'Reserved' ? 'bg-red-500 text-white' : 'bg-white text-red-600 border border-red-300'} transition`}
+                            onClick={() => setFilter('reserved')}
+                        >
+                            Reserved
                         </button>
                     </div>
                     <button

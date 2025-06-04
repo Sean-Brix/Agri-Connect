@@ -26,12 +26,6 @@ $Account = new Account($user["ID"]);
 
 $details = $Account->getDetails();
 
-// Remove data
-unset($details["password"]);
-unset($details["profile_picture"]);
-unset($details["updated_at"]);
-
-
 sendResponse(
     200,
     "success",

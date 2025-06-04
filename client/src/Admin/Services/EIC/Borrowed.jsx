@@ -106,7 +106,7 @@ export default function Borrowed() {
     // Set initial columns and update on resize
     React.useEffect(() => {
         function handleResize() {
-            setColumns(getColumns());
+            setColumns(columns);
         }
         handleResize(); // Set initial value after mount
         window.addEventListener('resize', handleResize);

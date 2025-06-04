@@ -31,8 +31,8 @@ class Account {
     }
 
     // Get all details of an account
-    public function getDetails(){
-        return [
+    public function getDetails($unset = true){
+        $details = [
             'id' => $this->id,
             'access' => $this->access,
             'firstname' => $this->firstname,
@@ -52,6 +52,14 @@ class Account {
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+
+        if ($unset) {
+            unset($details["password"]);
+            unset($details["profile_picture"]);
+            unset($details["updated_at"]);
+        }
+
+        return $details;
     }
 
     public function initialize(){
