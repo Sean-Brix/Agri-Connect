@@ -65,7 +65,7 @@ export default function Available() {
     };
 
     return (
-       <div className="pt-10 min-h-screen w-full pb-5 bg-gradient-to-br from-neutral-100 via-slate-100 to-zinc-200 flex flex-col items-center px-2 sm:px-6">
+       <div className="pt-10 h-full w-full  bg-gradient-to-br from-neutral-100 via-slate-100 to-zinc-200 flex flex-col items-center px-2 sm:px-6">
             <div className="w-full max-w-7xl">
                 <div className="flex justify-between items-center mb-8">
                     <h2 className="text-3xl font-extrabold text-neutral-900 text-center tracking-tight drop-shadow">
