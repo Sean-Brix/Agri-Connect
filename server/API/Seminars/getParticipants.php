@@ -3,6 +3,19 @@
 require_once __DIR__."/../../global.php";
 
 try {
+    $token = $_SESSION['token'];
+    $user = verify_token($token, ACCESS_KEY);
+
+    if(!$user){  
+        sendResponse(
+            401,
+            "Unauthorize",
+            ["Error"=>"Token failed to verify"],
+            "invalid token"
+        );
+        exit();
+    }
+
     // Check if seminar_id is provided
     if (!isset($_GET['seminar_id']) || empty($_GET['seminar_id'])) {
         throw new Exception("Seminar ID is required");

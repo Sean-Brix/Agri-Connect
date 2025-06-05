@@ -33,6 +33,8 @@ const initialProgramList = [
     },
 ];
 
+import default_seminar_pic from '../../../Assets/default_seminar_pic.svg'
+
 export default function Seminar() {
     const [search, setSearch] = useState('');
     const [programList, setProgramList] = useState(initialProgramList);
@@ -171,7 +173,7 @@ export default function Seminar() {
                         </div>
                         <div className="px-6 py-6 flex flex-col gap-4">
                             <div>
-                                <label className="block text-xs font-medium text-gray-500 mb-1">Name</label>
+                                <label className="block text-xs font-medium text-gray-500 mb-1">Title</label>
                                 <input
                                     type="text"
                                     className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
@@ -182,6 +184,98 @@ export default function Seminar() {
                                 />
                             </div>
                             <div>
+                                <label className="block text-xs font-medium text-gray-500 mb-1">Location</label>
+                                <input
+                                    type="text"
+                                    className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                    value={newProgram.name}
+                                    onChange={e => setNewProgram({ ...newProgram, name: e.target.value })}
+                                    required
+                                    autoFocus
+                                />
+                            </div>
+                            <div className="flex gap-4">
+                                <div className="flex-1">
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">Start Date</label>
+                                    <input
+                                        type="datetime-local"
+                                        className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                        value={newProgram.startDate || ''}
+                                        onChange={e => setNewProgram({ ...newProgram, startDate: e.target.value })}
+                                        required
+                                    />
+                                </div>
+                                <div className="flex-1">
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">End Date</label>
+                                    <input
+                                        type="datetime-local"
+                                        className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                        value={newProgram.endDate || ''}
+                                        onChange={e => setNewProgram({ ...newProgram, endDate: e.target.value })}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex gap-4">
+                                <div className="flex-1">
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">Opening Time</label>
+                                    <input
+                                        type="time"
+                                        className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                        value={newProgram.openTime || ''}
+                                        onChange={e => setNewProgram({ ...newProgram, openTime: e.target.value })}
+                                        required
+                                    />
+                                </div>
+                                <div className="flex-1">
+                                    <label className="block text-xs font-medium text-gray-500 mb-1">Closing Time</label>
+                                    <input
+                                        type="time"
+                                        className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                        value={newProgram.closeTime || ''}
+                                        onChange={e => setNewProgram({ ...newProgram, closeTime: e.target.value })}
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-xs font-medium text-gray-500 mb-1">Maximum Participants</label>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                    value={newProgram.maxParticipants || ''}
+                                    onChange={e => setNewProgram({ ...newProgram, maxParticipants: e.target.value })}
+                                    required
+                                    placeholder="Enter maximum number of participants"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-xs font-medium text-gray-500 mb-1">Speaker Name</label>
+                                <input
+                                    type="text"
+                                    className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                    value={newProgram.speaker || ''}
+                                    onChange={e => setNewProgram({ ...newProgram, speaker: e.target.value })}
+                                    required
+                                    placeholder="Enter speaker name"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-xs font-medium text-gray-500 mb-1">Registration Deadline</label>
+                                <input
+                                    type="datetime-local"
+                                    className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                    value={newProgram.registrationDeadline || ''}
+                                    onChange={e => setNewProgram({ ...newProgram, registrationDeadline: e.target.value })}
+                                    required
+                                />
+                            </div>
+
+                            <div>
                                 <label className="block text-xs font-medium text-gray-500 mb-1">Description</label>
                                 <textarea
                                     className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition resize-none"
@@ -191,11 +285,12 @@ export default function Seminar() {
                                     rows={3}
                                 />
                             </div>
+
                             <div>
                                 <label className="block text-xs font-medium text-gray-500 mb-1">Image URL <span className="text-gray-300">(optional)</span></label>
                                 <input
-                                    type="text"
-                                    placeholder="https://example.com/image.jpg"
+                                    type="file"
+                                    accept="image/*"
                                     className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
                                     value={newProgram.img}
                                     onChange={e => setNewProgram({ ...newProgram, img: e.target.value })}
@@ -235,7 +330,7 @@ export default function Seminar() {
                                 </div>
                             )}
                             <img
-                                src={item.img || 'https://via.placeholder.com/400x200?text=No+Image'}
+                                src={default_seminar_pic}
                                 alt={item.name}
                                 className="w-full h-40 sm:h-48 object-cover rounded-t-xl bg-gray-100 transition-none"
                                 onError={handleImgError}
