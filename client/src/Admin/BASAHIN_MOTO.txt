@@ -1,8 +1,0 @@
-Ang entry point ng admin is ung dashboard, ibigsabihin pag inimport mo tong admin_style.css sa "dashboard.jsx" lahat ng component mo sa admin magagamit na ung css
-
-
-yung sa EIC, ang main file non is ung EIC.jsx 
-if may section section ulit sabihin mo sakin gagawan ko ng parang sa EIC para maayos
-
-
-ganto lang magiging folderstructure ntin ilalagay ko sa isang folder ung mga ibang file para pag ginawa mo na ung client may copy ka prin.
