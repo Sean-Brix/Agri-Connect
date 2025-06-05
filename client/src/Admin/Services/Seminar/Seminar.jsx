@@ -1,75 +1,28 @@
-import { useState } from 'react';
-
-const initialProgramList = [
-    {
-        name: 'Plows Seminar',
-        desc: 'Learn how to use plows for soil preparation.',
-        img: 'plow-image-url',
-    },
-    {
-        name: 'Pandilig Workshop',
-        desc: 'Master the art of irrigation with Pandilig.',
-        img: 'pandilig-image-url',
-    },
-    {
-        name: 'Shovel Training',
-        desc: 'Proper shovel techniques for efficient farming.',
-        img: 'shovel-image-url',
-    },
-    {
-        name: 'Tractor Maintenance',
-        desc: 'Keep your tractor running smoothly with expert tips.',
-        img: 'tractor-image-url',
-    },
-    {
-        name: 'Seed Selection Seminar',
-        desc: 'Choose the best seeds for your crops.',
-        img: 'seed-image-url',
-    },
-    {
-        name: 'Organic Farming Basics',
-        desc: 'Introduction to organic farming methods.',
-        img: 'organic-image-url',
-    },
-];
-
+import { useEffect, useState } from 'react';
 import default_seminar_pic from '../../../Assets/default_seminar_pic.svg'
 
 export default function Seminar() {
     const [search, setSearch] = useState('');
-    const [programList, setProgramList] = useState(initialProgramList);
+    const [programList, setProgramList] = useState([]);
     const [showAdd, setShowAdd] = useState(false);
     const [newProgram, setNewProgram] = useState({ name: '', desc: '', img: '' });
 
+    useEffect(()=>{
+        (async()=>{
+            const response = await fetch(`/api/Seminars/getSeminars`);
+            const data = await response.json();
+
+            setProgramList(data.payload.seminars);
+        })();
+    })
+
     const filteredList = programList.filter(item =>
-        item.name.toLowerCase().includes(search.toLowerCase()) ||
-        item.desc.toLowerCase().includes(search.toLowerCase())
+        item.title.toLowerCase().includes(search.toLowerCase()) ||
+        item.description.toLowerCase().includes(search.toLowerCase())
     );
 
     const handleDelete = idx => {
         setProgramList(list => list.filter((_, i) => i !== idx));
-    };
-
-    const handleAddProgram = e => {
-        e.preventDefault();
-        if (!newProgram.name.trim() || !newProgram.desc.trim()) return;
-        setProgramList(list => [
-            ...list,
-            {
-                name: newProgram.name,
-                desc: newProgram.desc,
-                img: newProgram.img || 'https://via.placeholder.com/400x200?text=No+Image',
-            },
-        ]);
-        setNewProgram({ name: '', desc: '', img: '' });
-        setShowAdd(false);
-    };
-
-    // Fix image blinking: set a default placeholder if no image, and avoid onError loop
-    const handleImgError = e => {
-        if (e.target.src !== 'https://via.placeholder.com/400x200?text=No+Image') {
-            e.target.src = 'https://via.placeholder.com/400x200?text=No+Image';
-        }
     };
 
     // State for selection mode and selected items
@@ -331,14 +284,12 @@ export default function Seminar() {
                             )}
                             <img
                                 src={default_seminar_pic}
-                                alt={item.name}
+                                alt={item.title}
                                 className="w-full h-40 sm:h-48 object-cover rounded-t-xl bg-gray-100 transition-none"
-                                onError={handleImgError}
-                                loading="lazy"
                             />
                             <div className="flex-1 flex flex-col p-4 md:p-5">
-                                <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-2">{item.name}</h3>
-                                <p className="text-gray-600 text-sm mb-4 flex-1">{item.desc}</p>
+                                <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-2">{item.title}</h3>
+                                <p className="text-gray-600 text-sm mb-4 flex-1">{item.description}</p>
                                 <div className="flex flex-col gap-2 mt-auto md:flex-row">
                                     <button className="w-full md:w-auto bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-semibold transition-colors">
                                         Edit Program
@@ -351,6 +302,27 @@ export default function Seminar() {
                         </div>
                     );
                 })}
+                {/* Pagination */}
+                <div className="col-span-full flex justify-center gap-2 mt-6">
+                    <button 
+                        className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:opacity-50 disabled:hover:bg-gray-100"
+                        disabled={2 /*current*/ === 1}
+                        onClick={() => setCurrentPage(prev => prev - 1)}
+                    >
+                        Previous
+                    </button>
+                    <span className="px-4 py-2">
+                        Page {1} of {2}
+                    </span>
+                    <button 
+                        className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:opacity-50 disabled:hover:bg-gray-100"
+                        disabled={1 /*current*/ === /*total*/2}
+                        onClick={() => setCurrentPage(prev => prev + 1)}
+                    >
+                        Next
+                    </button>
+                </div>
+
                 {filteredList.length === 0 && (
                     <div className="col-span-full text-center text-gray-400 py-10">
                         No programs found.
