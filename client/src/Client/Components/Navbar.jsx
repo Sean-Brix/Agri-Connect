@@ -336,7 +336,7 @@ export default function Navbar() {
                 </div>
                 <ul className="flex flex-col gap-2 px-8 py-8">
                     <li>
-                        <a href="/" className="flex items-center gap-2 px-6 py-4 text-blue-700 hover:bg-blue-50 font-semibold rounded-lg transition">
+                        <a href="/" className="flex items-center gap-2 px-6 py-6 text-blue-700 hover:bg-blue-50 font-semibold rounded-lg transition">
                             <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                 <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
@@ -345,7 +345,7 @@ export default function Navbar() {
                     </li>
                     <li>
                         <details className="group">
-                            <summary className="flex items-center gap-2 px-6 py-4 text-blue-700 hover:bg-blue-50 font-semibold rounded-lg cursor-pointer transition focus:outline-none">
+                            <summary className="flex items-center gap-2 px-6 py-6 text-blue-700 hover:bg-blue-50 font-semibold rounded-lg cursor-pointer transition focus:outline-none">
                                 <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
@@ -378,7 +378,7 @@ export default function Navbar() {
                     </li>
                     <li>
                         <details className="group">
-                            <summary className="flex items-center gap-2 px-6 py-4 text-blue-700 hover:bg-blue-50 font-semibold rounded-lg cursor-pointer transition focus:outline-none">
+                            <summary className="flex items-center gap-2 px-6 py-6 text-blue-700 hover:bg-blue-50 font-semibold rounded-lg cursor-pointer transition focus:outline-none">
                                 <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
                                     <path d="M8 12l2 2 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -413,7 +413,7 @@ export default function Navbar() {
                     {/* Settings for mobile */}
                     <li>
                         <details className="group">
-                            <summary className="flex items-center gap-2 px-6 py-4 text-blue-700 hover:bg-blue-50 font-semibold rounded-lg cursor-pointer transition focus:outline-none">
+                            <summary className="flex items-center gap-2 px-6 py-6 text-blue-700 hover:bg-blue-50 font-semibold rounded-lg cursor-pointer transition focus:outline-none">
                                 <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <circle cx="12" cy="12" r="3" />
                                     <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33h.09a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51h.09a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v.09a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
