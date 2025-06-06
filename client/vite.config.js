@@ -18,12 +18,27 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost/Agri-Connect/server/api',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, '') + '.php'
+        rewrite: (path) => {
+          const newPath = path.replace(/^\/api/, '');
+          const url = new URL(newPath, 'http://localhost');
+          const pathname = url.pathname;
+          const search = url.search;
+          url.pathname = pathname + '.php';
+          url.search = search;
+          return url.toString().replace('http://localhost', '');
+        }
       },
       '/auth': {
         target: 'http://localhost/Agri-Connect/server/api',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, '') + '.php'
+
+        rewrite: (path) => {
+          const newPath = path.replace(/^\/auth/, '');
+          const url = new URL(newPath, 'http://localhost'); // Use a base URL to parse
+          const pathname = url.pathname + '.php';
+          url.pathname = pathname;
+          return url.toString().replace('http://localhost', ''); // Remove the base URL
+        }
       }
     }
   
