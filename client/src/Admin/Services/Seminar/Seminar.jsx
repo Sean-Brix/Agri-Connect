@@ -5,8 +5,16 @@ export default function Seminar() {
     const [programList, setProgramList] = useState([]);
     const [showAdd, setShowAdd] = useState(false);
     const [newProgram, setNewProgram] = useState({
-        name: '',
-        desc: '',
+        title: '',
+        description: '',
+        location: '',
+        startDate: '',
+        endDate: '',
+        openTime: '',
+        closeTime: '',
+        maxParticipants: '',
+        speaker: '',
+        registrationDeadline: '',
         img: '',
     });
 
@@ -20,15 +28,68 @@ export default function Seminar() {
         })();
     }, []);
 
+    const handleAddProgram = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch('/api/seminars/addSeminar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title: newProgram.title,
+                    description: newProgram.description,
+                    location: newProgram.location,
+                    start_date: newProgram.startDate,
+                    end_date: newProgram.endDate,
+                    start_time: newProgram.openTime,
+                    end_time: newProgram.closeTime,
+                    capacity: parseInt(newProgram.maxParticipants),
+                    speaker: newProgram.speaker,
+                    registration_deadline: newProgram.registrationDeadline,
+                }),
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                // Program added successfully, update the program list
+                setProgramList([data.payload, ...programList]);
+                setShowAdd(false); // Close the modal
+                setNewProgram({
+                    title: '',
+                    description: '',
+                    location: '',
+                    startDate: '',
+                    endDate: '',
+                    openTime: '',
+                    closeTime: '',
+                    maxParticipants: '',
+                    speaker: '',
+                    registrationDeadline: '',
+                    img: '',
+                });
+
+                return;
+            }
+
+            // Handle error response
+            console.error('Failed to add program:', data.payload.Error);
+        } catch (error) {
+            console.error('Error adding program:', error);
+        }
+    };
+
     // Search Function
     const [search, setSearch] = useState('');
+    const [statusFilter, setStatusFilter] = useState('all')
     const [searchFilter, setSearchFilter] = useState('all');
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(async () => {
             try {
                 const response = await fetch(
-                    `/api/Seminars/searchSeminar?find=${search}&filter=${searchFilter}`
+                    `/api/Seminars/searchSeminar?find=${search}&filter=${searchFilter}&status=${statusFilter}`
                 );
                 const data = await response.json();
                 if (!response.ok) {
@@ -41,7 +102,7 @@ export default function Seminar() {
         }, 500); // Delay of 500 milliseconds
 
         return () => clearTimeout(delayDebounceFn);
-    }, [searchFilter, search]);
+    }, [search, searchFilter, statusFilter]);
 
     const handleDelete = (idx) => {
         setProgramList((list) => list.filter((_, i) => i !== idx));
@@ -108,10 +169,9 @@ export default function Seminar() {
                             onChange={(e) => setSearch(e.target.value)}
                             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-black bg-white shadow-sm"
                         />
-                    </div>
 
+                    </div>
                     <select
-                        value={searchFilter}
                         onChange={(e) => setSearchFilter(e.target.value)}
                         className="w-full sm:w-40 border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700 shadow-sm"
                     >
@@ -119,7 +179,21 @@ export default function Seminar() {
                         <option value="title">Title</option>
                         <option value="speaker">Speaker</option>
                         <option value="location">Location</option>
-                        <option value="status">Status</option>
+                    </select>
+
+                    <select
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                        className="w-full sm:w-40 border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700 shadow-sm"
+                        defaultValue=""
+                    >
+                        <option value="" disabled>
+                            Status
+                        </option>
+                        <option value="all">All</option>
+                        <option value="Ongoing">Ongoing</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Upcoming">Upcoming</option>
                     </select>
                 </div>
 
@@ -189,11 +263,11 @@ export default function Seminar() {
                                 <input
                                     type="text"
                                     className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
-                                    value={newProgram.name}
+                                    value={newProgram.title}
                                     onChange={(e) =>
                                         setNewProgram({
                                             ...newProgram,
-                                            name: e.target.value,
+                                            title: e.target.value,
                                         })
                                     }
                                     required
@@ -207,11 +281,11 @@ export default function Seminar() {
                                 <input
                                     type="text"
                                     className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
-                                    value={newProgram.name}
+                                    value={newProgram.location}
                                     onChange={(e) =>
                                         setNewProgram({
                                             ...newProgram,
-                                            name: e.target.value,
+                                            location: e.target.value,
                                         })
                                     }
                                     required
@@ -224,9 +298,9 @@ export default function Seminar() {
                                         Start Date
                                     </label>
                                     <input
-                                        type="datetime-local"
+                                        type="date"
                                         className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
-                                        value={newProgram.startDate || ''}
+                                        value={newProgram.startDate}
                                         onChange={(e) =>
                                             setNewProgram({
                                                 ...newProgram,
@@ -241,7 +315,7 @@ export default function Seminar() {
                                         End Date
                                     </label>
                                     <input
-                                        type="datetime-local"
+                                        type="date"
                                         className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
                                         value={newProgram.endDate || ''}
                                         onChange={(e) =>
@@ -357,11 +431,11 @@ export default function Seminar() {
                                 </label>
                                 <textarea
                                     className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition resize-none"
-                                    value={newProgram.desc}
+                                    value={newProgram.description}
                                     onChange={(e) =>
                                         setNewProgram({
                                             ...newProgram,
-                                            desc: e.target.value,
+                                            description: e.target.value,
                                         })
                                     }
                                     required
@@ -392,6 +466,7 @@ export default function Seminar() {
                             <button
                                 type="submit"
                                 className="mt-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg py-2 transition-colors shadow-none focus:ring-2 focus:ring-green-200 focus:outline-none w-full"
+                                onClick={handleAddProgram}
                             >
                                 Add Program
                             </button>
@@ -431,6 +506,9 @@ export default function Seminar() {
                                     />
                                 </div>
                             )}
+                            <h3 className="text-center text-lg md:text-xl font-semibold text-gray-800 mb-2 cursor-default">
+                                Status: {item.status}
+                            </h3>
                             <img
                                 src={default_seminar_pic}
                                 alt={item.title}
@@ -461,7 +539,6 @@ export default function Seminar() {
                                         Edit Program
                                     </button>
                                 </div>
-
                             </div>
                         </div>
                     );

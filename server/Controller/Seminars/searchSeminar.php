@@ -3,31 +3,43 @@
 require_once __DIR__."/../../Model/Seminars.php";
 require_once __DIR__."/../../global.php";
 
-function searchSeminars($searchTerm, $filter = 'all') {
-    $searchTerm = trim($searchTerm);
-    $baseQuery = "SELECT * FROM seminars WHERE ";
-    $params = [];
-    $conditions = [];
+function searchSeminars($searchTerm = '', $filter = 'all', $status = "all") {
+   global $conn;
+    
+    $sql = "SELECT * FROM seminars WHERE 1=1";
+    
+    if ($searchTerm != '') {
+        $searchTerm = strtolower($searchTerm);
+        $searchTerms = explode(" ", $searchTerm);
+        $searchConditions = [];
 
-    if ($filter === 'all') {
-        $conditions[] = "title REGEXP ?";
-        $conditions[] = "location REGEXP ?";
-        $conditions[] = "speaker REGEXP ?";
-        $pattern = "[[:<:]]" . $searchTerm;
-        $params = array_merge($params, [$pattern, $pattern, $pattern]);
-    } else {
-        $conditions[] = "$filter REGEXP ?";
-        $pattern = "[[:<:]]" . $searchTerm;
-        $params[] = $pattern;
+        foreach ($searchTerms as $term) {
+            $term = trim($term);
+            if ($term != '') {
+                if ($filter == 'all') {
+                    $searchConditions[] = "(LOWER(title) LIKE '% " . $term . "%' OR LOWER(title) LIKE '" . $term . "%' OR LOWER(speaker) LIKE '% " . $term . "%' OR LOWER(speaker) LIKE '" . $term . "%' OR LOWER(location) LIKE '% " . $term . "%' OR LOWER(location) LIKE '" . $term . "%')";
+                } else {
+                      $searchConditions[] = "(LOWER(" . $filter . ") LIKE '% " . $term . "%' OR LOWER(" . $filter . ") LIKE '" . $term . "%')";
+                }
+            }
+        }
+
+        if (!empty($searchConditions)) {
+            $sql .= " AND (" . implode(" AND ", $searchConditions) . ")";
+        }
     }
 
-    $query = $baseQuery . implode(" OR ", $conditions);
-    $result = statement($query, $params, getTypes($params));
+    if ($status != "all") {
+        $sql .= " AND status = '$status'";
+    }
 
-    $seminars = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $seminar = new Seminars($row['id']);
-        $seminars[] = $seminar->getDetails();
+    $result = $conn->query($sql);
+    $seminars = array();
+
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            $seminars[] = $row;
+        }
     }
 
     return $seminars;

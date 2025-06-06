@@ -60,6 +60,7 @@ CREATE TABLE seminars (
     end_time TIME NOT NULL,
 
     capacity INT,
+    photo LONGBLOB,
     status ENUM('Upcoming', 'Ongoing', 'Completed', 'Cancelled') NOT NULL,
     speaker VARCHAR(255),
     registration_deadline DATE,

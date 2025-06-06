@@ -17,22 +17,25 @@ if(!$user){
         exit();
 }
 
+// Query Parameters
 $find = $_GET['find'];
-$filter = $_GET['filter'];
+$filter = strtolower($_GET['filter']);
+$status = strtolower($_GET['status']);
 
-$validFilters = ['all', 'speaker', 'title', 'location', 'status'];
-$filter = strtolower($filter);
+$validFilters = ['all', 'speaker', 'title', 'location'];
+$validStatus =  ['all', 'upcoming', 'completed', 'ongoing', 'cancelled'];
 
-if (!in_array($filter, $validFilters)) {
+if (!in_array($filter, $validFilters) || !in_array($status, $validStatus)) {
     sendResponse(
         400,
         "Bad Request",
         ["Error" => "Invalid filter value"],
-        "invalid filter"
+        "invalid filter/status"
     );
     exit();
 }
 
-$result = searchSeminars($find, $filter);
+$result = searchSeminars($find, $filter, $status);
 
 echo json_encode($result);
+    
