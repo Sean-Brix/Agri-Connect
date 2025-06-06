@@ -170,109 +170,115 @@ export default function Eic() {
                     </div>
                     <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10">
                         <div className="flex flex-col sm:flex-row items-center justify-between mb-10 gap-6">
-                            {/* Search bar and Filter button */}
-                            <div className="relative w-full max-w-sm flex items-center border border-gray-200 rounded-xl bg-white shadow-sm px-2 py-1">
-                                <input
-                                    type="text"
-                                    placeholder="Search equipment..."
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-3 border-none focus:outline-none focus:ring-0 text-black bg-transparent"
-                                />
-                                <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                                    <svg
-                                        className="w-5 h-5 text-gray-400"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        viewBox="0 0 24 24"
+                            {/* Search bar and Filter button side by side */}
+                            <div className="flex w-full max-w-xl gap-3">
+                                {/* Search Bar */}
+                                <div className="relative flex-1 flex items-center pl-12 pr-4 py-1 rounded-xl border border-gray-200 bg-gradient-to-r from-blue-50 via-white to-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-900 transition placeholder-gray-400 bg-white shadow-sm px-2 h-14">
+                                    <input
+                                        type="text"
+                                        placeholder="Search equipment..."
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                        className="w-full pl-10 pr-4 py-3 border-none focus:outline-none focus:ring-0 text-black bg-transparent"
+                                    />
+                                    <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                                        <svg
+                                            className="w-5 h-5 text-gray-400"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <circle cx="11" cy="11" r="8" />
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                        </svg>
+                                    </span>
+                                </div>
+                                {/* Filter Button (styled like search bar) */}
+                                <div className="relative flex-shrink-0">
+                                    <button
+                                        className="flex items-center gap-2 pl-4 pr-6 py-1 rounded-xl border border-gray-200 bg-gradient-to-r from-blue-50 via-white to-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-900 transition placeholder-gray-400 bg-white shadow-sm px-2 h-14"
+                                        onClick={() => setShowFilter((prev) => !prev)}
+                                        title="Filter"
+                                        type="button"
+                                        style={{
+                                            background: 'none',
+                                            color: 'inherit',
+                                            boxShadow: 'none'
+                                        }}
                                     >
-                                        <circle cx="11" cy="11" r="8" />
-                                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                                    </svg>
-                                </span>
-                                <button
-                                    className="ml-2 flex items-center gap-2 px-3 py-2 rounded-full border-2 border-gray-200 hover:bg-gray-100 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                    onClick={() => setShowFilter((prev) => !prev)}
-                                    title="Filter"
-                                    type="button"
-                                    style={{
-                                        background: 'none',
-                                        color: 'inherit',
-                                        boxShadow: 'none'
-                                    }}
-                                >
-                                    <i className="fa-solid fa-filter text-gray-600"></i>
-                                    <span className="hidden sm:inline text-gray-600">Filter</span>
-                                </button>
-                                {/* Dropdown filter for all screens */}
-                                {showFilter && (
-                                    <div className="absolute top-14 right-0 z-20 bg-white border border-gray-100 rounded-2xl shadow-2xl w-56 p-5 animate-fade-in flex flex-col gap-2">
-                                        <h2 className="text-base font-bold mb-2 text-gray-700 tracking-wide">Filter by Category</h2>
-                                        <ul className="space-y-2">
-                                            <li>
-                                                <button
-                                                    className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
-                                                        category === 'all'
-                                                            ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold shadow'
-                                                            : 'bg-gray-50 text-gray-700 hover:bg-blue-50'
-                                                    }`}
-                                                    onClick={() => { setCategory('all'); setShowFilter(false); }}
-                                                >
-                                                    <i className={faIcons.all}></i> All
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
-                                                        category === 'equipment'
-                                                            ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold shadow'
-                                                            : 'bg-gray-50 text-gray-700 hover:bg-blue-50'
-                                                    }`}
-                                                    onClick={() => { setCategory('equipment'); setShowFilter(false); }}
-                                                >
-                                                    <i className={faIcons.equipment}></i> Equipment
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
-                                                        category === 'tools'
-                                                            ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold shadow'
-                                                            : 'bg-gray-50 text-gray-700 hover:bg-blue-50'
-                                                    }`}
-                                                    onClick={() => { setCategory('tools'); setShowFilter(false); }}
-                                                >
-                                                    <i className={faIcons.tools}></i> Tools
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
-                                                        category === 'seeds'
-                                                            ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold shadow'
-                                                            : 'bg-gray-50 text-gray-700 hover:bg-blue-50'
-                                                    }`}
-                                                    onClick={() => { setCategory('seeds'); setShowFilter(false); }}
-                                                >
-                                                    <i className={faIcons.seeds}></i> Seeds
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
-                                                        category === 'others'
-                                                            ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold shadow'
-                                                            : 'bg-gray-50 text-gray-700 hover:bg-blue-50'
-                                                    }`}
-                                                    onClick={() => { setCategory('others'); setShowFilter(false); }}
-                                                >
-                                                    <i className={faIcons.others}></i> Others
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                )}
+                                        <i className="fa-solid fa-filter text-gray-600"></i>
+                                        <span className="hidden sm:inline text-gray-600 font-medium">Filter</span>
+                                    </button>
+                                    {/* Dropdown filter for all screens */}
+                                    {showFilter && (
+                                        <div className="absolute top-16 right-0 z-20 bg-white border border-gray-100 rounded-2xl shadow-2xl w-56 p-5 animate-fade-in flex flex-col gap-2">
+                                            <h2 className="text-base font-bold mb-2 text-gray-700 tracking-wide">Filter by Category</h2>
+                                            <ul className="space-y-2">
+                                                <li>
+                                                    <button
+                                                        className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
+                                                            category === 'all'
+                                                                ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold shadow'
+                                                                : 'bg-gray-50 text-gray-700 hover:bg-blue-50'
+                                                        }`}
+                                                        onClick={() => { setCategory('all'); setShowFilter(false); }}
+                                                    >
+                                                        <i className={faIcons.all}></i> All
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button
+                                                        className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
+                                                            category === 'equipment'
+                                                                ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold shadow'
+                                                                : 'bg-gray-50 text-gray-700 hover:bg-blue-50'
+                                                        }`}
+                                                        onClick={() => { setCategory('equipment'); setShowFilter(false); }}
+                                                    >
+                                                        <i className={faIcons.equipment}></i> Equipment
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button
+                                                        className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
+                                                            category === 'tools'
+                                                                ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold shadow'
+                                                                : 'bg-gray-50 text-gray-700 hover:bg-blue-50'
+                                                        }`}
+                                                        onClick={() => { setCategory('tools'); setShowFilter(false); }}
+                                                    >
+                                                        <i className={faIcons.tools}></i> Tools
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button
+                                                        className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
+                                                            category === 'seeds'
+                                                                ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold shadow'
+                                                                : 'bg-gray-50 text-gray-700 hover:bg-blue-50'
+                                                        }`}
+                                                        onClick={() => { setCategory('seeds'); setShowFilter(false); }}
+                                                    >
+                                                        <i className={faIcons.seeds}></i> Seeds
+                                                    </button>
+                                                </li>
+                                                <li>
+                                                    <button
+                                                        className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
+                                                            category === 'others'
+                                                                ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold shadow'
+                                                                : 'bg-gray-50 text-gray-700 hover:bg-blue-50'
+                                                        }`}
+                                                        onClick={() => { setCategory('others'); setShowFilter(false); }}
+                                                    >
+                                                        <i className={faIcons.others}></i> Others
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                         <div className="grid gap-8 grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
@@ -301,14 +307,17 @@ export default function Eic() {
                                                 <i className={iconClass}></i>
                                                 {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
                                             </p>
-                                            <p className="text-gray-500 text-sm mb-6 text-center line-clamp-3">
+                                            <p
+                                                className="text-gray-500 text-sm mb-6 text-center overflow-hidden text-ellipsis whitespace-nowrap"
+                                                title={item.desc}
+                                            >
                                                 {truncate(item.desc, 60)}
                                             </p>
                                             <div className="flex gap-2 mt-auto w-full justify-center">
-                                                <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-xs font-semibold shadow transition-colors">
+                                                <button className="bg-blue-600 text-white px-5 py-4 rounded-xl hover:bg-blue-700 text-xs font-semibold shadow transition-colors">
                                                     Borrow
                                                 </button>
-                                                <button className="bg-white border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 text-xs font-semibold text-gray-700 transition-colors">
+                                                <button className="bg-white border border-gray-300 px-5 py-4 rounded-xl hover:bg-gray-100 text-xs font-semibold text-gray-700 transition-colors">
                                                     Details
                                                 </button>
                                             </div>

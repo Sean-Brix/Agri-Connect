@@ -16,7 +16,7 @@ import Details_php from './TEST/details_php.jsx';
 //CLIENT 
 import Eic from './Client/Services/EIC/EIC.jsx';
 import Profile from './Client/Services/Profile/Profile.jsx';
-import Enroll from './Client/Services/Enrollment/Seminar.jsx';
+import Seminar from './Client/Services/Enrollment/Seminar.jsx';
 import Contact from './Client/Services/Info/contact.jsx';
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
                 <Route path="/" element={<Landing />} />
                 <Route path="/eic" element={<Eic />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/enroll" element={<Enroll />} />
+                <Route path="/seminar" element={<Seminar />} />
                 <Route path="/contact" element={<Contact />} />
 
 
