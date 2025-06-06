@@ -20,7 +20,7 @@ $sem_id = $_GET['id'];
 
 $Seminar = new Seminars($sem_id);
 
-$details = $Seminars->getDetails();
+$details = $Seminar->getDetails();
 
 if($details['photo'] != null){
     sendImageResponse($details['photo']);
@@ -28,7 +28,7 @@ if($details['photo'] != null){
 }
 
 sendResponse(
-    404,
+    204,
     "Not Found",
     [
         "error" => "Resource not found or Seminar has no photo",

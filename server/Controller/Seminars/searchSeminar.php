@@ -6,8 +6,7 @@ require_once __DIR__."/../../global.php";
 function searchSeminars($searchTerm = '', $filter = 'all', $status = "all") {
    global $conn;
     
-    $sql = "SELECT * FROM seminars WHERE 1=1";
-    
+    $sql = "SELECT id, title, description, speaker, location, start_date, end_date, start_time, end_time, status, capacity, registration_deadline, created_at, updated_at FROM seminars WHERE 1=1";
     if ($searchTerm != '') {
         $searchTerm = strtolower($searchTerm);
         $searchTerms = explode(" ", $searchTerm);

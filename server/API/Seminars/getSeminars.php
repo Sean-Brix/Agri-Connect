@@ -17,7 +17,7 @@ if(!$user){
 }
 
 // Get all results
-$query = "SELECT * FROM seminars";
+$query = "SELECT id, title, description, speaker, location, start_date, end_date, start_time, end_time, status, capacity, registration_deadline, created_at, updated_at FROM seminars";
 $result = $conn->query($query);
 
 $seminars = [];

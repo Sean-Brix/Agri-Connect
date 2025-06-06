@@ -42,7 +42,7 @@ if (
     !isset($req['end_date']) || empty($req['end_date']) ||
     !isset($req['start_time']) || empty($req['start_time']) ||
     !isset($req['end_time']) || empty($req['end_time']) ||
-    !isset($req['capacity']) || !is_numeric($req['capacity']) ||
+    !isset($req['capacity']) || empty($req['capacity']) ||
     !isset($req['speaker']) || empty($req['speaker']) ||
     !isset($req['registration_deadline']) || empty($req['registration_deadline'])
 ){
@@ -92,6 +92,7 @@ $new_seminar = new Seminars($new_id);
 // Response
 if ($createStatus) {
     $new_details = $new_seminar->getDetails();
+    unset($new_details['photo']);
 
     sendResponse(
         201,

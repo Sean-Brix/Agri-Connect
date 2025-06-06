@@ -8,7 +8,6 @@ function Edit_Profile({admin_navigate, details}) {
     event.preventDefault();
 
     const file = event.target.files[0];
-    console.log(event.target.files);
 
     const formData = new FormData();
     formData.append('image', file);
@@ -28,6 +27,7 @@ function Edit_Profile({admin_navigate, details}) {
     const newProfile = await response.blob();
     const newUrl = URL.createObjectURL(newProfile);
     
+    console.log(newUrl);
     details.setProfile((prev)=>({...prev, picture: newUrl}));
 
   }

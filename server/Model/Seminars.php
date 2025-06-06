@@ -11,7 +11,7 @@ class Seminars {
     private $start_time = null;
     private $end_time = null;
     private $capacity = null;
-    private $photo = "";
+    private $photo = null;
     private $status = null;
     private $speaker = null;
     private $registration_deadline = null;
@@ -80,6 +80,7 @@ class Seminars {
             $this->start_time = $row["start_time"];
             $this->end_time = $row["end_time"];
             $this->capacity = $row["capacity"];
+            $this->photo = $row["photo"];
             $this->status = $row["status"];
             $this->speaker = $row["speaker"];
             $this->registration_deadline = $row["registration_deadline"];

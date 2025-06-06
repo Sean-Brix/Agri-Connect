@@ -31,7 +31,7 @@ if(strtolower($details['access']) === "user"){
 }
 
 $Seminar = new Seminars($_POST['id']);
-$upload = $Seminars->setPhoto($_FILES['image']);
+$upload = $Seminar->setPhoto($_FILES['image']);
 
 if(!$upload){
     sendResponse(

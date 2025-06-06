@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import default_picture from '../../../Assets/default_seminar_pic.svg';
+import default_picture from '../../../Assets/default_seminar_pic.jpg';
 
-export default function Edit_Seminar({ data, toggleOff, setProgramList }) {
+export default function Edit_Seminar({
+    data,
+    toggleOff,
+    setProgramList,
+}) {
     // Render editing data
     const [newData, setNewData] = useState(data);
-    const [image, setImage] = useState(default_picture);
+    const [image, setImage] = useState(data.photo);
     const [newImage, setNewImage] = useState(null);
     const changedImage = useRef(false);
 
@@ -35,45 +39,45 @@ export default function Edit_Seminar({ data, toggleOff, setProgramList }) {
                 return;
             }
 
+            if (changedImage.current) {
+                // Create Body
+                const formData = new FormData();
+                formData.append('image', newImage);
+                formData.append('id', newData.id);
+
+                // Request Changes
+                const setImage = await fetch('/api/seminars/setPhoto', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                changedImage.current = false;
+
+                // If Fails
+                if (!setImage.ok) {
+                    const data = await response.json();
+                    console.log(data.payload.error);
+                    alert('Failed to upload image');
+                    return;
+                }
+            }
+
             setProgramList((prev) => {
                 const index = prev.findIndex(
                     (item) => item.location === newData.location
                 );
                 if (index !== -1) {
                     const updatedList = [...prev];
-                    updatedList[index] = newData;
+                    updatedList[index] = {...newData, photo: changedImage.current? URL.createObjectURL(newImage):image};
                     return updatedList;
-                } else {
+                } 
+                else {
                     return [newData, ...prev];
                 }
             });
 
-            // Exit
-            if(!changeImage.current) return toggleOff();
-            
-            // Create Body
-            const formData = new FormData();
-            formData.append('image', newImage);
-            formData.append('id', newData.id);
-
-            // Request Changes
-            const setImage = await fetch('/api/seminars/setPhoto',{
-                method: 'POST',
-                body: formData
-            });
-
-            changedImage.current = false;
-
-            // If Failes
-            if(!setImage.ok){
-                const data = await response.json();
-                console.log(data.payload.error);
-                alert("Failed to upload image");
-                return
-            }
-
-        } 
-        catch (error) {
+            toggleOff();
+        } catch (error) {
             console.error('Error updating seminar:', error);
             alert(
                 'An error occurred while updating the seminar. Please try again.'
@@ -96,18 +100,17 @@ export default function Edit_Seminar({ data, toggleOff, setProgramList }) {
 
             setNewImage(file);
             changedImage.current = true;
-        } 
-        else {
+        } else {
             // Revert to default if no file selected
             setImage(default_picture);
             changedImage.current = false;
         }
-    }
+    };
 
     return (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             <form
-                className="bg-white rounded-2xl shadow-2xl p-0 w-full max-w-[30%] relative border border-gray-100"
+                className="bg-white rounded-2xl shadow-2xl p-0 w-full max-w-[30%] max-h-[90%] relative border border-gray-100"
                 onSubmit={saveSeminar}
                 style={{ minWidth: 280 }}
             >
@@ -125,6 +128,25 @@ export default function Edit_Seminar({ data, toggleOff, setProgramList }) {
                     </button>
                 </div>
                 <div className="px-6 py-6 flex flex-col gap-4">
+                    <div>
+                        <label className="block text-xs font-medium text-gray-500 mb-1">
+                            Status
+                        </label>
+
+                        <select
+                            onChange={(e) => setNewData({
+                                    ...newData,
+                                    status: e.target.value,
+                                })}
+                            className="w-full sm:w-40 border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700 shadow-sm"
+                            defaultValue={newData.status}
+                        >
+                            <option value="Ongoing">Ongoing</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                            <option value="Upcoming">Upcoming</option>
+                        </select>
+                    </div>
                     <div>
                         <label className="block text-xs font-medium text-gray-500 mb-1">
                             Title
@@ -308,7 +330,7 @@ export default function Edit_Seminar({ data, toggleOff, setProgramList }) {
                         />
                     </div>
 
-                    <div>
+                    <div className="fixed right-10 flex-col bg-white p-10 border-1">
                         <label className="block text-xs font-medium text-gray-500 mb-1">
                             Upload Image{' '}
                             <span className="text-gray-300">(optional)</span>
@@ -317,17 +339,17 @@ export default function Edit_Seminar({ data, toggleOff, setProgramList }) {
                         <input
                             type="file"
                             accept="image/*"
-                            className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                            className="w-full border border-gray-200 mt-5 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
                             onChange={changeImage}
                         />
 
                         <img
                             src={image}
                             alt="Seminar"
-                            className="w-full h-32 object-cover rounded-md"
+                            className="w-[100%] max-w-[500px] max-h-[500px] bg-amber-50 object-cover mt-10 rounded-md border-2"
                         />
-
                     </div>
+
                     <button
                         type="submit"
                         className="mt-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg py-2 transition-colors shadow-none focus:ring-2 focus:ring-green-200 focus:outline-none w-full"

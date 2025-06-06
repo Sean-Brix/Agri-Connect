@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from 'react';
 
 // ASSETS
-import default_seminar_pic from '../../../Assets/default_seminar_pic.svg';
+import default_seminar_pic from '../../../Assets/default_seminar_pic.jpg';
 
 // SUB-COMPONENT
 import Edit_Seminar from './Edit_Seminar';
@@ -17,9 +17,41 @@ export default function Seminar({ admin_navigate }) {
             const response = await fetch(`/api/Seminars/getSeminars`);
             const data = await response.json();
 
-            setProgramList(data.payload.seminars);
+            // Fetch and set image URLs for each seminar
+            const updatedProgramList = await fetchAndSetImageUrls(
+                data.payload.seminars
+            );
+            setProgramList(updatedProgramList);
         })();
     }, []);
+
+    // Helper function to fetch and set image URLs
+    const fetchAndSetImageUrls = async (seminars) => {
+        return Promise.all(
+            seminars.map(async (item) => {
+                try {
+                    const imageFetch = await fetch(
+                        `/api/seminars/getPhoto?id=${item.id}`
+                    );
+
+                    if (imageFetch.status == 204) {
+                        // Don't log errors for missing images
+                        return { ...item, photo: default_seminar_pic };
+                    } else {
+                        const blob = await imageFetch.blob();
+                        const picture = URL.createObjectURL(blob);
+                        return { ...item, photo: picture };
+                    }
+                } catch (error) {
+                    console.error(
+                        `Error fetching image for seminar ${item.id}:`,
+                        error
+                    );
+                    return { ...item, photo: default_seminar_pic }; // Fallback in case of error
+                }
+            })
+        );
+    };
 
     // Adding New Seminar
     const [showAdd, setShowAdd] = useState(false);
@@ -36,6 +68,7 @@ export default function Seminar({ admin_navigate }) {
         registrationDeadline: '',
         photo: '',
     });
+    const [newImage, setNewImage] = useState(default_seminar_pic);
 
     const handleAddProgram = async (e) => {
         e.preventDefault();
@@ -54,29 +87,63 @@ export default function Seminar({ admin_navigate }) {
                     end_date: newProgram.endDate,
                     start_time: newProgram.openTime,
                     end_time: newProgram.closeTime,
-                    capacity: parseInt(newProgram.maxParticipants),
+                    capacity: newProgram.capacity,
                     speaker: newProgram.speaker,
                     registration_deadline: newProgram.registrationDeadline,
                 }),
             });
             const data = await response.json();
 
+            // Create Body
+            const formData = new FormData();
+            // If newImage is a base64 string, convert it to a Blob
+            let imageFile;
+            if (
+                typeof newImage === 'string' &&
+                newImage.startsWith('data:image')
+            ){
+                const response = await fetch(newImage);
+                const blob = await response.blob();
+                imageFile = new File([blob], 'image.png', { type: blob.type }); // You can adjust the filename and type
+            } 
+            else {
+                imageFile = newImage; // Use the File object directly if it's already a File
+            }
+            formData.append('image', imageFile);
+            formData.append('id', data.payload.id);
+            const setImage = await fetch('/api/seminars/setPhoto', {
+                method: 'POST',
+                body: formData,
+            });
+
+            // If Fails
+            if (!setImage.ok) {
+                const data = await setImage.json();
+                console.log(data.payload.error);
+                alert('Failed to upload image');
+                return;
+            }
+
             if (response.ok) {
                 // Program added successfully, update the program list
-                setProgramList([data.payload, ...programList]);
+                const updatedList = await fetchAndSetImageUrls([
+                    data.payload,
+                    ...programList,
+                ]);
+                setProgramList(updatedList);
                 setShowAdd(false); // Close the modal
                 setNewProgram({
                     title: '',
                     description: '',
                     location: '',
-                    startDate: '',
-                    endDate: '',
-                    openTime: '',
-                    closeTime: '',
-                    maxParticipants: '',
+                    start_date: '',
+                    end_date: '',
+                    start_time: '',
+                    end_time: '',
+                    capacity: '',
                     speaker: '',
                     registrationDeadline: '',
-                    img: '',
+                    photo: '',
                 });
 
                 return;
@@ -86,6 +153,26 @@ export default function Seminar({ admin_navigate }) {
             console.error('Failed to add program:', data.payload.Error);
         } catch (error) {
             console.error('Error adding program:', error);
+        }
+    };
+
+    // upload image
+    const changeImage = (event) => {
+        event.preventDefault();
+
+        const file = event.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setNewImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+
+            setNewImage(file);
+        } else {
+            // Revert to default if no file selected
+            setNewImage(default_picture);
         }
     };
 
@@ -111,10 +198,13 @@ export default function Seminar({ admin_navigate }) {
                     `/api/Seminars/searchSeminar?find=${search}&filter=${searchFilter}&status=${statusFilter}`
                 );
                 const data = await response.json();
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                setProgramList(data);
+
+                const updatedProgramList = await fetchAndSetImageUrls(data);
+                setProgramList(updatedProgramList);
             } catch (error) {
                 console.error('Could not fetch seminars:', error);
             }
@@ -157,7 +247,11 @@ export default function Seminar({ admin_navigate }) {
         const updatedProgramList = programList.filter(
             (_, index) => !selectedItems.includes(index)
         );
-        setProgramList(updatedProgramList);
+
+        const updatedProgramPicture = await fetchAndSetImageUrls(
+            updatedProgramList
+        );
+        setProgramList(updatedProgramPicture);
 
         setSelectedItems([]);
         setSelectMode(false);
@@ -469,26 +563,28 @@ export default function Seminar({ admin_navigate }) {
                                 />
                             </div>
 
-                            <div>
+                            <div className="fixed right-10 flex-col bg-white p-10 border-1">
                                 <label className="block text-xs font-medium text-gray-500 mb-1">
-                                    Image URL{' '}
+                                    Upload Image{' '}
                                     <span className="text-gray-300">
                                         (optional)
                                     </span>
                                 </label>
+
                                 <input
                                     type="file"
                                     accept="image/*"
-                                    className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
-                                    value={newProgram.img}
-                                    onChange={(e) =>
-                                        setNewProgram({
-                                            ...newProgram,
-                                            img: e.target.value,
-                                        })
-                                    }
+                                    className="w-full border border-gray-200 mt-5 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                    onChange={changeImage}
+                                />
+
+                                <img
+                                    src={newImage}
+                                    alt="Seminar"
+                                    className="w-[100%] max-w-[500px] max-h-[500px] bg-amber-50 object-cover mt-10 rounded-md border-2"
                                 />
                             </div>
+
                             <button
                                 type="submit"
                                 className="mt-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg py-2 transition-colors shadow-none focus:ring-2 focus:ring-green-200 focus:outline-none w-full"
@@ -506,6 +602,7 @@ export default function Seminar({ admin_navigate }) {
                 <Edit_Seminar
                     data={editData.current}
                     setProgramList={setProgramList}
+                    fetchAndSetImageUrls={fetchAndSetImageUrls}
                     toggleOff={() => {
                         setShowEdit(false);
                         editData.current = null;
@@ -517,24 +614,7 @@ export default function Seminar({ admin_navigate }) {
             <div className="w-full max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 [@media(min-width:1150px)]:grid-cols-3 gap-6 md:gap-8">
                 {programList.map((item, idx) => {
                     const isSelected = selectedItems.includes(idx);
-                    let picture = default_seminar_pic;
-                    
-                    (async ()=>{
 
-                        const imageFetch = await fetch(
-                            `/api/seminars/getPhoto?id=${item.id}`
-                        );
-                        
-                        if (!imageFetch.ok) {
-                            console.log(await imageFetch.json());
-                            picture = default_seminar_pic;
-                        } 
-                        else {
-                            const blob = await imageFetch.blob();
-                            picture = URL.createObjectURL(blob);
-                        }
-                    })()
-                    
                     return (
                         <div
                             key={idx}
@@ -566,7 +646,7 @@ export default function Seminar({ admin_navigate }) {
                                 Status: {item.status}
                             </h3>
                             <img
-                                src={picture}
+                                src={item.photo}
                                 alt={item.title}
                                 className="w-full h-40 sm:h-48 object-cover rounded-t-xl bg-gray-100 transition-none"
                             />
