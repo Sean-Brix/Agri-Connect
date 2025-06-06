@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Router } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
     const [open, setOpen] = useState(false);
@@ -60,18 +62,18 @@ export default function Navbar() {
                         strokeLinecap="round"
                     />
                 </svg>
-                <a
-                    href="/"
+                <Link
+                    to="/"
                     className="flex items-center gap-2 font-extrabold text-2xl px-2  text-blue-700 md:text-2xl"
                 >
                     FITS -Tanza
-                </a>
+                </Link>
                 {/* Desktop Menu */}
                 <div className="flex-1 flex justify-center">
                     <ul className="hidden md:flex items-center gap-2 lg:gap-6">
                         <li>
-                            <a
-                                href="/"
+                            <Link
+                                to="/"
                                 className="flex items-center gap-2 text-blue-700 hover:bg-blue-50 px-4 py-3 rounded-lg font-semibold transition"
                             >
                                 <svg
@@ -88,7 +90,7 @@ export default function Navbar() {
                                     />
                                 </svg>
                                 {!isMidScreen && 'Home'}
-                            </a>
+                            </Link>
                         </li>
                         <li className="relative group">
                             <button
@@ -141,8 +143,8 @@ export default function Navbar() {
                                 }`}
                             >
                                 <li>
-                                    <a
-                                        href="/seminar-programs"
+                                    <Link
+                                        to="/seminar"
                                         className="flex items-center gap-3 px-6 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
                                     >
                                         <svg
@@ -164,11 +166,11 @@ export default function Navbar() {
                                             />
                                         </svg>
                                         {'Seminar Programs'}
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a
-                                        href="/eic"
+                                    <Link
+                                        to="/eic"
                                         className="flex items-center gap-3 px-6 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
                                     >
                                         <svg
@@ -194,7 +196,7 @@ export default function Navbar() {
                                             />
                                         </svg>
                                         {'EIC'}
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </li>
@@ -255,8 +257,8 @@ export default function Navbar() {
                                 }`}
                             >
                                 <li>
-                                    <a
-                                        href="/about"
+                                    <Link
+                                        to="/about"
                                         className="flex items-center gap-2 px-6 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
                                     >
                                         <svg
@@ -280,11 +282,11 @@ export default function Navbar() {
                                             />
                                         </svg>
                                         {'About'}
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a
-                                        href="/contact"
+                                    <Link
+                                        to="/contact"
                                         className="flex items-center gap-2 px-6 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
                                     >
                                         <svg
@@ -306,7 +308,7 @@ export default function Navbar() {
                                             />
                                         </svg>
                                         {'Contact'}
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </li>
@@ -365,8 +367,8 @@ export default function Navbar() {
                                 }`}
                             >
                                 <li>
-                                    <a
-                                        href="/settings/profile"
+                                    <Link
+                                        to="/settings/profile"
                                         className="flex items-center gap-2 px-6 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
                                     >
                                         <svg
@@ -380,11 +382,11 @@ export default function Navbar() {
                                             <path d="M5.5 21a8.38 8.38 0 0113 0" />
                                         </svg>
                                         {'Profile Settings'}
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a
-                                        href="/settings/account"
+                                    <Link
+                                        to="/settings/account"
                                         className="flex items-center gap-2 px-6 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
                                     >
                                         <svg
@@ -404,97 +406,82 @@ export default function Navbar() {
                                             <path d="M16 3v4M8 3v4" />
                                         </svg>
                                         {'Account Settings'}
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </li>
                     </ul>
                 </div>
-                {/* Login/Profile Dropdown & Hamburger */}
+                {/* Minimalist Login/Profile & Hamburger */}
                 <div className="flex items-center gap-2">
-                    {/* Profile/Login Dropdown - hidden on small screens */}
-                    <div className="relative hidden md:block ">
+                    {/* Profile/Login Icon - hidden on small screens */}
+                    <div className="relative hidden md:block">
                         <button
                             onClick={() => setOpen((open) => !open)}
-                            className="flex items-center gap-2 px-4 py-3 bg-blue-700 text-white hover:bg-blue-800 font-bold rounded-full shadow transition focus:outline-none "
+                            className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-blue-700 to-green-400 hover:from-blue-800 hover:to-green-500 transition-all duration-200 focus:outline-none shadow-lg border border-blue-100"
                             aria-haspopup="true"
                             aria-expanded={open}
                         >
                             {isLoggedIn ? (
-                                <>
-                                    <img
-                                        src={user.avatar}
-                                        alt={user.name}
-                                        className="w-8 h-8 rounded-full border-2 border-white object-cover"
-                                    />
-                                    {!isMidScreen && (
-                                        <span className="font-semibold">
-                                            {user.name}
-                                        </span>
-                                    )}
-                                </>
-                            ) : (
-                                <span>Login</span>
-                            )}
-                            <svg
-                                className="w-4 h-4 ml-1"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    d="M19 9l-7 7-7-7"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
+                                <img
+                                    src={user.avatar}
+                                    alt={user.name}
+                                    className="w-8 h-8 rounded-full object-cover border-2 border-white shadow"
                                 />
-                            </svg>
+                            ) : (
+                                <svg
+                                    className="w-6 h-6 text-white"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle cx="12" cy="7" r="4" />
+                                    <path d="M5.5 21a8.38 8.38 0 0113 0" />
+                                </svg>
+                            )}
                         </button>
-                        {/* Dropdown - hidden on small screens */}
+                        {/* Dropdown */}
                         {open && (
                             <ul
-                                className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-2 z-50 border border-blue-100"
+                                className="absolute right-0 mt-3 w-44 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl py-2 z-50 border border-blue-100 animate-fade-in"
                                 onMouseLeave={() => setOpen(false)}
                             >
                                 {isLoggedIn ? (
-                                    <>
-                                        {/* Profile link removed */}
-                                        <li>
-                                            <button
-                                                className="w-full text-left flex items-center gap-2 px-6 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
-                                                onClick={() => {
-                                                    // Add logout logic here
-                                                    alert('Logged out!');
-                                                    setOpen(false);
-                                                }}
+                                    <li>
+                                        <button
+                                            className="w-full text-left flex items-center gap-2 px-5 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
+                                            onClick={() => {
+                                                alert('Logged out!');
+                                                setOpen(false);
+                                            }}
+                                        >
+                                            <svg
+                                                className="w-5 h-5 text-blue-500"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                viewBox="0 0 24 24"
                                             >
-                                                <svg
-                                                    className="w-5 h-5 text-blue-500"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    strokeWidth="2"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        d="M17 16l4-4m0 0l-4-4m4 4H7"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                    />
-                                                    <path
-                                                        d="M3 12a9 9 0 0118 0"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                    />
-                                                </svg>
-                                                Logout
-                                            </button>
-                                        </li>
-                                    </>
+                                                <path
+                                                    d="M17 16l4-4m0 0l-4-4m4 4H7"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                />
+                                                <path
+                                                    d="M3 12a9 9 0 0118 0"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                />
+                                            </svg>
+                                            Logout
+                                        </button>
+                                    </li>
                                 ) : (
                                     <li>
-                                        <a
-                                            href="/login"
-                                            className="flex items-center gap-2 px-6 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
+                                        <Link
+                                            to="/login"
+                                            className="flex items-center gap-2 px-5 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
                                             onClick={() => setOpen(false)}
                                         >
                                             <svg
@@ -511,7 +498,7 @@ export default function Navbar() {
                                                 />
                                             </svg>
                                             Login
-                                        </a>
+                                        </Link>
                                     </li>
                                 )}
                             </ul>
@@ -520,7 +507,7 @@ export default function Navbar() {
                     {/* Hamburger */}
                     <button
                         onClick={() => setOpen(!open)}
-                        className="md:hidden text-blue-700 focus:outline-none transition-transform hover:scale-110 z-50 ml-2"
+                        className="md:hidden text-blue-700 focus:outline-none transition-transform hover:scale-110 z-50 ml-2 rounded-full p-1 bg-white/80 shadow border border-blue-100"
                         aria-label="Toggle menu"
                     >
                         <svg
@@ -542,9 +529,9 @@ export default function Navbar() {
                         </svg>
                     </button>
                 </div>
-            </div>
+                </div>
 
-            {/* Mobile Sidebar */}
+                {/* Mobile Sidebar */}
             <div
                 className={`fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-40 transform transition-transform duration-300 ${
                     open ? 'translate-x-0' : '-translate-x-full'
@@ -579,12 +566,12 @@ export default function Navbar() {
                             strokeLinecap="round"
                         />
                     </svg>
-                    <a
-                        href="/"
+                    <Link
+                        to="/"
                         className="flex items-center font-extrabold text-2xl px-2 mr-10  text-blue-700 md:text-2xl"
                     >
                         FITS -Tanza
-                    </a>
+                    </Link>
                     <button
                         onClick={() => setOpen(false)}
                         className="text-blue-700 focus:outline-none"
@@ -620,8 +607,8 @@ export default function Navbar() {
                             <span className="font-semibold text-blue-800 text-lg">
                                 {user.name}
                             </span>
-                            <a
-                                href="/profile"
+                            <Link
+                                to="/profile"
                                 className="flex items-center gap-2 px-8 py-2 mt-2 text-blue-700 bg-white border border-blue-100 hover:bg-blue-50 rounded-full transition font-medium shadow"
                                 onClick={() => setOpen(false)}
                             >
@@ -636,7 +623,7 @@ export default function Navbar() {
                                     <path d="M5.5 21a8.38 8.38 0 0113 0" />
                                 </svg>
                                 View Profile
-                            </a>
+                            </Link>
                             <button
                                 className="mt-2 flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-400 text-white font-bold rounded-full shadow-lg hover:scale-105 transition-all duration-200"
                                 onClick={() => {
@@ -667,8 +654,8 @@ export default function Navbar() {
                             </button>
                         </>
                     ) : (
-                        <a
-                            href="/login"
+                        <Link
+                            to="/login"
                             className="flex items-center gap-2 px-8 py-3 bg-blue-700 text-white hover:bg-blue-800 font-bold rounded-full shadow-lg transition"
                             onClick={() => setOpen(false)}
                         >
@@ -686,13 +673,13 @@ export default function Navbar() {
                                 />
                             </svg>
                             Login
-                        </a>
+                        </Link>
                     )}
                 </div>
                 <ul className="flex flex-col gap-2 px-8 py-8">
                     <li>
-                        <a
-                            href="/"
+                        <Link
+                            to="/"
                             className="flex items-center gap-2 px-6 py-6 text-blue-700 hover:bg-blue-50 font-semibold rounded-lg transition"
                         >
                             <svg
@@ -709,7 +696,7 @@ export default function Navbar() {
                                 />
                             </svg>
                             Home
-                        </a>
+                        </Link>
                     </li>
                     <li>
                         <details className="group">
@@ -744,8 +731,8 @@ export default function Navbar() {
                             </summary>
                             <ul className="bg-white rounded-xl shadow-lg py-4 mt-2 border border-blue-100">
                                 <li>
-                                    <a
-                                        href="/seminar-programs"
+                                    <Link
+                                        to="/seminar"
                                         className="flex items-center gap-3 px-8 py-4 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
                                     >
                                         <svg
@@ -767,11 +754,11 @@ export default function Navbar() {
                                             />
                                         </svg>
                                         Seminar Programs
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a
-                                        href="/eic"
+                                    <Link
+                                        to="/eic"
                                         className="flex items-center gap-3 px-8 py-4 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
                                     >
                                         <svg
@@ -797,7 +784,7 @@ export default function Navbar() {
                                             />
                                         </svg>
                                         EIC
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </details>
@@ -844,8 +831,8 @@ export default function Navbar() {
                             </summary>
                             <ul className="bg-white rounded-xl shadow-lg py-2 mt-2 border border-blue-100">
                                 <li>
-                                    <a
-                                        href="/about"
+                                    <Link
+                                        to="/about"
                                         className="flex items-center gap-2 px-8 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
                                     >
                                         <svg
@@ -869,11 +856,11 @@ export default function Navbar() {
                                             />
                                         </svg>
                                         About
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a
-                                        href="/contact"
+                                    <Link
+                                        to="/contact"
                                         className="flex items-center gap-2 px-8 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
                                     >
                                         <svg
@@ -895,7 +882,7 @@ export default function Navbar() {
                                             />
                                         </svg>
                                         Contact
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </details>
@@ -937,8 +924,8 @@ export default function Navbar() {
                             </summary>
                             <ul className="bg-white rounded-xl shadow-lg py-2 mt-2 border border-blue-100">
                                 <li>
-                                    <a
-                                        href="/settings/profile"
+                                    <Link
+                                        to="/settings/profile"
                                         className="flex items-center gap-2 px-8 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
                                     >
                                         <svg
@@ -952,11 +939,11 @@ export default function Navbar() {
                                             <path d="M5.5 21a8.38 8.38 0 0113 0" />
                                         </svg>
                                         Profile Settings
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a
-                                        href="/settings/account"
+                                    <Link
+                                        to="/settings/account"
                                         className="flex items-center gap-2 px-8 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
                                     >
                                         <svg
@@ -976,7 +963,7 @@ export default function Navbar() {
                                             <path d="M16 3v4M8 3v4" />
                                         </svg>
                                         Account Settings
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </details>

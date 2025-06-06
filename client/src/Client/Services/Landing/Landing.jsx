@@ -11,6 +11,7 @@ import img2 from './Assets/2.jpg'
 import img3 from './Assets/3.jpg' 
 import img4 from './Assets/4.jpg'
 import img5 from './Assets/rabies.jpg'
+import img6 from './Assets/bg.jpg'
 
 export default function Landing() {
 
@@ -68,28 +69,22 @@ export default function Landing() {
                         className="
                             w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]
                             flex flex-col items-center justify-center gap-6
-                            bg-black/70 backdrop-blur  shadow-2xl p-20 mb-20 border border-green-900
+                            bg-black/80 backdrop-blur  shadow-2xl p-20 mb-20 border border-green-900
                             overflow-hidden
                         "
                     >
                         {/* Background image overlay */}
-                        <div
-                            className="absolute inset-0 w-full h-full z-0"
-                            style={{
-                                backgroundImage: "url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1600&q=90')",
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center',
-                                opacity: 0.7,
-                                filter: 'brightness(0.3) blur(0.5px)',
-                                pointerEvents: 'none'
-                            }}
+                        <img
+                            src={img6}
+                            alt="Background"
+                            className="absolute inset-0 w-full h-full object-cover z-0 opacity-50"
                         />
                         {/* Text and Buttons */}
                         <div className="flex-1 flex flex-col items-center justify-center relative z-10 text-center">
-                            <h1 className="text-5xl font-extrabold mb-6 text-white leading-tight tracking-tight drop-shadow-lg" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.65)' }}>
+                            <h1 className="text-5xl font-extrabold mb-6 text-white leading-tight tracking-tight drop-shadow-2xl" style={{ textShadow: '0 4px 24px rgba(0,0,0,0.95), 0 1px 0 #fff' }}>
                                 Empowering Agriculture,<br />Enriching Lives
                             </h1>
-                            <p className="text-xl text-white mb-8 drop-shadow-lg" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.65)' }}>
+                            <p className="text-xl text-white mb-8 drop-shadow-2xl font-semibold" style={{ textShadow: '0 4px 24px rgba(0,0,0,0.95), 0 1px 0 #fff' }}>
                                 Advancing sustainable agriculture and community well-being through innovation and dedicated support.
                             </p>
                             <div className="flex gap-4 flex-wrap mb-8 justify-center">
@@ -102,10 +97,11 @@ export default function Landing() {
                             </div>
                         </div>
                     </div>
+                    
                     <div id="about" className="mb-28">
                         <div className="flex flex-col md:flex-row gap-10 items-stretch">
                             {/* Mission Card */}
-                            <div className="flex-1 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl shadow-md border border-green-200 flex flex-col justify-between p-12 hover:shadow-2xl transition group">
+                             <div className="flex-1 bg-gradient-to-br from-green-200 via-green-50 to-green-100 rounded-3xl shadow-lg border border-green-200 flex flex-col justify-between p-12 hover:shadow-2xl transition group">
                                 <div>
                                     <div className="flex items-center gap-5 mb-6">
                                         <span className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-green-200 text-green-700 group-hover:bg-green-300 transition shadow-md">
@@ -115,7 +111,7 @@ export default function Landing() {
                                         </span>
                                         <h2 className="text-3xl font-bold text-green-900">Mission</h2>
                                     </div>
-                                    <p className="text-gray-700 text-lg leading-relaxed">
+                                    <p className="text-gray-800 text-lg leading-relaxed font-semibold">
                                         To drive sustainable agricultural growth and improve community livelihoods through innovative solutions, education, and collaborative partnerships.
                                     </p>
                                 </div>
@@ -125,70 +121,70 @@ export default function Landing() {
                                 <div className="w-1 h-32 bg-green-200 rounded-full mx-auto"></div>
                             </div>
                             {/* Vision Card */}
-                            <div className="flex-1 bg-white/95 rounded-3xl shadow-lg border border-green-200 flex flex-col justify-between p-12 hover:shadow-2xl transition group">
+                            <div className="flex-1 bg-gradient-to-br from-green-200 via-green-50 to-green-100 rounded-3xl shadow-lg border border-green-200 flex flex-col justify-between p-12 hover:shadow-2xl transition group">
                                 <div>
                                     <div className="flex items-center gap-5 mb-6">
-                                        <span className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-green-200 text-green-700 group-hover:bg-green-300 transition shadow-md">
+                                        <span className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-green-300 text-green-800 group-hover:bg-green-400 transition shadow-md">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="w-9 h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm6 0c0 5-4.03 9-9 9s-9-4-9-9 4.03-9 9-9 9 4 9 9z" />
                                             </svg>
                                         </span>
                                         <h2 className="text-3xl font-bold text-green-900">Vision</h2>
                                     </div>
-                                    <p className="text-gray-700 text-lg leading-relaxed">
+                                    <p className="text-gray-800 text-lg leading-relaxed font-semibold">
                                         To be a leading force in transforming agriculture, fostering innovation, and building resilient, thriving communities for generations to come.
                                     </p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div id="programs" className="mb-20">
-                        <h2 className="text-3xl font-extrabold text-green-900 mb-12 text-center tracking-tight">
-                            Our Programs
-                        </h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-5xl mx-auto">
-                            {programs.map((program, idx) => (
-                                <div
-                                    key={idx}
-                                    className="
-                                        bg-gradient-to-br from-white via-green-50 to-green-100 rounded-3xl shadow-lg border border-green-100
-                                        flex flex-col items-center p-8 relative overflow-hidden group transition-all duration-300
-                                        hover:shadow-2xl hover:-translate-y-1
-                                    "
-                                >
-                                    {/* Decorative floating icon */}
-                                    <div className="absolute -top-6 -right-6 w-24 h-24 bg-green-200 opacity-20 rounded-full z-0 group-hover:scale-110 transition-transform"></div>
-                                    {/* Image */}
-                                    <div className="relative z-10 w-24 h-24 rounded-2xl overflow-hidden shadow-lg mb-6 border-4 border-green-50 group-hover:border-green-300 transition-all duration-300">
-                                        <img
-                                            src={program.img}
-                                            alt={program.title}
-                                            className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-300"
-                                        />
-                                    </div>
-                                    {/* Title */}
-                                    <h3 className="relative z-10 text-xl font-bold text-green-800 mb-2 text-center group-hover:text-green-900 transition">
-                                        {program.title}
-                                    </h3>
-                                    {/* Description */}
-                                    <p className="relative z-10 text-gray-600 text-base text-center mb-6">
-                                        {program.desc}
-                                    </p>
-                                    {/* Call to Action */}
-                                    <button
-                                        className="
-                                            mt-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold shadow
-                                            hover:bg-green-800 hover:from-green-700 hover:to-green-800 transition
-                                            relative z-10
-                                        "
-                                    >
-                                        Learn More
-                                    </button>
-                                </div>
+                            </div>
+                            </div>
+                            <div id="programs" className="mb-20">
+                                <h2 className="text-3xl font-extrabold text-green-900 mb-12 text-center tracking-tight">
+                                    Our Programs
+                                </h2>
+                                <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
+                                    {programs.map((program, idx) => (
+                                        <div
+                                            key={idx}
+                                            className="
+                                                bg-gradient-to-br from-green-100 via-white to-green-200 rounded-3xl shadow-lg border border-green-100
+                                                flex flex-col items-center p-8 relative overflow-hidden group transition-all duration-300
+                                                hover:shadow-2xl hover:-translate-y-1
+                                                w-full sm:w-[340px] md:w-[320px] lg:w-[300px]
+                                            "
+                                        >
+                                            {/* Decorative floating icon */}
+                                            <div className="absolute -top-6 -right-6 w-24 h-24 bg-green-300 opacity-20 rounded-full z-0 group-hover:scale-110 transition-transform"></div>
+                                            {/* Image */}
+                                            <div className="relative z-10 w-24 h-24 rounded-2xl overflow-hidden shadow-lg mb-6 border-4 border-green-50 group-hover:border-green-300 transition-all duration-300">
+                                                <img
+                                                    src={program.img}
+                                                    alt={program.title}
+                                                    className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-300"
+                                                />
+                                            </div>
+                                            {/* Title */}
+                                            <h3 className="relative z-10 text-xl font-bold text-green-900 mb-2 text-center group-hover:text-green-900 transition">
+                                                {program.title}
+                                            </h3>
+                                            {/* Description */}
+                                            <p className="relative z-10 text-gray-800 text-base text-center mb-6 font-semibold">
+                                                {program.desc}
+                                            </p>
+                                            {/* Call to Action */}
+                                            <button
+                                                className="
+                                                    mt-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold shadow
+                                                    hover:bg-green-800 hover:from-green-700 hover:to-green-800 transition
+                                                    relative z-10
+                                                "
+                                            >
+                                                Learn More
+                                            </button>
+                                        </div>
                             ))}
-                        </div>
-                    </div>
-                            {/* Why Choose Us Section as Responsive Grid */}
+                                </div>
+                            </div>
                             <div className="mb-24">
                                 <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight">
                                     Why Choose Us?
@@ -201,8 +197,8 @@ export default function Landing() {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 1.343-3 3 0 1.657 1.343 3 3 3s3-1.343 3-3c0-1.657-1.343-3-3-3zm0 10c-4.418 0-8-3.582-8-8 0-4.418 3.582-8 8-8s8 3.582 8 8c0 4.418-3.582 8-8 8z" />
                                     </svg>
                                 </div>
-                                <h3 className="font-bold text-xl text-green-800 mb-2 text-center">Expert Support</h3>
-                                <p className="text-gray-700 text-center text-base">
+                                <h3 className="font-bold text-xl text-green-900 mb-2 text-center">Expert Support</h3>
+                                <p className="text-gray-800 text-center text-base font-semibold">
                                     Our team provides expert guidance and support to help you succeed in agriculture.
                                 </p>
                             </div>
@@ -213,8 +209,8 @@ export default function Landing() {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2a4 4 0 018 0v2m-4-6a4 4 0 100-8 4 4 0 000 8z" />
                                     </svg>
                                 </div>
-                                <h3 className="font-bold text-xl text-green-800 mb-2 text-center">Community Focus</h3>
-                                <p className="text-gray-700 text-center text-base">
+                                <h3 className="font-bold text-xl text-green-900 mb-2 text-center">Community Focus</h3>
+                                <p className="text-gray-800 text-center text-base font-semibold">
                                     We are dedicated to uplifting communities and fostering sustainable growth.
                                 </p>
                             </div>
@@ -225,8 +221,8 @@ export default function Landing() {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a5 5 0 00-10 0v2a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2v-7a2 2 0 00-2-2z" />
                                     </svg>
                                 </div>
-                                <h3 className="font-bold text-xl text-green-800 mb-2 text-center">Trusted & Secure</h3>
-                                <p className="text-gray-700 text-center text-base">
+                                <h3 className="font-bold text-xl text-green-900 mb-2 text-center">Trusted & Secure</h3>
+                                <p className="text-gray-800 text-center text-base font-semibold">
                                     We ensure your data and interactions are safe and handled with integrity.
                                 </p>
                             </div>
@@ -247,14 +243,14 @@ export default function Landing() {
                             </span>
                             <span className="text-2xl font-extrabold tracking-tight">FITS-Tanza</span>
                         </div>
-                        <p className="text-green-200 text-sm max-w-xs">
+                        <p className="text-green-100 text-base max-w-xs font-semibold">
                             Advancing sustainable agriculture and community well-being through innovation and dedicated support.
                         </p>
                     </div>
                     {/* Quick Links */}
                     <div className="flex-1 mb-8 md:mb-0">
                         <h4 className="font-semibold text-green-100 mb-3">Quick Links</h4>
-                        <ul className="space-y-2 text-green-200 text-sm">
+                        <ul className="space-y-2 text-green-100 text-base font-semibold">
                             <li>
                                 <a href="#about" className="hover:text-green-400 transition">About Us</a>
                             </li>
@@ -304,7 +300,7 @@ export default function Landing() {
                                 </svg>
                             </a>
                         </div>
-                        <p className="text-green-300 text-xs">&copy; {new Date().getFullYear()} FITS-Tanza. All rights reserved.</p>
+                        <p className="text-green-200 text-xs">&copy; {new Date().getFullYear()} FITS-Tanza. All rights reserved.</p>
                     </div>
                 </div>
             </footer>
