@@ -33,6 +33,8 @@ function searchSeminars($searchTerm = '', $filter = 'all', $status = "all") {
         $sql .= " AND status = '$status'";
     }
 
+    $sql .= " ORDER BY created_at DESC";
+
     $result = $conn->query($sql);
     $seminars = array();
 

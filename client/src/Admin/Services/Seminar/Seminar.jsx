@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import default_seminar_pic from '../../../Assets/default_seminar_pic.svg';
 
 export default function Seminar() {
@@ -104,9 +104,6 @@ export default function Seminar() {
         return () => clearTimeout(delayDebounceFn);
     }, [search, searchFilter, statusFilter]);
 
-    const handleDelete = (idx) => {
-        setProgramList((list) => list.filter((_, i) => i !== idx));
-    };
 
     // State for selection mode and selected items
     const [selectMode, setSelectMode] = useState(false);
@@ -127,14 +124,26 @@ export default function Seminar() {
         );
     };
 
+    
     // Delete selected items
-    const handleDeleteSelected = () => {
-        setProgramList((list) =>
-            list.filter((_, idx) => !selectedItems.includes(idx))
-        );
+    const handleDeleteSelected = async()=>{
+        if(!confirm("Are You Sure?"))return;
+
+        selectedItems.map(async (idx)=>{
+
+            const response = await fetch(`/api/Seminars/deleteSeminar?delete=${programList[idx].id}`);
+            const data = await response.json();
+            console.log(data);
+
+        })
+
+        const updatedProgramList = programList.filter((_, index) => !selectedItems.includes(index));
+        setProgramList(updatedProgramList);
+
         setSelectedItems([]);
         setSelectMode(false);
     };
+
 
     return (
         <div className="min-h-screen bg-white py-6 px-2 md:px-8">
