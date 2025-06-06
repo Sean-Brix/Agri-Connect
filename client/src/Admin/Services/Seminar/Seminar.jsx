@@ -6,6 +6,7 @@ import default_seminar_pic from '../../../Assets/default_seminar_pic.jpg';
 
 // SUB-COMPONENT
 import Edit_Seminar from './Edit_Seminar';
+import Participants from './Participants';
 
 export default function Seminar({ admin_navigate }) {
     const [programList, setProgramList] = useState([]);
@@ -256,6 +257,16 @@ export default function Seminar({ admin_navigate }) {
         setSelectedItems([]);
         setSelectMode(false);
     };
+
+    // Edit Participants
+    const [showParticipants, setShowParticipants] = useState(false);
+    const participantsData = useRef([]);
+    const edit_participants = async (e, seminar) => {
+        e.preventDefault();
+        participantsData.current = seminar;
+
+        setShowParticipants(true);
+    }
 
     return (
         <div className="min-h-screen bg-white py-6 px-2 md:px-8">
@@ -602,10 +613,20 @@ export default function Seminar({ admin_navigate }) {
                 <Edit_Seminar
                     data={editData.current}
                     setProgramList={setProgramList}
-                    fetchAndSetImageUrls={fetchAndSetImageUrls}
                     toggleOff={() => {
                         setShowEdit(false);
                         editData.current = null;
+                    }}
+                />
+            )}
+
+            {/* Participants Modal */}
+            {showParticipants && (
+                <Participants
+                    data={participantsData.current}
+                    toggleOff={() => {
+                        setShowParticipants(false);
+                        participantsData.current = null
                     }}
                 />
             )}
@@ -678,6 +699,14 @@ export default function Seminar({ admin_navigate }) {
                                         className="w-full md:w-auto bg-blue-600 text-white cursor-pointer px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-semibold transition-colors"
                                     >
                                         Edit Program
+                                    </button>
+                                    <button
+                                        onClick={(e) => {
+                                            edit_participants(e, item);
+                                        }}
+                                        className="w-full md:w-auto bg-green-600 text-white cursor-pointer px-4 py-2 rounded-lg hover:bg-green-700 text-sm font-semibold transition-colors"
+                                    >
+                                        Participants
                                     </button>
                                 </div>
                             </div>
