@@ -1,8 +1,27 @@
+// UTILS
 import { useEffect, useState, useRef } from 'react';
+
+// ASSETS
 import default_seminar_pic from '../../../Assets/default_seminar_pic.svg';
 
-export default function Seminar() {
+// SUB-COMPONENT
+import Edit_Seminar from './Edit_Seminar';
+
+export default function Seminar({admin_navigate}) {
     const [programList, setProgramList] = useState([]);
+
+    // Initial Render
+    useEffect(() => {
+        (async () => {
+            const response = await fetch(`/api/Seminars/getSeminars`);
+            const data = await response.json();
+
+            setProgramList(data.payload.seminars);
+        })();
+    }, []);
+
+
+    // Adding New Seminar
     const [showAdd, setShowAdd] = useState(false);
     const [newProgram, setNewProgram] = useState({
         title: '',
@@ -17,16 +36,6 @@ export default function Seminar() {
         registrationDeadline: '',
         img: '',
     });
-
-    // Initial Render
-    useEffect(() => {
-        (async () => {
-            const response = await fetch(`/api/Seminars/getSeminars`);
-            const data = await response.json();
-
-            setProgramList(data.payload.seminars);
-        })();
-    }, []);
 
     const handleAddProgram = async (e) => {
         e.preventDefault();
@@ -80,6 +89,18 @@ export default function Seminar() {
         }
     };
 
+
+    // Edit Function
+    const [showEdit, setShowEdit] = useState(false);
+    const editData = useRef(null);
+    const edit_seminar = async(e, seminar)=>{
+        e.preventDefault();
+
+        editData.current = seminar;
+        setShowEdit(true);
+    }
+
+
     // Search Function
     const [search, setSearch] = useState('');
     const [statusFilter, setStatusFilter] = useState('all')
@@ -109,11 +130,13 @@ export default function Seminar() {
     const [selectMode, setSelectMode] = useState(false);
     const [selectedItems, setSelectedItems] = useState([]);
 
+
     // Toggle selection mode
     const handleToggleSelectMode = () => {
         setSelectMode(!selectMode);
         setSelectedItems([]);
     };
+
 
     // Handle selecting/deselecting an item
     const handleSelectItem = (idx) => {
@@ -124,7 +147,7 @@ export default function Seminar() {
         );
     };
 
-    
+
     // Delete selected items
     const handleDeleteSelected = async()=>{
         if(!confirm("Are You Sure?"))return;
@@ -143,7 +166,6 @@ export default function Seminar() {
         setSelectedItems([]);
         setSelectMode(false);
     };
-
 
     return (
         <div className="min-h-screen bg-white py-6 px-2 md:px-8">
@@ -382,11 +404,11 @@ export default function Seminar() {
                                     type="number"
                                     min="1"
                                     className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
-                                    value={newProgram.maxParticipants || ''}
+                                    value={newProgram.capacity}
                                     onChange={(e) =>
                                         setNewProgram({
                                             ...newProgram,
-                                            maxParticipants: e.target.value,
+                                            capacity: e.target.value,
                                         })
                                     }
                                     required
@@ -418,7 +440,7 @@ export default function Seminar() {
                                     Registration Deadline
                                 </label>
                                 <input
-                                    type="datetime-local"
+                                    type="date"
                                     className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
                                     value={
                                         newProgram.registrationDeadline || ''
@@ -484,6 +506,17 @@ export default function Seminar() {
                 </div>
             )}
 
+            {/* Edit Modal */}
+            {showEdit && (
+                <Edit_Seminar 
+                    data={editData.current} 
+                    toggleOff={()=>{
+                        editData.current = null;
+                        setShowEdit(false);
+                    }
+                }/>
+            )}
+
             {/* Responsive Grid for Programs */}
             <div className="w-full max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 [@media(min-width:1150px)]:grid-cols-3 gap-6 md:gap-8">
                 {programList.map((item, idx) => {
@@ -544,7 +577,10 @@ export default function Seminar() {
                                 </div>
 
                                 <div className="flex flex-col gap-2 mt-auto md:flex-row">
-                                    <button className="w-full md:w-auto bg-blue-600 text-white cursor-pointer px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-semibold transition-colors">
+                                    <button 
+                                        onClick={(e)=>{edit_seminar(e, item)}}
+                                        className="w-full md:w-auto bg-blue-600 text-white cursor-pointer px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-semibold transition-colors"
+                                    >
                                         Edit Program
                                     </button>
                                 </div>

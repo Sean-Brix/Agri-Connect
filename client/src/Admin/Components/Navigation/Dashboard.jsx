@@ -12,6 +12,7 @@ import Content from '../../Services/Content/Content.jsx';
 import Audit from '../../Services/Logs/Audit.jsx';
 import Survey from '../../Services/Survey/Survey.jsx';
 
+
 // GLOBAL
 import Settings from '../../../Components/settings/Setting.jsx';
 import AccountProfile from '../../../Components/settings/AccountProfile/AccountProfile.jsx';
@@ -46,7 +47,6 @@ export default function Dashboard() {
     settings: ()=> Settings,
     account: ()=> AccountProfile,
     edit_profile: ()=> Edit_Profile,
-
   });
 
   const [Page, setPage] = useState(elements.current.analytics); // [ analytics, enrollment, profiles, eic, settings, audit, survey, content ]
