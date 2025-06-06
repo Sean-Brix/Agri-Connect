@@ -9,6 +9,7 @@ import Edit_Seminar from './Edit_Seminar';
 
 export default function Seminar({admin_navigate}) {
     const [programList, setProgramList] = useState([]);
+    const [render, setRender] = useState("Force");
 
     // Initial Render
     useEffect(() => {
@@ -92,14 +93,16 @@ export default function Seminar({admin_navigate}) {
 
     // Edit Function
     const [showEdit, setShowEdit] = useState(false);
-    const editData = useRef(null);
-    const edit_seminar = async(e, seminar)=>{
+    const editData = useRef({payload: [], index: 0});
+    const edit_seminar = async(e, seminar, location)=>{
         e.preventDefault();
+        editData.current = {
+            payload: seminar,
+            index: location
+        }
 
-        editData.current = seminar;
         setShowEdit(true);
     }
-
 
     // Search Function
     const [search, setSearch] = useState('');
@@ -509,10 +512,12 @@ export default function Seminar({admin_navigate}) {
             {/* Edit Modal */}
             {showEdit && (
                 <Edit_Seminar 
-                    data={editData.current} 
+                    data={editData.current.payload}
+                    location={editData.location} 
+                    setProgramList={setProgramList}
                     toggleOff={()=>{
-                        editData.current = null;
                         setShowEdit(false);
+                        editData.current = null;
                     }
                 }/>
             )}
@@ -578,7 +583,7 @@ export default function Seminar({admin_navigate}) {
 
                                 <div className="flex flex-col gap-2 mt-auto md:flex-row">
                                     <button 
-                                        onClick={(e)=>{edit_seminar(e, item)}}
+                                        onClick={(e)=>{edit_seminar(e, item, idx)}}
                                         className="w-full md:w-auto bg-blue-600 text-white cursor-pointer px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-semibold transition-colors"
                                     >
                                         Edit Program

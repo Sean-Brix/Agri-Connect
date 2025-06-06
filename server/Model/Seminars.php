@@ -138,6 +138,20 @@ class Seminars {
         return false;
     }
 
+   public function setDetails($params) {
+        $this->title = $params['title'] ?? $this->title;
+        $this->description = $params['description'] ?? $this->description;
+        $this->location = $params['location'] ?? $this->location;
+        $this->start_date = $params['start_date'] ?? $this->start_date;
+        $this->end_date = $params['end_date'] ?? $this->end_date;
+        $this->start_time = $params['start_time'] ?? $this->start_time;
+        $this->end_time = $params['end_time'] ?? $this->end_time;
+        $this->capacity = $params['capacity'] ?? $this->capacity;
+        $this->status = $params['status'] ?? $this->status;
+        $this->speaker = $params['speaker'] ?? $this->speaker;
+        $this->registration_deadline = $params['registration_deadline'] ?? $this->registration_deadline;
+    }
+
     public function save(){
         $query = "UPDATE `seminars` SET 
             title = ?, description = ?, location = ?, 
