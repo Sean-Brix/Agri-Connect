@@ -24,6 +24,7 @@ function App() {
                 {/* CLIENT ROUTES */}
                 <Route path="/" element={<Landing />} />
 
+
                 {/* ADMIN ROUTES */}
                 <Route path="/admin" element={<Dashboard />} />
 
