@@ -7,20 +7,19 @@ import default_seminar_pic from '../../../Assets/default_seminar_pic.svg';
 // SUB-COMPONENT
 import Edit_Seminar from './Edit_Seminar';
 
-export default function Seminar({admin_navigate}) {
+export default function Seminar({ admin_navigate }) {
     const [programList, setProgramList] = useState([]);
-    const [render, setRender] = useState("Force");
 
     // Initial Render
     useEffect(() => {
         (async () => {
+            // Data
             const response = await fetch(`/api/Seminars/getSeminars`);
             const data = await response.json();
 
             setProgramList(data.payload.seminars);
         })();
     }, []);
-
 
     // Adding New Seminar
     const [showAdd, setShowAdd] = useState(false);
@@ -35,7 +34,7 @@ export default function Seminar({admin_navigate}) {
         maxParticipants: '',
         speaker: '',
         registrationDeadline: '',
-        img: '',
+        photo: '',
     });
 
     const handleAddProgram = async (e) => {
@@ -90,23 +89,19 @@ export default function Seminar({admin_navigate}) {
         }
     };
 
-
     // Edit Function
     const [showEdit, setShowEdit] = useState(false);
-    const editData = useRef({payload: [], index: 0});
-    const edit_seminar = async(e, seminar, location)=>{
+    const editData = useRef([]);
+    const edit_seminar = async (e, seminar) => {
         e.preventDefault();
-        editData.current = {
-            payload: seminar,
-            index: location
-        }
+        editData.current = seminar;
 
         setShowEdit(true);
-    }
+    };
 
     // Search Function
     const [search, setSearch] = useState('');
-    const [statusFilter, setStatusFilter] = useState('all')
+    const [statusFilter, setStatusFilter] = useState('all');
     const [searchFilter, setSearchFilter] = useState('all');
 
     useEffect(() => {
@@ -128,18 +123,15 @@ export default function Seminar({admin_navigate}) {
         return () => clearTimeout(delayDebounceFn);
     }, [search, searchFilter, statusFilter]);
 
-
     // State for selection mode and selected items
     const [selectMode, setSelectMode] = useState(false);
     const [selectedItems, setSelectedItems] = useState([]);
-
 
     // Toggle selection mode
     const handleToggleSelectMode = () => {
         setSelectMode(!selectMode);
         setSelectedItems([]);
     };
-
 
     // Handle selecting/deselecting an item
     const handleSelectItem = (idx) => {
@@ -150,20 +142,21 @@ export default function Seminar({admin_navigate}) {
         );
     };
 
-
     // Delete selected items
-    const handleDeleteSelected = async()=>{
-        if(!confirm("Are You Sure?"))return;
+    const handleDeleteSelected = async () => {
+        if (!confirm('Are You Sure?')) return;
 
-        selectedItems.map(async (idx)=>{
-
-            const response = await fetch(`/api/Seminars/deleteSeminar?delete=${programList[idx].id}`);
+        selectedItems.map(async (idx) => {
+            const response = await fetch(
+                `/api/Seminars/deleteSeminar?delete=${programList[idx].id}`
+            );
             const data = await response.json();
             console.log(data);
+        });
 
-        })
-
-        const updatedProgramList = programList.filter((_, index) => !selectedItems.includes(index));
+        const updatedProgramList = programList.filter(
+            (_, index) => !selectedItems.includes(index)
+        );
         setProgramList(updatedProgramList);
 
         setSelectedItems([]);
@@ -203,7 +196,6 @@ export default function Seminar({admin_navigate}) {
                             onChange={(e) => setSearch(e.target.value)}
                             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-black bg-white shadow-sm"
                         />
-
                     </div>
                     <select
                         onChange={(e) => setSearchFilter(e.target.value)}
@@ -511,21 +503,38 @@ export default function Seminar({admin_navigate}) {
 
             {/* Edit Modal */}
             {showEdit && (
-                <Edit_Seminar 
-                    data={editData.current.payload}
-                    location={editData.location} 
+                <Edit_Seminar
+                    data={editData.current}
                     setProgramList={setProgramList}
-                    toggleOff={()=>{
+                    toggleOff={() => {
                         setShowEdit(false);
                         editData.current = null;
-                    }
-                }/>
+                    }}
+                />
             )}
 
             {/* Responsive Grid for Programs */}
             <div className="w-full max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 [@media(min-width:1150px)]:grid-cols-3 gap-6 md:gap-8">
                 {programList.map((item, idx) => {
                     const isSelected = selectedItems.includes(idx);
+                    let picture = default_seminar_pic;
+                    
+                    (async ()=>{
+
+                        const imageFetch = await fetch(
+                            `/api/seminars/getPhoto?id=${item.id}`
+                        );
+                        
+                        if (!imageFetch.ok) {
+                            console.log(await imageFetch.json());
+                            picture = default_seminar_pic;
+                        } 
+                        else {
+                            const blob = await imageFetch.blob();
+                            picture = URL.createObjectURL(blob);
+                        }
+                    })()
+                    
                     return (
                         <div
                             key={idx}
@@ -557,7 +566,7 @@ export default function Seminar({admin_navigate}) {
                                 Status: {item.status}
                             </h3>
                             <img
-                                src={default_seminar_pic}
+                                src={picture}
                                 alt={item.title}
                                 className="w-full h-40 sm:h-48 object-cover rounded-t-xl bg-gray-100 transition-none"
                             />
@@ -582,8 +591,10 @@ export default function Seminar({admin_navigate}) {
                                 </div>
 
                                 <div className="flex flex-col gap-2 mt-auto md:flex-row">
-                                    <button 
-                                        onClick={(e)=>{edit_seminar(e, item, idx)}}
+                                    <button
+                                        onClick={(e) => {
+                                            edit_seminar(e, item);
+                                        }}
                                         className="w-full md:w-auto bg-blue-600 text-white cursor-pointer px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-semibold transition-colors"
                                     >
                                         Edit Program

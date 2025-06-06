@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import default_picture from '../../../Assets/default_seminar_pic.svg';
 
-export default function Edit_Seminar({
-    data,
-    toggleOff,
-    setProgramList,
-    location,
-}) {
+export default function Edit_Seminar({ data, toggleOff, setProgramList }) {
     // Render editing data
     const [newData, setNewData] = useState(data);
+    const [image, setImage] = useState(default_picture);
+    const [newImage, setNewImage] = useState(null);
+    const changedImage = useRef(false);
 
     // Save the record
     const saveSeminar = async (e) => {
@@ -48,15 +47,62 @@ export default function Edit_Seminar({
                     return [newData, ...prev];
                 }
             });
+
+            // Exit
+            if(!changeImage.current) return toggleOff();
             
-            toggleOff();
-        } catch (error) {
+            // Create Body
+            const formData = new FormData();
+            formData.append('image', newImage);
+            formData.append('id', newData.id);
+
+            // Request Changes
+            const setImage = await fetch('/api/seminars/setPhoto',{
+                method: 'POST',
+                body: formData
+            });
+
+            changedImage.current = false;
+
+            // If Failes
+            if(!setImage.ok){
+                const data = await response.json();
+                console.log(data.payload.error);
+                alert("Failed to upload image");
+                return
+            }
+
+        } 
+        catch (error) {
             console.error('Error updating seminar:', error);
             alert(
                 'An error occurred while updating the seminar. Please try again.'
             );
         }
     };
+
+    // Change image
+    const changeImage = (event) => {
+        event.preventDefault();
+
+        const file = event.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+
+            setNewImage(file);
+            changedImage.current = true;
+        } 
+        else {
+            // Revert to default if no file selected
+            setImage(default_picture);
+            changedImage.current = false;
+        }
+    }
 
     return (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
@@ -267,11 +313,20 @@ export default function Edit_Seminar({
                             Upload Image{' '}
                             <span className="text-gray-300">(optional)</span>
                         </label>
+
                         <input
                             type="file"
                             accept="image/*"
                             className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                            onChange={changeImage}
                         />
+
+                        <img
+                            src={image}
+                            alt="Seminar"
+                            className="w-full h-32 object-cover rounded-md"
+                        />
+
                     </div>
                     <button
                         type="submit"
