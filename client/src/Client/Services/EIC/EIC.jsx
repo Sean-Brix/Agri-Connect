@@ -160,7 +160,7 @@ export default function Eic() {
     return (
         <>
             <Navbar />
-            <div className="flex">
+            <div className="flex bg-gradient-to-br from-green-50 to-green-100">
                 {/* Main Content (Sidebar removed) */}
                 <div className="flex-1 w-full">
                     <div className="w-full bg-gradient-to-r from-blue-600 to-green-400 py-5 mt-30 px-4 flex justify-center items-center z-0 relative">
@@ -194,23 +194,32 @@ export default function Eic() {
                                         </svg>
                                     </span>
                                 </div>
-                                {/* Filter Button (styled like search bar) */}
-                                <div className="relative flex-shrink-0">
-                                    <button
-                                        className="flex items-center gap-2 pl-4 pr-6 py-1 rounded-xl border border-gray-200 bg-gradient-to-r from-blue-50 via-white to-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-900 transition placeholder-gray-400 bg-white shadow-sm px-2 h-14"
-                                        onClick={() => setShowFilter((prev) => !prev)}
-                                        title="Filter"
-                                        type="button"
-                                        style={{
-                                            background: 'none',
-                                            color: 'inherit',
-                                            boxShadow: 'none'
-                                        }}
-                                    >
-                                        <i className="fa-solid fa-filter text-gray-600"></i>
-                                        <span className="hidden sm:inline text-gray-600 font-medium">Filter</span>
-                                    </button>
-                                    {/* Dropdown filter for all screens */}
+                                {/* Modern Filter Button */}
+                                                                <div className="relative flex-shrink-0">
+                                                                    <button
+                                                                        className="flex items-center gap-2 pl-4 pr-6 py-1 rounded-full border border-gray-200 bg-gradient-to-r from-white via-blue-50 to-green-100 hover:from-blue-100 hover:to-green-200 focus:outline-none focus:ring-2 focus:ring-blue-200 text-blue-700 shadow transition-all duration-200 h-14 font-semibold text-base"
+                                                                        onClick={() => setShowFilter((prev) => !prev)}
+                                                                        title="Filter"
+                                                                        type="button"
+                                                                        style={{
+                                                                            background: 'linear-gradient(90deg, #fff 0%, #f0fdf4 100%)',
+                                                                            color: '#2563eb',
+                                                                            boxShadow: '0 4px 14px 0 rgba(34,197,94,0.08)'
+                                                                        }}
+                                                                    >
+                                                                        <i className="fa-solid fa-filter text-blue-500 text-lg"></i>
+                                                                        <span className="hidden sm:inline">Filter</span>
+                                                                        <svg
+                                                                            className={`ml-2 w-4 h-4 transition-transform duration-200 ${showFilter ? 'rotate-180' : ''}`}
+                                                                            fill="none"
+                                                                            stroke="currentColor"
+                                                                            strokeWidth="2"
+                                                                            viewBox="0 0 24 24"
+                                                                        >
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                                                                        </svg>
+                                                                    </button>
+                                                                    {/* Dropdown filter for all screens */}
                                     {showFilter && (
                                         <div className="absolute top-16 right-0 z-20 bg-white border border-gray-100 rounded-2xl shadow-2xl w-56 p-5 animate-fade-in flex flex-col gap-2">
                                             <h2 className="text-base font-bold mb-2 text-gray-700 tracking-wide">Filter by Category</h2>
