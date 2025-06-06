@@ -63,54 +63,45 @@ export default function Landing() {
             <Navbar />
             <main className="bg-gradient-to-br from-green-50 to-green-100 min-h-screen pt-16">
                 <section className="max-w-6xl mx-auto px-4 py-14">
-                    {/* Hero Section */}
+                    
                     <div
                         className="
                             w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]
-                            flex flex-col md:flex-row items-center justify-center gap-6
-                            bg-white/80 backdrop-blur rounded-3xl shadow-2xl p-10 mb-20 border border-green-100
+                            flex flex-col items-center justify-center gap-6
+                            bg-black/70 backdrop-blur  shadow-2xl p-20 mb-20 border border-green-900
+                            overflow-hidden
                         "
-                        style={{ flexWrap: 'wrap' }}
                     >
+                        {/* Background image overlay */}
+                        <div
+                            className="absolute inset-0 w-full h-full z-0"
+                            style={{
+                                backgroundImage: "url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1600&q=90')",
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                                opacity: 0.7,
+                                filter: 'brightness(0.3) blur(0.5px)',
+                                pointerEvents: 'none'
+                            }}
+                        />
                         {/* Text and Buttons */}
-                        <div className="flex-1 min-w-[260px] flex flex-col items-center justify-center">
-                            <h1 className="text-5xl font-extrabold mb-6 text-green-900 leading-tight tracking-tight text-center">
+                        <div className="flex-1 flex flex-col items-center justify-center relative z-10 text-center">
+                            <h1 className="text-5xl font-extrabold mb-6 text-white leading-tight tracking-tight drop-shadow-lg" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.65)' }}>
                                 Empowering Agriculture,<br />Enriching Lives
                             </h1>
-                            <p className="text-xl text-gray-700 mb-8 text-center">
+                            <p className="text-xl text-white mb-8 drop-shadow-lg" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.65)' }}>
                                 Advancing sustainable agriculture and community well-being through innovation and dedicated support.
                             </p>
                             <div className="flex gap-4 flex-wrap mb-8 justify-center">
                                 <a href="#programs" className="bg-gradient-to-r from-green-600 to-green-800 text-white px-8 py-3 rounded-2xl font-semibold shadow hover:scale-105 transition-transform">
                                     Our Programs
                                 </a>
-                                <a href="#about" className="border-2 border-green-700 text-green-800 px-8 py-3 rounded-2xl font-semibold hover:bg-green-50 transition">
+                                <a href="#about" className="border-2 border-green-100 text-green-50 px-8 py-3 rounded-2xl font-semibold hover:bg-green-900/30 transition">
                                     Learn More
                                 </a>
                             </div>
                         </div>
-                        {/* Image: side on desktop, under on wrap */}
-                        <div className="flex-1 flex justify-center items-center">
-                            <img
-                                src={fits}
-                                alt="Fits Program"
-                                className="
-                                    w-full max-w-2xl rounded-3xl shadow-2xl object-cover min-w-[260px] self-center
-                                    md:ml-8
-                                    md:mt-0
-                                    mt-8
-                                    order-2
-                                    md:order-none
-                                "
-                                style={{
-                                    display: 'block',
-                                    height: '380px',
-                                    maxHeight: '420px',
-                                }}
-                            />
-                        </div>
                     </div>
-                    {/* Modern About Section - Redesigned & Larger */}
                     <div id="about" className="mb-28">
                         <div className="flex flex-col md:flex-row gap-10 items-stretch">
                             {/* Mission Card */}
