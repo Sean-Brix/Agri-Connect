@@ -214,7 +214,7 @@ export default function Eic() {
                         <span className="uppercase tracking-widest text-blue-300 text-sm font-semibold mb-2 letter-spacing-wide">
                             Welcome to
                         </span>
-                        <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-blue-400 to-green-200 drop-shadow-lg text-center p-5">
+                        <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-blue-400 to-green-200 drop-shadow-lg text-center ">
                             Equipment & Inventory <br /> Center
                         </h1>
                         <div className="mt-3 w-24 h-2 rounded-full bg-gradient-to-r from-blue-400 via-green-400 to-blue-400 opacity-80 animate-pulse"></div>
@@ -373,7 +373,7 @@ export default function Eic() {
                                 return (
                                     <div
                                         key={idx}
-                                        className="bg-white/90 border border-gray-200 rounded-3xl shadow-lg hover:shadow-2xl transition-shadow duration-200 flex flex-col p-0 group relative overflow-hidden w-full max-w-xs mx-auto sm:max-w-sm md:max-w-none"
+                                        className="bg-white/90 border border-gray-200  shadow-lg hover:shadow-2xl transition-shadow duration-200 flex flex-col p-0 group relative overflow-hidden w-full max-w-xs mx-auto sm:max-w-sm md:max-w-none"
                                         style={{
                                             width: '100%',
                                             maxWidth: '20rem',

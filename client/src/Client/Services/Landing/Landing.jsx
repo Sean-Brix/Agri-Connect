@@ -319,6 +319,83 @@ export default function Landing() {
                         </div>
                         </section>
                         </main>
+                        
+                        <section className="max-w-5xl mx-auto mb-20 px-4 mt-10 reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
+                            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-950  shadow-2xl border border-gray-700 p-10 md:p-16 relative overflow-hidden">
+                                <div className="absolute inset-0 pointer-events-none">
+                                    <div className="w-full h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-green-900/20 via-transparent to-transparent"></div>
+                                </div>
+                                <header className="mb-10 border-b border-gray-700 pb-6 flex flex-col md:flex-row md:items-end md:justify-between">
+                                    <div>
+                                        <h2 className="text-4xl font-extrabold text-green-100 tracking-widest uppercase mb-2" style={{ fontFamily: 'serif', letterSpacing: '0.12em' }}>
+                                            Agri-Connect Gazette
+                                        </h2>
+                                        <p className="text-green-300 text-lg font-semibold tracking-wide">Your Weekly Source for Agricultural News</p>
+                                    </div>
+                                    <span className="text-green-400 font-mono text-sm mt-4 md:mt-0">Edition: {new Date().toLocaleDateString()}</span>
+                                </header>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                                    {/* Lead Story */}
+                                    <article className="md:col-span-2 bg-gray-950/80 rounded-2xl p-8 shadow-lg border border-gray-800 flex flex-col">
+                                        <h3 className="text-2xl font-bold text-green-100 mb-3 font-serif">Farmers Embrace Smart Tech for Bumper Harvest</h3>
+                                        <p className="text-green-200 text-base mb-4 font-medium">
+                                            Local farmers are adopting smart sensors and data-driven irrigation, resulting in record-breaking yields this season. “We can now monitor soil moisture and weather in real-time,” says farmer Ana Cruz. The FITS Center continues to provide training and support for integrating technology into traditional farming.
+                                        </p>
+                                        <div className="flex items-center gap-4 mt-auto">
+                                            <span className="text-green-400 text-xs font-semibold">By J. Dela Cruz</span>
+                                            <span className="text-green-700 text-xs">Front Page</span>
+                                        </div>
+                                    </article>
+                                    {/* Sidebar Stories */}
+                                    <div className="flex flex-col gap-8">
+                                        <article className="bg-gray-950/80 rounded-2xl p-6 shadow border border-gray-800">
+                                            <h4 className="text-lg font-bold text-green-200 mb-2 font-serif">Organic Market Opens Downtown</h4>
+                                            <p className="text-green-300 text-sm mb-2">
+                                                The new organic market offers fresh, locally grown produce every Saturday. Vendors highlight the benefits of chemical-free farming.
+                                            </p>
+                                            <span className="text-green-500 text-xs">Community</span>
+                                        </article>
+                                        <article className="bg-gray-950/80 rounded-2xl p-6 shadow border border-gray-800">
+                                            <h4 className="text-lg font-bold text-green-200 mb-2 font-serif">Youth Join Agri Bootcamp</h4>
+                                            <p className="text-green-300 text-sm mb-2">
+                                                Over 50 students participated in the Agri Bootcamp, learning about sustainable practices and agri-entrepreneurship.
+                                            </p>
+                                            <span className="text-green-500 text-xs">Education</span>
+                                        </article>
+                                    </div>
+                                </div>
+                                {/* Bottom Row: Columns */}
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                                    <div className="bg-gray-950/70 rounded-xl p-6 border border-gray-800">
+                                        <h5 className="text-green-100 font-bold mb-2 font-serif">Weather Watch</h5>
+                                        <p className="text-green-300 text-sm">
+                                            Expect scattered showers this week. Farmers are advised to adjust irrigation schedules accordingly.
+                                        </p>
+                                    </div>
+                                    <div className="bg-gray-950/70 rounded-xl p-6 border border-gray-800">
+                                        <h5 className="text-green-100 font-bold mb-2 font-serif">Market Prices</h5>
+                                        <ul className="text-green-300 text-sm space-y-1">
+                                            <li>Rice: <span className="text-green-400 font-semibold">₱42/kg</span></li>
+                                            <li>Corn: <span className="text-green-400 font-semibold">₱18/kg</span></li>
+                                            <li>Eggplant: <span className="text-green-400 font-semibold">₱35/kg</span></li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-gray-950/70 rounded-xl p-6 border border-gray-800">
+                                        <h5 className="text-green-100 font-bold mb-2 font-serif">Upcoming Events</h5>
+                                        <ul className="text-green-300 text-sm space-y-1">
+                                            <li>June 20: <span className="text-green-400">Agri Fair</span></li>
+                                            <li>June 25: <span className="text-green-400">Organic Workshop</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <footer className="mt-10 border-t border-gray-700 pt-6 text-green-500 text-xs text-center font-mono">
+                                    For more stories, visit our <span className="underline text-green-300">Newsroom</span> or follow us on social media.
+                                </footer>
+                            </div>
+                        </section>
+
+                        
+                        
             <footer className="bg-green-950 text-green-50 pt-12 pb-8">
                 <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row md:items-start md:justify-between gap-10">
                     {/* Brand & Description */}
@@ -414,6 +491,6 @@ export default function Landing() {
           transform: translateY(0) !important;
         }
       `}</style>
-        </>
+    </>
     )
 }
