@@ -54,9 +54,10 @@ class Seminars {
         return null;
     }
 
+
     public function getParticipants(){
 
-        $query = "SELECT account_id, seminar_participants.status, registration_date FROM `seminars` JOIN `seminar_participants` ON seminars.id = seminar_participants.seminar_id WHERE seminars.id = ?";
+        $query = "SELECT account_id, seminar_participants.status, registration_date, seminar_participants.id AS participant_id FROM `seminars` JOIN `seminar_participants` ON seminars.id = seminar_participants.seminar_id WHERE seminars.id = ?";
         $result = statement($query, [$this->id], getTypes([$this->id]));
 
         $participants = [];
@@ -66,6 +67,7 @@ class Seminars {
 
         return $participants;
     }
+
 
     public function initialize(){
         $query = "SELECT * FROM `seminars` WHERE id = ?";

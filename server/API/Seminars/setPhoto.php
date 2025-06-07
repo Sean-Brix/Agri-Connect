@@ -24,7 +24,7 @@ if(strtolower($details['access']) === "user"){
     sendResponse(
         401,
         "Unauthorize",
-        ["Error"=>"Regular User cannot add a new seminar program"],
+        ["Error"=>"Regular User cannot set the photo of a seminar program"],
         "Unauthorize Post Request"
     );
     exit();

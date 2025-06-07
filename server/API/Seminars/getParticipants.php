@@ -64,6 +64,7 @@ try {
             
             $details['status'] = $user['status'];
             $details['reg_date'] = $user['registration_date'];
+            $details['participant_id'] = $user['participant_id'];
 
             // Append
             $result[] = $details;

@@ -77,7 +77,7 @@ CREATE TABLE seminar_participants (
     id INT AUTO_INCREMENT PRIMARY KEY,
     account_id INT NOT NULL,
     seminar_id INT NOT NULL,
-    status ENUM('Registered', 'Attended', 'Cancelled', 'No Show') NOT NULL,
+    status ENUM( 'Registered', 'Attended', 'Cancelled', 'No Show') NOT NULL,
     registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     FOREIGN KEY (account_id) REFERENCES accounts(id),
