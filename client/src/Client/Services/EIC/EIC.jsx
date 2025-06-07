@@ -3,7 +3,7 @@ import Navbar from '../../Components/Navbar';
 
 import Pandilig from './Assets/pandilig.webp';
 import Shovel from './Assets/shovel.webp';
-
+import backg  from './Assets/backg.jpg';
 const equipmentList = [
     {
         name: 'Tractor',
@@ -157,12 +157,52 @@ export default function Eic() {
         all: "fa-solid fa-th-large"
     };
 
+    // Pagination logic
+    const ITEMS_PER_PAGE = 12;
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const [pageTransition, setPageTransition] = React.useState(false);
+
+    // Reset to first page when filter/search changes
+    React.useEffect(() => {
+        setCurrentPage(1);
+    }, [search, category]);
+
+    const totalPages = Math.ceil(filteredEquipment.length / ITEMS_PER_PAGE);
+
+    // Smooth transition effect when switching pages
+    React.useEffect(() => {
+        setPageTransition(true);
+        const timeout = setTimeout(() => setPageTransition(false), 250);
+        return () => clearTimeout(timeout);
+    }, [currentPage]);
+
+    const paginatedEquipment = filteredEquipment.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
     return (
         <>
             <Navbar />
-            <div className="flex bg-gradient-to-br from-green-50 to-green-100">
+            <div
+                className="flex"
+                style={{
+                    backgroundImage: `url(${backg})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    minHeight: '100vh',
+                }}
+            >
                 {/* Main Content (Sidebar removed) */}
-                <div className="flex-1 w-full">
+                <div
+                    className="flex-1 w-full bg-gradient-to-br from-green-50/70 to-green-100/70 relative z-10"
+                    style={{
+                        height: '100vh',
+                        overflowY: 'auto',
+                        // Hide scrollbar (for Webkit browsers)
+                        scrollbarWidth: 'none', // Firefox
+                        msOverflowStyle: 'none', // IE 10+
+                    }}
+                >
                     <div className="w-full bg-gradient-to-r from-blue-600 to-green-400 py-5 mt-30 px-4 flex justify-center items-center z-0 relative">
                         <h1 className="text-3xl font-extrabold text-white tracking-tight drop-shadow-lg">
                             Equipment Inventory
@@ -195,31 +235,31 @@ export default function Eic() {
                                     </span>
                                 </div>
                                 {/* Modern Filter Button */}
-                                                                <div className="relative flex-shrink-0">
-                                                                    <button
-                                                                        className="flex items-center gap-2 pl-4 pr-6 py-1 rounded-full border border-gray-200 bg-gradient-to-r from-white via-blue-50 to-green-100 hover:from-blue-100 hover:to-green-200 focus:outline-none focus:ring-2 focus:ring-blue-200 text-blue-700 shadow transition-all duration-200 h-14 font-semibold text-base"
-                                                                        onClick={() => setShowFilter((prev) => !prev)}
-                                                                        title="Filter"
-                                                                        type="button"
-                                                                        style={{
-                                                                            background: 'linear-gradient(90deg, #fff 0%, #f0fdf4 100%)',
-                                                                            color: '#2563eb',
-                                                                            boxShadow: '0 4px 14px 0 rgba(34,197,94,0.08)'
-                                                                        }}
-                                                                    >
-                                                                        <i className="fa-solid fa-filter text-blue-500 text-lg"></i>
-                                                                        <span className="hidden sm:inline">Filter</span>
-                                                                        <svg
-                                                                            className={`ml-2 w-4 h-4 transition-transform duration-200 ${showFilter ? 'rotate-180' : ''}`}
-                                                                            fill="none"
-                                                                            stroke="currentColor"
-                                                                            strokeWidth="2"
-                                                                            viewBox="0 0 24 24"
-                                                                        >
-                                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                                                                        </svg>
-                                                                    </button>
-                                                                    {/* Dropdown filter for all screens */}
+                                <div className="relative flex-shrink-0">
+                                    <button
+                                        className="flex items-center gap-2 pl-4 pr-6 py-1 rounded-full border border-gray-200 bg-gradient-to-r from-white via-blue-50 to-green-100 hover:from-blue-100 hover:to-green-200 focus:outline-none focus:ring-2 focus:ring-blue-200 text-blue-700 shadow transition-all duration-200 h-14 font-semibold text-base"
+                                        onClick={() => setShowFilter((prev) => !prev)}
+                                        title="Filter"
+                                        type="button"
+                                        style={{
+                                            background: 'linear-gradient(90deg, #fff 0%, #f0fdf4 100%)',
+                                            color: '#2563eb',
+                                            boxShadow: '0 4px 14px 0 rgba(34,197,94,0.08)'
+                                        }}
+                                    >
+                                        <i className="fa-solid fa-filter text-blue-500 text-lg"></i>
+                                        <span className="hidden sm:inline">Filter</span>
+                                        <svg
+                                            className={`ml-2 w-4 h-4 transition-transform duration-200 ${showFilter ? 'rotate-180' : ''}`}
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
+                                    {/* Dropdown filter for all screens */}
                                     {showFilter && (
                                         <div className="absolute top-16 right-0 z-20 bg-white border border-gray-100 rounded-2xl shadow-2xl w-56 p-5 animate-fade-in flex flex-col gap-2">
                                             <h2 className="text-base font-bold mb-2 text-gray-700 tracking-wide">Filter by Category</h2>
@@ -290,28 +330,50 @@ export default function Eic() {
                                 </div>
                             </div>
                         </div>
-                        <div className="grid gap-8 grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
-                            {filteredEquipment.map((item, idx) => {
+                        <div
+                            className={`grid gap-8 grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 transition-all duration-300 ${
+                                pageTransition ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+                            }`}
+                        >
+                            {paginatedEquipment.map((item, idx) => {
                                 // Choose icon based on category
                                 const cat = categorize(item);
                                 let iconClass = faIcons[cat] || faIcons.others;
                                 return (
                                     <div
                                         key={idx}
-                                        className="bg-white border border-gray-100 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-200 flex flex-col p-0 group relative overflow-hidden"
+                                        className="bg-white border border-gray-100 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-200 flex flex-col p-0 group relative overflow-hidden
+                                            w-full
+                                            max-w-xs
+                                            mx-auto
+                                            sm:max-w-sm
+                                            md:max-w-none
+                                        "
+                                        style={{
+                                            // On small screens, make the card smaller
+                                            width: '100%',
+                                            maxWidth: '20rem',
+                                        }}
                                     >
-                                        <div className="relative w-full h-80 sm:h-72 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden rounded-t-2xl">
+                                        <div
+                                            className="relative w-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden rounded-t-2xl"
+                                            style={{
+                                                height: '12rem', // default for mobile
+                                                // Responsive heights
+                                                // sm: 15rem, md: 18rem
+                                            }}
+                                        >
                                             <img
                                                 src={item.img}
                                                 alt={item.name}
-                                                className="object-contain w-72 h-72 sm:w-60 sm:h-60 transition-transform duration-200 group-hover:scale-105 drop-shadow"
+                                                className="object-contain w-40 h-40 sm:w-52 sm:h-52 md:w-60 md:h-60 transition-transform duration-200 group-hover:scale-105 drop-shadow"
                                             />
                                             <span className="absolute top-3 right-3 inline-flex items-center gap-1 bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full font-semibold capitalize shadow-sm">
                                                 <i className={iconClass}></i>
                                                 {item.name}
                                             </span>
                                         </div>
-                                        <div className="flex-1 flex flex-col px-6 py-5">
+                                        <div className="flex-1 flex flex-col px-4 py-4 sm:px-6 sm:py-5">
                                             <p className="text-gray-800 text-base font-semibold mb-2 text-center flex items-center justify-center gap-2">
                                                 <i className={iconClass}></i>
                                                 {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
@@ -341,9 +403,100 @@ export default function Eic() {
                                 No equipment found.
                             </div>
                         )}
+                        {/* Modern Pagination Controls */}
+                        {totalPages > 1 && (
+                            <div className="flex justify-center mt-10">
+                                <nav className="inline-flex items-center gap-1 rounded-xl shadow bg-white px-2 py-2 border border-gray-200">
+                                    <button
+                                        className="px-3 py-2 rounded-l-lg bg-gradient-to-r from-blue-100 to-green-100 text-blue-700 font-semibold hover:from-blue-200 hover:to-green-200 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                                        onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                                        disabled={currentPage === 1}
+                                        aria-label="Previous"
+                                    >
+                                        <i className="fa-solid fa-chevron-left"></i>
+                                    </button>
+                                    {Array.from({ length: totalPages }, (_, i) => {
+                                        // Show only first, last, current, and neighbors
+                                        if (
+                                            i === 0 ||
+                                            i === totalPages - 1 ||
+                                            Math.abs(i + 1 - currentPage) <= 1
+                                        ) {
+                                            return (
+                                                <button
+                                                    key={i}
+                                                    className={`px-3 py-2 rounded-lg font-semibold transition ${
+                                                        currentPage === i + 1
+                                                            ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white shadow'
+                                                            : 'bg-white text-blue-700 hover:bg-blue-50'
+                                                    }`}
+                                                    onClick={() => setCurrentPage(i + 1)}
+                                                >
+                                                    {i + 1}
+                                                </button>
+                                            );
+                                        }
+                                        // Ellipsis for skipped pages
+                                        if (
+                                            (i === 1 && currentPage > 3) ||
+                                            (i === totalPages - 2 && currentPage < totalPages - 2)
+                                        ) {
+                                            return (
+                                                <span key={i} className="px-2 text-gray-400 select-none">
+                                                    ...
+                                                </span>
+                                            );
+                                        }
+                                        return null;
+                                    })}
+                                    <button
+                                        className="px-3 py-2 rounded-r-lg bg-gradient-to-r from-blue-100 to-green-100 text-blue-700 font-semibold hover:from-blue-200 hover:to-green-200 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                                        onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                                        disabled={currentPage === totalPages}
+                                        aria-label="Next"
+                                    >
+                                        <i className="fa-solid fa-chevron-right"></i>
+                                    </button>
+                                </nav>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
+            {/* Hide scrollbars for the main scrollable area */}
+            <style>{`
+                .flex-1::-webkit-scrollbar {
+                    display: none;
+                }
+                .flex-1 {
+                    -ms-overflow-style: none;  /* IE and Edge */
+                    scrollbar-width: none;     /* Firefox */
+                }
+                @media (max-width: 640px) {
+                    .group > div:first-child {
+                        height: 13rem !important;
+                    }
+                    .group img {
+                        width: 11rem !important;
+                        height: 11rem !important;
+                    }
+                    .group {
+                        max-width: 18rem !important;
+                    }
+                }
+                @media (min-width: 640px) and (max-width: 768px) {
+                    .group > div:first-child {
+                        height: 15.5rem !important;
+                    }
+                    .group img {
+                        width: 13.5rem !important;
+                        height: 13.5rem !important;
+                    }
+                    .group {
+                        max-width: 21rem !important;
+                    }
+                }
+            `}</style>
         </>
     )
 }
