@@ -193,46 +193,51 @@ export default function Eic() {
                     position: 'relative',
                 }}
             >
-                {/* Dark overlay */}
+                {/* Softer, less dark overlay */}
                 <div
                     className="absolute inset-0 z-0 pointer-events-none"
                     style={{
-                        background: 'rgba(30,30,40,0.55)',
+                        background: 'rgba(30,35,50,0.65)',
                         mixBlendMode: 'multiply',
                     }}
                 ></div>
-                {/* Main Content (Sidebar removed) */}
                 <div
-                    className="flex-1 w-full bg-gradient-to-br from-green-50/70 to-green-100/70 relative z-10"
+                    className="flex-1 w-full bg-gradient-to-br from-gray-900/80 to-gray-800/80 relative z-10"
                     style={{
                         height: '100vh',
                         overflowY: 'auto',
-                        // Hide scrollbar (for Webkit browsers)
-                        scrollbarWidth: 'none', // Firefox
-                        msOverflowStyle: 'none', // IE 10+
+                        scrollbarWidth: 'none',
+                        msOverflowStyle: 'none',
                     }}
                 >
-                    <div className="w-full bg-gradient-to-r from-blue-600 to-green-400 py-5 mt-30 px-4 flex justify-center items-center z-0 relative">
-                        <h1 className="text-3xl font-extrabold text-white tracking-tight drop-shadow-lg">
-                            Equipment Inventory
+                    <div className="relative flex flex-col items-center mt-40 mb-10">
+                        <span className="uppercase tracking-widest text-blue-300 text-sm font-semibold mb-2 letter-spacing-wide">
+                            Welcome to
+                        </span>
+                        <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-blue-400 to-green-200 drop-shadow-lg text-center p-5">
+                            Equipment & Inventory <br /> Center
                         </h1>
+                        <div className="mt-3 w-24 h-2 rounded-full bg-gradient-to-r from-blue-400 via-green-400 to-blue-400 opacity-80 animate-pulse"></div>
                     </div>
                     <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10">
                         <div className="flex flex-col sm:flex-row items-center justify-between mb-10 gap-6">
-                            {/* Search bar and Filter button side by side */}
                             <div className="flex w-full max-w-xl gap-3">
-                                {/* Search Bar */}
-                                <div className="relative flex-1 flex items-center pl-12 pr-4 py-1 rounded-xl border border-gray-200 bg-gradient-to-r from-blue-50 via-white to-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-900 transition placeholder-gray-400 bg-white shadow-sm px-2 h-14">
+                                {/* Modern Search Bar */}
+                                <div className="relative flex-1">
                                     <input
                                         type="text"
                                         placeholder="Search equipment..."
                                         value={search}
                                         onChange={(e) => setSearch(e.target.value)}
-                                        className="w-full pl-10 pr-4 py-3 border-none focus:outline-none focus:ring-0 text-black bg-transparent"
+                                        className="w-full pl-14 pr-4 py-4 rounded-2xl border border-gray-200 bg-white/90 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 transition placeholder-gray-400 shadow-lg focus:shadow-xl text-base"
+                                        style={{
+                                            boxShadow: '0 2px 16px 0 rgba(34,197,94,0.08)',
+                                            transition: 'box-shadow 0.2s',
+                                        }}
                                     />
-                                    <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
                                         <svg
-                                            className="w-5 h-5 text-gray-400"
+                                            className="w-6 h-6 text-blue-400"
                                             fill="none"
                                             stroke="currentColor"
                                             strokeWidth="2"
@@ -242,21 +247,40 @@ export default function Eic() {
                                             <line x1="21" y1="21" x2="16.65" y2="16.65" />
                                         </svg>
                                     </span>
+                                    {search && (
+                                        <button
+                                            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-500 transition"
+                                            onClick={() => setSearch('')}
+                                            aria-label="Clear search"
+                                            tabIndex={0}
+                                            type="button"
+                                        >
+                                            <svg
+                                                className="w-5 h-5"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <line x1="18" y1="6" x2="6" y2="18" />
+                                                <line x1="6" y1="6" x2="18" y2="18" />
+                                            </svg>
+                                        </button>
+                                    )}
                                 </div>
-                                {/* Modern Filter Button */}
                                 <div className="relative flex-shrink-0">
                                     <button
-                                        className="flex items-center gap-2 pl-4 pr-6 py-1 rounded-full border border-gray-200 bg-gradient-to-r from-white via-blue-50 to-green-100 hover:from-blue-100 hover:to-green-200 focus:outline-none focus:ring-2 focus:ring-blue-200 text-blue-700 shadow transition-all duration-200 h-14 font-semibold text-base"
+                                        className="flex items-center gap-2 pl-4 pr-6 py-1 rounded-full border border-gray-200 bg-white/80 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-900 text-blue-700 shadow transition-all duration-200 h-14 font-semibold text-base"
                                         onClick={() => setShowFilter((prev) => !prev)}
                                         title="Filter"
                                         type="button"
                                         style={{
-                                            background: 'linear-gradient(90deg, #fff 0%, #f0fdf4 100%)',
+                                            background: '#f8fafc',
                                             color: '#2563eb',
                                             boxShadow: '0 4px 14px 0 rgba(34,197,94,0.08)'
                                         }}
                                     >
-                                        <i className="fa-solid fa-filter text-blue-500 text-lg"></i>
+                                        <i className="fa-solid fa-filter text-blue-400 text-lg"></i>
                                         <span className="hidden sm:inline">Filter</span>
                                         <svg
                                             className={`ml-2 w-4 h-4 transition-transform duration-200 ${showFilter ? 'rotate-180' : ''}`}
@@ -268,17 +292,16 @@ export default function Eic() {
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                                         </svg>
                                     </button>
-                                    {/* Dropdown filter for all screens */}
                                     {showFilter && (
-                                        <div className="absolute top-16 right-0 z-20 bg-white border border-gray-100 rounded-2xl shadow-2xl w-56 p-5 animate-fade-in flex flex-col gap-2">
+                                        <div className="absolute top-16 right-0 z-20 bg-white border border-gray-200 rounded-2xl shadow-2xl w-56 p-5 animate-fade-in flex flex-col gap-2">
                                             <h2 className="text-base font-bold mb-2 text-gray-700 tracking-wide">Filter by Category</h2>
                                             <ul className="space-y-2">
                                                 <li>
                                                     <button
                                                         className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
                                                             category === 'all'
-                                                                ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold shadow'
-                                                                : 'bg-gray-50 text-gray-700 hover:bg-blue-50'
+                                                                ? 'bg-blue-100 text-blue-900 font-semibold shadow'
+                                                                : 'bg-white text-gray-700 hover:bg-blue-50'
                                                         }`}
                                                         onClick={() => { setCategory('all'); setShowFilter(false); }}
                                                     >
@@ -289,8 +312,8 @@ export default function Eic() {
                                                     <button
                                                         className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
                                                             category === 'equipment'
-                                                                ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold shadow'
-                                                                : 'bg-gray-50 text-gray-700 hover:bg-blue-50'
+                                                                ? 'bg-blue-100 text-blue-900 font-semibold shadow'
+                                                                : 'bg-white text-gray-700 hover:bg-blue-50'
                                                         }`}
                                                         onClick={() => { setCategory('equipment'); setShowFilter(false); }}
                                                     >
@@ -301,8 +324,8 @@ export default function Eic() {
                                                     <button
                                                         className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
                                                             category === 'tools'
-                                                                ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold shadow'
-                                                                : 'bg-gray-50 text-gray-700 hover:bg-blue-50'
+                                                                ? 'bg-blue-100 text-blue-900 font-semibold shadow'
+                                                                : 'bg-white text-gray-700 hover:bg-blue-50'
                                                         }`}
                                                         onClick={() => { setCategory('tools'); setShowFilter(false); }}
                                                     >
@@ -313,8 +336,8 @@ export default function Eic() {
                                                     <button
                                                         className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
                                                             category === 'seeds'
-                                                                ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold shadow'
-                                                                : 'bg-gray-50 text-gray-700 hover:bg-blue-50'
+                                                                ? 'bg-blue-100 text-blue-900 font-semibold shadow'
+                                                                : 'bg-white text-gray-700 hover:bg-blue-50'
                                                         }`}
                                                         onClick={() => { setCategory('seeds'); setShowFilter(false); }}
                                                     >
@@ -325,8 +348,8 @@ export default function Eic() {
                                                     <button
                                                         className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
                                                             category === 'others'
-                                                                ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold shadow'
-                                                                : 'bg-gray-50 text-gray-700 hover:bg-blue-50'
+                                                                ? 'bg-blue-100 text-blue-900 font-semibold shadow'
+                                                                : 'bg-white text-gray-700 hover:bg-blue-50'
                                                         }`}
                                                         onClick={() => { setCategory('others'); setShowFilter(false); }}
                                                     >
@@ -340,64 +363,58 @@ export default function Eic() {
                             </div>
                         </div>
                         <div
-                            className={`grid gap-8 grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 transition-all duration-300 ${
+                            className={`grid gap-8 grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 transition-all duration-300 ${
                                 pageTransition ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
                             }`}
                         >
                             {paginatedEquipment.map((item, idx) => {
-                                // Choose icon based on category
                                 const cat = categorize(item);
                                 let iconClass = faIcons[cat] || faIcons.others;
                                 return (
                                     <div
                                         key={idx}
-                                        className="bg-white border border-gray-100 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-200 flex flex-col p-0 group relative overflow-hidden
-                                            w-full
-                                            max-w-xs
-                                            mx-auto
-                                            sm:max-w-sm
-                                            md:max-w-none
-                                        "
+                                        className="bg-white/90 border border-gray-200 rounded-3xl shadow-lg hover:shadow-2xl transition-shadow duration-200 flex flex-col p-0 group relative overflow-hidden w-full max-w-xs mx-auto sm:max-w-sm md:max-w-none"
                                         style={{
-                                            // On small screens, make the card smaller
                                             width: '100%',
                                             maxWidth: '20rem',
+                                            backdropFilter: 'blur(2px)',
                                         }}
                                     >
                                         <div
-                                            className="relative w-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden rounded-t-2xl"
+                                            className="relative w-full bg-gradient-to-br from-blue-100 via-green-50 to-white flex items-center justify-center overflow-hidden rounded-t-3xl"
                                             style={{
-                                                height: '12rem', // default for mobile
-                                                // Responsive heights
-                                                // sm: 15rem, md: 18rem
+                                                height: '12rem',
                                             }}
                                         >
                                             <img
                                                 src={item.img}
                                                 alt={item.name}
-                                                className="object-contain w-40 h-40 sm:w-52 sm:h-52 md:w-60 md:h-60 transition-transform duration-200 group-hover:scale-105 drop-shadow"
+                                                className="object-contain w-40 h-40 sm:w-52 sm:h-52 md:w-60 md:h-60 drop-shadow " 
+                                                style={{
+                                                    filter: 'drop-shadow(0 4px 12px rgba(34,197,94,0.10))'
+                                                }}
                                             />
-                                            <span className="absolute top-3 right-3 inline-flex items-center gap-1 bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full font-semibold capitalize shadow-sm">
+                                            <span className="absolute top-3 right-3 inline-flex items-center gap-1 bg-white/80 text-blue-700 text-xs px-3 py-1 rounded-full font-semibold capitalize shadow-sm border border-blue-100">
                                                 <i className={iconClass}></i>
                                                 {item.name}
                                             </span>
                                         </div>
                                         <div className="flex-1 flex flex-col px-4 py-4 sm:px-6 sm:py-5">
-                                            <p className="text-gray-800 text-base font-semibold mb-2 text-center flex items-center justify-center gap-2">
+                                            <p className="text-blue-900 text-base font-semibold mb-2 text-center flex items-center justify-center gap-2">
                                                 <i className={iconClass}></i>
                                                 {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
                                             </p>
                                             <p
-                                                className="text-gray-500 text-sm mb-6 text-center overflow-hidden text-ellipsis whitespace-nowrap"
+                                                className="text-gray-600 text-sm mb-6 text-center overflow-hidden text-ellipsis whitespace-nowrap"
                                                 title={item.desc}
                                             >
                                                 {truncate(item.desc, 60)}
                                             </p>
                                             <div className="flex gap-2 mt-auto w-full justify-center">
-                                                <button className="bg-blue-600 text-white px-5 py-4 rounded-xl hover:bg-blue-700 text-xs font-semibold shadow transition-colors">
+                                                <button className="bg-blue-500 text-white px-5 py-4 rounded-xl hover:bg-blue-600 text-xs font-semibold shadow transition-colors">
                                                     Borrow
                                                 </button>
-                                                <button className="bg-white border border-gray-300 px-5 py-4 rounded-xl hover:bg-gray-100 text-xs font-semibold text-gray-700 transition-colors">
+                                                <button className="bg-gray-100 border border-gray-300 px-5 py-4 rounded-xl hover:bg-gray-200 text-xs font-semibold text-blue-700 transition-colors">
                                                     Details
                                                 </button>
                                             </div>
@@ -407,17 +424,16 @@ export default function Eic() {
                             })}
                         </div>
                         {filteredEquipment.length === 0 && (
-                            <div className="text-center text-gray-400 mt-16 text-lg flex flex-col items-center justify-center gap-2">
-                                <i className="fa-regular fa-face-frown text-5xl text-gray-300 mb-2"></i>
+                            <div className="text-center text-gray-500 mt-16 text-lg flex flex-col items-center justify-center gap-2">
+                                <i className="fa-regular fa-face-frown text-5xl text-gray-700 mb-2"></i>
                                 No equipment found.
                             </div>
                         )}
-                        {/* Modern Pagination Controls */}
                         {totalPages > 1 && (
                             <div className="flex justify-center mt-10">
-                                <nav className="inline-flex items-center gap-1 rounded-xl shadow bg-white px-2 py-2 border border-gray-200">
+                                <nav className="inline-flex items-center gap-1 rounded-xl shadow bg-white/90 px-2 py-2 border border-gray-200">
                                     <button
-                                        className="px-3 py-2 rounded-l-lg bg-gradient-to-r from-blue-100 to-green-100 text-blue-700 font-semibold hover:from-blue-200 hover:to-green-200 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                                        className="px-3 py-2 rounded-l-lg bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition disabled:opacity-40 disabled:cursor-not-allowed"
                                         onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                                         disabled={currentPage === 1}
                                         aria-label="Previous"
@@ -425,7 +441,6 @@ export default function Eic() {
                                         <i className="fa-solid fa-chevron-left"></i>
                                     </button>
                                     {Array.from({ length: totalPages }, (_, i) => {
-                                        // Show only first, last, current, and neighbors
                                         if (
                                             i === 0 ||
                                             i === totalPages - 1 ||
@@ -436,7 +451,7 @@ export default function Eic() {
                                                     key={i}
                                                     className={`px-3 py-2 rounded-lg font-semibold transition ${
                                                         currentPage === i + 1
-                                                            ? 'bg-gradient-to-r from-blue-500 to-green-400 text-white shadow'
+                                                            ? 'bg-blue-500 text-white shadow'
                                                             : 'bg-white text-blue-700 hover:bg-blue-50'
                                                     }`}
                                                     onClick={() => setCurrentPage(i + 1)}
@@ -445,7 +460,6 @@ export default function Eic() {
                                                 </button>
                                             );
                                         }
-                                        // Ellipsis for skipped pages
                                         if (
                                             (i === 1 && currentPage > 3) ||
                                             (i === totalPages - 2 && currentPage < totalPages - 2)
@@ -459,7 +473,7 @@ export default function Eic() {
                                         return null;
                                     })}
                                     <button
-                                        className="px-3 py-2 rounded-r-lg bg-gradient-to-r from-blue-100 to-green-100 text-blue-700 font-semibold hover:from-blue-200 hover:to-green-200 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                                        className="px-3 py-2 rounded-r-lg bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition disabled:opacity-40 disabled:cursor-not-allowed"
                                         onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                                         disabled={currentPage === totalPages}
                                         aria-label="Next"
@@ -472,40 +486,6 @@ export default function Eic() {
                     </div>
                 </div>
             </div>
-            {/* Hide scrollbars for the main scrollable area */}
-            <style>{`
-                .flex-1::-webkit-scrollbar {
-                    display: none;
-                }
-                .flex-1 {
-                    -ms-overflow-style: none;  /* IE and Edge */
-                    scrollbar-width: none;     /* Firefox */
-                }
-                @media (max-width: 640px) {
-                    .group > div:first-child {
-                        height: 13rem !important;
-                    }
-                    .group img {
-                        width: 11rem !important;
-                        height: 11rem !important;
-                    }
-                    .group {
-                        max-width: 18rem !important;
-                    }
-                }
-                @media (min-width: 640px) and (max-width: 768px) {
-                    .group > div:first-child {
-                        height: 15.5rem !important;
-                    }
-                    .group img {
-                        width: 13.5rem !important;
-                        height: 13.5rem !important;
-                    }
-                    .group {
-                        max-width: 21rem !important;
-                    }
-                }
-            `}</style>
         </>
-    )
+    );
 }

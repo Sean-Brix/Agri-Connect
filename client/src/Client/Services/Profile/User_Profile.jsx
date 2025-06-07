@@ -41,7 +41,7 @@ export default function User_Profile() {
             <div className="bg-gradient-to-br from-blue-100 via-white to-blue-50 min-h-screen py-10 px-2 sm:px-0 pt-40">
                 <div className="max-w-5xl mx-auto">
                     {/* Account Settings Header */}
-                    <div className="relative flex items-center mb-24">
+                    <div className="relative flex items-center mb-22">
                         <hr className="flex-1 border-gray-300" />
                         <span className="absolute left-1/2 -translate-x-1/2 -top-8  bg-white shadow-xl px-10 py-4 rounded-3xl text-3xl font-extrabold text-blue-900 tracking-wide border border-blue-100 flex items-center gap-3">
                             <i className="fa-solid fa-gear text-blue-700"></i>
