@@ -190,8 +190,17 @@ export default function Eic() {
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     minHeight: '100vh',
+                    position: 'relative',
                 }}
             >
+                {/* Dark overlay */}
+                <div
+                    className="absolute inset-0 z-0 pointer-events-none"
+                    style={{
+                        background: 'rgba(30,30,40,0.55)',
+                        mixBlendMode: 'multiply',
+                    }}
+                ></div>
                 {/* Main Content (Sidebar removed) */}
                 <div
                     className="flex-1 w-full bg-gradient-to-br from-green-50/70 to-green-100/70 relative z-10"

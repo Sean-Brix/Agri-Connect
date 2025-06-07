@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import react from 'react';
+
 
 // COMPONENTS
 import Login from './Authentication/Components/Login.jsx';
@@ -15,9 +15,12 @@ import Details_php from './TEST/details_php.jsx';
 
 //CLIENT 
 import Eic from './Client/Services/EIC/EIC.jsx';
-import Profile from './Client/Services/Profile/Profile.jsx';
+import User from './Client/Services/Profile/User_Profile.jsx';
+import Account from './Client/Services/Profile/Account_Profile.jsx';
 import Seminar from './Client/Services/Enrollment/Seminar.jsx';
 import Contact from './Client/Services/Info/contact.jsx';
+import About from './Client/Services/Info/About.jsx';
+
 
 function App() {
     return (
@@ -30,9 +33,13 @@ function App() {
                 {/* CLIENT ROUTES */}
                 <Route path="/" element={<Landing />} />
                 <Route path="/eic" element={<Eic />} />
-                <Route path="/profile" element={<Profile />} />
+              
                 <Route path="/seminar" element={<Seminar />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/settings/profile" element={<User />} />
+                <Route path="/settings/account" element={<Account />} />
+                <Route path="/about" element={<About />} />
+
 
 
                 {/* ADMIN ROUTES */}
