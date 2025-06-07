@@ -4,6 +4,7 @@ export default function Participants({ data, toggleOff }) {
     const [section, setSection] = useState('participants');
     const [participants, setParticipants] = useState([]);
     const [statsVisible, setStatsVisible] = useState(false);
+    const [selectedParticipants, setSelectedParticipants] = useState([]);
     const [totalCounts, setTotalCounts] = useState({
         total: 0,
         attended: 0,
@@ -11,41 +12,52 @@ export default function Participants({ data, toggleOff }) {
         noShow: 0,
         registered: 0,
     });
+    const [showSelect, setShowSelect] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        (async () => {
+        fetchParticipants();
+    }, [data.id]);
+
+    const fetchParticipants = async () => {
+        try {
             const response = await fetch(
                 `/api/seminars/getParticipants?seminar_id=${data.id}`
             );
             const users = await response.json();
-
             const participantList = users.payload.list;
             setParticipants(participantList);
+            updateCounts(participantList);
+        } catch (error) {
+            console.error('Error fetching participants:', error);
+        }
+    };
 
-            // Calculate initial counts
-            const initialCounts = {
-                total: participantList.length,
-                attended: participantList.filter((p) => p.status === 'Attended')
-                    .length,
-                cancelled: participantList.filter(
-                    (p) => p.status === 'Cancelled'
-                ).length,
-                noShow: participantList.filter((p) => p.status === 'No Show')
-                    .length,
-                registered: participantList.filter(
-                    (p) => p.status === 'Registered'
-                ).length,
-            };
-            setTotalCounts(initialCounts);
-        })();
-    }, [data.id]);
+    const updateCounts = (participantList) => {
+        const initialCounts = {
+            total: participantList.length,
+            attended: participantList.filter((p) => p.status === 'Attended')
+                .length,
+            cancelled: participantList.filter((p) => p.status === 'Cancelled')
+                .length,
+            noShow: participantList.filter((p) => p.status === 'No Show')
+                .length,
+            registered: participantList.filter((p) => p.status === 'Registered')
+                .length,
+        };
+        setTotalCounts(initialCounts);
+    };
 
-    const updateStatus = async (e) => {
+    const handleStatusUpdate = async (e) => {
         e.preventDefault();
 
         const newStatus = e.target.value;
         const userId = e.target.closest('tr').querySelector('th').textContent;
 
+        await updateStatus(userId, newStatus);
+    };
+
+    const updateStatus = async (userId, newStatus) => {
         const participant_id = participants.find(
             (participant) => participant.id == userId
         )?.participant_id;
@@ -66,31 +78,10 @@ export default function Participants({ data, toggleOff }) {
             );
 
             if (!response.ok) {
-                setParticipants((prev) =>
-                    prev.map((user) => {
-                        if (user.id === userId) {
-                            return { ...user };
-                        } else {
-                            return user;
-                        }
-                    })
-                );
-
                 console.error('Failed to update status:', response.status);
                 alert('Failed to update status. Please try again.');
                 return;
             }
-
-            setParticipants((prev) =>
-                prev.map((user) => {
-                    if (user.id === userId) {
-                        return { ...user, status: newStatus };
-                    } else {
-                        return user;
-                    }
-                })
-            );
-
             const updatedResponse = await fetch(
                 `/api/seminars/getParticipants?seminar_id=${data.id}`
             );
@@ -99,7 +90,6 @@ export default function Participants({ data, toggleOff }) {
             const updatedParticipantList = updatedUsers.payload.list;
             setParticipants(updatedParticipantList);
 
-            // Recalculate counts
             const updatedCounts = {
                 total: updatedParticipantList.length,
                 attended: updatedParticipantList.filter(
@@ -117,17 +107,52 @@ export default function Participants({ data, toggleOff }) {
             };
             setTotalCounts(updatedCounts);
         } catch (error) {
-            setParticipants((prev) =>
-                prev.map((user) => {
-                    if (user.id === userId) {
-                        return { ...user };
-                    } else {
-                        return user;
-                    }
-                })
-            );
             console.error('Error updating status:', error);
             alert('Error updating status. Please try again.');
+        }
+    };
+
+    const handleToggleSelectParticipant = (userId) => {
+        setSelectedParticipants((prevSelected) => {
+            if (prevSelected.includes(userId)) {
+                return prevSelected.filter((id) => id !== userId);
+            } else {
+                return [...prevSelected, userId];
+            }
+        });
+    };
+
+    const handleSearchChange = async (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        setSearchTerm(searchTerm);
+
+        if (searchTerm === '') {
+            fetchParticipants();
+        } else {
+            try {
+                const response = await fetch(
+                    `/api/seminars/getParticipants?seminar_id=${data.id}`
+                );
+                const users = await response.json();
+                const allParticipants = users.payload.list;
+
+                const filteredParticipants = allParticipants.filter(
+                    (participant) =>
+                        participant.firstname
+                            .toLowerCase()
+                            .includes(searchTerm) ||
+                        participant.lastname
+                            .toLowerCase()
+                            .includes(searchTerm) ||
+                        participant.email_address
+                            .toLowerCase()
+                            .includes(searchTerm)
+                );
+                setParticipants(filteredParticipants);
+                updateCounts(filteredParticipants);
+            } catch (error) {
+                console.error('Error fetching participants:', error);
+            }
         }
     };
 
@@ -145,6 +170,7 @@ export default function Participants({ data, toggleOff }) {
             }}
         >
             <div className="container mx-auto p-4">
+
                 {/* HEADER */}
                 <div className="flex flex-col items-start justify-between mb-4 border p-4 rounded">
                     <h2 className="text-2xl font-semibold mb-2">
@@ -197,7 +223,7 @@ export default function Participants({ data, toggleOff }) {
                     </table>
                 </div>
 
-                {/* CLOSE BUTTON */}
+                {/* CONTROLS */}
                 <button
                     onClick={toggleOff}
                     style={{
@@ -216,85 +242,36 @@ export default function Participants({ data, toggleOff }) {
                     X
                 </button>
 
-                {/* CONTROLS */}
                 <div className="flex justify-start space-x-4 mb-4">
                     <input
                         type="text"
                         placeholder="Search participants..."
                         className="border p-2 rounded w-1/3"
-                        onChange={async (e) => {
-                            const searchTerm = e.target.value.toLowerCase();
-                            if (searchTerm === '') {
-                                const response = await fetch(
-                                    `/api/seminars/getParticipants?seminar_id=${data.id}`
-                                );
-                                const users = await response.json();
-                                setParticipants(users.payload.list);
-                                const participantList = users.payload.list;
-
-                                // Recalculate counts
-                                const updatedCounts = {
-                                    total: participantList.length,
-                                    attended: participantList.filter(
-                                        (p) => p.status === 'Attended'
-                                    ).length,
-                                    cancelled: participantList.filter(
-                                        (p) => p.status === 'Cancelled'
-                                    ).length,
-                                    noShow: participantList.filter(
-                                        (p) => p.status === 'No Show'
-                                    ).length,
-                                    registered: participantList.filter(
-                                        (p) => p.status === 'Registered'
-                                    ).length,
-                                };
-                                setTotalCounts(updatedCounts);
-                            } else {
-                                const response = await fetch(
-                                    `/api/seminars/getParticipants?seminar_id=${data.id}`
-                                );
-                                const users = await response.json();
-                                const allParticipants = users.payload.list;
-
-                                const filteredParticipants =
-                                    allParticipants.filter(
-                                        (participant) =>
-                                            participant.firstname
-                                                .toLowerCase()
-                                                .includes(searchTerm) ||
-                                            participant.lastname
-                                                .toLowerCase()
-                                                .includes(searchTerm) ||
-                                            participant.email_address
-                                                .toLowerCase()
-                                                .includes(searchTerm)
-                                    );
-                                setParticipants(filteredParticipants);
-
-                                const updatedCounts = {
-                                    total: filteredParticipants.length,
-                                    attended: filteredParticipants.filter(
-                                        (p) => p.status === 'Attended'
-                                    ).length,
-                                    cancelled: filteredParticipants.filter(
-                                        (p) => p.status === 'Cancelled'
-                                    ).length,
-                                    noShow: filteredParticipants.filter(
-                                        (p) => p.status === 'No Show'
-                                    ).length,
-                                    registered: filteredParticipants.filter(
-                                        (p) => p.status === 'Registered'
-                                    ).length,
-                                };
-                                setTotalCounts(updatedCounts);
-                            }
-                        }}
+                        onChange={handleSearchChange}
                     />
                     <button
                         onClick={() => setStatsVisible(!statsVisible)}
                         className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded"
                     >
                         Stats
+                    </button>
+                    <button
+                        onClick={() =>
+                            alert(
+                                `Selected Participant IDs: ${selectedParticipants.join(
+                                    ', '
+                                )}`
+                            )
+                        }
+                        className="bg-blue-200 hover:bg-blue-300 text-gray-800 font-bold py-2 px-4 rounded"
+                    >
+                        Select Multiple
+                    </button>
+                    <button
+                        onClick={() => setShowSelect(!showSelect)}
+                        className="bg-green-200 hover:bg-green-300 text-gray-800 font-bold py-2 px-4 rounded"
+                    >
+                        Select Multiple
                     </button>
                 </div>
                 {statsVisible && (
@@ -309,7 +286,7 @@ export default function Participants({ data, toggleOff }) {
                         <p>No Show: {totalCounts.noShow}</p>
                     </div>
                 )}
-                {/* ALL PARTICIPANTS */}
+
                 {section === 'participants' && (
                     <div className="overflow-x-auto shadow-md sm:rounded-lg">
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -333,14 +310,18 @@ export default function Participants({ data, toggleOff }) {
                                     <th scope="col" className="px-3 py-3">
                                         Actions
                                     </th>
+                                    {showSelect && (
+                                        <th scope="col" className="px-3 py-3">
+                                            Select
+                                        </th>
+                                    )}
                                 </tr>
                             </thead>
                             <tbody>
                                 {participants.length === 0 ? (
-                                    // No Participants
                                     <tr>
                                         <td
-                                            colSpan="6"
+                                            colSpan="7"
                                             className="px-6 py-[10%] text-center text-lg font-semibold bg-gray-100"
                                         >
                                             No participants found.
@@ -379,8 +360,7 @@ export default function Participants({ data, toggleOff }) {
                                                             : user.status ===
                                                               'No Show'
                                                             ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-200 dark:text-yellow-900'
-                                                            : // DEFAULTS (LOADING)
-                                                              'bg-gray-100 text-gray-800 dark:bg-gray-200 dark:text-gray-900'
+                                                            : 'bg-gray-100 text-gray-800 dark:bg-gray-200 dark:text-gray-900'
                                                     }`}
                                                 >
                                                     {user.status || 'loading'}
@@ -390,14 +370,15 @@ export default function Participants({ data, toggleOff }) {
                                                 {user.reg_date}
                                             </td>
 
-                                            {/* EDIT STATUS */}
                                             <td className="px-6 py-4">
                                                 <select
                                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                     value={
                                                         user.status || 'loading'
                                                     }
-                                                    onChange={updateStatus}
+                                                    onChange={
+                                                        handleStatusUpdate
+                                                    }
                                                 >
                                                     <option value="Registered">
                                                         Registered
@@ -413,6 +394,21 @@ export default function Participants({ data, toggleOff }) {
                                                     </option>
                                                 </select>
                                             </td>
+                                            {showSelect && (
+                                                <td className="px-6 py-4">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedParticipants.includes(
+                                                            user.id
+                                                        )}
+                                                        onChange={() =>
+                                                            handleToggleSelectParticipant(
+                                                                user.id
+                                                            )
+                                                        }
+                                                    />
+                                                </td>
+                                            )}
                                         </tr>
                                     ))
                                 )}
