@@ -211,6 +211,18 @@ export default function contact() {
           &copy; {new Date().getFullYear()} FITS-Tanza. All rights reserved. | <a href="/terms" className="hover:underline">Terms of Service</a>
         </div>
       </div>
+      <style>{`
+        html, body, #root {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        html::-webkit-scrollbar, body::-webkit-scrollbar, #root::-webkit-scrollbar {
+          display: none;
+        }
+        .letter-spacing-wide {
+          letter-spacing: 0.15em;
+        }
+      `}</style>
     </>
   )
 }

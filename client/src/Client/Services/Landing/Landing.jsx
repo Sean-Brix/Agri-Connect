@@ -59,6 +59,23 @@ export default function Landing() {
         setCurrent((prev) => (prev === programs.length - 1 ? 0 : prev + 1));
     };
 
+    // Animation on scroll
+    useEffect(() => {
+        const revealElements = document.querySelectorAll('.reveal-on-scroll');
+        const handleScroll = () => {
+            revealElements.forEach((el) => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 80) {
+                    el.classList.add('opacity-100', 'translate-y-0');
+                }
+            });
+        };
+        // Initial check
+        handleScroll();
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     return (
         <>
             <Navbar />
@@ -71,6 +88,7 @@ export default function Landing() {
                             flex flex-col items-center justify-center gap-6
                             bg-black/80 backdrop-blur  shadow-2xl p-20 mb-20 border border-green-900
                             overflow-hidden
+                            reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700
                         "
                     >
                         {/* Background image overlay */}
@@ -101,7 +119,7 @@ export default function Landing() {
                     <div id="about" className="mb-28">
                         <div className="flex flex-col md:flex-row gap-10 items-stretch">
                             {/* Mission Card */}
-                             <div className="flex-1 bg-gradient-to-br from-green-200 via-green-50 to-green-100 rounded-3xl shadow-lg border border-green-200 flex flex-col justify-between p-12 hover:shadow-2xl transition group">
+                             <div className="flex-1 bg-gradient-to-br from-green-200 via-green-50 to-green-100 rounded-3xl shadow-lg border border-green-200 flex flex-col justify-between p-12 hover:shadow-2xl  group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
                                 <div>
                                     <div className="flex items-center gap-5 mb-6">
                                         <span className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-green-200 text-green-700 group-hover:bg-green-300 transition shadow-md">
@@ -120,117 +138,187 @@ export default function Landing() {
                             <div className="hidden md:flex flex-col justify-center">
                                 <div className="w-1 h-32 bg-green-200 rounded-full mx-auto"></div>
                             </div>
-                            {/* Vision Card */}
-                            <div className="flex-1 bg-gradient-to-br from-green-200 via-green-50 to-green-100 rounded-3xl shadow-lg border border-green-200 flex flex-col justify-between p-12 hover:shadow-2xl transition group">
-                                <div>
-                                    <div className="flex items-center gap-5 mb-6">
-                                        <span className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-green-300 text-green-800 group-hover:bg-green-400 transition shadow-md">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="w-9 h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm6 0c0 5-4.03 9-9 9s-9-4-9-9 4.03-9 9-9 9 4 9 9z" />
-                                            </svg>
-                                        </span>
-                                        <h2 className="text-3xl font-bold text-green-900">Vision</h2>
-                                    </div>
-                                    <p className="text-gray-800 text-lg leading-relaxed font-semibold">
-                                        To be a leading force in transforming agriculture, fostering innovation, and building resilient, thriving communities for generations to come.
-                                    </p>
+                        {/* Vision Card */}
+                        <div className="flex-1 bg-gradient-to-br from-green-200 via-green-50 to-green-100 rounded-3xl shadow-lg border border-green-200 flex flex-col justify-between p-12 hover:shadow-2xl  group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-200">
+                            <div>
+                                <div className="flex items-center gap-5 mb-6">
+                                    <span className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-green-300 text-green-800 group-hover:bg-green-400 transition shadow-md">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-9 h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm6 0c0 5-4.03 9-9 9s-9-4-9-9 4.03-9 9-9 9 4 9 9z" />
+                                        </svg>
+                                    </span>
+                                    <h2 className="text-3xl font-bold text-green-900">Vision</h2>
                                 </div>
-                            </div>
-                            </div>
-                            </div>
-                            <div id="programs" className="mb-20">
-                                <h2 className="text-3xl font-extrabold text-green-900 mb-12 text-center tracking-tight">
-                                    Our Programs
-                                </h2>
-                                <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
-                                    {programs.map((program, idx) => (
-                                        <div
-                                            key={idx}
-                                            className="
-                                                bg-gradient-to-br from-green-100 via-white to-green-200 rounded-3xl shadow-lg border border-green-100
-                                                flex flex-col items-center p-8 relative overflow-hidden group transition-all duration-300
-                                                hover:shadow-2xl hover:-translate-y-1
-                                                w-full sm:w-[340px] md:w-[320px] lg:w-[300px]
-                                            "
-                                        >
-                                            {/* Decorative floating icon */}
-                                            <div className="absolute -top-6 -right-6 w-24 h-24 bg-green-300 opacity-20 rounded-full z-0 group-hover:scale-110 transition-transform"></div>
-                                            {/* Image */}
-                                            <div className="relative z-10 w-24 h-24 rounded-2xl overflow-hidden shadow-lg mb-6 border-4 border-green-50 group-hover:border-green-300 transition-all duration-300">
-                                                <img
-                                                    src={program.img}
-                                                    alt={program.title}
-                                                    className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-300"
-                                                />
-                                            </div>
-                                            {/* Title */}
-                                            <h3 className="relative z-10 text-xl font-bold text-green-900 mb-2 text-center group-hover:text-green-900 transition">
-                                                {program.title}
-                                            </h3>
-                                            {/* Description */}
-                                            <p className="relative z-10 text-gray-800 text-base text-center mb-6 font-semibold">
-                                                {program.desc}
-                                            </p>
-                                            {/* Call to Action */}
-                                            <button
-                                                className="
-                                                    mt-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold shadow
-                                                    hover:bg-green-800 hover:from-green-700 hover:to-green-800 transition
-                                                    relative z-10
-                                                "
-                                            >
-                                                Learn More
-                                            </button>
-                                        </div>
-                            ))}
-                                </div>
-                            </div>
-                            <div className="mb-24">
-                                <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight">
-                                    Why Choose Us?
-                                </h2>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                                    {/* Card 1 */}
-                            <div className="flex-1 bg-gradient-to-br from-green-50 to-green-100 rounded-3xl shadow-xl border border-green-200 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl transition-all duration-300">
-                                <div className="bg-green-100 rounded-full p-4 mb-5 shadow">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 1.343-3 3 0 1.657 1.343 3 3 3s3-1.343 3-3c0-1.657-1.343-3-3-3zm0 10c-4.418 0-8-3.582-8-8 0-4.418 3.582-8 8-8s8 3.582 8 8c0 4.418-3.582 8-8 8z" />
-                                    </svg>
-                                </div>
-                                <h3 className="font-bold text-xl text-green-900 mb-2 text-center">Expert Support</h3>
-                                <p className="text-gray-800 text-center text-base font-semibold">
-                                    Our team provides expert guidance and support to help you succeed in agriculture.
-                                </p>
-                            </div>
-                            {/* Card 2 */}
-                            <div className="flex-1 bg-gradient-to-br from-green-50 to-green-100 rounded-3xl shadow-xl border border-green-200 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl transition-all duration-300">
-                                <div className="bg-green-100 rounded-full p-4 mb-5 shadow">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2a4 4 0 018 0v2m-4-6a4 4 0 100-8 4 4 0 000 8z" />
-                                    </svg>
-                                </div>
-                                <h3 className="font-bold text-xl text-green-900 mb-2 text-center">Community Focus</h3>
-                                <p className="text-gray-800 text-center text-base font-semibold">
-                                    We are dedicated to uplifting communities and fostering sustainable growth.
-                                </p>
-                            </div>
-                            {/* Card 3 */}
-                            <div className="flex-1 bg-gradient-to-br from-green-50 to-green-100 rounded-3xl shadow-xl border border-green-200 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl transition-all duration-300">
-                                <div className="bg-green-100 rounded-full p-4 mb-5 shadow">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a5 5 0 00-10 0v2a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2v-7a2 2 0 00-2-2z" />
-                                    </svg>
-                                </div>
-                                <h3 className="font-bold text-xl text-green-900 mb-2 text-center">Trusted & Secure</h3>
-                                <p className="text-gray-800 text-center text-base font-semibold">
-                                    We ensure your data and interactions are safe and handled with integrity.
+                                <p className="text-gray-800 text-lg leading-relaxed font-semibold">
+                                    To be a leading force in transforming agriculture, fostering innovation, and building resilient, thriving communities for generations to come.
                                 </p>
                             </div>
                         </div>
-                    </div>
-                </section>
-            </main>
-            {/* Footer */}
+                        </div>
+                        </div>
+                        <div id="programs" className="mb-20">
+                            <h2 className="text-3xl font-extrabold text-green-900 mb-12 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
+                                Our Programs
+                            </h2>
+                            <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
+                                {programs.map((program, idx) => (
+                                    <div
+                                        key={idx}
+                                        className="
+                                            bg-gradient-to-br from-green-900 via-green-800 to-green-700 rounded-3xl shadow-2xl border border-green-900
+                                            flex flex-col items-center p-8 relative overflow-hidden group transition-all duration-700
+                                            hover:shadow-3xl hover:-translate-y-1
+                                            w-full sm:w-[340px] md:w-[320px] lg:w-[300px]
+                                            reveal-on-scroll opacity-0 translate-y-10 
+                                        "
+                                        style={{ transitionDelay: `${100 + idx * 80}ms` }}
+                                    >
+                                        {/* Decorative floating icon */}
+                                        <div className="absolute -top-8 -right-8 w-28 h-28 bg-green-600 opacity-10 rounded-full z-0 group-hover:scale-110 transition-transform"></div>
+                                        {/* Image */}
+                                        <div className="relative z-10 w-24 h-24 rounded-2xl overflow-hidden shadow-lg mb-6 border-4 border-green-800 group-hover:border-green-600 transition-all duration-300 bg-green-950">
+                                            <img
+                                                src={program.img}
+                                                alt={program.title}
+                                                className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-300"
+                                            />
+                                        </div>
+                                        {/* Title */}
+                                        <h3 className="relative z-10 text-xl font-bold text-green-50 mb-2 text-center group-hover:text-green-200 transition">
+                                            {program.title}
+                                        </h3>
+                                        {/* Description */}
+                                        <p className="relative z-10 text-green-100 text-base text-center mb-6 font-medium">
+                                            {program.desc}
+                                        </p>
+                                        {/* Call to Action */}
+                                        <button
+                                            className="
+                                                mt-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-green-300 to-green-400 text-green-900 font-semibold shadow
+                                                hover:bg-green-200 hover:from-green-200 hover:to-green-300 transition
+                                                relative z-10 border border-green-200
+                                            "
+                                        >
+                                            Learn More
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                       
+                        <section className="max-w-6xl mx-auto px-4 py-14 mb-20">
+                            <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
+                                Latest News & Updates
+                            </h2>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                {/* News Card 1 */}
+                                <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-100 p-8 flex flex-col hover:shadow-2xl  group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
+                                    <div className="relative mb-5">
+                                        <img src={fits} alt="FITS Center" className="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
+                                        <span className="absolute top-3 right-3 bg-green-700 text-green-50 text-xs px-3 py-1 rounded-full font-bold shadow">New</span>
+                                    </div>
+                                    <h3 className="font-bold text-lg text-green-900 mb-2">FITS Center Launches New Farmer Training</h3>
+                                    <p className="text-gray-800 text-base mb-4 font-semibold">
+                                        The FITS Center recently conducted a hands-on training session for local farmers, focusing on sustainable crop management and modern agricultural techniques.
+                                    </p>
+                                    <div className="flex items-center justify-between mt-auto">
+                                        <span className="text-green-700 text-sm font-semibold">June 2024</span>
+                                        <a href="#" className="text-green-700 font-bold hover:underline flex items-center gap-1 transition">
+                                            Read More
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                {/* News Card 2 */}
+                                <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-100 p-8 flex flex-col hover:shadow-2xl  group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-200">
+                                    <div className="relative mb-5">
+                                        <img src={img4} alt="Organic Farming" className="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
+                                        <span className="absolute top-3 right-3 bg-green-600 text-green-50 text-xs px-3 py-1 rounded-full font-bold shadow">Update</span>
+                                    </div>
+                                    <h3 className="font-bold text-lg text-green-900 mb-2">Organic Farming Initiative Expands</h3>
+                                    <p className="text-gray-800 text-base mb-4 font-semibold">
+                                        Our organic farming program has expanded to include more barangays, promoting healthier produce and eco-friendly practices across the region.
+                                    </p>
+                                    <div className="flex items-center justify-between mt-auto">
+                                        <span className="text-green-700 text-sm font-semibold">May 2024</span>
+                                        <a href="#" className="text-green-700 font-bold hover:underline flex items-center gap-1 transition">
+                                            Read More
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                {/* News Card 3 */}
+                                <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-100 p-8 flex flex-col hover:shadow-2xl  group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-300">
+                                    <div className="relative mb-5">
+                                        <img src={img5} alt="Rabies Control" className="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
+                                        <span className="absolute top-3 right-3 bg-green-500 text-green-50 text-xs px-3 py-1 rounded-full font-bold shadow">Event</span>
+                                    </div>
+                                    <h3 className="font-bold text-lg text-green-900 mb-2">Rabies Awareness Campaign</h3>
+                                    <p className="text-gray-800 text-base mb-4 font-semibold">
+                                        The Rabies Control team held a successful awareness drive, educating pet owners and distributing free vaccines to ensure community safety.
+                                    </p>
+                                    <div className="flex items-center justify-between mt-auto">
+                                        <span className="text-green-700 text-sm font-semibold">April 2024</span>
+                                        <a href="#" className="text-green-700 font-bold hover:underline flex items-center gap-1 transition">
+                                            Read More
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        {/* Swapped: Why Choose Us comes after Latest News & Updates */}
+                        <div className="mb-24">
+                            <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
+                                Why Choose Us?
+                            </h2>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                                {/* Card 1 */}
+                                <div className="flex-1 bg-gradient-to-br from-green-900 via-green-800 to-green-700 rounded-3xl shadow-xl border border-green-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10  delay-100">
+                                    <div className="bg-green-800 rounded-full p-4 mb-5 shadow">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-green-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 1.343-3 3 0 1.657 1.343 3 3 3s3-1.343 3-3c0-1.657-1.343-3-3-3zm0 10c-4.418 0-8-3.582-8-8 0-4.418 3.582-8 8-8s8 3.582 8 8c0 4.418-3.582 8-8 8z" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="font-bold text-xl text-green-50 mb-2 text-center">Expert Support</h3>
+                                    <p className="text-green-100 text-center text-base font-semibold">
+                                        Our team provides expert guidance and support to help you succeed in agriculture.
+                                    </p>
+                                </div>
+                                {/* Card 2 */}
+                                <div className="flex-1 bg-gradient-to-br from-green-900 via-green-800 to-green-700 rounded-3xl shadow-xl border border-green-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl transition-all duration-700 reveal-on-scroll opacity-0 translate-y-10  delay-200">
+                                    <div className="bg-green-800 rounded-full p-4 mb-5 shadow">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-green-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2a4 4 0 018 0v2m-4-6a4 4 0 100-8 4 4 0 000 8z" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="font-bold text-xl text-green-50 mb-2 text-center">Community Focus</h3>
+                                    <p className="text-green-100 text-center text-base font-semibold">
+                                        We are dedicated to uplifting communities and fostering sustainable growth.
+                                    </p>
+                                </div>
+                                {/* Card 3 */}
+                                <div className="flex-1 bg-gradient-to-br from-green-900 via-green-800 to-green-700 rounded-3xl shadow-xl border border-green-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl  reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-300">
+                                    <div className="bg-green-800 rounded-full p-4 mb-5 shadow">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-green-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a5 5 0 00-10 0v2a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2v-7a2 2 0 00-2-2z" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="font-bold text-xl text-green-50 mb-2 text-center">Trusted & Secure</h3>
+                                    <p className="text-green-100 text-center text-base font-semibold">
+                                        We ensure your data and interactions are safe and handled with integrity.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        </section>
+                        </main>
             <footer className="bg-green-950 text-green-50 pt-12 pb-8">
                 <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row md:items-start md:justify-between gap-10">
                     {/* Brand & Description */}
@@ -296,7 +384,7 @@ export default function Landing() {
                                 className="bg-green-800 hover:bg-green-700 rounded-full p-2 transition"
                             >
                                 <svg fill="currentColor" viewBox="0 0 24 24" className="w-6 h-6 text-green-100">
-                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.974.975 1.244 2.242 1.306 3.608.058 1.266.069 1.646.069 4.85s-.012 3.584-.07 4.85c-.062 1.366-.332 2.633-1.306 3.608-.975.974-2.242 1.244-3.608 1.306-1.266.058-1.646.069-4.85.069s-3.584-.012-4.85-.07c-1.366-.062-2.633-.332-3.608-1.306-.974-.975-1.244-2.242-1.306-3.608C2.175 15.647 2.163 15.267 2.163 12s.012-3.584.07-4.85c.062-1.366.332-2.633 1.306-3.608C4.513 2.565 5.78 2.295 7.146 2.233 8.412 2.175 8.792 2.163 12 2.163zm0-2.163C8.741 0 8.332.012 7.052.07 5.771.127 4.659.392 3.678 1.373c-.98.98-1.245 2.092-1.302 3.373C2.012 5.668 2 6.077 2 12c0 5.923.012 6.332.07 7.613.057 1.281.322 2.393 1.302 3.373.98.98 2.092 1.245 3.373 1.302C8.332 23.988 8.741 24 12 24s3.668-.012 4.948-.07c1.281-.057 2.393-.322 3.373-1.302.98-.98 1.245-2.092 1.302-3.373.058-1.281.07-1.69.07-7.613 0-5.923-.012-6.332-.07-7.613-.057-1.281-.322-2.393-1.302-3.373-.98-.98-2.092-1.245-3.373-1.302C15.668.012 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a3.999 3.999 0 110-7.998 3.999 3.999 0 010 7.998zm6.406-11.845a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/>
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.974.975 1.244 2.242 1.306 3.608.058 1.266.069 1.646.069 4.85s-.012 3.584-.07 4.85c-.062 1.366-.332 2.633-1.306 3.608-.975.974-2.242 1.244-3.608 1.306-1.266.058-1.646.069-4.85.069s-3.584-.012-4.85-.07c-1.366-.062-2.633-.332-3.608-1.306-.974-.975-1.244-2.242-1.306-3.608C2.175 15.647 2.163 15.267 2.163 12s.012-3.584.07-4.85c.062-1.366.332-2.633 1.306-3.608C4.513 2.565 5.78 2.295 7.146 2.233 8.412 2.17 8.792 2.163 12 2.163zm0-2.163C8.741 0 8.332.012 7.052.07 5.771.127 4.659.392 3.678 1.373c-.98.98-1.245 2.092-1.302 3.373C2.012 5.668 2 6.077 2 12c0 5.923.012 6.332.07 7.613.057 1.281.322 2.393 1.302 3.373.98.98 2.092 1.245 3.373 1.302C8.332 23.988 8.741 24 12 24s3.668-.012 4.948-.07c1.281-.057 2.393-.322 3.373-1.302.98-.98 1.245-2.092 1.302-3.373.058-1.281.07-1.69.07-7.613 0-5.923-.012-6.332-.07-7.613-.057-1.281-.322-2.393-1.302-3.373-.98-.98-2.092-1.245-3.373-1.302C15.668.012 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a3.999 3.999 0 110-7.998 3.999 3.999 0 010 7.998zm6.406-11.845a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/>
                                 </svg>
                             </a>
                         </div>
@@ -304,6 +392,28 @@ export default function Landing() {
                     </div>
                 </div>
             </footer>
+            <style>{`
+        html, body, #root {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        html::-webkit-scrollbar, body::-webkit-scrollbar, #root::-webkit-scrollbar {
+          display: none;
+        }
+        .letter-spacing-wide {
+          letter-spacing: 0.15em;
+        }
+        .reveal-on-scroll {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        .reveal-on-scroll.opacity-100 {
+          opacity: 1 !important;
+        }
+        .reveal-on-scroll.translate-y-0 {
+          transform: translateY(0) !important;
+        }
+      `}</style>
         </>
     )
 }

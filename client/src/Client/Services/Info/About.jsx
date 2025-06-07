@@ -176,7 +176,18 @@ return (
                 </div>
             </div>
         </section>
-        {/* End Even More Detail Section */}
+      <style>{`
+        html, body, #root {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+        html::-webkit-scrollbar, body::-webkit-scrollbar, #root::-webkit-scrollbar {
+          display: none;
+        }
+        .letter-spacing-wide {
+          letter-spacing: 0.15em;
+        }
+      `}</style>
     </>
 )
 }

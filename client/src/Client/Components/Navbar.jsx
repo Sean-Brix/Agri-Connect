@@ -92,114 +92,7 @@ export default function Navbar() {
                                 {!isMidScreen && 'Home'}
                             </Link>
                         </li>
-                        <li className="relative group">
-                            <button
-                                type="button"
-                                onClick={() => setServicesOpen(!servicesOpen)}
-                                onBlur={() =>
-                                    setTimeout(
-                                        () => setServicesOpen(false),
-                                        150
-                                    )
-                                }
-                                className="flex items-center gap-2 text-blue-700 hover:bg-blue-50 px-4 py-3 rounded-lg font-semibold transition focus:outline-none"
-                            >
-                                <svg
-                                    className="w-5 h-5 text-blue-500"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                                {!isMidScreen && 'Services'}
-                                <svg
-                                    className={`w-4 h-4 ml-1 transition-transform duration-200 ${
-                                        servicesOpen ? 'rotate-180' : ''
-                                    }`}
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        d="M19 9l-7 7-7-7"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                            </button>
-                            {/* Dropdown */}
-                            <ul
-                                className={`absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-lg py-4 z-40 border border-blue-100 transition-all duration-200 ${
-                                    servicesOpen
-                                        ? 'opacity-100 translate-y-0 pointer-events-auto'
-                                        : 'opacity-0 -translate-y-2 pointer-events-none'
-                                }`}
-                            >
-                                <li>
-                                    <Link
-                                        to="/seminar"
-                                        className="flex items-center gap-3 px-6 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
-                                    >
-                                        <svg
-                                            className="w-5 h-5 text-blue-500"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                d="M8 17l4 4 4-4m-4-5v9"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            />
-                                            <path
-                                                d="M20 12a8 8 0 10-16 0 8 8 0 0016 0z"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            />
-                                        </svg>
-                                        {'Seminar Programs'}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="/eic"
-                                        className="flex items-center gap-3 px-6 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
-                                    >
-                                        <svg
-                                            className="w-5 h-5 text-blue-500"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <rect
-                                                x="4"
-                                                y="4"
-                                                width="16"
-                                                height="16"
-                                                rx="4"
-                                                stroke="currentColor"
-                                                strokeWidth="2"
-                                            />
-                                            <path
-                                                d="M8 12h8"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            />
-                                        </svg>
-                                        {'EIC'}
-                                    </Link>
-                                </li>
-                            </ul>
-                        </li>
+                        {/* Info List Item */}
                         <li className="relative group">
                             <button
                                 type="button"
@@ -308,6 +201,115 @@ export default function Navbar() {
                                             />
                                         </svg>
                                         {'Contact'}
+                                    </Link>
+                                </li>
+                            </ul>
+                        </li>
+                        {/* Services List Item */}
+                        <li className="relative group">
+                            <button
+                                type="button"
+                                onClick={() => setServicesOpen(!servicesOpen)}
+                                onBlur={() =>
+                                    setTimeout(
+                                        () => setServicesOpen(false),
+                                        150
+                                    )
+                                }
+                                className="flex items-center gap-2 text-blue-700 hover:bg-blue-50 px-4 py-3 rounded-lg font-semibold transition focus:outline-none"
+                            >
+                                <svg
+                                    className="w-5 h-5 text-blue-500"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M4 6h16M4 12h16M4 18h16"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
+                                {!isMidScreen && 'Services'}
+                                <svg
+                                    className={`w-4 h-4 ml-1 transition-transform duration-200 ${
+                                        servicesOpen ? 'rotate-180' : ''
+                                    }`}
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M19 9l-7 7-7-7"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
+                            </button>
+                            {/* Dropdown */}
+                            <ul
+                                className={`absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-lg py-4 z-40 border border-blue-100 transition-all duration-200 ${
+                                    servicesOpen
+                                        ? 'opacity-100 translate-y-0 pointer-events-auto'
+                                        : 'opacity-0 -translate-y-2 pointer-events-none'
+                                }`}
+                            >
+                                <li>
+                                    <Link
+                                        to="/seminar"
+                                        className="flex items-center gap-3 px-6 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
+                                    >
+                                        <svg
+                                            className="w-5 h-5 text-blue-500"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                d="M8 17l4 4 4-4m-4-5v9"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                            <path
+                                                d="M20 12a8 8 0 10-16 0 8 8 0 0016 0z"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>
+                                        {'Seminar Programs'}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to="/eic"
+                                        className="flex items-center gap-3 px-6 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
+                                    >
+                                        <svg
+                                            className="w-5 h-5 text-blue-500"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <rect
+                                                x="4"
+                                                y="4"
+                                                width="16"
+                                                height="16"
+                                                rx="4"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                            />
+                                            <path
+                                                d="M8 12h8"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>
+                                        {'EIC'}
                                     </Link>
                                 </li>
                             </ul>
@@ -608,7 +610,7 @@ export default function Navbar() {
                                 {user.name}
                             </span>
                             <Link
-                                to="/profile"
+                                to="/settings/profile"
                                 className="flex items-center gap-2 px-8 py-2 mt-2 text-blue-700 bg-white border border-blue-100 hover:bg-blue-50 rounded-full transition font-medium shadow"
                                 onClick={() => setOpen(false)}
                             >
@@ -698,97 +700,7 @@ export default function Navbar() {
                             Home
                         </Link>
                     </li>
-                    <li>
-                        <details className="group">
-                            <summary className="flex items-center gap-2 px-6 py-6 text-blue-700 hover:bg-blue-50 font-semibold rounded-lg cursor-pointer transition focus:outline-none">
-                                <svg
-                                    className="w-5 h-5 text-blue-500"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                                Services
-                                <svg
-                                    className="w-4 h-4 ml-1 transition-transform duration-200 group-open:rotate-180"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        d="M19 9l-7 7-7-7"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                            </summary>
-                            <ul className="bg-white rounded-xl shadow-lg py-4 mt-2 border border-blue-100">
-                                <li>
-                                    <Link
-                                        to="/seminar"
-                                        className="flex items-center gap-3 px-8 py-4 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
-                                    >
-                                        <svg
-                                            className="w-5 h-5 text-blue-500"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                d="M8 17l4 4 4-4m-4-5v9"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            />
-                                            <path
-                                                d="M20 12a8 8 0 10-16 0 8 8 0 0016 0z"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            />
-                                        </svg>
-                                        Seminar Programs
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to="/eic"
-                                        className="flex items-center gap-3 px-8 py-4 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
-                                    >
-                                        <svg
-                                            className="w-5 h-5 text-blue-500"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <rect
-                                                x="4"
-                                                y="4"
-                                                width="16"
-                                                height="16"
-                                                rx="4"
-                                                stroke="currentColor"
-                                                strokeWidth="2"
-                                            />
-                                            <path
-                                                d="M8 12h8"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            />
-                                        </svg>
-                                        EIC
-                                    </Link>
-                                </li>
-                            </ul>
-                        </details>
-                    </li>
+                    {/* Info for mobile */}
                     <li>
                         <details className="group">
                             <summary className="flex items-center gap-2 px-6 py-6 text-blue-700 hover:bg-blue-50 font-semibold rounded-lg cursor-pointer transition focus:outline-none">
@@ -882,6 +794,98 @@ export default function Navbar() {
                                             />
                                         </svg>
                                         Contact
+                                    </Link>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    {/* Services for mobile */}
+                    <li>
+                        <details className="group">
+                            <summary className="flex items-center gap-2 px-6 py-6 text-blue-700 hover:bg-blue-50 font-semibold rounded-lg cursor-pointer transition focus:outline-none">
+                                <svg
+                                    className="w-5 h-5 text-blue-500"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M4 6h16M4 12h16M4 18h16"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
+                                Services
+                                <svg
+                                    className="w-4 h-4 ml-1 transition-transform duration-200 group-open:rotate-180"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M19 9l-7 7-7-7"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
+                            </summary>
+                            <ul className="bg-white rounded-xl shadow-lg py-4 mt-2 border border-blue-100">
+                                <li>
+                                    <Link
+                                        to="/seminar"
+                                        className="flex items-center gap-3 px-8 py-4 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
+                                    >
+                                        <svg
+                                            className="w-5 h-5 text-blue-500"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                d="M8 17l4 4 4-4m-4-5v9"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                            <path
+                                                d="M20 12a8 8 0 10-16 0 8 8 0 0016 0z"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>
+                                        Seminar Programs
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to="/eic"
+                                        className="flex items-center gap-3 px-8 py-4 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
+                                    >
+                                        <svg
+                                            className="w-5 h-5 text-blue-500"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <rect
+                                                x="4"
+                                                y="4"
+                                                width="16"
+                                                height="16"
+                                                rx="4"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                            />
+                                            <path
+                                                d="M8 12h8"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>
+                                        EIC
                                     </Link>
                                 </li>
                             </ul>
