@@ -534,11 +534,25 @@ export default function Navbar() {
                 </div>
 
                 {/* Mobile Sidebar */}
-            <div
+           <div
                 className={`fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-40 transform transition-transform duration-300 ${
                     open ? 'translate-x-0' : '-translate-x-full'
                 } md:hidden`}
+                style={{
+                    overflowY: 'auto',
+                    overflowX: 'hidden',
+                    scrollbarWidth: 'none', // Firefox
+                    msOverflowStyle: 'none', // IE 10+
+                }}
             >
+                <style>
+                    {`
+                        .hide-scrollbar::-webkit-scrollbar {
+                            display: none;
+                        }
+                    `}
+                </style>
+                <div className="hide-scrollbar flex flex-col h-full">
                 <div className="flex items-center justify-between px-6 py-8 border-b border-blue-100">
                     <svg
                         className="w-8 h-8 text-green-600 "
@@ -973,6 +987,7 @@ export default function Navbar() {
                         </details>
                     </li>
                 </ul>
+            </div>
             </div>
 
             {open && (

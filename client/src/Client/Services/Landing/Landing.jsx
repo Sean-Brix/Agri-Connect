@@ -79,8 +79,8 @@ export default function Landing() {
     return (
         <>
             <Navbar />
-            <main className="bg-gradient-to-br from-green-50 to-green-100 min-h-screen pt-16">
-                <section className="max-w-6xl mx-auto px-4 py-14">
+            <main className="bg-gradient-to-br from-green-50 to-green-100 min-h-screen  ">
+                <section className="max-w-6xl mx-auto px-4 py-30 mb-0">
                     
                     <div
                         className="
@@ -273,8 +273,8 @@ export default function Landing() {
                                 </div>
                             </div>
                         </section>
-                        {/* Swapped: Why Choose Us comes after Latest News & Updates */}
-                        <div className="mb-24">
+                        
+                        <div className="">
                             <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
                                 Why Choose Us?
                             </h2>
@@ -320,9 +320,9 @@ export default function Landing() {
                         </section>
                         </main>
                         
-                        <section className="max-w-5xl mx-auto mb-20 px-4 mt-10 reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
-                            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-950  shadow-2xl border border-gray-700 p-10 md:p-16 relative overflow-hidden">
-                                <div className="absolute inset-0 pointer-events-none">
+                        <section className="max-w-full  px-4 reveal-on-scroll opacity-0 translate-y-10 flex justify-center  py-20 transition-all duration-700 delay-100 bg-gradient-to-br from-green-900 via-green-800 to-green-700">
+                            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-950  shadow-2xl border border-gray-700 p-10 md:p-16 max-w-6xl relative overflow-hidden justify-center rounded-3xl">
+                                <div className="absolute inset-0 pointer-events-none ">
                                     <div className="w-full h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-green-900/20 via-transparent to-transparent"></div>
                                 </div>
                                 <header className="mb-10 border-b border-gray-700 pb-6 flex flex-col md:flex-row md:items-end md:justify-between">
@@ -364,41 +364,114 @@ export default function Landing() {
                                         </article>
                                     </div>
                                 </div>
-                                {/* Bottom Row: Columns */}
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-                                    <div className="bg-gray-950/70 rounded-xl p-6 border border-gray-800">
-                                        <h5 className="text-green-100 font-bold mb-2 font-serif">Weather Watch</h5>
-                                        <p className="text-green-300 text-sm">
-                                            Expect scattered showers this week. Farmers are advised to adjust irrigation schedules accordingly.
-                                        </p>
-                                    </div>
-                                    <div className="bg-gray-950/70 rounded-xl p-6 border border-gray-800">
-                                        <h5 className="text-green-100 font-bold mb-2 font-serif">Market Prices</h5>
-                                        <ul className="text-green-300 text-sm space-y-1">
-                                            <li>Rice: <span className="text-green-400 font-semibold">₱42/kg</span></li>
-                                            <li>Corn: <span className="text-green-400 font-semibold">₱18/kg</span></li>
-                                            <li>Eggplant: <span className="text-green-400 font-semibold">₱35/kg</span></li>
-                                        </ul>
-                                    </div>
-                                    <div className="bg-gray-950/70 rounded-xl p-6 border border-gray-800">
-                                        <h5 className="text-green-100 font-bold mb-2 font-serif">Upcoming Events</h5>
-                                        <ul className="text-green-300 text-sm space-y-1">
-                                            <li>June 20: <span className="text-green-400">Agri Fair</span></li>
-                                            <li>June 25: <span className="text-green-400">Organic Workshop</span></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <footer className="mt-10 border-t border-gray-700 pt-6 text-green-500 text-xs text-center font-mono">
-                                    For more stories, visit our <span className="underline text-green-300">Newsroom</span> or follow us on social media.
-                                </footer>
-                            </div>
-                        </section>
-
-                        
-                        
-            <footer className="bg-green-950 text-green-50 pt-12 pb-8">
-                <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row md:items-start md:justify-between gap-10">
-                    {/* Brand & Description */}
+                               { /* Bottom Row: Columns */}
+                                                                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                                                                    <div className="bg-gray-900/80 rounded-xl p-6 border border-gray-800">
+                                                                        <h5 className="text-green-200 font-bold mb-2 font-serif">Weather Watch</h5>
+                                                                        <p className="text-green-300 text-sm">
+                                                                            Expect scattered showers this week. Farmers are advised to adjust irrigation schedules accordingly.
+                                                                        </p>
+                                                                    </div>
+                                                                    <div className="bg-gray-900/80 rounded-xl p-6 border border-gray-800">
+                                                                        <h5 className="text-green-200 font-bold mb-2 font-serif">Market Prices</h5>
+                                                                        <ul className="text-green-300 text-sm space-y-1">
+                                                                            <li>Rice: <span className="text-green-400 font-semibold">₱42/kg</span></li>
+                                                                            <li>Corn: <span className="text-green-400 font-semibold">₱18/kg</span></li>
+                                                                            <li>Eggplant: <span className="text-green-400 font-semibold">₱35/kg</span></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div className="bg-gray-900/80 rounded-xl p-6 border border-gray-800">
+                                                                        <h5 className="text-green-200 font-bold mb-2 font-serif">Upcoming Events</h5>
+                                                                        <ul className="text-green-300 text-sm space-y-1">
+                                                                            <li>June 20: <span className="text-green-400">Agri Fair</span></li>
+                                                                            <li>June 25: <span className="text-green-400">Organic Workshop</span></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <footer className="mt-10 border-t border-gray-700 pt-6 text-green-400 text-xs text-center font-mono">
+                                                                    For more stories, visit our <span className="underline text-green-300">Newsroom</span> or follow us on social media.
+                                                                </footer>
+                                                            </div>
+                                                        </section>
+                                                                <section className="max-w-6xl mx-auto px-4 py-14 mb-20">
+                                                                    <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
+                                                                        Testimonials
+                                                                    </h2>
+                                                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                                                        <div className="bg-gray-900/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-900 p-8 flex flex-col items-center hover:shadow-2xl reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
+                                                                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Testimonial 1" className="w-20 h-20 rounded-full mb-4 border-4 border-green-800" />
+                                                                            <p className="text-green-100 text-base mb-4 font-semibold text-center">
+                                                                                "Thanks to Agri-Connect, I learned new farming techniques that doubled my harvest. The support team is always ready to help!"
+                                                                            </p>
+                                                                            <span className="text-green-400 font-bold">Juan Dela Cruz</span>
+                                                                            <span className="text-green-500 text-xs">Farmer, Tanza</span>
+                                                                        </div>
+                                                                        <div className="bg-gray-900/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-900 p-8 flex flex-col items-center hover:shadow-2xl reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-200">
+                                                                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Testimonial 2" className="w-20 h-20 rounded-full mb-4 border-4 border-green-800" />
+                                                                            <p className="text-green-100 text-base mb-4 font-semibold text-center">
+                                                                                "The FITS Center's organic farming program helped our community grow healthier food and protect our environment."
+                                                                            </p>
+                                                                            <span className="text-green-400 font-bold">Maria Santos</span>
+                                                                            <span className="text-green-500 text-xs">Barangay Leader</span>
+                                                                        </div>
+                                                                        <div className="bg-gray-900/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-900 p-8 flex flex-col items-center hover:shadow-2xl reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-300">
+                                                                            <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="Testimonial 3" className="w-20 h-20 rounded-full mb-4 border-4 border-green-800" />
+                                                                            <p className="text-green-100 text-base mb-4 font-semibold text-center">
+                                                                                "I attended the Agri Bootcamp and learned so much about sustainable agriculture. Highly recommended for the youth!"
+                                                                            </p>
+                                                                            <span className="text-green-400 font-bold">Mark Reyes</span>
+                                                                            <span className="text-green-500 text-xs">Student</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </section>
+                                                                
+                                                        
+                                                        <section className="max-w-6xl mx-auto px-4 py-14 mb-20">
+                                                            <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
+                                                                Frequently Asked Questions
+                                                            </h2>
+                                                            <div className="space-y-6">
+                                                                <details className="bg-gray-900/80 backdrop-blur-md rounded-2xl shadow border border-green-900 p-6 group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
+                                                                    <summary className="font-bold text-green-200 cursor-pointer flex items-center justify-between">
+                                                                        What is the FITS Program?
+                                                                        <span className="ml-2 text-green-400 group-open:rotate-180 transition-transform">&#9660;</span>
+                                                                    </summary>
+                                                                    <p className="mt-3 text-green-100 font-semibold">
+                                                                        The Farmers' Information and Technology Services (FITS) Program provides agricultural information, training, and technology support to farmers and stakeholders.
+                                                                    </p>
+                                                                </details>
+                                                                <details className="bg-gray-900/80 backdrop-blur-md rounded-2xl shadow border border-green-900 p-6 group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-200">
+                                                                    <summary className="font-bold text-green-200 cursor-pointer flex items-center justify-between">
+                                                                        How can I join your programs?
+                                                                        <span className="ml-2 text-green-400 group-open:rotate-180 transition-transform">&#9660;</span>
+                                                                    </summary>
+                                                                    <p className="mt-3 text-green-100 font-semibold">
+                                                                        You can join by contacting us through our website, visiting the FITS Center, or following our social media for announcements and registration details.
+                                                                    </p>
+                                                                </details>
+                                                                <details className="bg-gray-900/80 backdrop-blur-md rounded-2xl shadow border border-green-900 p-6 group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-300">
+                                                                    <summary className="font-bold text-green-200 cursor-pointer flex items-center justify-between">
+                                                                        Are your services free?
+                                                                        <span className="ml-2 text-green-400 group-open:rotate-180 transition-transform">&#9660;</span>
+                                                                    </summary>
+                                                                    <p className="mt-3 text-green-100 font-semibold">
+                                                                        Most of our services, trainings, and consultations are free for local farmers and community members, thanks to government and partner support.
+                                                                    </p>
+                                                                </details>
+                                                                <details className="bg-gray-900/80 backdrop-blur-md rounded-2xl shadow border border-green-900 p-6 group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-400">
+                                                                    <summary className="font-bold text-green-200 cursor-pointer flex items-center justify-between">
+                                                                        How do I get updates on events?
+                                                                        <span className="ml-2 text-green-400 group-open:rotate-180 transition-transform">&#9660;</span>
+                                                                    </summary>
+                                                                    <p className="mt-3 text-green-100 font-semibold">
+                                                                        Subscribe to our newsletter, follow us on social media, or regularly check our website for the latest news and event schedules.
+                                                                    </p>
+                                                                </details>
+                                                            </div>
+                                                        </section>
+                                            <footer className="bg-gray-950 text-green-100 pt-12 pb-8">
+                                                <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row md:items-start md:justify-between gap-10">
+                                                    {/* Brand & Description */}
                     <div className="flex-1 mb-8 md:mb-0">
                         <div className="flex items-center gap-3 mb-3">
                             <span className="bg-green-800 rounded-full p-2">
