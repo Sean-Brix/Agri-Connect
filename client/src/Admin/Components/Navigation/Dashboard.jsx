@@ -131,13 +131,17 @@ export default function Dashboard() {
         {/* Main Content */}
         <div className="flex-1 flex flex-col min-h-screen h-screen ml-0 md:ml-64 transition-all">
           <header className="gradient-bg shadow-md drop-shadow-lg p-3 flex justify-evenly md:justify-center md:px-8 items-center w-full fixed top-0 left-0 z-20 md:left-64 md:w-[calc(100%-16rem)] ">
+            
             <div className="flex items-center space-x-4 justify-center">
+
               {/* Logo */}
               <img src={logo} alt="Logo" className="h-10 w-10 rounded-full" />
               <h1 className="text-lg font-semibold text text-center items-center family">
                 FITS Tanza - Municipal Agriculture Office
               </h1>
+
             </div>
+
             {/* Mobile menu toggle button */}
             <button
               className="md:hidden text mt-2 md:mt-0 translate-y-[-4px] ml-4"
