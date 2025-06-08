@@ -14,6 +14,7 @@ export default function Participants({ data, toggleOff }) {
     });
     const [showSelect, setShowSelect] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [bulkStatus, setBulkStatus] = useState('Registered');
 
     useEffect(() => {
         fetchParticipants();
@@ -156,6 +157,32 @@ export default function Participants({ data, toggleOff }) {
         }
     };
 
+    const handleBulkStatusChange = (e) => {
+        setBulkStatus(e.target.value);
+    };
+
+    const handleUpdateBulkStatus = async () => {
+        for (const userId of selectedParticipants) {
+            await updateStatus(userId, bulkStatus);
+        }
+        setSelectedParticipants([]);
+        setShowSelect(false);
+    };
+
+    const handleSelectAll = () => {
+        if (
+            selectedParticipants.length === participants.map((p) => p.id).length
+        ) {
+            setSelectedParticipants([]);
+        } else {
+            setSelectedParticipants(participants.map((p) => p.id));
+        }
+    };
+
+    const isAllSelected =
+        selectedParticipants.length === participants.map((p) => p.id).length &&
+        participants.length > 0;
+
     return (
         <div
             style={{
@@ -169,8 +196,7 @@ export default function Participants({ data, toggleOff }) {
                 border: '5px solid black',
             }}
         >
-            <div className="container mx-auto p-4">
-
+            <div className="container mx-auto p-4 relative">
                 {/* HEADER */}
                 <div className="flex flex-col items-start justify-between mb-4 border p-4 rounded">
                     <h2 className="text-2xl font-semibold mb-2">
@@ -242,38 +268,68 @@ export default function Participants({ data, toggleOff }) {
                     X
                 </button>
 
-                <div className="flex justify-start space-x-4 mb-4">
-                    <input
-                        type="text"
-                        placeholder="Search participants..."
-                        className="border p-2 rounded w-1/3"
-                        onChange={handleSearchChange}
-                    />
-                    <button
-                        onClick={() => setStatsVisible(!statsVisible)}
-                        className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded"
-                    >
-                        Stats
-                    </button>
-                    <button
-                        onClick={() =>
-                            alert(
-                                `Selected Participant IDs: ${selectedParticipants.join(
-                                    ', '
-                                )}`
-                            )
-                        }
-                        className="bg-blue-200 hover:bg-blue-300 text-gray-800 font-bold py-2 px-4 rounded"
-                    >
-                        Select Multiple
-                    </button>
-                    <button
-                        onClick={() => setShowSelect(!showSelect)}
-                        className="bg-green-200 hover:bg-green-300 text-gray-800 font-bold py-2 px-4 rounded"
-                    >
-                        Select Multiple
-                    </button>
+                <div className="flex justify-between h-[45px] mb-[15px]">
+                    <div className="flex justify-start space-x-4 w-[60%]">
+                        <input
+                            type="text"
+                            placeholder="Search participants..."
+                            className="border p-2 rounded w-[60%]"
+                            onChange={handleSearchChange}
+                        />
+                        <button
+                            onClick={() => setStatsVisible(!statsVisible)}
+                            className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 w-[100px] rounded"
+                        >
+                            Stats
+                        </button>
+                    </div>
+
+                    {/* SELECT MULTIPLE */}
+                    <div className="flex items-center space-x-4">
+                        <button
+                            onClick={() => setShowSelect(!showSelect)}
+                            className="bg-green-200 hover:bg-green-300 text-gray-800 font-bold py-2 px-4 rounded"
+                        >
+                            {showSelect ? 'Cancel' : 'Select Multiple'}
+                        </button>
+                        {showSelect && (
+                            <>
+                                <button
+                                    onClick={handleSelectAll}
+                                    className={`bg-green-200 hover:bg-green-300 text-gray-800 font-bold py-2 px-4 rounded ${
+                                        participants.length === 0
+                                            ? 'opacity-50 cursor-not-allowed'
+                                            : ''
+                                    }`}
+                                    disabled={participants.length === 0}
+                                >
+                                    {isAllSelected
+                                        ? 'Deselect All'
+                                        : 'Select All'}
+                                </button>
+                                <select
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    value={bulkStatus}
+                                    onChange={handleBulkStatusChange}
+                                >
+                                    <option value="Registered">
+                                        Registered
+                                    </option>
+                                    <option value="Attended">Attended</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                    <option value="No Show">No Show</option>
+                                </select>
+                                <button
+                                    onClick={handleUpdateBulkStatus}
+                                    className="bg-blue-200 hover:bg-blue-300 text-gray-800 font-bold py-2 px-4 rounded"
+                                >
+                                    Update Selected
+                                </button>
+                            </>
+                        )}
+                    </div>
                 </div>
+
                 {statsVisible && (
                     <div className="mb-4 p-4 border rounded shadow-md">
                         <h3 className="text-lg font-semibold mb-2">
