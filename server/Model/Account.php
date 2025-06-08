@@ -159,4 +159,49 @@ class Account {
     public function __toString(){
         return "Account Owner: {$this->username}";
     }
+    public static function getAllAccounts($access = null, $clientProfile = null) {
+        $query = "SELECT id, access, firstname, lastname, gender, client_profile, address, telephone_no, cellphone_no, occupation, position, institution, email_address, username, created_at, updated_at FROM `accounts` WHERE 1=1";
+        $params = [];
+        $types = "";
+
+        if ($access !== null) {
+            $query .= " AND access = ?";
+            $params[] = $access;
+            $types .= "s";
+        }
+
+        if ($clientProfile !== null) {
+            $query .= " AND client_profile = ?";
+            $params[] = $clientProfile;
+            $types .= "s";
+        }
+
+        $result = statement($query, $params, $types);
+        if (!$result) {
+            return ["Error"=>"Something went wrong in getAllAccounts Function in 'Account Model PHP'"];
+        }
+        $accounts = [];
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $accounts[] = $row;
+        }
+
+        return $accounts;
+    }
+
+     public static function searchAccount($searchTerm) {
+        $query = "SELECT * FROM `accounts` WHERE firstname LIKE ? OR lastname LIKE ? OR email_address LIKE ? OR username LIKE ?";
+        $searchTerm = "%" . $searchTerm . "%";
+        $params = [$searchTerm, $searchTerm, $searchTerm, $searchTerm];
+        $types = "ssss";
+
+        $result = statement($query, $params, $types);
+        $accounts = [];
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $accounts[] = $row;
+        }
+
+        return $accounts;
+    }
 }

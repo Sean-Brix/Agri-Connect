@@ -17,12 +17,12 @@ export default function User({ user, onDelete, onEdit }) {
                 <div className='flex'>
                     <img
                         src={user.picture || default_picture}
-                        alt={`${user.name}'s profile`}
+                        alt={`${user.username}'s profile`}
                         className="w-12 h-12 rounded-full mr-4"
                     />
                     <div>
-                        <h3 className="text-lg font-semibold">{user.name}</h3>
-                        <p className="text-gray-600">{user.email}</p>
+                        <h3 className="text-lg font-semibold">{user.username}</h3>
+                        <p className="text-gray-600">{user.email_address}</p>
                     </div>
                 </div>
 
@@ -53,10 +53,10 @@ export default function User({ user, onDelete, onEdit }) {
                         <strong>ID:</strong> {user.id}
                     </p>
                     <p>
-                        <strong>Role:</strong> {user.role || 'N/A'}
+                        <strong>Role:</strong> {user.access || 'N/A'}
                     </p>
                     <p>
-                        <strong>Created At:</strong> {user.createdAt || 'N/A'}
+                        <strong>Created At:</strong> {user.created_at || 'N/A'}
                     </p>
                     {/* Add more user details here */}
                 </div>
