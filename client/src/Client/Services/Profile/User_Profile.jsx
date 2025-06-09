@@ -52,7 +52,7 @@ export default function User_Profile() {
                    {/* Profile Information Card */}
                     <div className="bg-white border border-blue-200 rounded-3xl shadow-2xl mb-14 flex flex-col lg:flex-row overflow-hidden transition-all duration-300">
                         {/* Profile Sidebar */}
-                        <div className="bg-gradient-to-b from-blue-800 to-blue-900 flex flex-col items-center justify-center p-12 lg:w-1/3 gap-5">
+                        <div className="bg-gradient-to-b from-blue-300 via-blue-200 to-blue-900 flex flex-col items-center justify-center p-12 lg:w-1/3 gap-5">
                             <div className="rounded-full border-4 border-blue-700 shadow-2xl p-1 mb-2 bg-gradient-to-tr from-blue-700 to-blue-900">
                                 <img
                                     src={me}
@@ -77,7 +77,7 @@ export default function User_Profile() {
                                 </select>
                             ) : (
                                 <span className="text-blue-100 text-base flex items-center gap-2">
-                                    <i className="fa-solid fa-mars"></i> {profile.gender || "Male"}
+                                    <i className="fa-solid fa-mars "></i> {profile.gender || "Male"}
                                 </span>
                             )}
                             {/* Editable Supervisor/Role */}
@@ -87,7 +87,7 @@ export default function User_Profile() {
                                     name="role"
                                     value={profile.role || "Field Supervisor"}
                                     onChange={handleChange}
-                                    className="text-white font-semibold rounded-xl px-4 py-2 bg-blue-800 border border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                                    className="text-white font-semibold rounded-xl px-4 py-2 bg-blue-800 text-center border border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                                 />
                             ) : (
                                 <span className="text-blue-100 text-base flex items-center gap-2">
@@ -244,7 +244,7 @@ export default function User_Profile() {
                     </div>
 
                     {/* More Contents - Dark Themed */}
-                    <div className="bg-blue-900 border border-blue-800 rounded-3xl shadow-2xl p-10 mt-14">
+                    <div className="bg-gradient-to-bl from-blue-200 to-blue-900  border border-blue-800 rounded-3xl shadow-2xl p-10 mt-14">
                         <div className="flex flex-col sm:flex-row items-center mb-8 gap-4">
                             <span className="bg-blue-800 px-8 py-3 rounded-2xl text-2xl font-bold text-white border border-blue-700 shadow-lg flex items-center gap-2">
                                 <i className="fa-solid fa-star text-yellow-400"></i>
@@ -258,9 +258,9 @@ export default function User_Profile() {
                             <li>Community Outreach Volunteer</li>
                         </ul>
                     </div>
-                    <div className="bg-blue-900 border border-blue-800 rounded-3xl shadow-2xl p-10 mt-10">
+                    <div className="bg-gradient-to-bl from-blue-200 to-blue-900 border border-blue-800 rounded-3xl shadow-2xl p-10 mt-10">
                         <div className="flex flex-col sm:flex-row items-center mb-8 gap-4">
-                            <span className="bg-blue-800 px-8 py-3 rounded-2xl text-2xl font-bold text-white border border-blue-700 shadow-lg flex items-center gap-2">
+                            <span className="bg-gradient-to-tr from-blue-700 to-blue-900 px-8 py-3 rounded-2xl text-2xl font-bold text-white border border-blue-700 shadow-lg flex items-center gap-2">
                                 <i className="fa-solid fa-clock-rotate-left text-blue-300"></i>
                                 Recent Activities
                             </span>

@@ -109,7 +109,7 @@ export default function Account() {
       <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-blue-100 to-blue-300 mt-20">
         <div className="w-full max-w-6xl mx-auto my-12 rounded-3xl shadow-2xl overflow-hidden border border-blue-300 bg-blue-50/90 backdrop-blur-lg">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-400 via-blue-200 to-blue-100 px-10 py-12 flex flex-col sm:flex-row items-center gap-10 relative">
+          <div className="bg-gradient-to-r from-blue-200 via-blue-300 to-blue-800 px-10 py-12 flex flex-col sm:flex-row items-center gap-10 relative">
             <div className="absolute top-6 right-8">
               <button className="bg-blue-200 hover:bg-blue-300 text-blue-900 px-5 py-2.5 rounded-xl border border-blue-300 transition font-semibold shadow flex items-center gap-2">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" /></svg>

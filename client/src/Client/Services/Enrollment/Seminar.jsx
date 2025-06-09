@@ -205,21 +205,29 @@ export default function Seminar() {
                   />
                 </div>
               </div>
-              {/* Simple Filter Button with Modern Dropdown */}
-              <div className="relative h-12 flex items-center">
+              {/* Simple Filter Button */}
+              <div className="relative h-12 flex flex-col items-center w-full max-w-xs">
                 <button
-                  className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-blue-700 font-semibold border border-blue-200 shadow transition-all duration-200 hover:bg-blue-50 focus:outline-none text-base sm:text-lg"
+                  className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-blue-700 font-semibold border border-blue-200 shadow transition-all duration-200 hover:bg-blue-50 focus:outline-none text-base sm:text-lg w-full"
                   onClick={() => setShowFilter(f => !f)}
                   type="button"
                   aria-label="Show filter options"
                   style={{ minHeight: '3rem' }}
                 >
                   <i className="fa-solid fa-filter text-blue-400 text-base sm:text-lg"></i>
-                  <span className="hidden sm:inline">{filterBy}</span>
+                  <span className="  sm:inline">{filterBy}</span>
                   <i className={`fa-solid fa-chevron-${showFilter ? 'up' : 'down'} ml-2 text-blue-300`}></i>
                 </button>
+                {/* Dropdown below the filter button */}
                 {showFilter && (
-                  <div className="absolute right-0 mt-2 w-44 sm:w-48 bg-white rounded-2xl shadow-2xl border border-blue-100 z-20 animate-fade-in py-2 px-2">
+                  <div
+                    className="absolute left-0 right-0 translate-y-12 mt-2 bg-white rounded-2xl shadow-2xl border border-blue-100 z-20 animate-fade-in py-2 px-2 w-full sm:w-auto"
+                    style={{
+                      minWidth: '100%',
+                      width: '100%',
+                      maxWidth: '100%',
+                    }}
+                  >
                     {filterOptions.map(opt => (
                       <button
                         key={opt.value}
