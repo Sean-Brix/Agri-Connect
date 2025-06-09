@@ -7,7 +7,7 @@ const equipmentList = [
     {
         name: 'Plows',
         desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
+        img: Shovel,
     },
     {
         name: 'Pandilig',
@@ -16,68 +16,13 @@ const equipmentList = [
     },
     {
         name: 'Plows',
-        desc: 'Pang hukay ng bangkay to boss',
+        desc: 'Used for turning over soil to prepare for planting.',
         img: Shovel,
     },
     {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-    {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-    {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-    {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-    {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-     {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-     {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-     {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-     {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-     {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-     {
-        name: 'Plows',
-        desc: 'Used for turning over soil to prepare for planting.',
-        img: 'plow-image-url',
-    },
-     {
         name: 'Plowsfeef',
         desc: 'Used for turning over soil to prepare for plantingvdffffefefeffef.',
-        img: 'plow-image-url',
+        img: Pandilig,
     },
 ]
 
