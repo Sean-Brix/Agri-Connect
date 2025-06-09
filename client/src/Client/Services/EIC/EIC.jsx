@@ -1,443 +1,330 @@
 import React from 'react';
 import Navbar from '../../Components/Navbar';
+import backg from './Assets/backg.jpg';
 
-import Pandilig from './Assets/pandilig.webp';
-import Shovel from './Assets/shovel.webp';
-import backg  from './Assets/backg.jpg';
+const ITEMS_PER_PAGE = 8;
+
+// Sample equipmentList with multiple categories (Hand Tool, Power Tool, Machinery)
 const equipmentList = [
     {
-        name: 'Tractor',
-        desc: 'A powerful vehicle used for pulling farm machinery and plowing fields.',
-        img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
-      },
-      {
-        name: 'Seeder',
-        desc: 'A machine that plants seeds in the ground.',
-        img: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
-      },
-      {
-        name: 'Sprayer',
-        desc: 'Used for spraying pesticides and fertilizers on crops.',
-        img: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
-      },
-      {
-        name: 'Harvester',
-        desc: 'A machine for harvesting crops efficiently.',
-        img: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=400&q=80',
-      },
-      {
-        name: 'Plow',
-        desc: 'Used for initial cultivation of soil in preparation for sowing seed or planting.',
-        img: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80',
-      },
-      {
-        name: 'Cultivator',
-        desc: 'A tool or machine for loosening the soil and destroying weeds around growing plants.',
-        img: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80',
-      },
-      {
-        name: 'Rotavator',
-        desc: 'A machine with rotating blades for breaking up or tilling soil.',
-        img: 'https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80',
-      },
-      {
-        name: 'Baler',
-        desc: 'A piece of farm machinery used to compress a cut and raked crop into compact bales.',
-        img: 'https://images.unsplash.com/photo-1506084868230-bb9d95c24759?auto=format&fit=crop&w=400&q=80',
-      },
-      {
-        name: 'Pandilig',
-        desc: 'A traditional Filipino hand tool for harvesting rice.',
-        img: Pandilig,
-      },
-      {
+        id: 1,
+        type: 'Hand Tool',
+        name: 'Hoe',
+        variety: 'Hoe',
+        description: 'A tool with a flat blade used to break up soil, remove weeds, and shape the earth.',
+        img: 'https://your-image-host.com/hoe.webp',
+    },
+    {
+        id: 2,
+        type: 'Hand Tool',
         name: 'Shovel',
-        desc: 'A hand tool for digging, lifting, and moving bulk materials.',
-        img: Shovel,
-      },
-      {
-        name: 'Irrigation Pump',
-        desc: 'Used to move water from a source to fields for crop irrigation.',
-        img: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
-      },
-      {
-        name: 'Wheelbarrow',
-        desc: 'A small hand-propelled vehicle, usually with just one wheel, used to carry small loads.',
-        img: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
-      },
-      // Seeds
-      {
-        name: 'Rice Seeds',
-        desc: 'High-quality rice seeds suitable for wet and dry season planting.',
-        img: 'https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=400&q=80',
-      },
-      {
-        name: 'Corn Seeds',
-        desc: 'Hybrid corn seeds for high yield and disease resistance.',
-        img: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
-      },
-      {
-        name: 'Tomato Seeds',
-        desc: 'Premium tomato seeds for greenhouse and open field cultivation.',
-        img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80',
-      },
-      {
-        name: 'Eggplant Seeds',
-        desc: 'Eggplant seeds with good germination and fruit quality.',
-        img: 'https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80',
-      },
-      {
-        name: 'Carrot Seeds',
-        desc: 'Carrot seeds for crisp, sweet roots and high productivity.',
-        img: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80',
-      },
-      {
-        name: 'Cabbage Seeds',
-        desc: 'Cabbage seeds for compact heads and disease resistance.',
-        img: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=400&q=80',
-      },
-      {
-        name: 'String Bean Seeds',
-        desc: 'String bean seeds for vigorous growth and high yield.',
-        img: 'https://images.unsplash.com/photo-1506084868230-bb9d95c24759?auto=format&fit=crop&w=400&q=80',
-      },
-      {
-        name: 'Peanut Seeds',
-        desc: 'Peanut seeds for sandy soils and warm climates.',
-        img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
-      },
+        variety: 'Shovel',
+        description: 'A tool for digging, lifting, and moving bulk materials such as soil or gravel.',
+        img: 'https://your-image-host.com/shovel.webp',
+    },
+    {
+        id: 3,
+        type: 'Power Tool',
+        name: 'Electric Pruner',
+        variety: 'Pruner',
+        description: 'A battery-powered pruner for efficient cutting of branches.',
+        img: 'https://your-image-host.com/electricpruner.webp',
+    },
+    {
+        id: 4,
+        type: 'Power Tool',
+        name: 'Rotary Tiller',
+        variety: 'Tiller',
+        description: 'A motorized cultivator used to prepare soil for planting.',
+        img: 'https://your-image-host.com/tiller.webp',
+    },
+    {
+        id: 5,
+        type: 'Machinery',
+        name: 'Tractor',
+        variety: 'Tractor',
+        description: 'A powerful vehicle used for pulling farm machinery and trailers.',
+        img: 'https://your-image-host.com/tractor.webp',
+    },
+    {
+        id: 6,
+        type: 'Machinery',
+        name: 'Combine Harvester',
+        variety: 'Harvester',
+        description: 'A machine that harvests grain crops efficiently.',
+        img: 'https://your-image-host.com/harvester.webp',
+    },
+    {
+        id: 7,
+        type: 'Hand Tool',
+        name: 'Rake',
+        variety: 'Rake',
+        description: 'A tool with a toothed bar used for collecting leaves, hay, or smoothing soil.',
+        img: 'https://your-image-host.com/rake.webp',
+    },
+    {
+        id: 8,
+        type: 'Power Tool',
+        name: 'Chainsaw',
+        variety: 'Chainsaw',
+        description: 'A portable, mechanical saw powered by electricity or gasoline.',
+        img: 'https://your-image-host.com/chainsaw.webp',
+    },
+    {
+        id: 9,
+        type: 'Machinery',
+        name: 'Plough',
+        variety: 'Plough',
+        description: 'A large farming implement with one or more blades for turning over the soil.',
+        img: 'https://your-image-host.com/plough.webp',
+    },
 ];
 
-// Helper function to truncate description
-const truncate = (str, n) => (str.length > n ? str.slice(0, n) + '...' : str);
-
 export default function Eic() {
+    const [filter, setFilter] = React.useState('All');
     const [search, setSearch] = React.useState('');
-    const [category, setCategory] = React.useState('all');
+    const [currentPage, setCurrentPage] = React.useState(1);
     const [showFilter, setShowFilter] = React.useState(false);
 
-    // Categorize items
-    const categorize = (item) => {
-        const seeds = [
-            'Rice Seeds', 'Corn Seeds', 'Tomato Seeds', 'Eggplant Seeds',
-            'Carrot Seeds', 'Cabbage Seeds', 'String Bean Seeds', 'Peanut Seeds'
-        ];
-        const equipment = [
-            'Tractor', 'Seeder', 'Sprayer', 'Harvester', 'Plow', 'Cultivator',
-            'Rotavator', 'Baler', 'Irrigation Pump'
-        ];
-        const tools = [
-            'Pandilig', 'Shovel', 'Wheelbarrow'
-        ];
-        if (seeds.includes(item.name)) return 'seeds';
-        if (equipment.includes(item.name)) return 'equipment';
-        if (tools.includes(item.name)) return 'tools';
-        return 'others';
-    };
+    // Get unique categories (types)
+    const categories = ['All', ...Array.from(new Set(equipmentList.map(i => i.type)))];
 
-    const allEquipment = equipmentList;
-
-    const filteredEquipment = allEquipment.filter(
-        (item) => {
-            const matchesSearch =
-                item.name.toLowerCase().includes(search.toLowerCase()) ||
-                item.desc.toLowerCase().includes(search.toLowerCase());
-            const matchesCategory =
-                category === 'all' || categorize(item) === category;
-            return matchesSearch && matchesCategory;
-        }
+    // Filtering logic: filter by type (category)
+    const filteredItems = equipmentList.filter(i =>
+        (filter === 'All' || i.type === filter) &&
+        (
+            i.variety.toLowerCase().includes(search.toLowerCase()) ||
+            i.type.toLowerCase().includes(search.toLowerCase()) ||
+            i.name.toLowerCase().includes(search.toLowerCase()) ||
+            i.description.toLowerCase().includes(search.toLowerCase())
+        )
     );
 
-    // Font Awesome icon mapping
-    const faIcons = {
-        equipment: "fa-solid fa-tractor",
-        tools: "fa-solid fa-tools",
-        seeds: "fa-solid fa-seedling",
-        others: "fa-solid fa-ellipsis-h",
-        all: "fa-solid fa-th-large"
-    };
-
-    // Pagination logic
-    const ITEMS_PER_PAGE = 12;
-    const [currentPage, setCurrentPage] = React.useState(1);
-    const [pageTransition, setPageTransition] = React.useState(false);
-
-    // Reset to first page when filter/search changes
     React.useEffect(() => {
         setCurrentPage(1);
-    }, [search, category]);
+    }, [filter, search]);
 
-    const totalPages = Math.ceil(filteredEquipment.length / ITEMS_PER_PAGE);
-
-    // Smooth transition effect when switching pages
-    React.useEffect(() => {
-        setPageTransition(true);
-        const timeout = setTimeout(() => setPageTransition(false), 250);
-        return () => clearTimeout(timeout);
-    }, [currentPage]);
-
-    const paginatedEquipment = filteredEquipment.slice(
+    const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
+    const paginatedItems = filteredItems.slice(
         (currentPage - 1) * ITEMS_PER_PAGE,
         currentPage * ITEMS_PER_PAGE
     );
+
+    const filterBy = filter;
+    const filterOptions = categories.map(c => ({
+        value: c,
+        label: c,
+    }));
+
+    React.useEffect(() => {
+        if (!showFilter) return;
+        const handler = e => {
+            const dropdown = document.getElementById('modernFilterDropdown');
+            const button = document.getElementById('modernFilterButton');
+            if (
+                dropdown &&
+                !dropdown.contains(e.target) &&
+                button &&
+                !button.contains(e.target)
+            ) {
+                setShowFilter(false);
+            }
+        };
+        document.addEventListener('mousedown', handler);
+        return () => document.removeEventListener('mousedown', handler);
+    }, [showFilter]);
+
+    // Icon for type
+    const typeIcon = (type) => {
+        if (type === 'Hand Tool') return <i className="fa-solid fa-seedling text-green-500"></i>;
+        if (type === 'Power Tool') return <i className="fa-solid fa-bolt text-yellow-500"></i>;
+        if (type === 'Machinery') return <i className="fa-solid fa-tractor text-blue-500"></i>;
+        return <i className="fa-solid fa-toolbox text-gray-500"></i>;
+    };
+
     return (
         <>
             <Navbar />
             <div
-                className="flex"
+                className="flex min-h-screen bg-gradient-to-br from-green-900 via-blue-900 to-green-800 relative"
                 style={{
-                    backgroundImage: `url(${backg})`,
+                    backgroundImage: `linear-gradient(rgba(20,30,40,0.85),rgba(20,30,40,0.85)), url(${backg})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
-                    minHeight: '100vh',
-                    position: 'relative',
+                    overflow: 'hidden',
                 }}
             >
-                {/* Softer, less dark overlay */}
-                <div
-                    className="absolute inset-0 z-0 pointer-events-none"
-                    style={{
-                        background: 'rgba(30,35,50,0.65)',
-                        mixBlendMode: 'multiply',
-                    }}
-                ></div>
-                <div
-                    className="flex-1 w-full bg-gradient-to-br from-gray-900/80 to-gray-800/80 relative z-10"
-                    style={{
-                        height: '100vh',
-                        overflowY: 'auto',
-                        scrollbarWidth: 'none',
-                        msOverflowStyle: 'none',
-                    }}
-                >
-                    <div className="relative flex flex-col items-center mt-40 mb-10">
-                        <span className="uppercase tracking-widest text-blue-300 text-sm font-semibold mb-2 letter-spacing-wide">
-                            Welcome to
-                        </span>
-                        <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-blue-400 to-green-200 drop-shadow-lg text-center ">
-                            Equipment & Inventory <br /> Center
-                        </h1>
-                        <div className="mt-3 w-24 h-2 rounded-full bg-gradient-to-r from-blue-400 via-green-400 to-blue-400 opacity-80 animate-pulse"></div>
-                    </div>
-                    <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10">
-                        <div className="flex flex-col sm:flex-row items-center justify-between mb-10 gap-6">
-                            <div className="flex w-full max-w-xl gap-3">
-                                {/* Modern Search Bar */}
-                                <div className="relative flex-1">
+                <main className="flex-1 w-full relative z-10 mt-30">
+                    <section className="w-full px-2 sm:px-4 flex flex-col items-center pt-16 ">
+                        <header className="flex flex-col items-center mb-10">
+                            <span className="uppercase tracking-widest text-blue-300 text-xs font-medium mb-1 letter-spacing-wide">
+                                Welcome to
+                            </span>
+                            <h1 className="text-4xl xs:text-2xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-blue-400 to-green-200 drop-shadow-lg text-center">
+                                Farming Equipment & Inventory Center
+                            </h1>
+                            <div className="mt-3 w-16 sm:w-24 h-2 rounded-full bg-gradient-to-r from-blue-400 via-green-400 to-blue-400 opacity-80 animate-pulse"></div>
+                        </header>
+                        {/* Search and Modern Filter */}
+                        <div className="flex flex-row items-center w-full max-w-3xl mt-4 mb-8 gap-3">
+                            {/* Search Bar */}
+                            <div className="flex flex-none min-w-1/2 max-w-xs gap-2 bg-white/90 rounded-2xl shadow-lg px-4 py-1 items-center border border-blue-100 h-12">
+                                <div className="relative w-full">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400">
+                                        <i className="fa-solid fa-magnifying-glass"></i>
+                                    </span>
                                     <input
                                         type="text"
-                                        placeholder="Search equipment..."
+                                        className="w-full pl-10 pr-4 py-2 rounded-xl border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-900 bg-transparent transition placeholder:text-gray-400"
+                                        placeholder="Search by name, type, description..."
                                         value={search}
-                                        onChange={(e) => setSearch(e.target.value)}
-                                        className="w-full pl-14 pr-4 py-4 rounded-2xl border border-gray-200 bg-white/90 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 transition placeholder-gray-400 shadow-lg focus:shadow-xl text-base"
-                                        style={{
-                                            boxShadow: '0 2px 16px 0 rgba(34,197,94,0.08)',
-                                            transition: 'box-shadow 0.2s',
-                                        }}
+                                        onChange={e => setSearch(e.target.value)}
                                     />
-                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
-                                        <svg
-                                            className="w-6 h-6 text-blue-400"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <circle cx="11" cy="11" r="8" />
-                                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                                        </svg>
-                                    </span>
-                                    {search && (
-                                        <button
-                                            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-500 transition"
-                                            onClick={() => setSearch('')}
-                                            aria-label="Clear search"
-                                            tabIndex={0}
-                                            type="button"
-                                        >
-                                            <svg
-                                                className="w-5 h-5"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth="2"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <line x1="18" y1="6" x2="6" y2="18" />
-                                                <line x1="6" y1="6" x2="18" y2="18" />
-                                            </svg>
-                                        </button>
-                                    )}
                                 </div>
-                                <div className="relative flex-shrink-0">
-                                    <button
-                                        className="flex items-center gap-2 pl-4 pr-6 py-1 rounded-full border border-gray-200 bg-white/80 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-900 text-blue-700 shadow transition-all duration-200 h-14 font-semibold text-base"
-                                        onClick={() => setShowFilter((prev) => !prev)}
-                                        title="Filter"
-                                        type="button"
-                                        style={{
-                                            background: '#f8fafc',
-                                            color: '#2563eb',
-                                            boxShadow: '0 4px 14px 0 rgba(34,197,94,0.08)'
-                                        }}
+                            </div>
+                            {/* Modern Filter Button with Dropdown */}
+                            <div className="relative h-12 flex items-center">
+                                <button
+                                    id="modernFilterButton"
+                                    className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-blue-700 font-semibold border border-blue-200 shadow transition-all duration-200 hover:bg-blue-50 focus:outline-none text-base sm:text-lg"
+                                    onClick={() => setShowFilter(f => !f)}
+                                    type="button"
+                                    aria-label="Show filter options"
+                                    style={{ minHeight: '3rem' }}
+                                >
+                                    <i className="fa-solid fa-filter text-blue-400 text-base sm:text-lg"></i>
+                                    <span className="hidden sm:inline">{filterBy}</span>
+                                    <i className={`fa-solid fa-chevron-${showFilter ? 'up' : 'down'} ml-2 text-blue-300`}></i>
+                                </button>
+                                {showFilter && (
+                                    <div
+                                        id="modernFilterDropdown"
+                                        className="absolute left-0 top-full mt-2 w-44 sm:w-48 bg-white rounded-2xl shadow-2xl border border-blue-100 z-20 animate-fade-in py-2 px-2"
+                                        style={{ minWidth: '100%' }}
                                     >
-                                        <i className="fa-solid fa-filter text-blue-400 text-lg"></i>
-                                        <span className="hidden sm:inline">Filter</span>
-                                        <svg
-                                            className={`ml-2 w-4 h-4 transition-transform duration-200 ${showFilter ? 'rotate-180' : ''}`}
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </button>
-                                    {showFilter && (
-                                        <div className="absolute top-16 right-0 z-20 bg-white border border-gray-200 rounded-2xl shadow-2xl w-56 p-5 animate-fade-in flex flex-col gap-2">
-                                            <h2 className="text-base font-bold mb-2 text-gray-700 tracking-wide">Filter by Category</h2>
-                                            <ul className="space-y-2">
-                                                <li>
-                                                    <button
-                                                        className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
-                                                            category === 'all'
-                                                                ? 'bg-blue-100 text-blue-900 font-semibold shadow'
-                                                                : 'bg-white text-gray-700 hover:bg-blue-50'
-                                                        }`}
-                                                        onClick={() => { setCategory('all'); setShowFilter(false); }}
-                                                    >
-                                                        <i className={faIcons.all}></i> All
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button
-                                                        className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
-                                                            category === 'equipment'
-                                                                ? 'bg-blue-100 text-blue-900 font-semibold shadow'
-                                                                : 'bg-white text-gray-700 hover:bg-blue-50'
-                                                        }`}
-                                                        onClick={() => { setCategory('equipment'); setShowFilter(false); }}
-                                                    >
-                                                        <i className={faIcons.equipment}></i> Equipment
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button
-                                                        className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
-                                                            category === 'tools'
-                                                                ? 'bg-blue-100 text-blue-900 font-semibold shadow'
-                                                                : 'bg-white text-gray-700 hover:bg-blue-50'
-                                                        }`}
-                                                        onClick={() => { setCategory('tools'); setShowFilter(false); }}
-                                                    >
-                                                        <i className={faIcons.tools}></i> Tools
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button
-                                                        className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
-                                                            category === 'seeds'
-                                                                ? 'bg-blue-100 text-blue-900 font-semibold shadow'
-                                                                : 'bg-white text-gray-700 hover:bg-blue-50'
-                                                        }`}
-                                                        onClick={() => { setCategory('seeds'); setShowFilter(false); }}
-                                                    >
-                                                        <i className={faIcons.seeds}></i> Seeds
-                                                    </button>
-                                                </li>
-                                                <li>
-                                                    <button
-                                                        className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
-                                                            category === 'others'
-                                                                ? 'bg-blue-100 text-blue-900 font-semibold shadow'
-                                                                : 'bg-white text-gray-700 hover:bg-blue-50'
-                                                        }`}
-                                                        onClick={() => { setCategory('others'); setShowFilter(false); }}
-                                                    >
-                                                        <i className={faIcons.others}></i> Others
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    )}
+                                        {filterOptions.map(opt => (
+                                            <button
+                                                key={opt.value}
+                                                className={`flex items-center gap-3 w-full text-left px-3 sm:px-4 py-2 rounded-xl font-semibold transition text-sm sm:text-base ${
+                                                    filterBy === opt.value
+                                                        ? 'bg-blue-600 text-white'
+                                                        : 'text-blue-700 hover:bg-blue-50'
+                                                }`}
+                                                onClick={() => {
+                                                    setFilter(opt.value);
+                                                    setShowFilter(false);
+                                                }}
+                                            >
+                                                {typeIcon(opt.value)}
+                                                {opt.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                                {/* Mobile: Icon button triggers native select */}
+                                <div className="sm:hidden absolute left-0 top-0 w-full h-full pointer-events-none">
+                                    <select
+                                        className="opacity-0 absolute w-full h-full pointer-events-auto"
+                                        value={filter}
+                                        onChange={e => setFilter(e.target.value)}
+                                        aria-label="Filter by category"
+                                    >
+                                        {categories.map(c => (
+                                            <option key={c} value={c}>{c}</option>
+                                        ))}
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                        <div
-                            className={`grid gap-8 grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 transition-all duration-300 ${
-                                pageTransition ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
-                            }`}
-                        >
-                            {paginatedEquipment.map((item, idx) => {
-                                const cat = categorize(item);
-                                let iconClass = faIcons[cat] || faIcons.others;
-                                return (
-                                    <div
-                                        key={idx}
-                                        className="bg-white/90 border border-gray-200  shadow-lg hover:shadow-2xl transition-shadow duration-200 flex flex-col p-0 group relative overflow-hidden w-full max-w-xs mx-auto sm:max-w-sm md:max-w-none"
-                                        style={{
-                                            width: '100%',
-                                            maxWidth: '20rem',
-                                            backdropFilter: 'blur(2px)',
-                                        }}
-                                    >
-                                        <div
-                                            className="relative w-full bg-gradient-to-br from-blue-100 via-green-50 to-white flex items-center justify-center overflow-hidden rounded-t-3xl"
-                                            style={{
-                                                height: '12rem',
-                                            }}
-                                        >
-                                            <img
-                                                src={item.img}
-                                                alt={item.name}
-                                                className="object-contain w-40 h-40 sm:w-52 sm:h-52 md:w-60 md:h-60 drop-shadow " 
-                                                style={{
-                                                    filter: 'drop-shadow(0 4px 12px rgba(34,197,94,0.10))'
-                                                }}
-                                            />
-                                            <span className="absolute top-3 right-3 inline-flex items-center gap-1 bg-white/80 text-blue-700 text-xs px-3 py-1 rounded-full font-semibold capitalize shadow-sm border border-blue-100">
-                                                <i className={iconClass}></i>
-                                                {item.name}
-                                            </span>
-                                        </div>
-                                        <div className="flex-1 flex flex-col px-4 py-4 sm:px-6 sm:py-5">
-                                            <p className="text-blue-900 text-base font-semibold mb-2 text-center flex items-center justify-center gap-2">
-                                                <i className={iconClass}></i>
-                                                {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
-                                            </p>
-                                            <p
-                                                className="text-gray-600 text-sm mb-6 text-center overflow-hidden text-ellipsis whitespace-nowrap"
-                                                title={item.desc}
-                                            >
-                                                {truncate(item.desc, 60)}
-                                            </p>
-                                            <div className="flex gap-2 mt-auto w-full justify-center">
-                                                <button className="bg-blue-500 text-white px-5 py-4 rounded-xl hover:bg-blue-600 text-xs font-semibold shadow transition-colors">
-                                                    Borrow
-                                                </button>
-                                                <button className="bg-gray-100 border border-gray-300 px-5 py-4 rounded-xl hover:bg-gray-200 text-xs font-semibold text-blue-700 transition-colors">
-                                                    Details
-                                                </button>
+                        {/* Cards */}
+                        <div className="grid gap-6 sm:gap-8 md:gap-10 grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl">
+                            {paginatedItems.map((item) => (
+                                <div
+                                    key={item.id}
+                                    className="bg-white rounded-3xl shadow border border-gray-200 flex flex-col hover:scale-[1.025] hover:shadow-lg transition-transform duration-300"
+                                >
+                                    <div className="p-4 sm:p-7 flex-1 flex flex-col">
+                                        <div className="flex items-center mb-4 sm:mb-5">
+                                            <div className="relative">
+                                                <img
+                                                    src={item.img}
+                                                    alt={item.name}
+                                                    className="w-16 h-16 sm:w-24 sm:h-24 object-cover rounded-2xl shadow border-4 border-white outline-2 outline-blue-400"
+                                                />
+                                                <span className="absolute -bottom-2 -right-2 bg-gray-200 text-gray-700 text-[10px] sm:text-xs px-2 py-1 rounded-full shadow font-bold flex items-center gap-1">
+                                                    {typeIcon(item.type)}
+                                                    {item.type}
+                                                </span>
+                                            </div>
+                                            <div className="ml-4 sm:ml-6">
+                                                <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-1 flex items-center gap-2">
+                                                    {item.variety}
+                                                    {typeIcon(item.type)}
+                                                </h2>
+                                                <span className="text-[10px] sm:text-xs text-gray-400 font-mono tracking-wider">#ID-00{item.id}</span>
                                             </div>
                                         </div>
+                                        <dl className="mb-5 sm:mb-7 grid grid-cols-1 gap-x-4 sm:gap-x-6 gap-y-2 sm:gap-y-3 text-xs sm:text-base text-gray-700">
+                                            <div>
+                                                <dt className="font-semibold text-gray-500 flex items-center gap-1">
+                                                    <i className="fa-solid fa-align-left text-blue-400"></i>
+                                                    Description
+                                                </dt>
+                                                <dd className="text-gray-900">{item.description}</dd>
+                                            </div>
+                                            <div className="flex items-center gap-4">
+                                                <div>
+                                                    <dt className="font-semibold text-gray-500 flex items-center gap-1 ">
+                                                        <i className="fa-solid fa-circle-check text-blue-400"></i>
+                                                        Status
+                                                    </dt>
+                                                    <dd>
+                                                        <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-gray-200 text-gray-700 text-[10px] sm:text-xs font-semibold shadow gap-1">
+                                                            <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                                <circle cx="10" cy="10" r="10" />
+                                                            </svg>
+                                                            Available
+                                                        </span>
+                                                    </dd>
+                                                </div>
+                                                <div>
+                                                    <dt className="font-semibold text-gray-500 flex items-center gap-1">
+                                                        <i className="fa-solid fa-calendar-days text-green-400"></i>
+                                                        Category
+                                                    </dt>
+                                                    <dd className="text-gray-900">{item.type}</dd>
+                                                </div>
+                                            </div>
+                                        </dl>
                                     </div>
-                                );
-                            })}
+                                    <div className="px-4 sm:px-7 pb-4 sm:pb-7 flex gap-2">
+                                        <button className="flex-1 bg-blue-700 text-white text-xs sm:text-base px-3 sm:px-5 py-2 sm:py-3 rounded-xl font-bold shadow hover:bg-blue-800 transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2">
+                                            <i className="fa-solid fa-check"></i>
+                                            Borrow
+                                        </button>
+                                        <button className="flex-1 bg-gray-200 text-blue-700 text-xs sm:text-base px-3 sm:px-5 py-2 sm:py-3 rounded-xl font-bold shadow hover:bg-blue-100 transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2">
+                                            <i className="fa-solid fa-circle-info"></i>
+                                            Details
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                        {filteredEquipment.length === 0 && (
-                            <div className="text-center text-gray-500 mt-16 text-lg flex flex-col items-center justify-center gap-2">
-                                <i className="fa-regular fa-face-frown text-5xl text-gray-700 mb-2"></i>
-                                No equipment found.
+                        {filteredItems.length === 0 && (
+                            <div className="text-center text-blue-300 py-10 sm:py-16 text-base sm:text-lg font-medium">
+                                No items found for this category.
                             </div>
                         )}
-                        {/* Pagination Controls - new style */}
+                        {/* Pagination Controls */}
                         {totalPages > 1 && (
-                            <div className="flex justify-center mt-10 space-x-2">
+                            <div className="flex flex-wrap justify-center mt-10 gap-2 items-center mb-6">
                                 <button
-                                    className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 disabled:opacity-50"
+                                    className="px-3 py-1.5 rounded-xl bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200 disabled:opacity-50 transition"
                                     onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                                     disabled={currentPage === 1}
+                                    aria-label="Previous page"
                                 >
-                                    Previous
+                                    <i className="fa-solid fa-chevron-left"></i>
                                 </button>
                                 {Array.from({ length: totalPages }, (_, i) => (
                                     <button
@@ -453,22 +340,54 @@ export default function Eic() {
                                     </button>
                                 ))}
                                 <button
-                                    className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 disabled:opacity-50"
+                                    className="px-3 py-1.5 rounded-xl bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200 disabled:opacity-50 transition"
                                     onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                                     disabled={currentPage === totalPages}
+                                    aria-label="Next page"
                                 >
-                                    Next
+                                    <i className="fa-solid fa-chevron-right"></i>
                                 </button>
                             </div>
                         )}
-                    </div>
-                </div>
+                    </section>
+                </main>
             </div>
             <style>{`
                 .letter-spacing-wide {
                     letter-spacing: 0.15em;
                 }
+               @media (max-width: 640px) {
+            .text-4xl, .md\:text-5xl { font-size: 1.7rem !important; }
+            .text-2xl, .sm\:text-2xl { font-size: 1.2rem !important; }
+            .text-3xl, .sm\:text-3xl { font-size: 1.5rem !important; }
+
+                .animate-fade-in {
+                    animation: fadeIn 0.2s;
+                }
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(10px);}
+                    to { opacity: 1; transform: translateY(0);}
+                }
+                html, body, #root {
+                    scrollbar-width: none;
+                    -ms-overflow-style: none;
+                }
+                html::-webkit-scrollbar, body::-webkit-scrollbar, #root::-webkit-scrollbar {
+                    display: none;
+                }
+     /* Hide scrollbar for all browsers */
+    html, body, #root {
+        scrollbar-width: none;        /* Firefox */
+        -ms-overflow-style: none;     /* IE and Edge */
+    }
+    html::-webkit-scrollbar, 
+    body::-webkit-scrollbar, 
+    #root::-webkit-scrollbar {
+        display: none;                /* Chrome, Safari, Opera */
+    }
             `}</style>
+            {/* FontAwesome CDN for icons */}
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
         </>
     );
 }

@@ -1,28 +1,31 @@
-// Replace all occurrences of "quantity" with "description" in the data and UI
-
 import React from 'react';
 import Navbar from '../../Components/Navbar';
 import backg from './Assets/backg.jpg';
 
 const ITEMS_PER_PAGE = 8;
 
+// Sample items per farming-related category
 const initialItems = [
+    // Fertilizer
     { id: 1, type: 'Fertilizer', variety: 'Urea', description: 'High-nitrogen fertilizer for rapid plant growth', date: '2024-06-10', status: 'Delivered' },
     { id: 2, type: 'Fertilizer', variety: 'DAP', description: 'Di-ammonium phosphate for root development', date: '2024-06-10', status: 'Delivered' },
-    { id: 3, type: 'Seed', variety: 'Maize', description: 'Hybrid maize seeds for high yield', date: '2024-06-10', status: 'Delivered' },
-    { id: 4, type: 'Seed', variety: 'Wheat', description: 'Premium wheat seeds for bread making', date: '2024-06-10', status: 'Delivered' },
-    { id: 5, type: 'Fertilizer', variety: 'Urea', description: 'Urea for nitrogen supplementation', date: '2024-06-10', status: 'Delivered' },
-    { id: 6, type: 'Seed', variety: 'Maize', description: 'Maize seeds suitable for all climates', date: '2024-06-10', status: 'Delivered' },
-    { id: 7, type: 'Fertilizer', variety: 'NPK', description: 'Balanced NPK fertilizer for all crops', date: '2024-06-11', status: 'Delivered' },
-    { id: 8, type: 'Seed', variety: 'Rice', description: 'High-yield rice seeds', date: '2024-06-11', status: 'Delivered' },
-    { id: 9, type: 'Fertilizer', variety: 'Ammonium Sulfate', description: 'Sulfur-rich fertilizer for soil health', date: '2024-06-12', status: 'Delivered' },
-    { id: 10, type: 'Seed', variety: 'Barley', description: 'Barley seeds for brewing and feed', date: '2024-06-12', status: 'Delivered' },
-    { id: 11, type: 'Fertilizer', variety: 'Potash', description: 'Potassium fertilizer for fruiting', date: '2024-06-13', status: 'Delivered' },
-    { id: 12, type: 'Seed', variety: 'Sorghum', description: 'Drought-resistant sorghum seeds', date: '2024-06-13', status: 'Delivered' },
-    { id: 13, type: 'Fertilizer', variety: 'Lime', description: 'Lime for soil pH adjustment', date: '2024-06-14', status: 'Delivered' },
-    { id: 14, type: 'Seed', variety: 'Soybean', description: 'Soybean seeds for protein-rich crops', date: '2024-06-14', status: 'Delivered' },
-    { id: 15, type: 'Fertilizer', variety: 'Gypsum', description: 'Gypsum for soil structure improvement', date: '2024-06-15', status: 'Delivered' },
-    { id: 16, type: 'Seed', variety: 'Millet', description: 'Millet seeds for arid regions', date: '2024-06-15', status: 'Delivered' }
+    { id: 3, type: 'Fertilizer', variety: 'NPK', description: 'Balanced NPK fertilizer for all crops', date: '2024-06-11', status: 'Delivered' },
+    // Seed
+    { id: 4, type: 'Seed', variety: 'Maize', description: 'Hybrid maize seeds for high yield', date: '2024-06-10', status: 'Delivered' },
+    { id: 5, type: 'Seed', variety: 'Wheat', description: 'Premium wheat seeds for bread making', date: '2024-06-10', status: 'Delivered' },
+    { id: 6, type: 'Seed', variety: 'Rice', description: 'High-yield rice seeds', date: '2024-06-11', status: 'Delivered' },
+    // Equipment
+    { id: 7, type: 'Equipment', variety: 'Tractor', description: '4WD tractor for plowing and tilling', date: '2024-06-12', status: 'Delivered' },
+    { id: 8, type: 'Equipment', variety: 'Plough', description: 'Disc plough for soil preparation', date: '2024-06-12', status: 'Delivered' },
+    // Pesticide
+    { id: 9, type: 'Pesticide', variety: 'Herbicide', description: 'Weed control for maize fields', date: '2024-06-13', status: 'Delivered' },
+    { id: 10, type: 'Pesticide', variety: 'Insecticide', description: 'Protects crops from insect pests', date: '2024-06-13', status: 'Delivered' },
+    // Irrigation
+    { id: 11, type: 'Irrigation', variety: 'Drip Kit', description: 'Drip irrigation kit for water efficiency', date: '2024-06-14', status: 'Delivered' },
+    { id: 12, type: 'Irrigation', variety: 'Sprinkler', description: 'Sprinkler system for even watering', date: '2024-06-14', status: 'Delivered' },
+    // Animal Feed
+    { id: 13, type: 'Animal Feed', variety: 'Cattle Feed', description: 'Nutrient-rich feed for dairy cattle', date: '2024-06-15', status: 'Delivered' },
+    { id: 14, type: 'Animal Feed', variety: 'Poultry Feed', description: 'Balanced feed for poultry growth', date: '2024-06-15', status: 'Delivered' },
 ];
 
 export default function Distribution() {
@@ -30,11 +33,12 @@ export default function Distribution() {
     const [search, setSearch] = React.useState('');
     const [currentPage, setCurrentPage] = React.useState(1);
 
-    const varieties = ['All', ...Array.from(new Set(initialItems.map(i => i.variety)))];
+    // Categories for filter
+    const categories = ['All', ...Array.from(new Set(initialItems.map(i => i.type)))];
 
-    // Filtering logic
+    // Filtering logic (by category/type)
     const filteredItems = initialItems.filter(i =>
-        (filter === 'All' || i.variety === filter) &&
+        (filter === 'All' || i.type === filter) &&
         (
             i.variety.toLowerCase().includes(search.toLowerCase()) ||
             i.type.toLowerCase().includes(search.toLowerCase()) ||
@@ -56,9 +60,9 @@ export default function Distribution() {
     // State for modern filter button
     const [showFilter, setShowFilter] = React.useState(false);
 
-    // For this context, filterBy is the selected variety
+    // For this context, filterBy is the selected category
     const filterBy = filter;
-    const filterOptions = varieties.map(v => ({
+    const filterOptions = categories.map(v => ({
         value: v,
         label: v,
     }));
@@ -169,9 +173,9 @@ export default function Distribution() {
                                         className="opacity-0 absolute w-full h-full pointer-events-auto"
                                         value={filter}
                                         onChange={e => setFilter(e.target.value)}
-                                        aria-label="Filter by variety"
+                                        aria-label="Filter by category"
                                     >
-                                        {varieties.map(v => (
+                                        {categories.map(v => (
                                             <option key={v} value={v}>{v}</option>
                                         ))}
                                     </select>
@@ -196,8 +200,18 @@ export default function Distribution() {
                                             <span className="absolute -bottom-2 -right-2 bg-gray-200 text-gray-700 text-[10px] sm:text-xs px-2 py-1 rounded-full shadow font-bold flex items-center gap-1">
                                                 {item.type === 'Fertilizer' ? (
                                                     <i className="fa-solid fa-flask text-blue-500"></i>
-                                                ) : (
+                                                ) : item.type === 'Seed' ? (
                                                     <i className="fa-solid fa-seedling text-green-500"></i>
+                                                ) : item.type === 'Equipment' ? (
+                                                    <i className="fa-solid fa-tractor text-orange-500"></i>
+                                                ) : item.type === 'Pesticide' ? (
+                                                    <i className="fa-solid fa-bug text-red-500"></i>
+                                                ) : item.type === 'Irrigation' ? (
+                                                    <i className="fa-solid fa-water text-blue-400"></i>
+                                                ) : item.type === 'Animal Feed' ? (
+                                                    <i className="fa-solid fa-cow text-yellow-600"></i>
+                                                ) : (
+                                                    <i className="fa-solid fa-leaf text-green-400"></i>
                                                 )}
                                                 {item.type}
                                             </span>
@@ -207,8 +221,18 @@ export default function Distribution() {
                                                 {item.variety}
                                                 {item.type === 'Fertilizer' ? (
                                                     <i className="fa-solid fa-flask text-blue-400"></i>
-                                                ) : (
+                                                ) : item.type === 'Seed' ? (
                                                     <i className="fa-solid fa-seedling text-green-400"></i>
+                                                ) : item.type === 'Equipment' ? (
+                                                    <i className="fa-solid fa-tractor text-orange-400"></i>
+                                                ) : item.type === 'Pesticide' ? (
+                                                    <i className="fa-solid fa-bug text-red-400"></i>
+                                                ) : item.type === 'Irrigation' ? (
+                                                    <i className="fa-solid fa-water text-blue-400"></i>
+                                                ) : item.type === 'Animal Feed' ? (
+                                                    <i className="fa-solid fa-cow text-yellow-600"></i>
+                                                ) : (
+                                                    <i className="fa-solid fa-leaf text-green-400"></i>
                                                 )}
                                             </h2>
                                             <span className="text-[10px] sm:text-xs text-gray-400 font-mono tracking-wider">#ID-00{item.id}</span>
@@ -262,7 +286,7 @@ export default function Distribution() {
                     </div>
                     {filteredItems.length === 0 && (
                         <div className="text-center text-blue-300 py-10 sm:py-16 text-base sm:text-lg font-medium">
-                            No items found for this variety.
+                            No items found for this category.
                         </div>
                     )}
                     {/* Pagination Controls */}
@@ -306,6 +330,15 @@ export default function Distribution() {
                 .letter-spacing-wide {
                     letter-spacing: 0.15em;
                 }
+    html, body, #root {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    html::-webkit-scrollbar, 
+    body::-webkit-scrollbar, 
+    #root::-webkit-scrollbar {
+        display: none;
+    }
                @media (max-width: 640px) {
             .text-4xl, .md\:text-5xl { font-size: 1.7rem !important; }
             .text-2xl, .sm\:text-2xl { font-size: 1.2rem !important; }
