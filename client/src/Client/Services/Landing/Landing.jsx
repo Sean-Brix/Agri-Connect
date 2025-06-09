@@ -12,6 +12,7 @@ import img3 from './Assets/3.jpg'
 import img4 from './Assets/4.jpg'
 import img5 from './Assets/rabies.jpg'
 import img6 from './Assets/bg.jpg'
+import video from './Assets/bgs.mp4'
 
 export default function Landing() {
 
@@ -91,11 +92,16 @@ export default function Landing() {
                             reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700
                         "
                     >
-                        {/* Background image overlay */}
-                        <img
-                            src={img6}
-                            alt="Background"
-                            className="absolute inset-0 w-full h-full object-cover z-0 opacity-50"
+                       
+                        <video
+                            src={video}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="absolute inset-0 w-full h-full object-cover z-0 opacity-60"
+                            style={{ animation: 'none', transition: 'none' }}
+                            playbackRate={0.3}
                         />
                         {/* Text and Buttons */}
                         <div className="flex-1 flex flex-col items-center justify-center relative z-10 text-center">
