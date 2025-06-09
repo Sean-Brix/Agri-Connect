@@ -19,11 +19,6 @@ const equipmentList = [
         desc: 'Used for turning over soil to prepare for planting.',
         img: Shovel,
     },
-    {
-        name: 'Plowsfeef',
-        desc: 'Used for turning over soil to prepare for plantingvdffffefefeffef.',
-        img: Pandilig,
-    },
 ]
 
 export default function Items() {
