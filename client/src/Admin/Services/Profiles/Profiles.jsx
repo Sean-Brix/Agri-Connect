@@ -54,7 +54,9 @@ export default function Profiles() {
             <h1 className="text-3xl font-bold mt-[8%] text-center text-gray-800 mb-6">
                 Account Management
             </h1>
+
             <hr />
+
             <div className="relative p-2 mt-6 flex justify-between">
                 <div className="mb-2 w-[45%]">
                     <input
@@ -89,9 +91,7 @@ export default function Profiles() {
                         <User 
                             key={index}
                             user={user}
-                            onDelete={() => {
-                                alert('Deleted');
-                            }}
+
                             onEdit={() => {
                                 alert('Edited');
                             }}
