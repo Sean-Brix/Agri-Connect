@@ -524,7 +524,7 @@ export default function Landing() {
                                                                 </a>
                                                             </div>
                                                         </section>
-                                            <footer className="bg-gray-950 text-green-100 pt-12 pb-8">
+                                            <footer className="bg-green-950 text-green-100 pt-12 pb-8">
                                                 <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row md:items-start md:justify-between gap-10">
                                                     {/* Brand & Description */}
                     <div className="flex-1 mb-8 md:mb-0">

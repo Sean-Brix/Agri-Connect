@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Router } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import logo from '../../Assets/Logo.png'; // Adjust the path as necessary
 
 export default function Navbar() {
     const [open, setOpen] = useState(false);
@@ -34,37 +35,14 @@ export default function Navbar() {
         <nav className="bg-white shadow-lg fixed w-full z-30 top-0 left-0">
             <div className="max-w-7xl mx-auto flex items-center justify-between px-2 md:px-8 py-6">
                 {/* Logo */}
-                <svg
-                    className="w-8 h-8 text-green-600 ml-4"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    aria-hidden="true"
-                >
-                    <circle
-                        cx="16"
-                        cy="16"
-                        r="15"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        fill="#bbf7d0"
-                    />
-                    <path
-                        d="M10 20c0-4 6-10 6-10s6 6 6 10a6 6 0 01-12 0z"
-                        fill="#22c55e"
-                        stroke="#166534"
-                        strokeWidth="1.5"
-                    />
-                    <ellipse cx="16" cy="20" rx="4" ry="2" fill="#a3e635" />
-                    <path
-                        d="M16 10v4"
-                        stroke="#166534"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                    />
-                </svg>
+                <img
+                    src={logo}
+                    alt="FITS -Tanza Logo"
+                    className="w-10 h-10 object-contain ml-4"
+                />
                 <Link
                     to="/"
-                    className="flex items-center gap-2 font-extrabold text-2xl px-2  text-blue-700 md:text-2xl"
+                    className="flex items-center gap-2 font-extrabold text-2xl px-2 text-blue-700 md:text-2xl"
                 >
                     FITS -Tanza
                 </Link>
