@@ -214,7 +214,7 @@ export default function Eic() {
                         <span className="uppercase tracking-widest text-blue-300 text-sm font-semibold mb-2 letter-spacing-wide">
                             Welcome to
                         </span>
-                        <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-blue-400 to-green-200 drop-shadow-lg text-center ">
+                        <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-blue-400 to-green-200 drop-shadow-lg text-center ">
                             Equipment & Inventory <br /> Center
                         </h1>
                         <div className="mt-3 w-24 h-2 rounded-full bg-gradient-to-r from-blue-400 via-green-400 to-blue-400 opacity-80 animate-pulse"></div>
@@ -429,63 +429,46 @@ export default function Eic() {
                                 No equipment found.
                             </div>
                         )}
+                        {/* Pagination Controls - new style */}
                         {totalPages > 1 && (
-                            <div className="flex justify-center mt-10">
-                                <nav className="inline-flex items-center gap-1 rounded-xl shadow bg-white/90 px-2 py-2 border border-gray-200">
+                            <div className="flex justify-center mt-10 space-x-2">
+                                <button
+                                    className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 disabled:opacity-50"
+                                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                    disabled={currentPage === 1}
+                                >
+                                    Previous
+                                </button>
+                                {Array.from({ length: totalPages }, (_, i) => (
                                     <button
-                                        className="px-3 py-2 rounded-l-lg bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition disabled:opacity-40 disabled:cursor-not-allowed"
-                                        onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                                        disabled={currentPage === 1}
-                                        aria-label="Previous"
+                                        key={i}
+                                        className={`px-4 py-2 rounded-lg font-semibold ${
+                                            currentPage === i + 1
+                                                ? 'bg-blue-700 text-white'
+                                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                        }`}
+                                        onClick={() => setCurrentPage(i + 1)}
                                     >
-                                        <i className="fa-solid fa-chevron-left"></i>
+                                        {i + 1}
                                     </button>
-                                    {Array.from({ length: totalPages }, (_, i) => {
-                                        if (
-                                            i === 0 ||
-                                            i === totalPages - 1 ||
-                                            Math.abs(i + 1 - currentPage) <= 1
-                                        ) {
-                                            return (
-                                                <button
-                                                    key={i}
-                                                    className={`px-3 py-2 rounded-lg font-semibold transition ${
-                                                        currentPage === i + 1
-                                                            ? 'bg-blue-500 text-white shadow'
-                                                            : 'bg-white text-blue-700 hover:bg-blue-50'
-                                                    }`}
-                                                    onClick={() => setCurrentPage(i + 1)}
-                                                >
-                                                    {i + 1}
-                                                </button>
-                                            );
-                                        }
-                                        if (
-                                            (i === 1 && currentPage > 3) ||
-                                            (i === totalPages - 2 && currentPage < totalPages - 2)
-                                        ) {
-                                            return (
-                                                <span key={i} className="px-2 text-gray-400 select-none">
-                                                    ...
-                                                </span>
-                                            );
-                                        }
-                                        return null;
-                                    })}
-                                    <button
-                                        className="px-3 py-2 rounded-r-lg bg-blue-100 text-blue-700 font-semibold hover:bg-blue-200 transition disabled:opacity-40 disabled:cursor-not-allowed"
-                                        onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                                        disabled={currentPage === totalPages}
-                                        aria-label="Next"
-                                    >
-                                        <i className="fa-solid fa-chevron-right"></i>
-                                    </button>
-                                </nav>
+                                ))}
+                                <button
+                                    className="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 disabled:opacity-50"
+                                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                    disabled={currentPage === totalPages}
+                                >
+                                    Next
+                                </button>
                             </div>
                         )}
                     </div>
                 </div>
             </div>
+            <style>{`
+                .letter-spacing-wide {
+                    letter-spacing: 0.15em;
+                }
+            `}</style>
         </>
     );
 }

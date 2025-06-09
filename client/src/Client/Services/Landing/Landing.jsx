@@ -79,7 +79,7 @@ export default function Landing() {
     return (
         <>
             <Navbar />
-            <main className="bg-gradient-to-br from-green-50 to-green-100 min-h-screen  ">
+            <main className="bg-gradient-to-br from-green-50 to-green-100 min-h-screen   ">
                 <section className="max-w-6xl mx-auto px-4 py-30 mb-0">
                     
                     <div
@@ -167,7 +167,7 @@ export default function Landing() {
                                         className="
                                             bg-gradient-to-br from-green-900 via-green-800 to-green-700 rounded-3xl shadow-2xl border border-green-900
                                             flex flex-col items-center p-8 relative overflow-hidden group transition-all duration-700
-                                            hover:shadow-3xl hover:-translate-y-1
+                                            hover:shadow-3xl hover:scale-105
                                             w-full sm:w-[340px] md:w-[320px] lg:w-[300px]
                                             reveal-on-scroll opacity-0 translate-y-10 
                                         "
@@ -251,120 +251,120 @@ export default function Landing() {
                                         </a>
                                     </div>
                                 </div>
-                                {/* News Card 3 */}
-                                <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-100 p-8 flex flex-col hover:shadow-2xl  group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-300">
-                                    <div className="relative mb-5">
-                                        <img src={img5} alt="Rabies Control" className="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
-                                        <span className="absolute top-3 right-3 bg-green-500 text-green-50 text-xs px-3 py-1 rounded-full font-bold shadow">Event</span>
-                                    </div>
-                                    <h3 className="font-bold text-lg text-green-900 mb-2">Rabies Awareness Campaign</h3>
-                                    <p className="text-gray-800 text-base mb-4 font-semibold">
-                                        The Rabies Control team held a successful awareness drive, educating pet owners and distributing free vaccines to ensure community safety.
-                                    </p>
-                                    <div className="flex items-center justify-between mt-auto">
-                                        <span className="text-green-700 text-sm font-semibold">April 2024</span>
-                                        <a href="#" className="text-green-700 font-bold hover:underline flex items-center gap-1 transition">
-                                            Read More
-                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        
-                        <div className="">
-                            <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
-                                Why Choose Us?
-                            </h2>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                                {/* Card 1 */}
-                                <div className="flex-1 bg-gradient-to-br from-green-900 via-green-800 to-green-700 rounded-3xl shadow-xl border border-green-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10  delay-100">
-                                    <div className="bg-green-800 rounded-full p-4 mb-5 shadow">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-green-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 1.343-3 3 0 1.657 1.343 3 3 3s3-1.343 3-3c0-1.657-1.343-3-3-3zm0 10c-4.418 0-8-3.582-8-8 0-4.418 3.582-8 8-8s8 3.582 8 8c0 4.418-3.582 8-8 8z" />
-                                        </svg>
-                                    </div>
-                                    <h3 className="font-bold text-xl text-green-50 mb-2 text-center">Expert Support</h3>
-                                    <p className="text-green-100 text-center text-base font-semibold">
-                                        Our team provides expert guidance and support to help you succeed in agriculture.
-                                    </p>
-                                </div>
-                                {/* Card 2 */}
-                                <div className="flex-1 bg-gradient-to-br from-green-900 via-green-800 to-green-700 rounded-3xl shadow-xl border border-green-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl transition-all duration-700 reveal-on-scroll opacity-0 translate-y-10  delay-200">
-                                    <div className="bg-green-800 rounded-full p-4 mb-5 shadow">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-green-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2a4 4 0 018 0v2m-4-6a4 4 0 100-8 4 4 0 000 8z" />
-                                        </svg>
-                                    </div>
-                                    <h3 className="font-bold text-xl text-green-50 mb-2 text-center">Community Focus</h3>
-                                    <p className="text-green-100 text-center text-base font-semibold">
-                                        We are dedicated to uplifting communities and fostering sustainable growth.
-                                    </p>
-                                </div>
-                                {/* Card 3 */}
-                                <div className="flex-1 bg-gradient-to-br from-green-900 via-green-800 to-green-700 rounded-3xl shadow-xl border border-green-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl  reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-300">
-                                    <div className="bg-green-800 rounded-full p-4 mb-5 shadow">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-green-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a5 5 0 00-10 0v2a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2v-7a2 2 0 00-2-2z" />
-                                        </svg>
-                                    </div>
-                                    <h3 className="font-bold text-xl text-green-50 mb-2 text-center">Trusted & Secure</h3>
-                                    <p className="text-green-100 text-center text-base font-semibold">
-                                        We ensure your data and interactions are safe and handled with integrity.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        </section>
-                        </main>
-                        
-                        <section className="max-w-full  px-4 reveal-on-scroll opacity-0 translate-y-10 flex justify-center  py-20 transition-all duration-700 delay-100 bg-gradient-to-br from-green-900 via-green-800 to-green-700">
-                            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-950  shadow-2xl border border-gray-700 p-10 md:p-16 max-w-6xl relative overflow-hidden justify-center rounded-3xl">
-                                <div className="absolute inset-0 pointer-events-none ">
-                                    <div className="w-full h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-green-900/20 via-transparent to-transparent"></div>
-                                </div>
-                                <header className="mb-10 border-b border-gray-700 pb-6 flex flex-col md:flex-row md:items-end md:justify-between">
-                                    <div>
-                                        <h2 className="text-4xl font-extrabold text-green-100 tracking-widest uppercase mb-2" style={{ fontFamily: 'serif', letterSpacing: '0.12em' }}>
-                                            Agri-Connect Gazette
-                                        </h2>
-                                        <p className="text-green-300 text-lg font-semibold tracking-wide">Your Weekly Source for Agricultural News</p>
-                                    </div>
-                                    <span className="text-green-400 font-mono text-sm mt-4 md:mt-0">Edition: {new Date().toLocaleDateString()}</span>
-                                </header>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-                                    {/* Lead Story */}
-                                    <article className="md:col-span-2 bg-gray-950/80 rounded-2xl p-8 shadow-lg border border-gray-800 flex flex-col">
-                                        <h3 className="text-2xl font-bold text-green-100 mb-3 font-serif">Farmers Embrace Smart Tech for Bumper Harvest</h3>
-                                        <p className="text-green-200 text-base mb-4 font-medium">
-                                            Local farmers are adopting smart sensors and data-driven irrigation, resulting in record-breaking yields this season. “We can now monitor soil moisture and weather in real-time,” says farmer Ana Cruz. The FITS Center continues to provide training and support for integrating technology into traditional farming.
-                                        </p>
-                                        <div className="flex items-center gap-4 mt-auto">
-                                            <span className="text-green-400 text-xs font-semibold">By J. Dela Cruz</span>
-                                            <span className="text-green-700 text-xs">Front Page</span>
-                                        </div>
-                                    </article>
-                                    {/* Sidebar Stories */}
-                                    <div className="flex flex-col gap-8">
-                                        <article className="bg-gray-950/80 rounded-2xl p-6 shadow border border-gray-800">
-                                            <h4 className="text-lg font-bold text-green-200 mb-2 font-serif">Organic Market Opens Downtown</h4>
-                                            <p className="text-green-300 text-sm mb-2">
-                                                The new organic market offers fresh, locally grown produce every Saturday. Vendors highlight the benefits of chemical-free farming.
-                                            </p>
-                                            <span className="text-green-500 text-xs">Community</span>
-                                        </article>
-                                        <article className="bg-gray-950/80 rounded-2xl p-6 shadow border border-gray-800">
-                                            <h4 className="text-lg font-bold text-green-200 mb-2 font-serif">Youth Join Agri Bootcamp</h4>
-                                            <p className="text-green-300 text-sm mb-2">
-                                                Over 50 students participated in the Agri Bootcamp, learning about sustainable practices and agri-entrepreneurship.
-                                            </p>
-                                            <span className="text-green-500 text-xs">Education</span>
-                                        </article>
-                                    </div>
-                                </div>
-                               { /* Bottom Row: Columns */}
+                               { /* News Card 3 */}
+                                                                <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-100 p-8 flex flex-col hover:shadow-2xl  group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-300">
+                                                                    <div className="relative mb-5">
+                                                                        <img src={img5} alt="Rabies Control" className="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
+                                                                        <span className="absolute top-3 right-3 bg-green-500 text-green-50 text-xs px-3 py-1 rounded-full font-bold shadow">Event</span>
+                                                                    </div>
+                                                                    <h3 className="font-bold text-lg text-green-900 mb-2">Rabies Awareness Campaign</h3>
+                                                                    <p className="text-gray-800 text-base mb-4 font-semibold">
+                                                                        The Rabies Control team held a successful awareness drive, educating pet owners and distributing free vaccines to ensure community safety.
+                                                                    </p>
+                                                                    <div className="flex items-center justify-between mt-auto">
+                                                                        <span className="text-green-700 text-sm font-semibold">April 2024</span>
+                                                                        <a href="#" className="text-green-700 font-bold hover:underline flex items-center gap-1 transition">
+                                                                            Read More
+                                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                                            </svg>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </section>
+                                                        
+                                                        <div className="">
+                                                            <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
+                                                                Why Choose Us?
+                                                            </h2>
+                                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                                                                {/* Card 1 */}
+                                                                <div className="flex-1 bg-gradient-to-br from-green-900 via-green-800 to-green-700 rounded-3xl shadow-xl border border-green-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10  delay-100">
+                                                                    <div className="bg-green-800 rounded-full p-4 mb-5 shadow">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-green-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 1.343-3 3 0 1.657 1.343 3 3 3s3-1.343 3-3c0-1.657-1.343-3-3-3zm0 10c-4.418 0-8-3.582-8-8 0-4.418 3.582-8 8-8s8 3.582 8 8c0 4.418-3.582 8-8 8z" />
+                                                                        </svg>
+                                                                    </div>
+                                                                    <h3 className="font-bold text-xl text-green-50 mb-2 text-center">Expert Support</h3>
+                                                                    <p className="text-green-100 text-center text-base font-semibold">
+                                                                        Our team provides expert guidance and support to help you succeed in agriculture.
+                                                                    </p>
+                                                                </div>
+                                                                {/* Card 2 */}
+                                                                <div className="flex-1 bg-gradient-to-br from-green-900 via-green-800 to-green-700 rounded-3xl shadow-xl border border-green-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl transition-all duration-700 reveal-on-scroll opacity-0 translate-y-10  delay-200">
+                                                                    <div className="bg-green-800 rounded-full p-4 mb-5 shadow">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-green-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2a4 4 0 018 0v2m-4-6a4 4 0 100-8 4 4 0 000 8z" />
+                                                                        </svg>
+                                                                    </div>
+                                                                    <h3 className="font-bold text-xl text-green-50 mb-2 text-center">Community Focus</h3>
+                                                                    <p className="text-green-100 text-center text-base font-semibold">
+                                                                        We are dedicated to uplifting communities and fostering sustainable growth.
+                                                                    </p>
+                                                                </div>
+                                                                {/* Card 3 */}
+                                                                <div className="flex-1 bg-gradient-to-br from-green-900 via-green-800 to-green-700 rounded-3xl shadow-xl border border-green-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl  reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-300">
+                                                                    <div className="bg-green-800 rounded-full p-4 mb-5 shadow">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-green-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a5 5 0 00-10 0v2a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2v-7a2 2 0 00-2-2z" />
+                                                                        </svg>
+                                                                    </div>
+                                                                    <h3 className="font-bold text-xl text-green-50 mb-2 text-center">Trusted & Secure</h3>
+                                                                    <p className="text-green-100 text-center text-base font-semibold">
+                                                                        We ensure your data and interactions are safe and handled with integrity.
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        </section>
+                                                        </main>
+                                                        
+                                                        <section className="max-w-full  px-4 reveal-on-scroll opacity-0 translate-y-10 flex justify-center  py-20 transition-all duration-700 delay-100 bg-gradient-to-br from-green-100 via-green-700 to-green-100">
+                                                            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-950  shadow-2xl border border-gray-700 p-10 md:p-16 max-w-5xl relative overflow-hidden justify-center rounded-3xl">
+                                                                <div className="absolute inset-0 pointer-events-none ">
+                                                                    <div className="w-full h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-green-900/20 via-transparent to-transparent"></div>
+                                                                </div>
+                                                                <header className="mb-10 border-b border-gray-700 pb-6 flex flex-col md:flex-row md:items-end md:justify-between">
+                                                                    <div>
+                                                                        <h2 className="text-4xl font-extrabold text-green-100 tracking-widest uppercase mb-2" style={{ fontFamily: 'serif', letterSpacing: '0.12em' }}>
+                                                                            Agri-Connect Gazette
+                                                                        </h2>
+                                                                        <p className="text-green-300 text-lg font-semibold tracking-wide">Your Weekly Source for Agricultural News</p>
+                                                                    </div>
+                                                                    <span className="text-green-400 font-mono text-sm mt-4 md:mt-0">Edition: {new Date().toLocaleDateString()}</span>
+                                                                </header>
+                                                                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                                                                    {/* Lead Story */}
+                                                                    <article className="md:col-span-2 bg-gray-950/80 rounded-2xl p-8 shadow-lg border border-gray-800 flex flex-col">
+                                                                        <h3 className="text-2xl font-bold text-green-100 mb-3 font-serif">Farmers Embrace Smart Tech for Bumper Harvest</h3>
+                                                                        <p className="text-green-200 text-base mb-4 font-medium">
+                                                                            Local farmers are adopting smart sensors and data-driven irrigation, resulting in record-breaking yields this season. “We can now monitor soil moisture and weather in real-time,” says farmer Ana Cruz. The FITS Center continues to provide training and support for integrating technology into traditional farming.
+                                                                        </p>
+                                                                        <div className="flex items-center gap-4 mt-auto">
+                                                                            <span className="text-green-400 text-xs font-semibold">By J. Dela Cruz</span>
+                                                                            <span className="text-green-700 text-xs">Front Page</span>
+                                                                        </div>
+                                                                    </article>
+                                                                    {/* Sidebar Stories */}
+                                                                    <div className="flex flex-col gap-8">
+                                                                        <article className="bg-gray-950/80 rounded-2xl p-6 shadow border border-gray-800">
+                                                                            <h4 className="text-lg font-bold text-green-200 mb-2 font-serif">Organic Market Opens Downtown</h4>
+                                                                            <p className="text-green-300 text-sm mb-2">
+                                                                                The new organic market offers fresh, locally grown produce every Saturday. Vendors highlight the benefits of chemical-free farming.
+                                                                            </p>
+                                                                            <span className="text-green-500 text-xs">Community</span>
+                                                                        </article>
+                                                                        <article className="bg-gray-950/80 rounded-2xl p-6 shadow border border-gray-800">
+                                                                            <h4 className="text-lg font-bold text-green-200 mb-2 font-serif">Youth Join Agri Bootcamp</h4>
+                                                                            <p className="text-green-300 text-sm mb-2">
+                                                                                Over 50 students participated in the Agri Bootcamp, learning about sustainable practices and agri-entrepreneurship.
+                                                                            </p>
+                                                                            <span className="text-green-500 text-xs">Education</span>
+                                                                        </article>
+                                                                    </div>
+                                                                </div>
+                                                               { /* Bottom Row: Columns */}
                                                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
                                                                     <div className="bg-gray-900/80 rounded-xl p-6 border border-gray-800">
                                                                         <h5 className="text-green-200 font-bold mb-2 font-serif">Weather Watch</h5>
@@ -467,6 +467,61 @@ export default function Landing() {
                                                                         Subscribe to our newsletter, follow us on social media, or regularly check our website for the latest news and event schedules.
                                                                     </p>
                                                                 </details>
+                                                            </div>
+                                                        </section>
+                                                        <section className="max-w-6xl mx-auto px-4 py-14 mb-20">
+                                                            <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
+                                                                Useful External Resources
+                                                            </h2>
+                                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                                                <a
+                                                                    href="https://www.da.gov.ph/"
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="bg-green-900/90 rounded-3xl shadow-xl border border-green-800 p-8 flex flex-col items-center hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10 delay-100"
+                                                                >
+                                                                    <span className="bg-green-700 rounded-full p-4 mb-4">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-green-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 2a10 10 0 100 20 10 10 0 000-20z" />
+                                                                        </svg>
+                                                                    </span>
+                                                                    <h3 className="font-bold text-lg text-green-50 mb-2 text-center">Department of Agriculture</h3>
+                                                                    <p className="text-green-100 text-center text-base font-semibold">
+                                                                        Visit the official DA website for national programs, news, and resources.
+                                                                    </p>
+                                                                </a>
+                                                                <a
+                                                                    href="https://ati.da.gov.ph/"
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="bg-green-900/90 rounded-3xl shadow-xl border border-green-800 p-8 flex flex-col items-center hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10 delay-200"
+                                                                >
+                                                                    <span className="bg-green-700 rounded-full p-4 mb-4">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-green-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2a4 4 0 018 0v2m-4-6a4 4 0 100-8 4 4 0 000 8z" />
+                                                                        </svg>
+                                                                    </span>
+                                                                    <h3 className="font-bold text-lg text-green-50 mb-2 text-center">Agricultural Training Institute</h3>
+                                                                    <p className="text-green-100 text-center text-base font-semibold">
+                                                                        Access training modules, e-learning, and extension services for farmers.
+                                                                    </p>
+                                                                </a>
+                                                                <a
+                                                                    href="https://www.philrice.gov.ph/"
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="bg-green-900/90 rounded-3xl shadow-xl border border-green-800 p-8 flex flex-col items-center hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10 delay-300"
+                                                                >
+                                                                    <span className="bg-green-700 rounded-full p-4 mb-4">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-green-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a5 5 0 00-10 0v2a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2v-7a2 2 0 00-2-2z" />
+                                                                        </svg>
+                                                                    </span>
+                                                                    <h3 className="font-bold text-lg text-green-50 mb-2 text-center">PhilRice</h3>
+                                                                    <p className="text-green-100 text-center text-base font-semibold">
+                                                                        Learn about rice research, technologies, and farmer support from PhilRice.
+                                                                    </p>
+                                                                </a>
                                                             </div>
                                                         </section>
                                             <footer className="bg-gray-950 text-green-100 pt-12 pb-8">

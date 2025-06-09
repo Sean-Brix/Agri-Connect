@@ -147,190 +147,210 @@ export default function Seminar() {
     return str.length > n ? str.slice(0, n - 1) + '…' : str;
   }
 
+  React.useEffect(() => {
+    // Hide scrollbar for the whole page
+    const style = document.createElement('style');
+    style.innerHTML = `
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      ::-webkit-scrollbar {
+        display: none;
+      }
+      /* Hide scrollbar for IE, Edge and Firefox */
+      html, body {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;     /* Firefox */
+      }
+    `;
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
   return (
     <>
       <Navbar />
       <div
-        className="flex min-h-screen bg-gradient-to-br from-green-900 via-blue-900 to-green-800 relative"
+        className="flex min-h-screen bg-gray-100"
         style={{
           backgroundImage: `linear-gradient(rgba(20,30,40,0.85),rgba(20,30,40,0.85)), url(${backg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
       >
-        <div className="flex-1 w-full relative z-10">
-          <div className="w-full px-4 flex justify-center items-center pt-12">
-            <div className="relative flex flex-col items-center mt-30">
-              <span className="uppercase tracking-widest text-blue-300 text-sm font-semibold mb-2 letter-spacing-wide">
+        <main className="flex-1 w-full relative z-10 mt-30">
+          <section className="w-full px-4 flex flex-col items-center pt-16">
+            <header className="flex flex-col items-center mb-10">
+              <span className="uppercase tracking-widest text-blue-300 text-xs font-medium mb-1">
                 Welcome to
               </span>
-              <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-blue-400 to-green-200 drop-shadow-lg text-center">
+              <h1 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-blue-400 to-green-200 drop-shadow-lg text-center">
                 Seminar Enrollment
               </h1>
-              <div className="mt-3 w-24 h-2 rounded-full bg-gradient-to-r from-blue-400 via-green-400 to-blue-400 opacity-80 animate-pulse"></div>
-            </div>
-          </div>
-         
-          <div
-            className="max-w-5xl mx-auto mt-12 p-4 sm:p-8 bg-white/90 rounded-3xl shadow-2xl border border-gray-200 w-[95vw] sm:w-[90vw] md:w-auto backdrop-blur"
-          >
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10 p-2 gap-6">
-              <h2 className="text-2xl font-bold text-gray-900">Programs</h2>
-              <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto relative">
-                <div className="relative flex-1">
+              <div className="mt-3 w-20 h-1 rounded-full bg-gradient-to-r from-blue-400 via-green-400 to-blue-400 opacity-80 animate-pulse"></div>
+            </header>
+            {/* Modern Search Bar & Filter Side by Side */}
+            <div className="flex flex-row items-center w-full max-w-3xl mt-4 mb-8 gap-3">
+              <div className="flex flex-none min-w-1/2 max-w-xs gap-2 bg-white/90 rounded-2xl shadow-lg px-4 py-1 items-center border border-blue-100 h-12">
+                <div className="relative w-full">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400">
+                    <i className="fa-solid fa-magnifying-glass"></i>
+                  </span>
                   <input
                     type="text"
+                    className="w-full pl-10 pr-4 py-2 rounded-xl border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-900 bg-transparent transition placeholder:text-gray-400"
                     placeholder={`Search by ${filterBy.toLowerCase()}...`}
                     value={search}
                     onChange={e => setSearch(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 bg-gradient-to-r from-blue-100 via-white to-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-900 shadow transition placeholder-gray-400"
                   />
-                  <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-400 pointer-events-none">
-                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
-                      <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2"/>
-                      <path d="M20 20l-3-3" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                    </svg>
-                  </span>
-                </div>
-                <div className="relative min-w-[150px]">
-                  <button
-                    type="button"
-                    className="appearance-none w-full px-5 py-3 pr-12 rounded-xl border border-gray-200 bg-gradient-to-r from-white via-blue-100 to-green-200 hover:from-blue-200 hover:to-green-300 text-gray-900 font-semibold shadow focus:outline-none focus:ring-2 focus:ring-blue-400 transition cursor-pointer flex items-center justify-between"
-                    onClick={() => setShowFilter(v => !v)}
-                  >
-                    <span className="flex items-center gap-2">
-                      <i className="fa-solid fa-filter"></i>
-                      {filterBy}
-                    </span>
-                    <span className="pointer-events-none text-blue-400 ml-2">
-                      <svg width="22" height="22" fill="none" viewBox="0 0 24 24">
-                        <path d="M7 10l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </span>
-                  </button>
-                  {showFilter && (
-                    <div className="absolute top-14 right-0 z-20 bg-white border border-gray-100 rounded-2xl shadow-2xl w-56 p-5 animate-fade-in flex flex-col gap-2"
-                      style={{ overflow: 'hidden' }}
-                    >
-                      <h2 className="text-base font-bold mb-2 text-gray-700 tracking-wide">Filter By</h2>
-                      <ul className="space-y-2">
-                        {filterOptions.map(opt => (
-                          <li key={opt.value}>
-                            <button
-                              className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg transition text-sm ${
-                                filterBy === opt.value
-                                  ? 'bg-gradient-to-r from-blue-700 to-green-600 text-white font-semibold shadow'
-                                  : 'bg-gray-50 text-gray-700 hover:bg-blue-100'
-                              }`}
-                              onClick={() => { setFilterBy(opt.value); setShowFilter(false); }}
-                            >
-                              <i className="fa-solid fa-filter"></i>
-                              {opt.label}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
                 </div>
               </div>
+              {/* Simple Filter Button with Modern Dropdown */}
+              <div className="relative h-12 flex items-center">
+                <button
+                  className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-blue-700 font-semibold border border-blue-200 shadow transition-all duration-200 hover:bg-blue-50 focus:outline-none text-base sm:text-lg"
+                  onClick={() => setShowFilter(f => !f)}
+                  type="button"
+                  aria-label="Show filter options"
+                  style={{ minHeight: '3rem' }}
+                >
+                  <i className="fa-solid fa-filter text-blue-400 text-base sm:text-lg"></i>
+                  <span className="hidden sm:inline">{filterBy}</span>
+                  <i className={`fa-solid fa-chevron-${showFilter ? 'up' : 'down'} ml-2 text-blue-300`}></i>
+                </button>
+                {showFilter && (
+                  <div className="absolute right-0 mt-2 w-44 sm:w-48 bg-white rounded-2xl shadow-2xl border border-blue-100 z-20 animate-fade-in py-2 px-2">
+                    {filterOptions.map(opt => (
+                      <button
+                        key={opt.value}
+                        className={`flex items-center gap-3 w-full text-left px-3 sm:px-4 py-2 rounded-xl font-semibold transition text-sm sm:text-base ${
+                          filterBy === opt.value
+                            ? 'bg-blue-600 text-white'
+                            : 'text-blue-700 hover:bg-blue-50'
+                        }`}
+                        onClick={() => {
+                          setFilterBy(opt.value);
+                          setShowFilter(false);
+                        }}
+                      >
+                        <i
+                          className={
+                            opt.value === 'Title'
+                              ? 'fa-solid fa-heading'
+                              : opt.value === 'Speaker'
+                              ? 'fa-solid fa-user'
+                              : 'fa-solid fa-location-dot'
+                          }
+                        ></i>
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-8 w-full max-w-3xl mt-6">
               {paginatedPrograms.length === 0 ? (
                 <div className="text-blue-300 text-center py-12 text-base">No programs found.</div>
               ) : (
                 paginatedPrograms.map(program => (
-                  <div
+                  <article
                     key={program.id}
-                    className="flex flex-col md:flex-row justify-between items-start md:items-center p-8 rounded-2xl shadow-lg bg-gradient-to-br from-white via-blue-100 to-green-100 border border-blue-200 hover:shadow-2xl transition group"
+                    className="relative flex flex-col md:flex-row gap-6 bg-white/95 rounded-3xl shadow-2xl p-0 border border-blue-100 overflow-hidden group transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-105"
+                    style={{ transition: '0.3s' }}
                   >
-                    <div className="flex flex-col gap-2 flex-1">
-                      <div className="flex items-center gap-4">
-                        <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-blue-200 to-green-200 flex items-center justify-center text-3xl text-blue-700 shadow">
-                          <i className={faIcons[program.category] || "fa-solid fa-layer-group"}></i>
-                        </div>
-                        <div>
-                          <div className="font-extrabold text-2xl text-gray-900 flex items-center gap-2">
-                            {program.name}
-                          </div>
-                          <div className="text-gray-600 text-sm mt-1 mb-2">
-                            {truncate(program.description, 60)}
-                          </div>
-                          <div className="flex flex-wrap gap-2 mt-2">
-                            <span className="inline-flex items-center gap-1 text-xs text-blue-700 bg-blue-100 px-3 py-1 rounded-lg font-semibold border border-blue-200">
-                              {program.category}
-                            </span>
-                            <span className="inline-flex items-center gap-1 text-xs text-green-700 bg-green-100 px-3 py-1 rounded-lg font-semibold border border-green-200">
-                              <i className="fa-solid fa-location-dot"></i>
-                              {program.location}
-                            </span>
-                            <span className="inline-flex items-center gap-1 text-xs text-purple-700 bg-purple-100 px-3 py-1 rounded-lg font-semibold border border-purple-200">
-                              <i className="fa-solid fa-user"></i>
-                              {program.speaker}
-                            </span>
-                          </div>
-                        </div>
+                    {/* Image with border and outline */}
+                    <div className="flex-shrink-0 flex items-center justify-center w-full md:w-56 h-56">
+                      <div className="w-52 h-52 sm:w-44 sm:h-44 md:w-40 md:h-40 rounded-2xl bg-white shadow-lg flex items-center justify-center overflow-hidden border-4 border-blue-400 outline outline-4 outline-blue-200 transition-all duration-300 ease-in-out">
+                        <img
+                          src="https://via.placeholder.com/96x96.png?text=Sample"
+                          alt="Sample"
+                          className="w-full h-full object-contain rounded-xl"
+                        />
                       </div>
                     </div>
-                    <div className="flex gap-3 mt-6 md:mt-0 w-full md:w-auto">
-                      <button className="flex-1 md:flex-none px-8 py-3 rounded-lg bg-blue-700 text-white font-semibold shadow hover:bg-blue-800 transition text-base">
-                        Apply
-                      </button>
-                      <button className="flex-1 md:flex-none px-8 py-3 rounded-lg border border-blue-700 text-blue-800 bg-white font-semibold shadow hover:bg-blue-100 transition text-base">
-                        Details
-                      </button>
+                    {/* Content */}
+                    <div className="flex flex-col justify-between flex-1 px-6 py-6">
+                      <div>
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-blue-200 to-green-200 text-blue-700 text-lg shadow">
+                            <i className={faIcons[program.category] || faIcons.All}></i>
+                          </span>
+                          <span className="font-bold text-2xl text-gray-900 tracking-tight truncate" title={program.name}>
+                            {program.name}
+                          </span>
+                        </div>
+                        <div className="text-gray-600 text-base mb-4 line-clamp-2 truncate" title={program.description}>
+                          {truncate(program.description, 80)}
+                        </div>
+                        <div className="flex flex-wrap gap-3 mt-2">
+                          <span className="inline-flex items-center gap-1 text-xs text-blue-700 bg-blue-100 px-3 py-1 rounded-lg font-semibold border border-blue-200 shadow-sm truncate" title={program.category}>
+                            <i className={faIcons[program.category] || faIcons.All}></i>
+                            {program.category}
+                          </span>
+                          <span className="inline-flex items-center gap-1 text-xs text-green-700 bg-green-100 px-3 py-1 rounded-lg font-semibold border border-green-200 shadow-sm truncate" title={program.location}>
+                            <i className="fa-solid fa-location-dot"></i>
+                            {program.location}
+                          </span>
+                          <span className="inline-flex items-center gap-1 text-xs text-purple-700 bg-purple-100 px-3 py-1 rounded-lg font-semibold border border-purple-200 shadow-sm truncate" title={program.speaker}>
+                            <i className="fa-solid fa-user"></i>
+                            {program.speaker}
+                          </span>
+                        </div>
+                      </div>
+                      {/* Buttons */}
+                      <div className="flex gap-3 w-full justify-end mt-6">
+                        <button className="flex items-center gap-2 px-8 py-2 rounded-xl bg-blue-600 text-white font-bold shadow-lg hover:bg-blue-700 transition text-base focus:outline-none focus:ring-2 focus:ring-blue-400">
+                          <i className="fa-solid fa-paper-plane"></i>
+                          Apply
+                        </button>
+                        <button className="flex items-center gap-2 px-8 py-2 rounded-xl border-2 border-blue-600 text-blue-700 bg-white font-bold shadow-lg hover:bg-blue-50 transition text-base focus:outline-none focus:ring-2 focus:ring-blue-400">
+                          <i className="fa-solid fa-circle-info"></i>
+                          Details
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  </article>
                 ))
               )}
             </div>
-            {/* Pagination Controls */}
             {totalPages > 1 && (
-              <div className="flex justify-center items-center gap-2 mt-10">
+              <nav className="flex justify-center mt-10 space-x-2" aria-label="Pagination">
                 <button
-                  className="px-3 py-1 rounded-lg border border-blue-300 bg-blue-900 text-blue-100 font-semibold disabled:opacity-50"
+                  className="px-4 py-1.5 rounded-xl bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200 disabled:opacity-50 transition"
                   onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
+                  aria-label="Previous page"
                 >
-                  Prev
+                  <i className="fa-solid fa-chevron-left"></i>
                 </button>
                 {Array.from({ length: totalPages }, (_, i) => (
                   <button
                     key={i + 1}
-                    className={`px-3 py-1 rounded-lg border font-semibold ${
+                    className={`px-4 py-1.5 rounded-xl font-semibold transition ${
                       currentPage === i + 1
-                        ? 'bg-blue-700 text-white border-blue-700'
-                        : 'bg-blue-900 text-blue-100 border-blue-300'
+                        ? 'bg-blue-700 text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                     onClick={() => setCurrentPage(i + 1)}
+                    aria-current={currentPage === i + 1 ? 'page' : undefined}
                   >
                     {i + 1}
                   </button>
                 ))}
                 <button
-                  className="px-3 py-1 rounded-lg border border-blue-300 bg-blue-900 text-blue-100 font-semibold disabled:opacity-50"
+                  className="px-4 py-1.5 rounded-xl bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200 disabled:opacity-50 transition"
                   onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                   disabled={currentPage === totalPages}
+                  aria-label="Next page"
                 >
-                  Next
+                  <i className="fa-solid fa-chevron-right"></i>
                 </button>
-              </div>
+              </nav>
             )}
-          </div>
-        </div>
+          </section>
+        </main>
       </div>
-      <style>{`
-        html, body, #root {
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-        }
-        html::-webkit-scrollbar, body::-webkit-scrollbar, #root::-webkit-scrollbar {
-          display: none;
-        }
-        .letter-spacing-wide {
-          letter-spacing: 0.15em;
-        }
-      `}</style>
     </>
   );
 }

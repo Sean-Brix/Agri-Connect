@@ -312,6 +312,33 @@ export default function Navbar() {
                                         {'EIC'}
                                     </Link>
                                 </li>
+                                {/* Distribution */}
+                                <li>
+                                    <Link
+                                        to="/distribution"
+                                        className="flex items-center gap-3 px-6 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
+                                    >
+                                        <svg
+                                            className="w-5 h-5 text-blue-500"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                d="M3 17v-6a2 2 0 012-2h14a2 2 0 012 2v6"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                            <path
+                                                d="M16 21v-4a2 2 0 00-2-2H10a2 2 0 00-2 2v4"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>
+                                        {'Distribution'}
+                                    </Link>
+                                </li>
                             </ul>
                         </li>
                         {/* Settings List Item */}
@@ -542,7 +569,7 @@ export default function Navbar() {
                     overflowY: 'auto',
                     overflowX: 'hidden',
                     scrollbarWidth: 'none', // Firefox
-                    msOverflowStyle: 'none', // IE 10+
+                    msOverflowStyle: 'none', // IE 10+,
                 }}
             >
                 <style>
@@ -900,6 +927,33 @@ export default function Navbar() {
                                             />
                                         </svg>
                                         EIC
+                                    </Link>
+                                </li>
+                                {/* Distribution for mobile */}
+                                <li>
+                                    <Link
+                                        to="/distribution"
+                                        className="flex items-center gap-3 px-8 py-4 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
+                                    >
+                                        <svg
+                                            className="w-5 h-5 text-blue-500"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                d="M3 17v-6a2 2 0 012-2h14a2 2 0 012 2v6"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                            <path
+                                                d="M16 21v-4a2 2 0 00-2-2H10a2 2 0 00-2 2v4"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>
+                                        Distribution
                                     </Link>
                                 </li>
                             </ul>

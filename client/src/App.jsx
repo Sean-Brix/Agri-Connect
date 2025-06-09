@@ -20,7 +20,7 @@ import Account from './Client/Services/Profile/Account_Profile.jsx';
 import Seminar from './Client/Services/Enrollment/Seminar.jsx';
 import Contact from './Client/Services/Info/contact.jsx';
 import About from './Client/Services/Info/About.jsx';
-
+import Distribution from './Client/Services/Distributions/Distribution.jsx';
 
 function App() {
     return (
@@ -39,6 +39,7 @@ function App() {
                 <Route path="/settings/profile" element={<User />} />
                 <Route path="/settings/account" element={<Account />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/distribution" element={<Distribution />} />
 
 
 
