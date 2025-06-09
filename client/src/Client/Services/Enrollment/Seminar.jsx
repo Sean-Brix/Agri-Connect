@@ -315,9 +315,9 @@ export default function Seminar() {
               )}
             </div>
             {totalPages > 1 && (
-              <nav className="flex justify-center mt-10 space-x-2" aria-label="Pagination">
+              <nav className="flex justify-center mt-10 space-x-2 mb-6" aria-label="Pagination">
                 <button
-                  className="px-4 py-1.5 rounded-xl bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200 disabled:opacity-50 transition"
+                  className="px-4 py-1.5 rounded-xl bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200 disabled:opacity-50 transition "
                   onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
                   aria-label="Previous page"
