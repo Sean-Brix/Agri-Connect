@@ -106,8 +106,26 @@ export default function Account() {
   return (
     <>
       <Navbar />
-      <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-blue-100 to-blue-300 mt-20">
-        <div className="w-full max-w-6xl mx-auto my-12 rounded-3xl shadow-2xl overflow-hidden border border-blue-300 bg-blue-50/90 backdrop-blur-lg">
+      <div className="w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-100 via-white to-blue-200 mt-20">
+         {/* Custom Title */}
+          <div className="flex items-center gap-5 px-12 pt-8 rounded-3xl mt-10 pb-6 border-b border-blue-100 bg-gradient-to-r from-blue-200 via-blue-100 to-gray-100">
+            <div className="bg-blue-700 rounded-full p-3 shadow-lg">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 20c0-4 4-7 8-7s8 3 8 7" />
+              </svg>
+            </div>
+            <div>
+              <div className="text-3xl sm:text-4xl font-extrabold text-blue-900 tracking-wide letter-spacing-wide">
+                Account Settings
+              </div>
+              <div className="text-blue-600 text-base mt-1 font-medium">
+                Manage your personal information, security, and preferences
+              </div>
+            </div>
+          </div>
+        <div className="w-full max-w-5xl mx-auto my-12 rounded-3xl shadow-2xl overflow-hidden border border-blue-100 bg-white/80 backdrop-blur-lg">
+         
           {/* Header */}
           <div className="bg-gradient-to-r from-blue-200 via-blue-300 to-blue-800 px-10 py-12 flex flex-col sm:flex-row items-center gap-10 relative">
             <div className="absolute top-6 right-8">
@@ -296,29 +314,79 @@ export default function Account() {
               {/* Recent Activity */}
               <div className="bg-gradient-to-br from-blue-200 via-blue-100 to-blue-50 rounded-2xl p-8 shadow text-blue-900 border border-blue-200">
                 <div className="font-bold text-xl mb-4 flex items-center gap-2">
-                  <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M12 8v4l3 3" /></svg>
+                  <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 7v5l3 3" />
+                  </svg>
                   Recent Activity
                 </div>
-                <ul className="text-base space-y-2">
-                  <li className="flex items-center gap-2">
-                    <span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>
-                    Logged in from new device <span className="ml-auto text-blue-700">2 hours ago</span>
+                <ul className="text-base space-y-4">
+                  <li className="flex items-center gap-3">
+                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-200">
+                      <svg className="w-5 h-5 text-blue-700" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M12 8v4l3 3" />
+                      </svg>
+                    </span>
+                    <span>Logged in from new device</span>
+                    <span className="ml-auto text-blue-700 text-sm flex items-center gap-1">
+                      <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 6v6l4 2" />
+                      </svg>
+                      2 hours ago
+                    </span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>
-                    Changed password <span className="ml-auto text-blue-700">1 day ago</span>
+                  <li className="flex items-center gap-3">
+                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-200">
+                      <svg className="w-5 h-5 text-blue-700" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M12 8v4l2 2" />
+                      </svg>
+                    </span>
+                    <span>Changed password</span>
+                    <span className="ml-auto text-blue-700 text-sm flex items-center gap-1">
+                      <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 6v6l2 2" />
+                      </svg>
+                      1 day ago
+                    </span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>
-                    Updated address <span className="ml-auto text-blue-700">3 days ago</span>
+                  <li className="flex items-center gap-3">
+                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-200">
+                      <svg className="w-5 h-5 text-blue-700" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M12 8v4l1 3" />
+                      </svg>
+                    </span>
+                    <span>Updated address</span>
+                    <span className="ml-auto text-blue-700 text-sm flex items-center gap-1">
+                      <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 6v6l1 2" />
+                      </svg>
+                      3 days ago
+                    </span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>
-                    Enabled notifications <span className="ml-auto text-blue-700">1 week ago</span>
+                  <li className="flex items-center gap-3">
+                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-200">
+                      <svg className="w-5 h-5 text-blue-700" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M12 8v4l-2 2" />
+                      </svg>
+                    </span>
+                    <span>Enabled notifications</span>
+                    <span className="ml-auto text-blue-700 text-sm flex items-center gap-1">
+                      <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 6v6l-2 2" />
+                      </svg>
+                      1 week ago
+                    </span>
                   </li>
                 </ul>
               </div>
-              {/* Connected Accounts */}
               <div className="bg-blue-100 rounded-2xl p-8 shadow border border-blue-200">
                 <div className="font-bold text-xl mb-4 text-blue-900 flex items-center gap-2">
                   <svg className="w-6 h-6 text-blue-800" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7" /></svg>

@@ -31,6 +31,21 @@ export default function Navbar() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    // Add a state to simulate logout
+    const [loggedIn, setLoggedIn] = useState(isLoggedIn);
+
+    // Helper for logout
+    const handleLogout = (navigate) => {
+        setLoggedIn(false);
+        setOpen(false);
+        if (navigate) navigate('/login');
+    };
+
+    // For navigation in logout (for both desktop and mobile)
+    const navigate = (to) => {
+        window.location.href = to;
+    };
+
     return (
         <nav className="bg-white shadow-lg fixed w-full z-30 top-0 left-0">
             <div className="max-w-7xl mx-auto flex items-center justify-between px-2 md:px-8 py-6">
@@ -429,7 +444,7 @@ export default function Navbar() {
                             aria-haspopup="true"
                             aria-expanded={open}
                         >
-                            {isLoggedIn ? (
+                            {loggedIn ? (
                                 <img
                                     src={user.avatar}
                                     alt={user.name}
@@ -454,14 +469,11 @@ export default function Navbar() {
                                 className="absolute right-0 mt-3 w-44 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl py-2 z-50 border border-blue-100 animate-fade-in"
                                 onMouseLeave={() => setOpen(false)}
                             >
-                                {isLoggedIn ? (
+                                {loggedIn ? (
                                     <li>
                                         <button
                                             className="w-full text-left flex items-center gap-2 px-5 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
-                                            onClick={() => {
-                                                alert('Logged out!');
-                                                setOpen(false);
-                                            }}
+                                            onClick={() => handleLogout(navigate)}
                                         >
                                             <svg
                                                 className="w-5 h-5 text-blue-500"
@@ -559,34 +571,11 @@ export default function Navbar() {
                 </style>
                 <div className="hide-scrollbar flex flex-col h-full">
                 <div className="flex items-center justify-between px-6 py-8 border-b border-blue-100">
-                    <svg
-                        className="w-8 h-8 text-green-600 "
-                        viewBox="0 0 32 32"
-                        fill="none"
-                        aria-hidden="true"
-                    >
-                        <circle
-                            cx="16"
-                            cy="16"
-                            r="15"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            fill="#bbf7d0"
-                        />
-                        <path
-                            d="M10 20c0-4 6-10 6-10s6 6 6 10a6 6 0 01-12 0z"
-                            fill="#22c55e"
-                            stroke="#166534"
-                            strokeWidth="1.5"
-                        />
-                        <ellipse cx="16" cy="20" rx="4" ry="2" fill="#a3e635" />
-                        <path
-                            d="M16 10v4"
-                            stroke="#166534"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                        />
-                    </svg>
+                      <img
+                    src={logo}
+                    alt="FITS -Tanza Logo"
+                    className="w-10 h-10 object-contain "
+                />
                     <Link
                         to="/"
                         className="flex items-center font-extrabold text-2xl px-2 mr-10  text-blue-700 md:text-2xl"
@@ -615,7 +604,7 @@ export default function Navbar() {
                 </div>
                 {/* Sidebar Profile/Login */}
                 <div className="flex flex-col items-center gap-4 py-10 border-b border-blue-100 bg-gradient-to-b from-blue-50 to-white">
-                    {isLoggedIn ? (
+                    {loggedIn ? (
                         <>
                             <div className="relative">
                                 <img
@@ -628,30 +617,9 @@ export default function Navbar() {
                             <span className="font-semibold text-blue-800 text-lg">
                                 {user.name}
                             </span>
-                            <Link
-                                to="/settings/profile"
-                                className="flex items-center gap-2 px-8 py-2 mt-2 text-blue-700 bg-white border border-blue-100 hover:bg-blue-50 rounded-full transition font-medium shadow"
-                                onClick={() => setOpen(false)}
-                            >
-                                <svg
-                                    className="w-5 h-5 text-blue-500"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <circle cx="12" cy="7" r="4" />
-                                    <path d="M5.5 21a8.38 8.38 0 0113 0" />
-                                </svg>
-                                View Profile
-                            </Link>
                             <button
                                 className="mt-2 flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-400 text-white font-bold rounded-full shadow-lg hover:scale-105 transition-all duration-200"
-                                onClick={() => {
-                                    // Add logout logic here
-                                    alert('Logged out!');
-                                    setOpen(false);
-                                }}
+                                onClick={() => handleLogout(navigate)}
                             >
                                 <svg
                                     className="w-5 h-5 text-white"

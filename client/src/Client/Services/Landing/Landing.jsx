@@ -31,7 +31,7 @@ export default function Landing() {
          {
             img: img5,
             title: "Rabies Control",
-            desc: "Implementing comprehensive rabies prevention and control initiatives to safeguard public health and animal welfare.",
+            desc: "Implementing comprehensive rabies prevention and con</svg>trol initiatives to safeguard public health and animal welfare.",
         },
         {
             img: img3,
@@ -101,7 +101,7 @@ export default function Landing() {
                             playsInline
                             className="absolute inset-0 w-full h-full object-cover z-0 opacity-60"
                             style={{ animation: 'none', transition: 'none' }}
-                            playbackRate={0.3}
+                            playbackrate={0.5}
                         />
                         {/* Text and Buttons */}
                         <div className="flex-1 flex flex-col items-center justify-center relative z-10 text-center">

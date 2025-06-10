@@ -18,7 +18,7 @@ import AccountProfile from '../../../Components/settings/AccountProfile/AccountP
 import Edit_Profile from '../../../Components/settings/AccountProfile/Edit_Profile.jsx';
 
 // SUB COMPONENT
-import Sidebar from './sub/sidebar.jsx';
+import Sidebar from './sub/Sidebar.jsx';
 
 export default function Dashboard() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);

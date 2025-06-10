@@ -141,6 +141,26 @@ export default function Eic() {
         if (type === 'Machinery') return <i className="fa-solid fa-tractor text-blue-500"></i>;
         return <i className="fa-solid fa-toolbox text-gray-500"></i>;
     };
+      React.useEffect(() => {
+        // Hide scrollbar for the whole page
+        const style = document.createElement('style');
+        style.innerHTML = `
+          /* Hide scrollbar for Chrome, Safari and Opera */
+          ::-webkit-scrollbar {
+            display: none;
+          }
+          /* Hide scrollbar for IE, Edge and Firefox */
+          html, body {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;     /* Firefox */
+          }
+        `;
+        document.head.appendChild(style);
+        return () => {
+          document.head.removeChild(style);
+        };
+      }, []);
+    
 
     return (
         <>
@@ -375,15 +395,14 @@ export default function Eic() {
                 html::-webkit-scrollbar, body::-webkit-scrollbar, #root::-webkit-scrollbar {
                     display: none;
                 }
-     /* Hide scrollbar for all browsers */
-    html, body, #root {
-        scrollbar-width: none;        /* Firefox */
-        -ms-overflow-style: none;     /* IE and Edge */
+                    html, body, #root {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
     }
     html::-webkit-scrollbar, 
     body::-webkit-scrollbar, 
     #root::-webkit-scrollbar {
-        display: none;                /* Chrome, Safari, Opera */
+        display: none;
     }
             `}</style>
             {/* FontAwesome CDN for icons */}
