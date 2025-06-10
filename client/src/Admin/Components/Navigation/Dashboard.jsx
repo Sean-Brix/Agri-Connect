@@ -126,22 +126,24 @@ export default function Dashboard() {
     <>
       <div className="flex min-h-screen h-screen">
         {/* DESKTOP SIDEBAR */}
-        <Sidebar logging={logging} details={details} setPage={setPage} elements={elements}/>
-        
+        <Sidebar
+          logging={logging}
+          details={details}
+          setPage={setPage}
+          elements={elements}
+          iconOnlyClass="sidebar-icon-only"
+        />
+
         {/* Main Content */}
         <div className="flex-1 flex flex-col min-h-screen h-screen ml-0 md:ml-64 transition-all">
           <header className="gradient-bg shadow-md drop-shadow-lg p-3 flex justify-evenly md:justify-center md:px-8 items-center w-full fixed top-0 left-0 z-20 md:left-64 md:w-[calc(100%-16rem)] ">
-            
             <div className="flex items-center space-x-4 justify-center">
-
               {/* Logo */}
               <img src={logo} alt="Logo" className="h-10 w-10 rounded-full" />
               <h1 className="text-lg font-semibold text text-center items-center family">
                 FITS Tanza - Municipal Agriculture Office
               </h1>
-
             </div>
-
             {/* Mobile menu toggle button */}
             <button
               className="md:hidden text mt-2 md:mt-0 translate-y-[-4px] ml-4"
@@ -166,13 +168,10 @@ export default function Dashboard() {
           </header>
           {/* Render children below the header */}
           <main className="flex-1 p-2 sm:p-4 overflow-auto pt-20 h-0 min-h-0 minimalist-scrollbar">
-
-            <Page admin_navigate={admin_navigate} details={details}/>
-
+            <Page admin_navigate={admin_navigate} details={details} />
           </main>
         </div>
       </div>
-
 
       {/* Mobile menu overlay */}
       {mobileMenuOpen && (
@@ -321,7 +320,7 @@ export default function Dashboard() {
         </div>
       </aside>
       
-      {/* Minimalist scrollbar utility and neon profile effect */}
+      {/* Minimalist scrollbar utility, neon profile effect, and sidebar icon-only mode */}
       <style>{`
         .minimalist-scrollbar::-webkit-scrollbar {
           width: 8px;
@@ -373,6 +372,23 @@ export default function Dashboard() {
           100% {
             border-image-source: linear-gradient(360deg, #00fff0, #00f0ff, #00ffea, #00ffb7, #00fff0);
             transform: rotate(360deg);
+          }
+        }
+        /* Sidebar icon-only mode for 1000px-1300px */
+        @media (max-width: 1300px) and (min-width: 1000px) {
+          .sidebar-icon-only {
+            width: 5rem !important;
+            min-width: 5rem !important;
+            max-width: 5rem !important;
+          }
+          .sidebar-icon-only .sidebar-label,
+          .sidebar-icon-only .sidebar-username,
+          .sidebar-icon-only .sidebar-position,
+          .sidebar-icon-only .sidebar-logout-text {
+            display: none !important;
+          }
+          .sidebar-icon-only .sidebar-icon {
+            justify-content: center !important;
           }
         }
       `}</style>
