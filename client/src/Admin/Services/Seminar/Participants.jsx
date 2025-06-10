@@ -184,144 +184,104 @@ export default function Participants({ data, toggleOff }) {
         participants.length > 0;
 
     return (
-        <div
-            style={{
-                position: 'fixed',
-                top: '5%',
-                left: '15%',
-                width: '70%',
-                height: '90vh',
-                zIndex: 1000,
-                backgroundColor: 'white',
-                border: '5px solid black',
-            }}
-        >
-            <div className="container mx-auto p-4 relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+            <div className="relative w-full max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl p-4 md:p-10 overflow-y-auto max-h-[97vh] border border-gray-100 transition-all duration-300">
                 {/* HEADER */}
-                <div className="flex flex-col items-start justify-between mb-4 border p-4 rounded">
-                    <h2 className="text-2xl font-semibold mb-2">
-                        {data.title}
-                    </h2>
-                    <table className="w-full">
-                        <tbody>
-                            <tr>
-                                <td className="font-semibold pr-2">Speaker:</td>
-                                <td className="text-lg text-gray-800">
-                                    {data.speaker}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-semibold pr-2">
-                                    Location:
-                                </td>
-                                <td className="text-lg text-gray-800">
-                                    {data.location}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-semibold pr-2">Status:</td>
-                                <td className="text-lg text-gray-800">
-                                    {data.status}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="font-semibold pr-2">Dates:</td>
-                                <td className="text-lg text-gray-800">
-                                    {new Date(
-                                        data.start_date
-                                    ).toLocaleDateString(undefined, {
-                                        year: 'numeric',
-                                        month: 'long',
-                                        day: 'numeric',
-                                    })}
-                                    {' - '}
-                                    {new Date(data.end_date).toLocaleDateString(
-                                        undefined,
-                                        {
-                                            year: 'numeric',
-                                            month: 'long',
-                                            day: 'numeric',
-                                        }
-                                    )}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-6 border-b pb-6">
+                    <div className="min-w-0">
+                        <h2 className="text-2xl md:text-3xl font-black mb-2 text-gray-900 tracking-tight leading-tight truncate">
+                            {data.title}
+                        </h2>
+                        <div className="flex flex-col md:flex-row md:gap-8 gap-1 text-gray-500 text-base md:text-lg font-medium">
+                            <span className="truncate">
+                                <span className="font-bold text-gray-700">Speaker:</span>{" "}
+                                <span className="truncate inline-block max-w-[120px] md:max-w-[180px] align-middle">{data.speaker}</span>
+                            </span>
+                            <span className="truncate">
+                                <span className="font-bold text-gray-700">Location:</span>{" "}
+                                <span className="truncate inline-block max-w-[120px] md:max-w-[180px] align-middle">{data.location}</span>
+                            </span>
+                            <span>
+                                <span className="font-bold text-gray-700">Status:</span> {data.status}
+                            </span>
+                            <span>
+                                <span className="font-bold text-gray-700">Dates:</span>{" "}
+                                {new Date(data.start_date).toLocaleDateString(undefined, {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                })}{" "}
+                                -{" "}
+                                {new Date(data.end_date).toLocaleDateString(undefined, {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                })}
+                            </span>
+                        </div>
+                    </div>
+                    <button
+                        onClick={toggleOff}
+                        className="absolute top-4 right-4 md:static md:ml-4 bg-gradient-to-tr from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-full w-10 h-10 flex items-center justify-center shadow-2xl transition-all duration-200"
+                        aria-label="Close"
+                    >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
                 </div>
 
                 {/* CONTROLS */}
-                <button
-                    onClick={toggleOff}
-                    style={{
-                        position: 'absolute',
-                        top: '10px',
-                        right: '10px',
-                        fontSize: '20px',
-                        cursor: 'pointer',
-                        backgroundColor: 'red',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '5px',
-                        padding: '5px 10px',
-                    }}
-                >
-                    X
-                </button>
-
-                <div className="flex justify-between h-[45px] mb-[15px]">
-                    <div className="flex justify-start space-x-4 w-[60%]">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                    <div className="flex flex-col sm:flex-row gap-2 w-full md:w-2/3">
                         <input
                             type="text"
                             placeholder="Search participants..."
-                            className="border p-2 rounded w-[60%]"
+                            className="border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 rounded-xl px-4 py-2 w-full transition text-base shadow-md bg-gray-50"
                             onChange={handleSearchChange}
+                            value={searchTerm}
                         />
                         <button
                             onClick={() => setStatsVisible(!statsVisible)}
-                            className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 w-[100px] rounded"
+                            className="bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-800 font-semibold px-4 py-2 rounded-xl transition text-base shadow"
                         >
-                            Stats
+                            {statsVisible ? "Hide Stats" : "Show Stats"}
                         </button>
                     </div>
-
                     {/* SELECT MULTIPLE */}
-                    <div className="flex items-center space-x-4">
+                    <div className="flex flex-wrap gap-2 items-center">
                         <button
                             onClick={() => setShowSelect(!showSelect)}
-                            className="bg-green-200 hover:bg-green-300 text-gray-800 font-bold py-2 px-4 rounded"
+                            className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-semibold px-4 py-2 rounded-xl transition text-base shadow"
                         >
-                            {showSelect ? 'Cancel' : 'Select Multiple'}
+                            {showSelect ? "Cancel" : "Select Multiple"}
                         </button>
                         {showSelect && (
                             <>
                                 <button
                                     onClick={handleSelectAll}
-                                    className={`bg-green-200 hover:bg-green-300 text-gray-800 font-bold py-2 px-4 rounded ${
+                                    className={`bg-blue-100 hover:bg-blue-200 text-blue-800 font-semibold px-4 py-2 rounded-xl transition text-base shadow ${
                                         participants.length === 0
-                                            ? 'opacity-50 cursor-not-allowed'
-                                            : ''
+                                            ? "opacity-50 cursor-not-allowed"
+                                            : ""
                                     }`}
                                     disabled={participants.length === 0}
                                 >
-                                    {isAllSelected
-                                        ? 'Deselect All'
-                                        : 'Select All'}
+                                    {isAllSelected ? "Deselect All" : "Select All"}
                                 </button>
                                 <select
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="border border-gray-300 rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition text-base bg-white"
                                     value={bulkStatus}
                                     onChange={handleBulkStatusChange}
                                 >
-                                    <option value="Registered">
-                                        Registered
-                                    </option>
+                                    <option value="Registered">Registered</option>
                                     <option value="Attended">Attended</option>
                                     <option value="Cancelled">Cancelled</option>
                                     <option value="No Show">No Show</option>
                                 </select>
                                 <button
                                     onClick={handleUpdateBulkStatus}
-                                    className="bg-blue-200 hover:bg-blue-300 text-gray-800 font-bold py-2 px-4 rounded"
+                                    className="bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-700 hover:to-emerald-600 text-white font-semibold px-4 py-2 rounded-xl transition text-base shadow"
                                 >
                                     Update Selected
                                 </button>
@@ -330,46 +290,46 @@ export default function Participants({ data, toggleOff }) {
                     </div>
                 </div>
 
+                {/* STATS */}
                 {statsVisible && (
-                    <div className="mb-4 p-4 border rounded shadow-md">
-                        <h3 className="text-lg font-semibold mb-2">
-                            Participant Statistics
-                        </h3>
-                        <p>Total Participants: {totalCounts.total}</p>
-                        <p>Attended: {totalCounts.attended}</p>
-                        <p>Registered: {totalCounts.registered}</p>
-                        <p>Cancelled: {totalCounts.cancelled}</p>
-                        <p>No Show: {totalCounts.noShow}</p>
+                    <div className="mb-6 p-4 border rounded-2xl bg-gradient-to-r from-blue-50 via-white to-green-50 flex flex-wrap gap-6 justify-between shadow-inner">
+                        <div className="flex flex-col items-center min-w-[70px]">
+                            <span className="text-xl font-black text-blue-700">{totalCounts.total}</span>
+                            <span className="text-xs text-gray-500">Total</span>
+                        </div>
+                        <div className="flex flex-col items-center min-w-[70px]">
+                            <span className="text-xl font-black text-green-700">{totalCounts.attended}</span>
+                            <span className="text-xs text-gray-500">Attended</span>
+                        </div>
+                        <div className="flex flex-col items-center min-w-[70px]">
+                            <span className="text-xl font-black text-blue-700">{totalCounts.registered}</span>
+                            <span className="text-xs text-gray-500">Registered</span>
+                        </div>
+                        <div className="flex flex-col items-center min-w-[70px]">
+                            <span className="text-xl font-black text-red-700">{totalCounts.cancelled}</span>
+                            <span className="text-xs text-gray-500">Cancelled</span>
+                        </div>
+                        <div className="flex flex-col items-center min-w-[70px]">
+                            <span className="text-xl font-black text-yellow-700">{totalCounts.noShow}</span>
+                            <span className="text-xs text-gray-500">No Show</span>
+                        </div>
                     </div>
                 )}
 
-                {section === 'participants' && (
-                    <div className="overflow-x-auto shadow-md sm:rounded-lg">
-                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                {/* PARTICIPANTS TABLE */}
+                {section === "participants" && (
+                    <div className="overflow-x-auto rounded-2xl shadow-xl border border-gray-100 bg-white">
+                        <table className="min-w-full text-base text-left text-gray-700">
+                            <thead className="text-xs uppercase bg-gradient-to-r from-blue-50 to-green-50">
                                 <tr>
-                                    <th scope="col" className="px-3 py-3">
-                                        ID
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        FULLNAME
-                                    </th>
-                                    <th scope="col" className="px-8 py-3">
-                                        EMAIL
-                                    </th>
-                                    <th scope="col" className="px-3 py-3">
-                                        STATUS
-                                    </th>
-                                    <th scope="col" className="px-4 py-3">
-                                        Registration Date
-                                    </th>
-                                    <th scope="col" className="px-3 py-3">
-                                        Actions
-                                    </th>
+                                    <th className="px-3 py-3 font-bold whitespace-nowrap">ID</th>
+                                    <th className="px-4 py-3 font-bold whitespace-nowrap">Full Name</th>
+                                    <th className="px-4 py-3 font-bold whitespace-nowrap">Email</th>
+                                    <th className="px-3 py-3 font-bold whitespace-nowrap">Status</th>
+                                    <th className="px-4 py-3 font-bold whitespace-nowrap">Registration Date</th>
+                                    <th className="px-3 py-3 font-bold whitespace-nowrap">Actions</th>
                                     {showSelect && (
-                                        <th scope="col" className="px-3 py-3">
-                                            Select
-                                        </th>
+                                        <th className="px-3 py-3 font-bold whitespace-nowrap">Select</th>
                                     )}
                                 </tr>
                             </thead>
@@ -377,8 +337,8 @@ export default function Participants({ data, toggleOff }) {
                                 {participants.length === 0 ? (
                                     <tr>
                                         <td
-                                            colSpan="7"
-                                            className="px-6 py-[10%] text-center text-lg font-semibold bg-gray-100"
+                                            colSpan={showSelect ? 7 : 6}
+                                            className="px-4 py-16 text-center text-base font-semibold bg-gray-50"
                                         >
                                             No participants found.
                                         </td>
@@ -387,81 +347,56 @@ export default function Participants({ data, toggleOff }) {
                                     participants.map((user, index) => (
                                         <tr
                                             key={index}
-                                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                                            className="bg-white border-b hover:bg-blue-50 transition"
                                         >
-                                            <th
-                                                scope="row"
-                                                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                            >
+                                            <th className="px-3 py-3 font-semibold text-gray-900 whitespace-nowrap">
                                                 {user.id}
                                             </th>
-                                            <td className="px-6 py-4">
-                                                {user.firstname} {user.lastname}
+                                            <td className="px-4 py-3 max-w-[120px] md:max-w-[220px] truncate">
+                                                <span className="font-bold text-gray-800 truncate block">{user.firstname} {user.lastname}</span>
                                             </td>
-                                            <td className="px-6 py-4">
-                                                {user.email_address}
+                                            <td className="px-4 py-3 max-w-[140px] md:max-w-[260px] truncate">
+                                                <span className="text-gray-600 truncate block">{user.email_address}</span>
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-3 py-3">
                                                 <span
-                                                    className={`text-xs font-semibold mr-2 px-2.5 py-0.5 rounded ${
-                                                        user.status ===
-                                                        'Registered'
-                                                            ? 'bg-blue-100 text-blue-800 dark:bg-blue-200 dark:text-blue-900'
-                                                            : user.status ===
-                                                              'Attended'
-                                                            ? 'bg-green-100 text-green-800 dark:bg-green-200 dark:text-green-900'
-                                                            : user.status ===
-                                                              'Cancelled'
-                                                            ? 'bg-red-100 text-red-800 dark:bg-red-200 dark:text-red-900'
-                                                            : user.status ===
-                                                              'No Show'
-                                                            ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-200 dark:text-yellow-900'
-                                                            : 'bg-gray-100 text-gray-800 dark:bg-gray-200 dark:text-gray-900'
+                                                    className={`text-xs font-bold px-3 py-1 rounded-full shadow-sm ${
+                                                        user.status === "Registered"
+                                                            ? "bg-blue-100 text-blue-800"
+                                                            : user.status === "Attended"
+                                                            ? "bg-green-100 text-green-800"
+                                                            : user.status === "Cancelled"
+                                                            ? "bg-red-100 text-red-800"
+                                                            : user.status === "No Show"
+                                                            ? "bg-yellow-100 text-yellow-800"
+                                                            : "bg-gray-100 text-gray-800"
                                                     }`}
                                                 >
-                                                    {user.status || 'loading'}
+                                                    {user.status || "loading"}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4">
-                                                {user.reg_date}
+                                            <td className="px-4 py-3 max-w-[100px] md:max-w-[180px] truncate">
+                                                <span className="text-gray-500 truncate block">{user.reg_date}</span>
                                             </td>
-
-                                            <td className="px-6 py-4">
+                                            <td className="px-3 py-3">
                                                 <select
-                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    value={
-                                                        user.status || 'loading'
-                                                    }
-                                                    onChange={
-                                                        handleStatusUpdate
-                                                    }
+                                                    className="border border-gray-300 rounded-lg px-3 py-1 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition bg-white text-sm"
+                                                    value={user.status || "loading"}
+                                                    onChange={handleStatusUpdate}
                                                 >
-                                                    <option value="Registered">
-                                                        Registered
-                                                    </option>
-                                                    <option value="Attended">
-                                                        Attended
-                                                    </option>
-                                                    <option value="Cancelled">
-                                                        Cancelled
-                                                    </option>
-                                                    <option value="No Show">
-                                                        No Show
-                                                    </option>
+                                                    <option value="Registered">Registered</option>
+                                                    <option value="Attended">Attended</option>
+                                                    <option value="Cancelled">Cancelled</option>
+                                                    <option value="No Show">No Show</option>
                                                 </select>
                                             </td>
                                             {showSelect && (
-                                                <td className="px-6 py-4">
+                                                <td className="px-3 py-3 text-center">
                                                     <input
                                                         type="checkbox"
-                                                        checked={selectedParticipants.includes(
-                                                            user.id
-                                                        )}
-                                                        onChange={() =>
-                                                            handleToggleSelectParticipant(
-                                                                user.id
-                                                            )
-                                                        }
+                                                        checked={selectedParticipants.includes(user.id)}
+                                                        onChange={() => handleToggleSelectParticipant(user.id)}
+                                                        className="w-5 h-5 accent-blue-500 rounded-lg border-gray-300"
                                                     />
                                                 </td>
                                             )}

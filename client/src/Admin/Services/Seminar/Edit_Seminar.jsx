@@ -108,251 +108,250 @@ export default function Edit_Seminar({
     };
 
     return (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
             <form
-                className="bg-white rounded-2xl shadow-2xl p-0 w-full max-w-[30%] max-h-[90%] relative border border-gray-100"
+                className="bg-white rounded-3xl shadow-2xl p-0 w-full max-w-2xl max-h-[95vh] relative border border-blue-200 flex flex-col"
                 onSubmit={saveSeminar}
-                style={{ minWidth: 280 }}
+                style={{ minWidth: 320 }}
             >
-                <div className="flex justify-between items-center border-b border-gray-100 px-6 py-4">
-                    <h2 className="text-lg font-semibold text-gray-800">
+                {/* Header */}
+                <div className="flex justify-between items-center border-b border-blue-100 px-8 py-5 bg-gradient-to-r from-blue-500/10 to-blue-100 rounded-t-3xl">
+                    <h2 className="text-xl font-bold text-blue-700 tracking-tight">
                         Edit Seminar
                     </h2>
                     <button
                         type="button"
-                        className="text-gray-400 hover:text-gray-700 text-2xl leading-none"
+                        className="text-blue-400 hover:text-blue-700 text-3xl leading-none transition"
                         onClick={() => toggleOff()}
                         aria-label="Close"
                     >
                         &times;
                     </button>
                 </div>
-                <div className="px-6 py-6 flex flex-col gap-4">
-                    <div>
-                        <label className="block text-xs font-medium text-gray-500 mb-1">
-                            Status
-                        </label>
-
-                        <select
-                            onChange={(e) => setNewData({
+                {/* Content */}
+                <div className="flex flex-col md:flex-row gap-10 px-8 py-8 overflow-y-auto">
+                    {/* Left: Form Fields */}
+                    <div className="flex-1 flex flex-col gap-5">
+                        <div>
+                            <label className="block text-xs font-semibold text-blue-600 mb-1">
+                                Status
+                            </label>
+                            <select
+                                onChange={(e) => setNewData({
                                     ...newData,
                                     status: e.target.value,
                                 })}
-                            className="w-full sm:w-40 border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700 shadow-sm"
-                            defaultValue={newData.status}
-                        >
-                            <option value="Ongoing">Ongoing</option>
-                            <option value="Completed">Completed</option>
-                            <option value="Cancelled">Cancelled</option>
-                            <option value="Upcoming">Upcoming</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label className="block text-xs font-medium text-gray-500 mb-1">
-                            Title
-                        </label>
-                        <input
-                            type="text"
-                            className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
-                            value={newData.title}
-                            onChange={(e) =>
-                                setNewData({
-                                    ...newData,
-                                    title: e.target.value,
-                                })
-                            }
-                            required
-                            autoFocus
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-xs font-medium text-gray-500 mb-1">
-                            Location
-                        </label>
-                        <input
-                            type="text"
-                            className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
-                            value={newData.location}
-                            onChange={(e) =>
-                                setNewData({
-                                    ...newData,
-                                    location: e.target.value,
-                                })
-                            }
-                            required
-                            autoFocus
-                        />
-                    </div>
-                    <div className="flex gap-4">
-                        <div className="flex-1">
-                            <label className="block text-xs font-medium text-gray-500 mb-1">
-                                Start Date
+                                className="w-full border border-blue-200 rounded-xl px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700 shadow-sm"
+                                value={newData.status}
+                            >
+                                <option value="Ongoing">Ongoing</option>
+                                <option value="Completed">Completed</option>
+                                <option value="Cancelled">Cancelled</option>
+                                <option value="Upcoming">Upcoming</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-xs font-semibold text-blue-600 mb-1">
+                                Title
+                            </label>
+                            <input
+                                type="text"
+                                className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                                value={newData.title}
+                                onChange={(e) =>
+                                    setNewData({
+                                        ...newData,
+                                        title: e.target.value,
+                                    })
+                                }
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-semibold text-blue-600 mb-1">
+                                Location
+                            </label>
+                            <input
+                                type="text"
+                                className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                                value={newData.location}
+                                onChange={(e) =>
+                                    setNewData({
+                                        ...newData,
+                                        location: e.target.value,
+                                    })
+                                }
+                                required
+                            />
+                        </div>
+                        <div className="flex gap-3 flex-col sm:flex-row">
+                            <div className="flex-1">
+                                <label className="block text-xs font-semibold text-blue-600 mb-1">
+                                    Start Date
+                                </label>
+                                <input
+                                    type="date"
+                                    className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                                    value={newData.start_date}
+                                    onChange={(e) =>
+                                        setNewData({
+                                            ...newData,
+                                            start_date: e.target.value,
+                                        })
+                                    }
+                                    required
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <label className="block text-xs font-semibold text-blue-600 mb-1">
+                                    End Date
+                                </label>
+                                <input
+                                    type="date"
+                                    className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                                    value={newData.end_date}
+                                    onChange={(e) =>
+                                        setNewData({
+                                            ...newData,
+                                            end_date: e.target.value,
+                                        })
+                                    }
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className="flex gap-3 flex-col sm:flex-row">
+                            <div className="flex-1">
+                                <label className="block text-xs font-semibold text-blue-600 mb-1">
+                                    Opening Time
+                                </label>
+                                <input
+                                    type="time"
+                                    className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                                    value={newData.start_time}
+                                    onChange={(e) =>
+                                        setNewData({
+                                            ...newData,
+                                            start_time: e.target.value,
+                                        })
+                                    }
+                                    required
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <label className="block text-xs font-semibold text-blue-600 mb-1">
+                                    Closing Time
+                                </label>
+                                <input
+                                    type="time"
+                                    className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                                    value={newData.end_time}
+                                    onChange={(e) =>
+                                        setNewData({
+                                            ...newData,
+                                            end_time: e.target.value,
+                                        })
+                                    }
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label className="block text-xs font-semibold text-blue-600 mb-1">
+                                Maximum Participants
+                            </label>
+                            <input
+                                type="number"
+                                min="1"
+                                className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                                value={newData.capacity}
+                                onChange={(e) =>
+                                    setNewData({
+                                        ...newData,
+                                        capacity: e.target.value,
+                                    })
+                                }
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-semibold text-blue-600 mb-1">
+                                Speaker Name
+                            </label>
+                            <input
+                                type="text"
+                                className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                                value={newData.speaker}
+                                onChange={(e) =>
+                                    setNewData({
+                                        ...newData,
+                                        speaker: e.target.value,
+                                    })
+                                }
+                                required
+                                placeholder="Enter speaker name"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-semibold text-blue-600 mb-1">
+                                Registration Deadline
                             </label>
                             <input
                                 type="date"
-                                className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
-                                value={newData.start_date}
+                                className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                                value={newData.registration_deadline}
                                 onChange={(e) =>
                                     setNewData({
                                         ...newData,
-                                        start_date: e.target.value,
+                                        registration_deadline: e.target.value,
                                     })
                                 }
                                 required
                             />
                         </div>
-                        <div className="flex-1">
-                            <label className="block text-xs font-medium text-gray-500 mb-1">
-                                End Date
+                        <div>
+                            <label className="block text-xs font-semibold text-blue-600 mb-1">
+                                Description
                             </label>
-                            <input
-                                type="date"
-                                className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
-                                value={newData.end_date}
+                            <textarea
+                                className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition resize-none"
+                                value={newData.description}
                                 onChange={(e) =>
                                     setNewData({
                                         ...newData,
-                                        end_date: e.target.value,
+                                        description: e.target.value,
                                     })
                                 }
                                 required
+                                rows={3}
                             />
                         </div>
                     </div>
-                    <div className="flex gap-4">
-                        <div className="flex-1">
-                            <label className="block text-xs font-medium text-gray-500 mb-1">
-                                Opening Time
-                            </label>
-                            <input
-                                type="time"
-                                className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
-                                value={newData.start_time}
-                                onChange={(e) =>
-                                    setNewData({
-                                        ...newData,
-                                        start_time: e.target.value,
-                                    })
-                                }
-                                required
-                            />
-                        </div>
-                        <div className="flex-1">
-                            <label className="block text-xs font-medium text-gray-500 mb-1">
-                                Closing Time
-                            </label>
-                            <input
-                                type="time"
-                                className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
-                                value={newData.end_time}
-                                onChange={(e) =>
-                                    setNewData({
-                                        ...newData,
-                                        end_time: e.target.value,
-                                    })
-                                }
-                                required
-                            />
-                        </div>
-                    </div>
-
-                    <div>
-                        <label className="block text-xs font-medium text-gray-500 mb-1">
-                            Maximum Participants
+                    {/* Right: Image Upload */}
+                    <div className="flex flex-col items-center gap-4 w-full md:w-64">
+                        <label className="block text-xs font-semibold text-blue-600 mb-1 self-start">
+                            Upload Image <span className="text-blue-300">(optional)</span>
                         </label>
-                        <input
-                            type="number"
-                            min="1"
-                            className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
-                            value={newData.capacity}
-                            onChange={(e) =>
-                                setNewProgram({
-                                    ...newData,
-                                    capacity: e.target.value,
-                                })
-                            }
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-xs font-medium text-gray-500 mb-1">
-                            Speaker Name
-                        </label>
-                        <input
-                            type="text"
-                            className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
-                            value={newData.speaker}
-                            onChange={(e) =>
-                                setNewData({
-                                    ...newData,
-                                    speaker: e.target.value,
-                                })
-                            }
-                            required
-                            placeholder="Enter speaker name"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-xs font-medium text-gray-500 mb-1">
-                            Registration Deadline
-                        </label>
-                        <input
-                            type="date"
-                            className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
-                            value={newData.registration_deadline}
-                            onChange={(e) =>
-                                setNewData({
-                                    ...newData,
-                                    registration_deadline: e.target.value,
-                                })
-                            }
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-xs font-medium text-gray-500 mb-1">
-                            Description
-                        </label>
-                        <textarea
-                            className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition resize-none"
-                            value={newData.description}
-                            onChange={(e) =>
-                                setNewData({
-                                    ...newData,
-                                    description: e.target.value,
-                                })
-                            }
-                            required
-                            rows={3}
-                        />
-                    </div>
-
-                    <div className="fixed right-10 flex-col bg-white p-10 border-1">
-                        <label className="block text-xs font-medium text-gray-500 mb-1">
-                            Upload Image{' '}
-                            <span className="text-gray-300">(optional)</span>
-                        </label>
-
                         <input
                             type="file"
                             accept="image/*"
-                            className="w-full border border-gray-200 mt-5 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                            className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
                             onChange={changeImage}
                         />
-
-                        <img
-                            src={image}
-                            alt="Seminar"
-                            className="w-[100%] max-w-[500px] max-h-[500px] bg-amber-50 object-cover mt-10 rounded-md border-2"
-                        />
+                        <div className="w-full flex justify-center">
+                            <img
+                                src={image}
+                                alt="Seminar"
+                                className="w-full max-w-[200px] max-h-[200px] bg-blue-50 object-cover mt-2 rounded-xl border border-blue-200 shadow"
+                            />
+                        </div>
                     </div>
-
+                </div>
+                {/* Footer */}
+                <div className="px-8 py-5 border-t border-blue-100 bg-gradient-to-r from-blue-50 to-blue-100 rounded-b-3xl flex justify-end">
                     <button
                         type="submit"
-                        className="mt-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg py-2 transition-colors shadow-none focus:ring-2 focus:ring-green-200 focus:outline-none w-full"
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl py-2 px-8 transition-colors shadow focus:ring-2 focus:ring-blue-200 focus:outline-none"
                     >
                         Save
                     </button>

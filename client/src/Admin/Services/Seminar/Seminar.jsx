@@ -269,18 +269,56 @@ export default function Seminar({ admin_navigate }) {
     }
 
     return (
-        <div className="min-h-screen bg-white py-6 px-2 md:px-8">
+        <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-green-50 py-10 px-2 md:px-8">
             {/* Header */}
-            <div className="relative mt-20 mb-10">
-                <hr className="border-black-300" />
-                <span className="absolute left-1/8 -translate-x-1/4 -top-5 bg-white rounded-lg px-4 text-2xl md:text-3xl italic font-semibold text-black-700">
+            <div className="relative mt-20 mb-10 flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto gap-4">
+                <span className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight flex items-center gap-2">
+                    <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path d="M12 20V10M12 10L8 14M12 10l4 4" strokeLinecap="round" strokeLinejoin="round"/>
+                        <circle cx="12" cy="12" r="10" />
+                    </svg>
                     Seminars & Programs
                 </span>
+                <div className="flex gap-2 flex-wrap">
+                    <button
+                        className={`bg-gradient-to-r from-red-500 to-red-600 text-white px-5 py-2 rounded-xl text-base font-semibold shadow-md transition-all ${
+                            selectMode
+                                ? 'hover:from-red-600 hover:to-red-700'
+                                : 'hover:opacity-90'
+                        } ${selectMode ? '' : 'opacity-80'}`}
+                        onClick={
+                            selectMode
+                                ? handleDeleteSelected
+                                : handleToggleSelectMode
+                        }
+                        disabled={selectMode && selectedItems.length === 0}
+                    >
+                        {selectMode
+                            ? selectedItems.length > 0
+                                ? `Delete (${selectedItems.length})`
+                                : 'Delete'
+                            : 'Delete'}
+                    </button>
+                    <button
+                        className="bg-gradient-to-r from-green-500 to-green-600 text-white px-5 py-2 rounded-xl hover:from-green-600 hover:to-green-700 text-base font-semibold shadow-md transition-all"
+                        onClick={() => setShowAdd(true)}
+                    >
+                        <span className="mr-1 text-xl font-bold">+</span> Add Program
+                    </button>
+                    {selectMode && (
+                        <button
+                            className="bg-gray-100 text-gray-700 px-4 py-2 rounded-xl text-sm font-semibold ml-2 hover:bg-gray-200 border border-gray-200 shadow"
+                            onClick={handleToggleSelectMode}
+                        >
+                            Cancel
+                        </button>
+                    )}
+                </div>
             </div>
 
-            {/* Search Bar and Buttons */}
-            <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center mb-8 max-w-6xl mx-auto gap-4">
-                <div className="flex-1 flex flex-col sm:flex-row gap-4">
+            {/* Search Bar and Filters */}
+            <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-7xl mx-auto gap-4">
+                <div className="flex-1 flex flex-col md:flex-row gap-4 w-full">
                     <div className="relative w-full max-w-lg">
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <svg
@@ -299,22 +337,21 @@ export default function Seminar({ admin_navigate }) {
                             placeholder="Search programs..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-black bg-white shadow-sm"
+                            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 text-black bg-white shadow"
                         />
                     </div>
                     <select
                         onChange={(e) => setSearchFilter(e.target.value)}
-                        className="w-full sm:w-40 border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700 shadow-sm"
+                        className="w-full md:w-44 border border-gray-200 rounded-xl px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700 shadow"
                     >
                         <option value="all">All</option>
                         <option value="title">Title</option>
                         <option value="speaker">Speaker</option>
                         <option value="location">Location</option>
                     </select>
-
                     <select
                         onChange={(e) => setStatusFilter(e.target.value)}
-                        className="w-full sm:w-40 border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-700 shadow-sm"
+                        className="w-full md:w-44 border border-gray-200 rounded-xl px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700 shadow"
                         defaultValue=""
                     >
                         <option value="" disabled>
@@ -327,54 +364,21 @@ export default function Seminar({ admin_navigate }) {
                         <option value="Upcoming">Upcoming</option>
                     </select>
                 </div>
-
-                <div className="flex gap-2 w-full sm:w-auto">
-                    <button
-                        className={`bg-red-500 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                            selectMode
-                                ? 'hover:bg-red-600'
-                                : 'hover:bg-red-500/80'
-                        } ${selectMode ? '' : 'opacity-80'}`}
-                        onClick={
-                            selectMode
-                                ? handleDeleteSelected
-                                : handleToggleSelectMode
-                        }
-                        disabled={selectMode && selectedItems.length === 0}
-                    >
-                        {selectMode
-                            ? selectedItems.length > 0
-                                ? `Delete (${selectedItems.length})`
-                                : 'Delete'
-                            : 'Delete'}
-                    </button>
-                    <button
-                        className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 text-sm font-semibold transition-colors"
-                        onClick={() => setShowAdd(true)}
-                    >
-                        + Add Program
-                    </button>
-                    {selectMode && (
-                        <button
-                            className="bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-xs font-semibold ml-2 hover:bg-gray-300"
-                            onClick={handleToggleSelectMode}
-                        >
-                            Cancel
-                        </button>
-                    )}
-                </div>
             </div>
 
             {/* Add Program Modal */}
             {showAdd && (
                 <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
                     <form
-                        className="bg-white rounded-2xl shadow-2xl p-0 w-full max-w-sm relative border border-gray-100"
+                        className="bg-white rounded-2xl shadow-2xl p-0 w-full max-w-md relative border border-gray-100 animate-fade-in"
                         onSubmit={() => setShowAdd(true)}
-                        style={{ minWidth: 280 }}
+                        style={{ minWidth: 320 }}
                     >
-                        <div className="flex justify-between items-center border-b border-gray-100 px-6 py-4">
-                            <h2 className="text-lg font-semibold text-gray-800">
+                        <div className="flex justify-between items-center border-b border-gray-100 px-7 py-5">
+                            <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                                <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <path d="M12 4v16m8-8H4" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
                                 Add Program
                             </h2>
                             <button
@@ -386,14 +390,14 @@ export default function Seminar({ admin_navigate }) {
                                 &times;
                             </button>
                         </div>
-                        <div className="px-6 py-6 flex flex-col gap-4">
+                        <div className="px-7 py-7 flex flex-col gap-4">
                             <div>
                                 <label className="block text-xs font-medium text-gray-500 mb-1">
                                     Title
                                 </label>
                                 <input
                                     type="text"
-                                    className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                    className="w-full border border-gray-200 rounded-xl px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
                                     value={newProgram.title}
                                     onChange={(e) =>
                                         setNewProgram({
@@ -411,7 +415,7 @@ export default function Seminar({ admin_navigate }) {
                                 </label>
                                 <input
                                     type="text"
-                                    className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                    className="w-full border border-gray-200 rounded-xl px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
                                     value={newProgram.location}
                                     onChange={(e) =>
                                         setNewProgram({
@@ -420,7 +424,6 @@ export default function Seminar({ admin_navigate }) {
                                         })
                                     }
                                     required
-                                    autoFocus
                                 />
                             </div>
                             <div className="flex gap-4">
@@ -430,7 +433,7 @@ export default function Seminar({ admin_navigate }) {
                                     </label>
                                     <input
                                         type="date"
-                                        className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                        className="w-full border border-gray-200 rounded-xl px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
                                         value={newProgram.startDate}
                                         onChange={(e) =>
                                             setNewProgram({
@@ -447,7 +450,7 @@ export default function Seminar({ admin_navigate }) {
                                     </label>
                                     <input
                                         type="date"
-                                        className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                        className="w-full border border-gray-200 rounded-xl px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
                                         value={newProgram.endDate || ''}
                                         onChange={(e) =>
                                             setNewProgram({
@@ -466,7 +469,7 @@ export default function Seminar({ admin_navigate }) {
                                     </label>
                                     <input
                                         type="time"
-                                        className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                        className="w-full border border-gray-200 rounded-xl px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
                                         value={newProgram.openTime || ''}
                                         onChange={(e) =>
                                             setNewProgram({
@@ -483,7 +486,7 @@ export default function Seminar({ admin_navigate }) {
                                     </label>
                                     <input
                                         type="time"
-                                        className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                        className="w-full border border-gray-200 rounded-xl px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
                                         value={newProgram.closeTime || ''}
                                         onChange={(e) =>
                                             setNewProgram({
@@ -503,7 +506,7 @@ export default function Seminar({ admin_navigate }) {
                                 <input
                                     type="number"
                                     min="1"
-                                    className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                    className="w-full border border-gray-200 rounded-xl px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
                                     value={newProgram.capacity}
                                     onChange={(e) =>
                                         setNewProgram({
@@ -522,7 +525,7 @@ export default function Seminar({ admin_navigate }) {
                                 </label>
                                 <input
                                     type="text"
-                                    className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                    className="w-full border border-gray-200 rounded-xl px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
                                     value={newProgram.speaker || ''}
                                     onChange={(e) =>
                                         setNewProgram({
@@ -541,7 +544,7 @@ export default function Seminar({ admin_navigate }) {
                                 </label>
                                 <input
                                     type="date"
-                                    className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                    className="w-full border border-gray-200 rounded-xl px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
                                     value={
                                         newProgram.registrationDeadline || ''
                                     }
@@ -561,7 +564,7 @@ export default function Seminar({ admin_navigate }) {
                                     Description
                                 </label>
                                 <textarea
-                                    className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition resize-none"
+                                    className="w-full border border-gray-200 rounded-xl px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition resize-none"
                                     value={newProgram.description}
                                     onChange={(e) =>
                                         setNewProgram({
@@ -574,31 +577,29 @@ export default function Seminar({ admin_navigate }) {
                                 />
                             </div>
 
-                            <div className="fixed right-10 flex-col bg-white p-10 border-1">
+                            <div className="flex flex-col items-center gap-2">
                                 <label className="block text-xs font-medium text-gray-500 mb-1">
                                     Upload Image{' '}
                                     <span className="text-gray-300">
                                         (optional)
                                     </span>
                                 </label>
-
                                 <input
                                     type="file"
                                     accept="image/*"
-                                    className="w-full border border-gray-200 mt-5 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
+                                    className="w-full border border-gray-200 mt-2 rounded-xl px-3 py-2 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-1 focus:ring-green-100 transition"
                                     onChange={changeImage}
                                 />
-
                                 <img
                                     src={newImage}
                                     alt="Seminar"
-                                    className="w-[100%] max-w-[500px] max-h-[500px] bg-amber-50 object-cover mt-10 rounded-md border-2"
+                                    className="w-full max-w-[300px] max-h-[200px] bg-amber-50 object-cover mt-2 rounded-lg border-2"
                                 />
                             </div>
 
                             <button
                                 type="submit"
-                                className="mt-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg py-2 transition-colors shadow-none focus:ring-2 focus:ring-green-200 focus:outline-none w-full"
+                                className="mt-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-xl py-2 transition-all shadow focus:ring-2 focus:ring-green-200 focus:outline-none w-full"
                                 onClick={handleAddProgram}
                             >
                                 Add Program
@@ -632,14 +633,20 @@ export default function Seminar({ admin_navigate }) {
             )}
 
             {/* Responsive Grid for Programs */}
-            <div className="w-full max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 [@media(min-width:1150px)]:grid-cols-3 gap-6 md:gap-8">
+            <div className="w-full max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
                 {programList.map((item, idx) => {
                     const isSelected = selectedItems.includes(idx);
+
+                    // Truncate description to 100 chars
+                    const truncatedDescription =
+                        item.description && item.description.length > 100
+                            ? item.description.slice(0, 100) + '...'
+                            : item.description;
 
                     return (
                         <div
                             key={idx}
-                            className={`bg-white border border-gray-200 rounded-xl shadow hover:shadow-lg transition-shadow flex flex-col relative ${
+                            className={`relative flex flex-col bg-white border border-gray-100 rounded-3xl shadow-lg hover:shadow-2xl transition-all overflow-hidden group ${
                                 selectMode && 'cursor-pointer'
                             } ${
                                 selectMode && isSelected
@@ -653,7 +660,7 @@ export default function Seminar({ admin_navigate }) {
                             }
                         >
                             {selectMode && (
-                                <div className="absolute top-3 left-3 z-10">
+                                <div className="absolute top-4 left-4 z-10">
                                     <input
                                         type="checkbox"
                                         checked={isSelected}
@@ -663,40 +670,45 @@ export default function Seminar({ admin_navigate }) {
                                     />
                                 </div>
                             )}
-                            <h3 className="text-center text-lg md:text-xl font-semibold text-gray-800 mb-2 cursor-default">
-                                Status: {item.status}
-                            </h3>
-                            <img
-                                src={item.photo}
-                                alt={item.title}
-                                className="w-full h-40 sm:h-48 object-cover rounded-t-xl bg-gray-100 transition-none"
-                            />
-                            <div className="flex-1 flex flex-col p-4 md:p-5">
-                                <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-2 cursor-default">
+                            <div className="relative">
+                                <img
+                                    src={item.photo}
+                                    alt={item.title}
+                                    className="w-full h-48 sm:h-56 object-cover transition-all duration-300 group-hover:scale-105"
+                                />
+                                <span className={`absolute top-4 right-4 px-4 py-1 rounded-full text-xs font-bold shadow ${
+                                    item.status === 'Ongoing'
+                                        ? 'bg-green-100 text-green-700'
+                                        : item.status === 'Completed'
+                                        ? 'bg-gray-200 text-gray-600'
+                                        : item.status === 'Cancelled'
+                                        ? 'bg-red-100 text-red-600'
+                                        : 'bg-blue-100 text-blue-700'
+                                }`}>
+                                    {item.status}
+                                </span>
+                            </div>
+                            <div className="flex-1 flex flex-col p-6">
+                                <h3 className="text-xl font-bold text-gray-900 mb-1 truncate">
                                     {item.title}
                                 </h3>
-                                <p className="text-gray-600 text-sm mb-4 flex-1 cursor-default">
-                                    {item.description}
+                                <p className="text-gray-600 text-base mb-3 flex-1 cursor-default line-clamp-3">
+                                    {truncatedDescription}
                                 </p>
-                                <div className="mb-2">
-                                    <span className="font-semibold text-gray-700">
-                                        Speaker:
-                                    </span>{' '}
-                                    {item.speaker}
+                                <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500 mb-2">
+                                    <span>
+                                        <span className="font-semibold text-gray-700">Speaker:</span> {item.speaker}
+                                    </span>
+                                    <span>
+                                        <span className="font-semibold text-gray-700">Location:</span> {item.location}
+                                    </span>
                                 </div>
-                                <div className="mb-2">
-                                    <span className="font-semibold text-gray-700">
-                                        Location:
-                                    </span>{' '}
-                                    {item.location}
-                                </div>
-
                                 <div className="flex flex-col gap-2 mt-auto md:flex-row">
                                     <button
                                         onClick={(e) => {
                                             edit_seminar(e, item);
                                         }}
-                                        className="w-full md:w-auto bg-blue-600 text-white cursor-pointer px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-semibold transition-colors"
+                                        className="w-full md:w-auto bg-gradient-to-r from-blue-500 to-blue-600 text-white cursor-pointer px-4 py-2 rounded-xl hover:from-blue-600 hover:to-blue-700 text-base font-semibold transition-all shadow"
                                     >
                                         Edit Program
                                     </button>
@@ -704,7 +716,7 @@ export default function Seminar({ admin_navigate }) {
                                         onClick={(e) => {
                                             edit_participants(e, item);
                                         }}
-                                        className="w-full md:w-auto bg-green-600 text-white cursor-pointer px-4 py-2 rounded-lg hover:bg-green-700 text-sm font-semibold transition-colors"
+                                        className="w-full md:w-auto bg-gradient-to-r from-green-500 to-green-600 text-white cursor-pointer px-4 py-2 rounded-xl hover:from-green-600 hover:to-green-700 text-base font-semibold transition-all shadow"
                                     >
                                         Participants
                                     </button>
@@ -715,7 +727,7 @@ export default function Seminar({ admin_navigate }) {
                 })}
 
                 {programList.length === 0 && (
-                    <div className="col-span-full text-center text-gray-400 py-10">
+                    <div className="col-span-full text-center text-gray-400 py-16 text-lg font-medium">
                         No programs found.
                     </div>
                 )}
