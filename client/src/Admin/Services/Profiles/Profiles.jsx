@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import User from './User.jsx';
+import User from './User/User.jsx';
 import { useEffect, useState } from 'react';
 
 export default function Profiles() {

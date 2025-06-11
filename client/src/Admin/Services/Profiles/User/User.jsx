@@ -2,21 +2,19 @@ import React from 'react';
 import { useState } from 'react';
 
 // ASSETS
-import default_picture from '../../../Assets/default_picture.png';
+import default_picture from '../../../../Assets/default_picture.png';
+
+// Global Component
+import Info_Block from '../../../../Components/settings/AccountProfile/Info_Block';
 
 export default function User({ user, onEdit }) {
     const [isExpanded, setIsExpanded] = useState(false);
-
-    const handleExpand = () => {
-        setIsExpanded(!isExpanded);
-    };
 
     return (
         // Main Container
         <div className="flex-col">
             {/* Row Container */}
             <div className="border rounded shadow-md py-4 px-6 flex justify-between items-center">
-
                 <div className="flex w-[70%]">
                     <img
                         src={user.picture || default_picture}
@@ -40,7 +38,7 @@ export default function User({ user, onEdit }) {
                     </button>
 
                     <button
-                        onClick={handleExpand}
+                        onClick={() => setIsExpanded(!isExpanded)}
                         className="bg-gray-200 hover:bg-gray-300 text-gray-700 w-[130px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
                         {isExpanded ? 'Hide Details' : 'Show Details'}
@@ -57,19 +55,7 @@ export default function User({ user, onEdit }) {
                 }`}
             >
                 {isExpanded && (
-                    <div>
-                        <p>
-                            <strong>ID:</strong> {user.id}
-                        </p>
-                        <p>
-                            <strong>Role:</strong> {user.access || 'N/A'}
-                        </p>
-                        <p>
-                            <strong>Created At:</strong>{' '}
-                            {user.created_at || 'N/A'}
-                        </p>
-                        {/* Add more user details here */}
-                    </div>
+                    <Info_Block user={user}/>
                 )}
             </div>
         </div>
