@@ -33,6 +33,8 @@ export default function Profiles() {
         console.log(filter.client_profile);
         console.log(filter.roles);
 
+        //! ERROR: Role filter does not work properly and shows random user 
+
         (async () => {
 
             // Get the list of accounts
