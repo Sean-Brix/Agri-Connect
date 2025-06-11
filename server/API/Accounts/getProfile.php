@@ -8,18 +8,38 @@ $user = verify_token($token, ACCESS_KEY);
 if(!$user){  
     sendResponse(
         401,
-        "Unauthorize",
-        ["Error"=>"Token failed to verify"],
-        "User Does not have an account yet"
+        "Unauthorized",
+        ["Error"=>"Token failed to verify",
+        "User does not have an account yet"]
     );
     exit();
 }
 
-$Account = new Account($user['ID']);
+$user_id = $_GET['user_id'] ?? null;
+if ($user_id !== null) {
+    $Account = new Account($user_id);
+    $details = $Account->getDetails(false);
 
+    if (isset($details['profile_picture']) && $details['profile_picture'] != null) {
+        sendImageResponse($details['profile_picture']);
+        exit();
+    }
+    
+    sendResponse(
+        204,
+        "Not Found",
+        [
+            "error" => "Resource not found or User has no profile picture",
+            "value" => "None"
+        ],
+        "Profile picture defaulting"
+    );
+    exit();
+} else {
+    $Account = new Account($user['ID']);
 $details = $Account->getDetails(false);
 
-if($details['profile_picture'] != null){
+    if (isset($details['profile_picture']) && $details['profile_picture'] != null) {
     sendImageResponse($details['profile_picture']);
     exit();
 }
@@ -33,3 +53,4 @@ sendResponse(
     ],
     "Profile picture defaulting"
 );
+}

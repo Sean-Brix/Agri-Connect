@@ -30,6 +30,9 @@ export default function Profiles() {
 
     useEffect(()=>{
 
+        console.log(filter.client_profile);
+        console.log(filter.roles);
+
         (async () => {
 
             // Get the list of accounts

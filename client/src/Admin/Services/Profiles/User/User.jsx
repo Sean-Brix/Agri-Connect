@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 
 // ASSETS
@@ -9,6 +9,26 @@ import Info_Block from '../../../../Components/settings/AccountProfile/Info_Bloc
 
 export default function User({ user, onEdit }) {
     const [isExpanded, setIsExpanded] = useState(false);
+    const [account, setAccount] = useState(user);
+
+    useEffect(()=>{
+
+        (async ()=>{
+            const getImage = await fetch(`/api/Accounts/getProfile?user_id=${user.id}`)
+
+            if(getImage.status == 204){
+                setAccount({...account, picture: default_picture});
+                return;
+            }
+            
+            const imageBlob = await getImage.blob()
+            const imageObjectURL = URL.createObjectURL(imageBlob);
+
+            setAccount({...account, picture: imageObjectURL});
+
+        })()
+
+    }, [])
 
     return (
         // Main Container
@@ -17,21 +37,21 @@ export default function User({ user, onEdit }) {
             <div className="border rounded shadow-md py-4 px-6 flex justify-between items-center">
                 <div className="flex w-[70%]">
                     <img
-                        src={user.picture || default_picture}
-                        alt={`${user.username}'s profile`}
+                        src={account.picture}
+                        alt={`${account.username}'s profile`}
                         className="w-12 h-12 rounded-full mr-4"
                     />
                     <div>
                         <h3 className="text-lg font-semibold">
-                            {user.username}
+                            {account.username}
                         </h3>
-                        <p className="text-gray-600">{user.email_address}</p>
+                        <p className="text-gray-600">{account.email_address}</p>
                     </div>
                 </div>
 
                 <div className="space-x-2 flex w-[30%] justify-end">
                     <button
-                        onClick={() => onEdit(user.id)}
+                        onClick={() => onEdit(account.id)}
                         className="bg-blue-500 hover:bg-blue-700 text-white w-[100px] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
                         Edit
@@ -50,12 +70,12 @@ export default function User({ user, onEdit }) {
             <div
                 className={`overflow-hidden transition-height duration-500 ease ${
                     isExpanded
-                        ? 'max-h-96 p-4 border-t border shadow-md bg-green-100'
-                        : 'max-h-0 p-0 border-0 shadow-none bg-transparent'
+                        ? 'p-4 border-t border shadow-md bg-green-100'
+                        : 'p-0 border-0 shadow-none bg-transparent'
                 }`}
             >
                 {isExpanded && (
-                    <Info_Block user={user}/>
+                    <Info_Block user={account}/>
                 )}
             </div>
         </div>
