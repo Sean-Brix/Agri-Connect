@@ -185,57 +185,57 @@ export default function Participants({ data, toggleOff }) {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
-            <div className="relative w-full max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl p-2 md:p-6 lg:p-10 overflow-y-auto max-h-[97vh] border border-blue-200 transition-all duration-300">
+            <div className="relative w-full max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl p-2 md:p-6 lg:p-10 border border-blue-200 transition-all duration-300 flex flex-col max-h-[97vh]">
                 {/* HEADER */}
-                                <div className="flex flex-col md:flex-row md:items-center p-2 md:p-0 md:justify-between gap-4 md:gap-6 mb-4 md:mb-6 border-b pb-4 md:pb-6">
-                                    <div className="min-w-0">
-                                        <h2 className="text-xl md:text-3xl font-black mb-2 text-blue-900 tracking-tight leading-tight truncate">
-                                            {data.title}
-                                        </h2>
-                                        <div className="flex flex-wrap gap-x-8 gap-y-1 text-blue-700 text-base md:text-lg font-medium">
-                                            <div className="flex flex-col min-w-[120px]">
-                                                <span className="break-all">
-                                                    <span className="font-bold text-blue-900">Speaker:</span>{" "}
-                                                    <span className="break-all inline-block align-middle">{data.speaker}</span>
-                                                </span>
-                                                <span className="break-all mt-1">
-                                                    <span className="font-bold text-blue-900">Location:</span>{" "}
-                                                    <span className="break-all inline-block align-middle">{data.location}</span>
-                                                </span>
-                                            </div>
-                                            <div className="flex flex-col min-w-[120px]">
-                                                <span className="break-all">
-                                                    <span className="font-bold text-blue-900">Status:</span> {data.status}
-                                                </span>
-                                                <span className="break-all mt-1">
-                                                    <span className="font-bold text-blue-900">Dates:</span>{" "}
-                                                    {new Date(data.start_date).toLocaleDateString(undefined, {
-                                                        year: "numeric",
-                                                        month: "short",
-                                                        day: "numeric",
-                                                    })}{" "}
-                                                    -{" "}
-                                                    {new Date(data.end_date).toLocaleDateString(undefined, {
-                                                        year: "numeric",
-                                                        month: "short",
-                                                        day: "numeric",
-                                                    })}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button
-                                        onClick={toggleOff}
-                                        className="absolute top-2 right-2 md:static md:ml-4 bg-gradient-to-tr from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white rounded-full w-10 h-10 flex items-center justify-center shadow-2xl transition-all duration-200"
-                                        aria-label="Close"
-                                    >
-                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                    </button>
-                                </div>
+                <div className="flex flex-col md:flex-row md:items-center p-2 md:p-0 md:justify-between gap-4 md:gap-6 mb-4 md:mb-6 border-b pb-4 md:pb-6">
+                    <div className="min-w-0">
+                        <h2 className="text-xl md:text-3xl font-black mb-2 text-blue-900 tracking-tight leading-tight truncate">
+                            {data.title}
+                        </h2>
+                        <div className="flex flex-wrap gap-x-8 gap-y-1 text-blue-700 text-base md:text-lg font-medium">
+                            <div className="flex flex-col min-w-[120px]">
+                                <span className="break-all">
+                                    <span className="font-bold text-blue-900">Speaker:</span>{" "}
+                                    <span className="break-all inline-block align-middle">{data.speaker}</span>
+                                </span>
+                                <span className="break-all mt-1">
+                                    <span className="font-bold text-blue-900">Location:</span>{" "}
+                                    <span className="break-all inline-block align-middle">{data.location}</span>
+                                </span>
+                            </div>
+                            <div className="flex flex-col min-w-[120px]">
+                                <span className="break-all">
+                                    <span className="font-bold text-blue-900">Status:</span> {data.status}
+                                </span>
+                                <span className="break-all mt-1">
+                                    <span className="font-bold text-blue-900">Dates:</span>{" "}
+                                    {new Date(data.start_date).toLocaleDateString(undefined, {
+                                        year: "numeric",
+                                        month: "short",
+                                        day: "numeric",
+                                    })}{" "}
+                                    -{" "}
+                                    {new Date(data.end_date).toLocaleDateString(undefined, {
+                                        year: "numeric",
+                                        month: "short",
+                                        day: "numeric",
+                                    })}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <button
+                        onClick={toggleOff}
+                        className="absolute top-2 right-2 md:static md:ml-4 bg-gradient-to-tr from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white rounded-full w-10 h-10 flex items-center justify-center shadow-2xl transition-all duration-200"
+                        aria-label="Close"
+                    >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
 
-                                {/* CONTROLS */}
+                {/* CONTROLS */}
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4 mb-4 md:mb-6">
                     <div className="flex flex-col sm:flex-row gap-2 w-full md:w-2/3">
                         <input
@@ -322,7 +322,8 @@ export default function Participants({ data, toggleOff }) {
 
                 {/* PARTICIPANTS TABLE */}
                 {section === "participants" && (
-                    <div className="overflow-x-auto rounded-2xl shadow-xl border border-blue-100 bg-white">
+                    <div className="overflow-x-auto rounded-2xl shadow-xl border border-blue-100 bg-white flex-1 min-h-0"
+                        style={{ maxHeight: '50vh', overflowY: 'auto' }}>
                         <table className="min-w-full text-base text-left text-gray-700">
                             <thead className="text-xs uppercase bg-gradient-to-r from-blue-50 to-blue-100">
                                 <tr>
