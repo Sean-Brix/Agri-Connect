@@ -55,58 +55,60 @@ export default function Profiles() {
 
 
     return (
-        <>
-            <h1 className="text-3xl font-bold mt-[8%] text-center text-gray-800 mb-6">
-                Account Management
-            </h1>
-
-            <hr />
-
-            <div className="relative p-2 mt-6 flex justify-between">
-                <div className="mb-2 w-[45%]">
-                    <input
-                        type="text"
-                        placeholder="Search profiles..."
-                        className="w-full p-2 border rounded"
-                    />
-                </div>
-
-                <div className="mb-4 flex space-x-2 p-2">
-                    <select className=" border rounded w-25" onChange={(e)=>{setFilter({...filter, roles: e.target.value})}}>
-                        <option value="none">All Roles</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Super Admin">Super Admin</option>
-                        <option value="User">User</option>
-                    </select>
-                    <select className=" border rounded w-25" onChange={(e)=>{setFilter({...filter, client_profile: e.target.value})}}>
-                        <option value="">Sort by</option>
-                        <option value="name">Name</option>
-                        <option value="date">Date</option>
-                    </select>
-                </div>
-            </div>
-
-            {/* USER CONTAINER */}
-            <div className="flex flex-col p-[5px] gap-4 h-[60%]">
-
-                {/* ROWS */}
-                {userList.map((user, index)=>{
-                    return(
-
-                        <User 
-                            key={index}
-                            user={user}
-
-                            onEdit={() => {
-                                alert('Edited');
-                            }}
+        <div className="min-h-screen bg-gray-50 py-6 px-2 sm:py-10 sm:px-4 mt-10">
+            <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-4 sm:p-8">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-8">
+                    <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2 md:mb-0 text-center md:text-left">
+                        Account Management
+                    </h1>
+                    <div className="flex flex-col gap-2 sm:flex-row sm:gap-4 w-full md:w-auto">
+                        <input
+                            type="text"
+                            placeholder="Search profiles..."
+                            className="w-full sm:w-64 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                         />
-
-                    )
-                })}
-                
+                        <select
+                            className="w-full sm:w-40 px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                            onChange={(e) => setFilter({ ...filter, roles: e.target.value })}
+                        >
+                            <option value="none">All Roles</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Super Admin">Super Admin</option>
+                            <option value="User">User</option>
+                        </select>
+                        <select
+                            className="w-full sm:w-40 px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                            onChange={(e) => setFilter({ ...filter, client_profile: e.target.value })}
+                        >
+                            <option value="">Sort by</option>
+                            <option value="name">Name</option>
+                            <option value="date">Date</option>
+                        </select>
+                    </div>
+                </div>
+                <hr className="mb-6" />
+                <div className="flex flex-col gap-4">
+                    {userList.length === 0 ? (
+                        <div className="text-center text-gray-500 py-12">
+                            No profiles found.
+                        </div>
+                    ) : (
+                        userList.map((user, index) => (
+                            <div
+                                key={index}
+                                className="bg-gray-100 rounded-xl shadow-sm hover:shadow-md transition p-4"
+                            >
+                                <User
+                                    user={user}
+                                    onEdit={() => {
+                                        alert('Edited');
+                                    }}
+                                />
+                            </div>
+                        ))
+                    )}
+                </div>
             </div>
-
-        </>
+        </div>
     );
 }
