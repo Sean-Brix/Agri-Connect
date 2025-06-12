@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import User from './User/User.jsx';
 import { useEffect, useState } from 'react';
 
-export default function Profiles() {
+export default function Profiles({details}) {
     const [userList, setUserList] = useState([]);
     const [filter, setFilter] = useState({
         roles: "none",
@@ -11,6 +11,7 @@ export default function Profiles() {
 
     // Initial Render
     useEffect(() => {
+
         (async () => {
 
             // Get the list of accounts
@@ -100,9 +101,7 @@ export default function Profiles() {
                             >
                                 <User
                                     user={user}
-                                    onEdit={() => {
-                                        alert('Edited');
-                                    }}
+                                    details={details}
                                 />
                             </div>
                         ))

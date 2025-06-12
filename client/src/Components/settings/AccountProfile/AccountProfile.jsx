@@ -27,7 +27,6 @@ export default function AccountProfile({admin_navigate, details}){
     });
 
     useEffect(()=>{
-        console.log(details);
 
         (async()=>{
 

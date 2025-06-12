@@ -4,10 +4,10 @@ import { useState } from 'react';
 // ASSETS
 import default_picture from '../../../../Assets/default_picture.png';
 
-// Global Component
-import Info_Block from '../../../../Components/settings/AccountProfile/Info_Block';
+// SUB Component
+import User_Details from './User_Details';
 
-export default function User({ user, onEdit }) {
+export default function User({ user, details }) {
     const [isExpanded, setIsExpanded] = useState(false);
     const [account, setAccount] = useState(user);
 
@@ -68,12 +68,15 @@ export default function User({ user, onEdit }) {
                     </div>
                 </div>
                 <div className="flex gap-3">
+
+                    {details.access === "Super Admin" && 
                     <button
                         onClick={() => onEdit(account.id)}
                         className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-lg shadow transition"
                     >
                         Edit
-                    </button>
+                    </button>}
+
                     <button
                         onClick={() => setIsExpanded(true)}
                         className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-5 rounded-lg shadow transition"
@@ -85,15 +88,18 @@ export default function User({ user, onEdit }) {
 
             {/* Modal for Details */}
             <Modal open={isExpanded} onClose={() => setIsExpanded(false)}>
+
                 <h2 className="text-2xl font-bold mb-6 text-blue-700 flex items-center gap-2">
                     <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 15c2.485 0 4.797.607 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     User Details
                 </h2>
+
                 <div className="mb-4">
-                    <Info_Block user={account} />
+                    <User_Details user={account} />
                 </div>
+
             </Modal>
         </div>
     );

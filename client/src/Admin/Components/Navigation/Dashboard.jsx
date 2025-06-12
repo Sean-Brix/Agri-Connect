@@ -15,7 +15,6 @@ import Survey from '../../Services/Survey/Survey.jsx';
 // GLOBAL
 import Settings from '../../../Components/settings/Setting.jsx';
 import AccountProfile from '../../../Components/settings/AccountProfile/AccountProfile.jsx';
-import Edit_Profile from '../../../Components/settings/AccountProfile/Edit_Profile.jsx';
 
 // SUB COMPONENT
 import Sidebar from './sub/Sidebar.jsx';
@@ -48,7 +47,6 @@ export default function Dashboard() {
     // GLOBAL
     settings: ()=> Settings,
     account: ()=> AccountProfile,
-    edit_profile: ()=> Edit_Profile,
   });
 
   const [Page, setPage] = useState(elements.current.analytics); // [ analytics, enrollment, profiles, eic, settings, audit, survey, content ]
@@ -91,7 +89,9 @@ export default function Dashboard() {
               username: data.username, 
               position: data.position,
               picture: image_url,
-              setProfile: setDetails
+              setProfile: setDetails,
+              id: data.id,
+              access: data.access
           });
 
         }
