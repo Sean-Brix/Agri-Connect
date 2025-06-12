@@ -15,6 +15,9 @@ export default function User_Details({ user, isEdit }) {
     };
 
     const handleSave = async () => {
+
+        //! Get the user details inside this component instead of the profiles
+
         if (!confirm('Are you sure?')) return;
 
         try {
