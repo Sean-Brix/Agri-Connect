@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 export default function User_Details({ user, isEdit }) {
     const [editedUser, setEditedUser] = useState({ ...user });
+    const [userDetail, setuserDetails] = useState({...user});
     const [isEditing, setIsEditing] = useState(isEdit);
 
     useEffect(() => {
@@ -13,11 +14,37 @@ export default function User_Details({ user, isEdit }) {
         setEditedUser({ ...editedUser, [key]: value });
     };
 
-    // TODO: Save the edited profile to the database
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!confirm('Are you sure?')) return;
-        setIsEditing(false);
-        console.log(editedUser);
+
+        try {
+            const response = await fetch(
+                `/api/Accounts/updateAccount`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(editedUser),
+                }
+            );
+
+            if (!response.ok) {
+                console.log(await response.text());
+                throw new Error('Something Went Wrong');
+            }
+
+            const data = await response.json();
+
+            setIsEditing(false);
+            setEditedUser({...editedUser, ...data.payload.updated});
+            setuserDetails({...editedUser});
+        } 
+        catch (e) {
+            alert(e);
+            console.log(e);
+            setIsEditing(false);
+        }
     };
 
     const handleCancel = () => {
@@ -29,52 +56,52 @@ export default function User_Details({ user, isEdit }) {
     const renderDisplayMode = () => (
         <div className="grid grid-cols-2 gap-4">
             <div>
-                <strong>ID:</strong> {user.id}
+                <strong>ID:</strong> {userDetail.id}
             </div>
             <div>
-                <strong>Username:</strong> {user.username}
+                <strong>Username:</strong> {userDetail.username}
             </div>
             <div>
-                <strong>Access:</strong> {user.access}
+                <strong>Access:</strong> {userDetail.access}
             </div>
             <div>
                 <strong>Full Name:</strong>{' '}
-                {`${user.firstname || ''} ${user.lastname || ''}`}
+                {`${userDetail.firstname || ''} ${userDetail.lastname || ''}`}
             </div>
             <div>
-                <strong>Gender:</strong> {user.gender}
+                <strong>Gender:</strong> {userDetail.gender}
             </div>
             <div>
-                <strong>Client Profile:</strong> {user.client_profile}
+                <strong>Client Profile:</strong> {userDetail.client_profile}
             </div>
             <div>
-                <strong>Address:</strong> {user.address}
+                <strong>Address:</strong> {userDetail.address}
             </div>
             <div>
-                <strong>Telephone No:</strong> {user.telephone_no}
+                <strong>Telephone No:</strong> {userDetail.telephone_no}
             </div>
             <div>
-                <strong>Cellphone No:</strong> {user.cellphone_no}
+                <strong>Cellphone No:</strong> {userDetail.cellphone_no}
             </div>
             <div>
-                <strong>Occupation:</strong> {user.occupation}
+                <strong>Occupation:</strong> {userDetail.occupation}
             </div>
             <div>
-                <strong>Position:</strong> {user.position}
+                <strong>Position:</strong> {userDetail.position}
             </div>
             <div>
-                <strong>Institution:</strong> {user.institution}
+                <strong>Institution:</strong> {userDetail.institution}
             </div>
             <div>
-                <strong>Email Address:</strong> {user.email_address}
+                <strong>Email Address:</strong> {userDetail.email_address}
             </div>
             <div>
                 <strong>Created At:</strong>{' '}
-                {new Date(user.created_at).toLocaleDateString('en-US')}
+                {new Date(userDetail.created_at).toLocaleDateString('en-US')}
             </div>
             <div>
                 <strong>Updated At:</strong>{' '}
-                {new Date(user.updated_at).toLocaleDateString('en-US')}
+                {new Date(userDetail.updated_at).toLocaleDateString('en-US')}
             </div>
         </div>
     );
@@ -83,7 +110,6 @@ export default function User_Details({ user, isEdit }) {
     const renderEditMode = () => (
         <div className="bg-gray-100 p-4 rounded shadow-md">
             <div className="grid grid-cols-2 gap-4">
-
                 {/* ID */}
                 <div>
                     <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -130,24 +156,32 @@ export default function User_Details({ user, isEdit }) {
                     </select>
                 </div>
 
-                {/* FULLNAME */}
+                {/* FIRSTNAME */}
                 <div>
                     <label className="block text-gray-700 text-sm font-bold mb-2">
-                        Full Name:
+                        First Name:
                     </label>
                     <input
                         type="text"
-                        value={`${editedUser.firstname || ''} ${
-                            editedUser.lastname || ''
-                        }`}
-                        onChange={(e) => {
-                            const fullName = e.target.value;
-                            const names = fullName.split(' ');
-                            const newFirstName = names[0] || '';
-                            const newLastName = names.slice(1).join(' ') || '';
-                            handleChange('firstname', newFirstName);
-                            handleChange('lastname', newLastName);
-                        }}
+                        value={editedUser.firstname || ''}
+                        onChange={(e) =>
+                            handleChange('firstname', e.target.value)
+                        }
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                </div>
+
+                {/* LASTNAME */}
+                <div>
+                    <label className="block text-gray-700 text-sm font-bold mb-2">
+                        Last Name:
+                    </label>
+                    <input
+                        type="text"
+                        value={editedUser.lastname || ''}
+                        onChange={(e) =>
+                            handleChange('lastname', e.target.value)
+                        }
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                 </div>

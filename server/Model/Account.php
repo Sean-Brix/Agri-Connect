@@ -56,7 +56,6 @@ class Account {
         if ($unset) {
             unset($details["password"]);
             unset($details["profile_picture"]);
-            unset($details["updated_at"]);
         }
 
         return $details;
@@ -203,5 +202,13 @@ class Account {
         }
 
         return $accounts;
+    }
+
+    public function setFields(array $fields){
+        foreach ($fields as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
     }
 }
