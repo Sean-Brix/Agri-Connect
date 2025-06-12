@@ -10,6 +10,7 @@ import User_Details from './User_Details';
 export default function User({ user, details }) {
     const [isExpanded, setIsExpanded] = useState(false);
     const [account, setAccount] = useState(user);
+    const [editBtn, setEditBtn] = useState(false);
 
     useEffect(()=>{
 
@@ -29,6 +30,7 @@ export default function User({ user, details }) {
         })()
 
     }, [])
+
 
     // Modal component
     const Modal = ({ open, onClose, children }) => {
@@ -71,14 +73,20 @@ export default function User({ user, details }) {
 
                     {details.access === "Super Admin" && 
                     <button
-                        onClick={() => onEdit(account.id)}
+                        onClick={()=>{
+                            setEditBtn(true)
+                            setIsExpanded(true);
+                        }}
                         className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-lg shadow transition"
                     >
                         Edit
                     </button>}
 
                     <button
-                        onClick={() => setIsExpanded(true)}
+                        onClick={() => {
+                            setIsExpanded(true);
+                            setEditBtn(false);
+                        }}
                         className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-5 rounded-lg shadow transition"
                     >
                         Details
@@ -97,7 +105,9 @@ export default function User({ user, details }) {
                 </h2>
 
                 <div className="mb-4">
-                    <User_Details user={account} />
+
+                    <User_Details user={account} isEdit={editBtn}/>
+
                 </div>
 
             </Modal>
