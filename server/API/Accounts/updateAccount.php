@@ -21,11 +21,11 @@ if(!$user){
 $Account = new Account($user['ID']);
 $details = $Account->getDetails();
 
-if(strtolower($details['access']) === "user"){
+if(strtolower($details['access']) != "Super Admin"){
     sendResponse(
         401,
         "Unauthorize",
-        ["Error"=>"Regular User cannot add a new seminar program"],
+        ["Error"=>"Only Super Admin can update all accounts"],
         "Unauthorize Post Request"
     );
     exit();

@@ -33,6 +33,13 @@ export default function User_Details({ user, isEdit }) {
             );
 
             if (!response.ok) {
+                
+                if(response.status === 401){
+                    const data = await response.json()
+                    alert(data.payload.error);
+                    return;
+                }
+
                 console.log(await response.text());
                 throw new Error('Something Went Wrong');
             }
