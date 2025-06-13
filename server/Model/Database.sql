@@ -35,18 +35,6 @@ CREATE TABLE accounts (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-CREATE TABLE EIC (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    Name VARCHAR(255) NOT NULL,
-    description TEXT,
-    quantity INT NOT NULL,
-    status ENUM('Available', 'Borrowed', 'Maintenance', 'Damaged', 'Returned', 'Reserved') NOT NULL,
-    category ENUM('Farming Equipment', 'Harvesting Tools', 'Irrigation Systems', 'Storage Equipment', 'Processing Equipment', 'Safety Gear', 'Pest Control', 'Livestock Equipment', 'Measuring Tools', 'Fisheries', 'Machinery') NOT NULL,
-    photo LONGBLOB,
-
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
 
 CREATE TABLE seminars (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -69,10 +57,6 @@ CREATE TABLE seminars (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-
-
-
-
 CREATE TABLE seminar_participants (
     id INT AUTO_INCREMENT PRIMARY KEY,
     account_id INT NOT NULL,
@@ -87,6 +71,20 @@ CREATE TABLE seminar_participants (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+
+CREATE TABLE EIC (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    description TEXT,
+    quantity INT NOT NULL,
+    status ENUM('Available', 'Borrowed', 'Maintenance', 'Damaged', 'Returned', 'Reserved') NOT NULL,
+    category ENUM('Farming Equipment', 'Harvesting Tools', 'Irrigation Systems', 'Storage Equipment', 'Processing Equipment', 'Safety Gear', 'Pest Control', 'Livestock Equipment', 'Measuring Tools', 'Fisheries', 'Machinery') NOT NULL,
+    photo LONGBLOB,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 CREATE TABLE eic_request (
     id INT AUTO_INCREMENT PRIMARY KEY,
 
@@ -97,6 +95,11 @@ CREATE TABLE eic_request (
     quantity INT NOT NULL,
     status ENUM('Waiting', 'Approved', 'Rejected', 'Processing') NOT NULL DEFAULT 'Waiting',
 
+    request_note TEXT,
+    borrow_date DATE,
+    return_date DATE,
+    approval_date TIMESTAMP NULL DEFAULT NULL,
+
     FOREIGN KEY (account_id) REFERENCES accounts(id),
     FOREIGN KEY (eic_id) REFERENCES EIC(id),
     FOREIGN KEY (admin_id) REFERENCES accounts(id),
@@ -104,3 +107,4 @@ CREATE TABLE eic_request (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
