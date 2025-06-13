@@ -138,24 +138,7 @@ export default function Dashboard() {
         <div className="flex-1 flex flex-col min-h-screen h-screen ml-0 md:ml-64 transition-all">
           <header className="gradient-bg shadow-md drop-shadow-lg p-3 flex justify-evenly md:justify-center md:px-8 items-center w-full fixed top-0 left-0 z-20 md:left-64 md:w-[calc(100%-16rem)] ">
             <div className="flex items-center space-x-4 justify-center">
-              {/* Home Button - modern icon, left-aligned */}
-              <button
-                className="mr-4 p-2 rounded-full bg-white/70 hover:bg-blue-200 shadow transition border border-blue-200 flex items-center justify-center"
-                onClick={() => navigate('/')}
-                aria-label="Go to Home"
-                type="button"
-                style={{ boxShadow: '0 2px 8px 0 rgba(0,0,0,0.04)' }}
-              >
-                {/* Modern home icon (Material Design style) */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-7 w-7 text-blue-700"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M10.707 2.293a1 1 0 0 1 1.414 0l8 8A1 1 0 0 1 19.707 11H19v8a2 2 0 0 1-2 2h-2a1 1 0 0 1-1-1v-4h-2v4a1 1 0 0 1-1 1h-2a2 2 0 0 1-2-2v-8h-.707a1 1 0 0 1-.707-1.707l8-8z"/>
-                </svg>
-              </button>
+              
               <img src={logo} alt="Logo" className="h-10 w-10 rounded-full" />
               <h1 className="text-lg font-semibold text text-center items-center family">
                 FITS Tanza - Municipal Agriculture Office
@@ -231,6 +214,23 @@ export default function Dashboard() {
           <div className="flex-1 min-h-0 flex flex-col">
             <nav className="mt-2 flex-1 overflow-y-auto minimalist-scrollbar">
               <ul className="space-y-2 px-2 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-transparent">
+                {/* Home */}
+                <li className="p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={() => { setMobileMenuOpen(false); window.location.href = '/'; }}>
+                  <div className="flex items-center space-x-4">
+                    <span>
+                      {/* Modern home icon (Material Design style) */}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M10.707 2.293a1 1 0 0 1 1.414 0l8 8A1 1 0 0 1 19.707 11H19v8a2 2 0 0 1-2 2h-2a1 1 0 0 1-1-1v-4h-2v4a1 1 0 0 1-1 1h-2a2 2 0 0 1-2-2v-8h-.707a1 1 0 0 1-.707-1.707l8-8z"/>
+                      </svg>
+                    </span>
+                    <span>Home</span>
+                  </div>
+                </li>
                 {/* Analytics */}
                 <li className="p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer" onClick={() => { setPage(elements.current["analytics"]); setMobileMenuOpen(false); }}>
                   <div className="flex items-center space-x-4">

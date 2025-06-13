@@ -160,9 +160,10 @@ export default function Seminar({ admin_navigate }) {
                     </svg>
                     Seminars & Programs
                 </span>
-                <div className="flex gap-2 flex-wrap">
+                {/* Responsive button group */}
+                <div className="flex gap-2 flex-wrap w-full md:w-auto justify-center md:justify-end">
                     <button
-                        className={`bg-gradient-to-r from-red-500 to-red-600 text-white px-5 py-2 rounded-xl text-base font-semibold shadow-md transition-all ${
+                        className={`flex-1 min-w-[120px] md:min-w-0 bg-gradient-to-r from-red-500 to-red-600 text-white px-5 py-2 rounded-xl text-base font-semibold shadow-md transition-all ${
                             selectMode
                                 ? 'hover:from-red-600 hover:to-red-700'
                                 : 'hover:opacity-90'
@@ -181,14 +182,14 @@ export default function Seminar({ admin_navigate }) {
                             : 'Delete'}
                     </button>
                     <button
-                        className="bg-gradient-to-r from-green-500 to-green-600 text-white px-5 py-2 rounded-xl hover:from-green-600 hover:to-green-700 text-base font-semibold shadow-md transition-all"
+                        className="flex-1 min-w-[120px] md:min-w-0 bg-gradient-to-r from-green-500 to-green-600 text-white px-5 py-2 rounded-xl hover:from-green-600 hover:to-green-700 text-base font-semibold shadow-md transition-all"
                         onClick={() => setShowAdd(true)}
                     >
                         <span className="mr-1 text-xl font-bold">+</span> Add Program
                     </button>
                     {selectMode && (
                         <button
-                            className="bg-gray-100 text-gray-700 px-4 py-2 rounded-xl text-sm font-semibold ml-2 hover:bg-gray-200 border border-gray-200 shadow"
+                            className="flex-1 min-w-[120px] md:min-w-0 bg-gray-100 text-gray-700 px-4 py-2 rounded-xl text-sm font-semibold ml-2 hover:bg-gray-200 border border-gray-200 shadow"
                             onClick={handleToggleSelectMode}
                         >
                             Cancel
@@ -380,6 +381,33 @@ export default function Seminar({ admin_navigate }) {
                     </div>
                 )}
             </div>
+            {/* Custom responsive styles for 1300px to 750px */}
+            <style>
+                {`
+                @media (max-width: 1300px) and (min-width: 701px) {
+                    .max-w-7xl {
+                        max-width: 98vw !important;
+                    }
+                    .grid-cols-3 {
+                        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                    }
+                    .flex-wrap {
+                        flex-direction: column !important;
+                        gap: 8px !important;
+                    }
+                    .flex-wrap > button, .flex-wrap > .bg-gray-100 {
+                        width: 100% !important;
+                        min-width: 0 !important;
+                        margin-bottom: 0 !important;
+                    }
+                }
+                @media (max-width: 900px) {
+                    .grid-cols-3 {
+                        grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+                    }
+                }
+                `}
+            </style>
         </div>
     );
 }

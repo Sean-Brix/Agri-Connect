@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react';
 export default function Profiles({ details }) {
     const [userList, setUserList] = useState([]);
     const [filter, setFilter] = useState({
-        roles: 'none',
-        client_profile: 'none',
-        order: 'none',
-        search: 'none'
+        roles: '',
+        client_profile: '',
+        order: '',
+        search: ''
     });
 
     // Initial Render
@@ -33,7 +33,7 @@ export default function Profiles({ details }) {
 
         (async () => {
             // Debounce the search input
-            if (filter.search !== 'none') {
+            if (filter.search !== '') {
 
                 timeoutId = setTimeout(async () => {
                 // Get the list of accounts
@@ -81,78 +81,81 @@ export default function Profiles({ details }) {
                         Account Management
                     </h1>
 
-                    <div className="flex flex-col gap-2 sm:flex-row sm:gap-4 w-full md:w-auto">
+                    {/* FILTERS */}
+                    <div className="flex flex-col gap-3 w-full md:w-auto md:flex-row md:items-center md:gap-6">
+                        {/* Search Bar */}
                         <input
                             type="text"
                             placeholder="Search profiles..."
-                            className="w-full sm:w-64 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-                            onChange={(e)=>setFilter({...filter, search: e.target.value})}
+                            className="w-full md:w-72 px-4 py-2 border border-gray-200 rounded-xl shadow focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-gray-50"
+                            onChange={(e) => setFilter({ ...filter, search: e.target.value })}
                         />
+                        {/* Filters */}
+                        <div className="flex flex-col gap-2 sm:flex-row sm:gap-4 w-full md:w-auto">
+                            {/* ACCESS FILTER */}
+                            <select
+                                className="w-full sm:w-40 px-3 py-2 border border-gray-200 rounded-xl shadow focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-gray-50"
+                                onChange={(e) =>
+                                    setFilter({ ...filter, roles: e.target.value })
+                                }
+                            >
+                                <option value="">All Roles</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Super Admin">Super Admin</option>
+                                <option value="User">User</option>
+                            </select>
 
-                        {/* ACCESS FILTER */}
-                        <select
-                            className="w-full sm:w-40 px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-                            onChange={(e) =>
-                                setFilter({ ...filter, roles: e.target.value })
-                            }
-                        >
-                            <option value="none">All Roles</option>
-                            <option value="Admin">Admin</option>
-                            <option value="Super Admin">Super Admin</option>
-                            <option value="User">User</option>
-                        </select>
+                            {/* CLIENT FILTER */}
+                            <select
+                                className="w-full sm:w-55 px-3 py-2 border border-gray-200 rounded-xl shadow focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-gray-50"
+                                onChange={(e) =>
+                                    setFilter({
+                                        ...filter,
+                                        client_profile: e.target.value,
+                                    })
+                                }
+                            >
+                                <option value="" disabled>
+                                    Client Profile
+                                </option>
+                                <option value="">All Profile</option>
+                                <option value="Fishfolk">Fishfolk</option>
+                                <option value="Rural Based Org">
+                                    Rural Based Org
+                                </option>
+                                <option value="Student">Student</option>
+                                <option value="Agricultural/Fisheries Technician">
+                                    Agricultural/Fisheries Tech.
+                                </option>
+                                <option value="Youth">Youth</option>
+                                <option value="Women">Women</option>
+                                <option value="Gov't Employee">
+                                    Gov't Employee
+                                </option>
+                                <option value="PWD">PWD</option>
+                                <option value="Indigenous People">
+                                    Indigenous People
+                                </option>
+                            </select>
 
-                        {/* CLIENT FILTER */}
-                        <select
-                            className="w-full sm:w-55 px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-                            onChange={(e) =>
-                                setFilter({
-                                    ...filter,
-                                    client_profile: e.target.value,
-                                })
-                            }
-                        >
-                            <option value="none" disabled>
-                                Client Profile
-                            </option>
-                            <option value="none">All Profile</option>
-                            <option value="Fishfolk">Fishfolk</option>
-                            <option value="Rural Based Org">
-                                Rural Based Org
-                            </option>
-                            <option value="Student">Student</option>
-                            <option value="Agricultural/Fisheries Technician">
-                                Agricultural/Fisheries Tech.
-                            </option>
-                            <option value="Youth">Youth</option>
-                            <option value="Women">Women</option>
-                            <option value="Gov't Employee">
-                                Gov't Employee
-                            </option>
-                            <option value="PWD">PWD</option>
-                            <option value="Indigenous People">
-                                Indigenous People
-                            </option>
-                        </select>
-
-                        {/* SORT BY FILTER */}
-                        <select
-                            className="w-full sm:w-40 px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-                            onChange={(e) =>
-                                setFilter({
-                                    ...filter,
-                                    order: e.target.value,
-                                })
-                            }
-                        >
-                            <option value="none">Sort by</option>
-                            <option value="username">Username</option>
-                            <option value="firstname">Firstname</option>
-                            <option value="lastname">Lastname</option>
-                            <option value="created_at">Date Created</option>
-                            <option value="updated_at">Recent Updated</option>
-                        </select>
-
+                            {/* SORT BY FILTER */}
+                            <select
+                                className="w-full sm:w-40 px-3 py-2 border border-gray-200 rounded-xl shadow focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-gray-50"
+                                onChange={(e) =>
+                                    setFilter({
+                                        ...filter,
+                                        order: e.target.value,
+                                    })
+                                }
+                            >
+                                <option value="">Sort by</option>
+                                <option value="username">Username</option>
+                                <option value="firstname">Firstname</option>
+                                <option value="lastname">Lastname</option>
+                                <option value="created_at">Date Created</option>
+                                <option value="updated_at">Recent Updated</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
