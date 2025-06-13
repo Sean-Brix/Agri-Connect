@@ -62,11 +62,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
             setuserDetails({ ...editedUser });
 
             // Rerender user Row
-            setRowUpdate({
-                access: editedUser.access,
-                email_address: editedUser.email_address,
-                username: editedUser.username,
-            });
+            setRowUpdate((prev)=>({...prev, ...editedUser}));
         } 
         catch (e) {
             alert(e);

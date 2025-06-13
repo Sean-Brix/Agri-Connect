@@ -11,11 +11,7 @@ export default function User({ user, details }) {
     const [isExpanded, setIsExpanded] = useState(false);
     const [account, setAccount] = useState(user);
     const [editBtn, setEditBtn] = useState(false);
-    const [rowUpdate, setRowUpdate] = useState({
-        access: account.access,
-        email_address: account.email_address,
-        username: account.username
-    });
+    const [rowUpdate, setRowUpdate] = useState(user);
 
     useEffect(() => {
         (async () => {
@@ -88,10 +84,18 @@ export default function User({ user, details }) {
 
                     <div>
 
+                        {/* FULLNAME */}
                         <h3 className="text-xl font-semibold text-gray-900">
-                            {rowUpdate.username}
+                            {rowUpdate.firstname} {rowUpdate.lastname}
                         </h3>
-                        <p className="text-gray-500">{rowUpdate.email_address}</p>
+
+                        {/* EMAIL */}
+                        <p>
+                            Email: {rowUpdate.email_address}
+                        </p>
+
+                        {/* USERNAME */}
+                        <p className="text-gray-500">Username: {rowUpdate.username}</p>
 
                         <p
                             className={`font-semibold text-center py-1 px-2 rounded-full text-sm w-fit ${

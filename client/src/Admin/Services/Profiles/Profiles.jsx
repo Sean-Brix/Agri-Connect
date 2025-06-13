@@ -2,18 +2,17 @@ import { Link } from 'react-router-dom';
 import User from './User/User.jsx';
 import { useEffect, useState } from 'react';
 
-export default function Profiles({details}) {
+export default function Profiles({ details }) {
     const [userList, setUserList] = useState([]);
     const [filter, setFilter] = useState({
-        roles: "none",
-        client_profile: "none"
+        roles: 'none',
+        client_profile: 'none',
+        order: 'none',
     });
 
     // Initial Render
     useEffect(() => {
-
         (async () => {
-
             // Get the list of accounts
             const response = await fetch('/api/Accounts/allAccounts');
             const data = await response.json();
@@ -22,33 +21,29 @@ export default function Profiles({details}) {
                 console.log(data.payload.error);
                 alert(data.message);
                 return;
-            } 
+            }
 
-            setUserList(data.payload);  
-            
+            setUserList(data.payload);
         })();
     }, []);
 
-    useEffect(()=>{
-
+    useEffect(() => {
         (async () => {
-
             // Get the list of accounts
-            const response = await fetch(`/api/Accounts/allAccounts?access=${filter.roles}&client=${filter.client_profile}`);
+            const response = await fetch(
+                `/api/Accounts/allAccounts?access=${filter.roles}&client=${filter.client_profile}&order=${filter.order}`
+            );
+
+            if (!response.ok) {
+                console.log(await response.text());
+                alert('Something went wrong');
+                return;
+            }
             const data = await response.json();
 
-            if (data.payload.error || !response.ok) {
-                console.log(data.payload.error);
-                alert(data.message);
-                return;
-            } 
-
-            setUserList(data.payload);  
-            
+            setUserList(data.payload);
         })();
-
-    }, [filter])
-
+    }, [filter]);
 
     return (
         <div className="min-h-screen bg-gray-50 py-6 px-2 sm:py-10 sm:px-4 mt-10">
@@ -65,7 +60,9 @@ export default function Profiles({details}) {
                         />
                         <select
                             className="w-full sm:w-40 px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-                            onChange={(e) => setFilter({ ...filter, roles: e.target.value })}
+                            onChange={(e) =>
+                                setFilter({ ...filter, roles: e.target.value })
+                            }
                         >
                             <option value="none">All Roles</option>
                             <option value="Admin">Admin</option>
@@ -73,19 +70,59 @@ export default function Profiles({details}) {
                             <option value="User">User</option>
                         </select>
                         <select
-                            className="w-full sm:w-40 px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-                            onChange={(e) => setFilter({ ...filter, client_profile: e.target.value })}
+                            className="w-full sm:w-55 px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                            onChange={(e) =>
+                                setFilter({
+                                    ...filter,
+                                    client_profile: e.target.value,
+                                })
+                            }
                         >
-                            <option value="">Sort by</option>
+                            <option value="none" disabled>
+                                Client Profile
+                            </option>
+                            <option value="none">All Profile</option>
+                            <option value="Fishfolk">Fishfolk</option>
+                            <option value="Rural Based Org">
+                                Rural Based Org
+                            </option>
+                            <option value="Student">Student</option>
+                            <option value="Agricultural/Fisheries Technician">
+                                Agricultural/Fisheries Tech.
+                            </option>
+                            <option value="Youth">Youth</option>
+                            <option value="Women">Women</option>
+                            <option value="Gov't Employee">
+                                Gov't Employee
+                            </option>
+                            <option value="PWD">PWD</option>
+                            <option value="Indigenous People">
+                                Indigenous People
+                            </option>
+                        </select>
+                        <select
+                            className="w-full sm:w-40 px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                            onChange={(e) =>
+                                setFilter({
+                                    ...filter,
+                                    order: e.target.value,
+                                })
+                            }
+                        >
+                            <option value="none">Sort by</option>
                             <option value="username">Username</option>
-                            <option value="fullname">Fullname</option>
-                            <option value="date">Date</option>
+                            <option value="firstname">Firstname</option>
+                            <option value="lastname">Lastname</option>
+                            <option value="created_at">Date Created</option>
+                            <option value="updated_at">Recent Updated</option>
                         </select>
                     </div>
                 </div>
                 <hr className="mb-6" />
+
+
                 <div className="flex flex-col gap-4">
-                    {userList.length === 0 ? (
+                    {!Array.isArray(userList) || userList.length === 0 ? (
                         <div className="text-center text-gray-500 py-12">
                             No profiles found.
                         </div>
@@ -95,14 +132,13 @@ export default function Profiles({details}) {
                                 key={user.id}
                                 className="bg-gray-100 rounded-xl shadow-sm hover:shadow-md transition p-4"
                             >
-                                <User
-                                    user={user}
-                                    details={details}
-                                />
+                                <User user={user} details={details} />
                             </div>
                         ))
                     )}
                 </div>
+
+
             </div>
         </div>
     );

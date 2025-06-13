@@ -44,7 +44,12 @@ if($client === "none"){
     $client = null;
 }
 
-$list = $Accounts->getAllAccounts($access, $client);
+$order = $_GET['order']??null;
+if($order === "none"){
+    $order = "created_at";
+}
+
+$list = $Accounts->getAllAccounts($access, $client, $order);
 
 if($list["Error"]){
     sendResponse(

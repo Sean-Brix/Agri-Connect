@@ -160,7 +160,7 @@ class Account {
     public function __toString(){
         return "Account Owner: {$this->username}";
     }
-    public static function getAllAccounts($access = null, $clientProfile = null) {
+    public static function getAllAccounts($access = null, $clientProfile = null, $order = "created_at") {
         $query = "SELECT id, access, firstname, lastname, gender, client_profile, address, telephone_no, cellphone_no, occupation, position, institution, email_address, username, created_at, updated_at FROM `accounts` WHERE 1=1";
         $params = [];
         $types = "";
@@ -176,6 +176,14 @@ class Account {
             $params[] = $clientProfile;
             $types .= "s";
         }
+        
+        $allowedOrders = ['created_at', 'updated_at', 'username', 'firstname', 'lastname', 'email_address'];
+        if (!in_array($order, $allowedOrders)) {
+            $order = 'created_at'; // Default to created_at if invalid order is provided
+        }
+        $query .= " ORDER BY {$order}";
+
+        if($order === 'created_at') $query.=" DESC";
 
         $result = statement($query, $params, $types);
         if (!$result) {
