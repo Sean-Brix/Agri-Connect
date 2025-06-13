@@ -56,6 +56,8 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
 
             const data = await response.json();
 
+            console.log(data.payload.updated);
+
             setEditedUser({ ...editedUser, ...data.payload.updated });
             setuserDetails({ ...editedUser });
 

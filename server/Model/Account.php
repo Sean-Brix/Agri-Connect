@@ -139,7 +139,8 @@ class Account {
     public function save(){
         $query = "UPDATE `accounts` SET 
             access = ?, firstname = ?, lastname = ?, gender = ?, client_profile = ?, address = ?, 
-            telephone_no = ?, cellphone_no = ?, occupation = ?, position = ?, institution = ?, email_address = ? 
+            telephone_no = ?, cellphone_no = ?, occupation = ?, position = ?, institution = ?, 
+            email_address = ?, username = ? 
             WHERE id = ?";
 
         $params = [
@@ -147,6 +148,7 @@ class Account {
             $this->gender, $this->client_profile, $this->address,
             $this->telephone_no, $this->cellphone_no, $this->occupation,
             $this->position, $this->institution, $this->email_address,
+            $this->username,
             $this->id
         ];
 
