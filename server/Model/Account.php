@@ -163,13 +163,13 @@ class Account {
         $params = [];
         $types = "";
 
-        if ($access !== null) {
+        if ($access !== null || $access == "none") {
             $query .= " AND access = ?";
             $params[] = $access;
             $types .= "s";
         }
 
-        if ($clientProfile !== null) {
+        if ($clientProfile !== null || $clientProfile == "none") {
             $query .= " AND client_profile = ?";
             $params[] = $clientProfile;
             $types .= "s";

@@ -31,11 +31,6 @@ export default function Profiles({details}) {
 
     useEffect(()=>{
 
-        console.log(filter.client_profile);
-        console.log(filter.roles);
-
-        //! ERROR: Role filter does not work properly and shows random user 
-
         (async () => {
 
             // Get the list of accounts
@@ -82,7 +77,8 @@ export default function Profiles({details}) {
                             onChange={(e) => setFilter({ ...filter, client_profile: e.target.value })}
                         >
                             <option value="">Sort by</option>
-                            <option value="name">Name</option>
+                            <option value="username">Username</option>
+                            <option value="fullname">Fullname</option>
                             <option value="date">Date</option>
                         </select>
                     </div>
@@ -96,7 +92,7 @@ export default function Profiles({details}) {
                     ) : (
                         userList.map((user, index) => (
                             <div
-                                key={index}
+                                key={user.id}
                                 className="bg-gray-100 rounded-xl shadow-sm hover:shadow-md transition p-4"
                             >
                                 <User
