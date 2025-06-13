@@ -195,31 +195,49 @@ export default function Participants({ data, toggleOff }) {
                         <div className="flex flex-wrap gap-x-8 gap-y-1 text-blue-700 text-base md:text-lg font-medium">
                             <div className="flex flex-col min-w-[120px]">
                                 <span className="break-all">
-                                    <span className="font-bold text-blue-900">Speaker:</span>{" "}
-                                    <span className="break-all inline-block align-middle">{data.speaker}</span>
+                                    <span className="font-bold text-blue-900">
+                                        Speaker:
+                                    </span>{' '}
+                                    <span className="break-all inline-block align-middle">
+                                        {data.speaker}
+                                    </span>
                                 </span>
                                 <span className="break-all mt-1">
-                                    <span className="font-bold text-blue-900">Location:</span>{" "}
-                                    <span className="break-all inline-block align-middle">{data.location}</span>
+                                    <span className="font-bold text-blue-900">
+                                        Location:
+                                    </span>{' '}
+                                    <span className="break-all inline-block align-middle">
+                                        {data.location}
+                                    </span>
                                 </span>
                             </div>
                             <div className="flex flex-col min-w-[120px]">
                                 <span className="break-all">
-                                    <span className="font-bold text-blue-900">Status:</span> {data.status}
+                                    <span className="font-bold text-blue-900">
+                                        Status:
+                                    </span>{' '}
+                                    {data.status}
                                 </span>
                                 <span className="break-all mt-1">
-                                    <span className="font-bold text-blue-900">Dates:</span>{" "}
-                                    {new Date(data.start_date).toLocaleDateString(undefined, {
-                                        year: "numeric",
-                                        month: "short",
-                                        day: "numeric",
-                                    })}{" "}
-                                    -{" "}
-                                    {new Date(data.end_date).toLocaleDateString(undefined, {
-                                        year: "numeric",
-                                        month: "short",
-                                        day: "numeric",
-                                    })}
+                                    <span className="font-bold text-blue-900">
+                                        Dates:
+                                    </span>{' '}
+                                    {new Date(
+                                        data.start_date
+                                    ).toLocaleDateString(undefined, {
+                                        year: 'numeric',
+                                        month: 'short',
+                                        day: 'numeric',
+                                    })}{' '}
+                                    -{' '}
+                                    {new Date(data.end_date).toLocaleDateString(
+                                        undefined,
+                                        {
+                                            year: 'numeric',
+                                            month: 'short',
+                                            day: 'numeric',
+                                        }
+                                    )}
                                 </span>
                             </div>
                         </div>
@@ -229,8 +247,18 @@ export default function Participants({ data, toggleOff }) {
                         className="absolute top-2 right-2 md:static md:ml-4 bg-gradient-to-tr from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white rounded-full w-10 h-10 flex items-center justify-center shadow-2xl transition-all duration-200"
                         aria-label="Close"
                     >
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        <svg
+                            className="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M6 18L18 6M6 6l12 12"
+                            />
                         </svg>
                     </button>
                 </div>
@@ -249,43 +277,56 @@ export default function Participants({ data, toggleOff }) {
                             onClick={() => setStatsVisible(!statsVisible)}
                             className="bg-gradient-to-r from-blue-100 to-blue-200 hover:from-blue-200 hover:to-blue-300 text-blue-800 font-semibold px-4 py-2 rounded-xl transition text-base shadow"
                         >
-                            {statsVisible ? "Hide Stats" : "Show Stats"}
+                            {statsVisible ? 'Hide Stats' : 'Show Stats'}
                         </button>
                     </div>
+
                     {/* SELECT MULTIPLE */}
                     <div className="flex flex-wrap gap-2 items-center">
                         <button
                             onClick={() => setShowSelect(!showSelect)}
-                            className="bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-700 hover:to-blue-500 text-white font-semibold px-4 py-2 rounded-xl transition text-base shadow"
+
+
+
+                            className={`font-semibold px-4 py-2 rounded-xl transition text-base shadow ${
+                                showSelect
+                                    ? 'bg-gradient-to-r from-red-600 to-red-400 hover:from-red-700 hover:to-red-500 text-white'
+                                    : 'bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-700 hover:to-blue-500 text-white'
+                            }`}
                         >
-                            {showSelect ? "Cancel" : "Select Multiple"}
+                            {showSelect ? 'Cancel' : 'Select Multiple'}
                         </button>
+
                         {showSelect && (
                             <>
                                 <button
                                     onClick={handleSelectAll}
                                     className={`bg-blue-100 hover:bg-blue-200 text-blue-800 font-semibold px-4 py-2 rounded-xl transition text-base shadow ${
                                         participants.length === 0
-                                            ? "opacity-50 cursor-not-allowed"
-                                            : ""
+                                            ? 'opacity-50 cursor-not-allowed'
+                                            : ''
                                     }`}
                                     disabled={participants.length === 0}
                                 >
-                                    {isAllSelected ? "Deselect All" : "Select All"}
+                                    {isAllSelected
+                                        ? 'Deselect All'
+                                        : 'Select All'}
                                 </button>
                                 <select
                                     className="border border-blue-300 rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition text-base bg-white"
                                     value={bulkStatus}
                                     onChange={handleBulkStatusChange}
                                 >
-                                    <option value="Registered">Registered</option>
+                                    <option value="Registered">
+                                        Registered
+                                    </option>
                                     <option value="Attended">Attended</option>
                                     <option value="Cancelled">Cancelled</option>
                                     <option value="No Show">No Show</option>
                                 </select>
                                 <button
                                     onClick={handleUpdateBulkStatus}
-                                    className="bg-gradient-to-r from-blue-600 to-emerald-500 hover:from-blue-700 hover:to-emerald-600 text-white font-semibold px-4 py-2 rounded-xl transition text-base shadow"
+                                    className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-semibold px-4 py-2 rounded-xl transition text-base shadow"
                                 >
                                     Update Selected
                                 </button>
@@ -298,43 +339,77 @@ export default function Participants({ data, toggleOff }) {
                 {statsVisible && (
                     <div className="mb-4 md:mb-6 p-4 border rounded-2xl bg-gradient-to-r from-blue-50 via-white to-blue-100 flex flex-wrap gap-6 justify-between shadow-inner">
                         <div className="flex flex-col items-center min-w-[70px]">
-                            <span className="text-xl font-black text-blue-700">{totalCounts.total}</span>
+                            <span className="text-xl font-black text-blue-700">
+                                {totalCounts.total}
+                            </span>
                             <span className="text-xs text-gray-500">Total</span>
                         </div>
                         <div className="flex flex-col items-center min-w-[70px]">
-                            <span className="text-xl font-black text-green-700">{totalCounts.attended}</span>
-                            <span className="text-xs text-gray-500">Attended</span>
+                            <span className="text-xl font-black text-green-700">
+                                {totalCounts.attended}
+                            </span>
+                            <span className="text-xs text-gray-500">
+                                Attended
+                            </span>
                         </div>
                         <div className="flex flex-col items-center min-w-[70px]">
-                            <span className="text-xl font-black text-blue-700">{totalCounts.registered}</span>
-                            <span className="text-xs text-gray-500">Registered</span>
+                            <span className="text-xl font-black text-blue-700">
+                                {totalCounts.registered}
+                            </span>
+                            <span className="text-xs text-gray-500">
+                                Registered
+                            </span>
                         </div>
                         <div className="flex flex-col items-center min-w-[70px]">
-                            <span className="text-xl font-black text-red-700">{totalCounts.cancelled}</span>
-                            <span className="text-xs text-gray-500">Cancelled</span>
+                            <span className="text-xl font-black text-red-700">
+                                {totalCounts.cancelled}
+                            </span>
+                            <span className="text-xs text-gray-500">
+                                Cancelled
+                            </span>
                         </div>
                         <div className="flex flex-col items-center min-w-[70px]">
-                            <span className="text-xl font-black text-yellow-700">{totalCounts.noShow}</span>
-                            <span className="text-xs text-gray-500">No Show</span>
+                            <span className="text-xl font-black text-yellow-700">
+                                {totalCounts.noShow}
+                            </span>
+                            <span className="text-xs text-gray-500">
+                                No Show
+                            </span>
                         </div>
                     </div>
                 )}
 
                 {/* PARTICIPANTS TABLE */}
-                {section === "participants" && (
-                    <div className="overflow-x-auto rounded-2xl shadow-xl border border-blue-100 bg-white flex-1 min-h-0"
-                        style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+                {section === 'participants' && (
+                    <div
+                        className="overflow-x-auto rounded-2xl shadow-xl border border-blue-100 bg-white flex-1 min-h-0"
+                        style={{ maxHeight: '50vh', overflowY: 'auto' }}
+                    >
                         <table className="min-w-full text-base text-left text-gray-700">
                             <thead className="text-xs uppercase bg-gradient-to-r from-blue-50 to-blue-100">
                                 <tr>
-                                    <th className="px-3 py-3 font-bold whitespace-nowrap">ID</th>
-                                    <th className="px-4 py-3 font-bold whitespace-nowrap">Full Name</th>
-                                    <th className="px-4 py-3 font-bold whitespace-nowrap">Email</th>
-                                    <th className="px-3 py-3 font-bold whitespace-nowrap">Status</th>
-                                    <th className="px-4 py-3 font-bold whitespace-nowrap">Registration Date</th>
-                                    <th className="px-3 py-3 font-bold whitespace-nowrap">Actions</th>
+                                    <th className="px-3 py-3 font-bold whitespace-nowrap">
+                                        ID
+                                    </th>
+                                    <th className="px-4 py-3 font-bold whitespace-nowrap">
+                                        Full Name
+                                    </th>
+                                    <th className="px-4 py-3 font-bold whitespace-nowrap">
+                                        Email
+                                    </th>
+                                    <th className="px-3 py-3 font-bold whitespace-nowrap">
+                                        Status
+                                    </th>
+                                    <th className="px-4 py-3 font-bold whitespace-nowrap">
+                                        Registration Date
+                                    </th>
+                                    <th className="px-3 py-3 font-bold whitespace-nowrap">
+                                        Actions
+                                    </th>
                                     {showSelect && (
-                                        <th className="px-3 py-3 font-bold whitespace-nowrap">Select</th>
+                                        <th className="px-3 py-3 font-bold whitespace-nowrap">
+                                            Select
+                                        </th>
                                     )}
                                 </tr>
                             </thead>
@@ -358,49 +433,78 @@ export default function Participants({ data, toggleOff }) {
                                                 {user.id}
                                             </th>
                                             <td className="px-4 py-3 max-w-[120px] md:max-w-[220px] truncate">
-                                                <span className="font-bold text-blue-900 truncate block">{user.firstname} {user.lastname}</span>
+                                                <span className="font-bold text-blue-900 truncate block">
+                                                    {user.firstname}{' '}
+                                                    {user.lastname}
+                                                </span>
                                             </td>
                                             <td className="px-4 py-3 max-w-[140px] md:max-w-[260px] truncate">
-                                                <span className="text-blue-700 truncate block">{user.email_address}</span>
+                                                <span className="text-blue-700 truncate block">
+                                                    {user.email_address}
+                                                </span>
                                             </td>
                                             <td className="px-3 py-3">
                                                 <span
                                                     className={`text-xs font-bold px-3 py-1 rounded-full shadow-sm ${
-                                                        user.status === "Registered"
-                                                            ? "bg-blue-100 text-blue-800"
-                                                            : user.status === "Attended"
-                                                            ? "bg-green-100 text-green-800"
-                                                            : user.status === "Cancelled"
-                                                            ? "bg-red-100 text-red-800"
-                                                            : user.status === "No Show"
-                                                            ? "bg-yellow-100 text-yellow-800"
-                                                            : "bg-gray-100 text-gray-800"
+                                                        user.status ===
+                                                        'Registered'
+                                                            ? 'bg-blue-100 text-blue-800'
+                                                            : user.status ===
+                                                              'Attended'
+                                                            ? 'bg-green-100 text-green-800'
+                                                            : user.status ===
+                                                              'Cancelled'
+                                                            ? 'bg-red-100 text-red-800'
+                                                            : user.status ===
+                                                              'No Show'
+                                                            ? 'bg-yellow-100 text-yellow-800'
+                                                            : 'bg-gray-100 text-gray-800'
                                                     }`}
                                                 >
-                                                    {user.status || "loading"}
+                                                    {user.status || 'loading'}
                                                 </span>
                                             </td>
                                             <td className="px-4 py-3 max-w-[100px] md:max-w-[180px] truncate">
-                                                <span className="text-gray-500 truncate block">{user.reg_date}</span>
+                                                <span className="text-gray-500 truncate block">
+                                                    {user.reg_date}
+                                                </span>
                                             </td>
                                             <td className="px-3 py-3">
                                                 <select
                                                     className="border border-blue-300 rounded-lg px-3 py-1 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition bg-white text-sm"
-                                                    value={user.status || "loading"}
-                                                    onChange={handleStatusUpdate}
+                                                    value={
+                                                        user.status || 'loading'
+                                                    }
+                                                    onChange={
+                                                        handleStatusUpdate
+                                                    }
                                                 >
-                                                    <option value="Registered">Registered</option>
-                                                    <option value="Attended">Attended</option>
-                                                    <option value="Cancelled">Cancelled</option>
-                                                    <option value="No Show">No Show</option>
+                                                    <option value="Registered">
+                                                        Registered
+                                                    </option>
+                                                    <option value="Attended">
+                                                        Attended
+                                                    </option>
+                                                    <option value="Cancelled">
+                                                        Cancelled
+                                                    </option>
+                                                    <option value="No Show">
+                                                        No Show
+                                                    </option>
                                                 </select>
                                             </td>
                                             {showSelect && (
                                                 <td className="px-3 py-3 text-center">
                                                     <input
                                                         type="checkbox"
-                                                        checked={selectedParticipants.includes(user.id)}
-                                                        onChange={() => handleToggleSelectParticipant(user.id)}
+                                                        checked={selectedParticipants.includes(
+                                                            user.id
+                                                        )}
+                                                        onChange={() =>
+                                                            handleToggleSelectParticipant(
+                                                                user.id
+                                                            )
+                                                        }
                                                         className="w-5 h-5 accent-blue-500 rounded-lg border-blue-300"
                                                     />
                                                 </td>
