@@ -1,22 +1,42 @@
 import React, { useState, useEffect } from 'react';
 
 export default function User_Details({ user, isEdit }) {
-    const [editedUser, setEditedUser] = useState({ ...user });
     const [userDetail, setuserDetails] = useState({...user});
+    const [editedUser, setEditedUser] = useState({ ...user });
     const [isEditing, setIsEditing] = useState(isEdit);
 
+    // Initial Render
+    useEffect(()=>{
+
+        (async()=>{
+
+            const response = await fetch(`/api/accounts/getAccount?id=${userDetail.id}`);
+            const data = await response.json();
+
+            if(!response.ok){
+                console.log(data.payload.error);
+                alert("Something went wrong");
+                return
+            }
+
+            setuserDetails(data.payload.details);
+
+        })()
+
+    },[])
+
     useEffect(() => {
-        setEditedUser({ ...user });
+        setEditedUser({ ...userDetail });
+    }, [userDetail]);
+    useEffect(()=>{
         setIsEditing(isEdit);
-    }, [user, isEdit]);
+    },[isEdit])
 
     const handleChange = (key, value) => {
         setEditedUser({ ...editedUser, [key]: value });
     };
 
     const handleSave = async () => {
-
-        //! Get the user details inside this component instead of the profiles
 
         if (!confirm('Are you sure?')) return;
 

@@ -21,7 +21,7 @@ if(!$user){
 $Account = new Account($user['ID']);
 $details = $Account->getDetails();
 
-if(strtolower($details['access']) != "Super Admin"){
+if(strtolower($details['access']) != "super admin"){
     sendResponse(
         401,
         "Unauthorize",
