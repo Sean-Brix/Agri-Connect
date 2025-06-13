@@ -193,7 +193,7 @@ class Account {
         }
         $query .= " ORDER BY {$order}";
 
-        if($order === 'created_at') $query.=" DESC";
+        if($order === 'created_at' || $order === 'updated_at') $query.=" DESC";
 
         $result = statement($query, $params, $types);
         if (!$result) {

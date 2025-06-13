@@ -62,9 +62,8 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
             setuserDetails({ ...editedUser });
 
             // Rerender user Row
-            setRowUpdate((prev)=>({...prev, ...editedUser}));
-        } 
-        catch (e) {
+            setRowUpdate((prev) => ({ ...prev, ...editedUser }));
+        } catch (e) {
             alert(e);
             console.log(e);
             setIsEditing(false);
@@ -121,11 +120,19 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
             </div>
             <div>
                 <strong>Created At:</strong>{' '}
-                {new Date(userDetail.created_at).toLocaleDateString('en-US')}
+                {new Date(userDetail.created_at).toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric',
+                })}
             </div>
             <div>
                 <strong>Updated At:</strong>{' '}
-                {new Date(userDetail.updated_at).toLocaleDateString('en-US')}
+                {new Date(userDetail.updated_at).toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric',
+                })}
             </div>
         </div>
     );

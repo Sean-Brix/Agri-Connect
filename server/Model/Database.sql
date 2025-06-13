@@ -86,3 +86,21 @@ CREATE TABLE seminar_participants (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+CREATE TABLE eic_request (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    account_id INT NOT NULL,
+    eic_id INT NOT NULL,
+    admin_id INT,
+
+    quantity INT NOT NULL,
+    status ENUM('Waiting', 'Approved', 'Rejected', 'Processing') NOT NULL DEFAULT 'Waiting',
+
+    FOREIGN KEY (account_id) REFERENCES accounts(id),
+    FOREIGN KEY (eic_id) REFERENCES EIC(id),
+    FOREIGN KEY (admin_id) REFERENCES accounts(id),
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react';
 export default function Profiles({ details }) {
     const [userList, setUserList] = useState([]);
     const [filter, setFilter] = useState({
-        roles: '',
-        client_profile: '',
-        order: '',
-        search: ''
+        roles: 'none',
+        client_profile: 'none',
+        order: 'none',
+        search: 'none'
     });
 
     // Initial Render
@@ -99,7 +99,7 @@ export default function Profiles({ details }) {
                                     setFilter({ ...filter, roles: e.target.value })
                                 }
                             >
-                                <option value="">All Roles</option>
+                                <option value="none">All Roles</option>
                                 <option value="Admin">Admin</option>
                                 <option value="Super Admin">Super Admin</option>
                                 <option value="User">User</option>
@@ -118,7 +118,7 @@ export default function Profiles({ details }) {
                                 <option value="" disabled>
                                     Client Profile
                                 </option>
-                                <option value="">All Profile</option>
+                                <option value="none">All Profile</option>
                                 <option value="Fishfolk">Fishfolk</option>
                                 <option value="Rural Based Org">
                                     Rural Based Org
@@ -148,12 +148,12 @@ export default function Profiles({ details }) {
                                     })
                                 }
                             >
-                                <option value="">Sort by</option>
+                                <option value="none">Sort by</option>
                                 <option value="username">Username</option>
                                 <option value="firstname">Firstname</option>
                                 <option value="lastname">Lastname</option>
                                 <option value="created_at">Date Created</option>
-                                <option value="updated_at">Recent Updated</option>
+                                <option value="updated_at">Recently Updated</option>
                             </select>
                         </div>
                     </div>
