@@ -1,61 +1,51 @@
 import React, { useState, useEffect } from 'react';
 
-export default function User_Details({ user, isEdit }) {
-    const [userDetail, setuserDetails] = useState({...user});
+export default function User_Details({ user, isEdit, setRowUpdate }) {
+    const [userDetail, setuserDetails] = useState({ ...user });
     const [editedUser, setEditedUser] = useState({ ...user });
     const [isEditing, setIsEditing] = useState(isEdit);
 
     // Initial Render
-    useEffect(()=>{
-
-        (async()=>{
-
-            const response = await fetch(`/api/accounts/getAccount?id=${userDetail.id}`);
+    useEffect(() => {
+        (async () => {
+            const response = await fetch(
+                `/api/accounts/getAccount?id=${userDetail.id}`
+            );
             const data = await response.json();
 
-            if(!response.ok){
+            if (!response.ok) {
                 console.log(data.payload.error);
-                alert("Something went wrong");
-                return
+                alert('Something went wrong');
+                return;
             }
 
             setuserDetails(data.payload.details);
-
-        })()
-
-    },[])
+        })();
+    }, []);
 
     useEffect(() => {
         setEditedUser({ ...userDetail });
     }, [userDetail]);
-    useEffect(()=>{
-        setIsEditing(isEdit);
-    },[isEdit])
 
     const handleChange = (key, value) => {
         setEditedUser({ ...editedUser, [key]: value });
     };
 
     const handleSave = async () => {
-
         if (!confirm('Are you sure?')) return;
 
         try {
-            const response = await fetch(
-                `/api/Accounts/updateAccount`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(editedUser),
-                }
-            );
+            const response = await fetch(`/api/Accounts/updateAccount`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(editedUser),
+            });
 
             if (!response.ok) {
-                
-                if(response.status === 401){
-                    const data = await response.json()
+                if (response.status === 401) {
+                    const data = await response.json();
                     alert(data.payload.error);
                     return;
                 }
@@ -66,9 +56,15 @@ export default function User_Details({ user, isEdit }) {
 
             const data = await response.json();
 
-            setIsEditing(false);
-            setEditedUser({...editedUser, ...data.payload.updated});
-            setuserDetails({...editedUser});
+            setEditedUser({ ...editedUser, ...data.payload.updated });
+            setuserDetails({ ...editedUser });
+
+            // Rerender user Row
+            setRowUpdate({
+                access: editedUser.access,
+                email_address: editedUser.email_address,
+                username: editedUser.username,
+            });
         } 
         catch (e) {
             alert(e);

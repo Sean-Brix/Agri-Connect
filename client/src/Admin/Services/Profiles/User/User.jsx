@@ -11,6 +11,11 @@ export default function User({ user, details }) {
     const [isExpanded, setIsExpanded] = useState(false);
     const [account, setAccount] = useState(user);
     const [editBtn, setEditBtn] = useState(false);
+    const [rowUpdate, setRowUpdate] = useState({
+        access: account.access,
+        email_address: account.email_address,
+        username: account.username
+    });
 
     useEffect(() => {
         (async () => {
@@ -29,6 +34,10 @@ export default function User({ user, details }) {
             setAccount({ ...account, picture: imageObjectURL });
         })();
     }, []);
+
+    useEffect(()=>{
+        setIsExpanded(false);
+    }, [rowUpdate])
 
     // Modal component
     const Modal = ({ open, onClose, children }) => {
@@ -73,27 +82,27 @@ export default function User({ user, details }) {
                 <div className="flex items-center gap-4">
                     <img
                         src={account.picture}
-                        alt={`${account.username}'s profile`}
+                        alt={`${rowUpdate.username}'s profile`}
                         className="w-16 h-16 rounded-full object-cover border-2 border-blue-400"
                     />
 
                     <div>
 
                         <h3 className="text-xl font-semibold text-gray-900">
-                            {account.username}
+                            {rowUpdate.username}
                         </h3>
-                        <p className="text-gray-500">{account.email_address}</p>
+                        <p className="text-gray-500">{rowUpdate.email_address}</p>
 
                         <p
                             className={`font-semibold text-center py-1 px-2 rounded-full text-sm w-fit ${
-                                account.access === 'Super Admin'
+                                rowUpdate.access === 'Super Admin'
                                     ? 'bg-red-500 text-white'
-                                    : account.access === 'Admin'
+                                    : rowUpdate.access === 'Admin'
                                     ? 'bg-green-500 text-white'
                                     : 'bg-blue-400 text-white'
                             }`}
                         >
-                            {account.access}
+                            {rowUpdate.access}
                         </p>
 
                     </div>
@@ -144,7 +153,7 @@ export default function User({ user, details }) {
                 </h2>
 
                 <div className="mb-4">
-                    <User_Details user={account} isEdit={editBtn} />
+                    <User_Details user={account} isEdit={editBtn} setRowUpdate={setRowUpdate}/>
                 </div>
             </Modal>
         </div>
