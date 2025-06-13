@@ -160,23 +160,33 @@ class Account {
     public function __toString(){
         return "Account Owner: {$this->username}";
     }
-    public static function getAllAccounts($access = null, $clientProfile = null, $order = "created_at") {
+    public static function getAllAccounts($access = null, $clientProfile = null, $order = "created_at", $search = null) {
         $query = "SELECT id, access, firstname, lastname, gender, client_profile, address, telephone_no, cellphone_no, occupation, position, institution, email_address, username, created_at, updated_at FROM `accounts` WHERE 1=1";
         $params = [];
         $types = "";
 
-        if ($access !== null || $access == "none") {
+        if ($access !== null && $access !== "none") {
             $query .= " AND access = ?";
             $params[] = $access;
             $types .= "s";
         }
 
-        if ($clientProfile !== null || $clientProfile == "none") {
+        if ($clientProfile !== null && $clientProfile !== "none") {
             $query .= " AND client_profile = ?";
             $params[] = $clientProfile;
             $types .= "s";
         }
         
+        if ($search !== null) {
+            $query .= " AND (firstname LIKE ? OR lastname LIKE ? OR email_address LIKE ? OR username LIKE ?)";
+            $searchTerm = "%" . $search . "%";
+            $params[] = $searchTerm;
+            $params[] = $searchTerm;
+            $params[] = $searchTerm;
+            $params[] = $searchTerm;
+            $types .= "ssss";
+        }
+
         $allowedOrders = ['created_at', 'updated_at', 'username', 'firstname', 'lastname', 'email_address'];
         if (!in_array($order, $allowedOrders)) {
             $order = 'created_at'; // Default to created_at if invalid order is provided
