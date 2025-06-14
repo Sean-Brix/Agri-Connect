@@ -14,8 +14,18 @@ export default function EIC() {
             {/* HEADER SECTIONS */}
             {Section_Buttons(section, setSection)}
 
+            {/* SECTION CONTAINER */}
             <div className='mt-[21vh] bg-amber-100 w-[100%]'>
-                <All_Items />
+
+                {/* NAVIGATION */}
+                {
+                    section === 'issued'?
+                        <h1>Issued Page Comming Soon</h1>:
+                    section === 'requests'?
+                        <h1>Request Page Comming Soon</h1>:
+                        <All_Items />
+                }
+
             </div>
         </>
     );
@@ -32,6 +42,7 @@ function Section_Buttons(section, setSection) {
                 { key: 'requests', label: 'Requests' },
                 { key: 'issued', label: 'Issued' },
             ].map(({ key, label }) => (
+
                 <button
                     key={key}
                     className={`relative px-6 py-2 font-semibold rounded-full transition-all duration-200
@@ -48,6 +59,7 @@ function Section_Buttons(section, setSection) {
                         <span className="absolute left-1/2 -bottom-2 -translate-x-1/2 w-3 h-3 bg-blue-400 rounded-full border-2 border-white shadow"></span>
                     )}
                 </button>
+
             ))}
         </div>
     );
