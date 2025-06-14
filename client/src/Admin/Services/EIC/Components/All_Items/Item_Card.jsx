@@ -8,7 +8,10 @@ import Edit_Modal from './Edit_Modal';
 
 export default function Item_Card({ item }) {
     const [card, setCard] = useState(item);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState({
+        state: false, 
+        modal: "details"
+    });
 
     // INITIAL RENDER
     useEffect(() => {
@@ -57,8 +60,10 @@ export default function Item_Card({ item }) {
                         {card.description}
                     </p>
 
-                    {/* STATUS */}
+                    {/* FOOTER */}
                     <div className="flex items-center justify-between">
+
+                        {/* STATUS */}
                         <span className="text-sm text-gray-700 block">
                             Status:{' '}
                             <span
@@ -83,13 +88,13 @@ export default function Item_Card({ item }) {
                         <div className="flex gap-2">
                             <button
                                 className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-2 w-[70px] rounded text-xs"
-                                onClick={() => setIsOpen(true)}
+                                onClick={() => setIsOpen({state: true, modal:"details"})}
                             >
                                 Details
                             </button>
 
                             <button
-                                onClick={() => setIsOpen(true)}
+                                onClick={() => setIsOpen({state: true, modal:"edit"})}
                                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-xs w-1/2"
                             >
                                 Edit
