@@ -78,8 +78,11 @@ CREATE TABLE EIC (
     description TEXT,
     quantity INT NOT NULL,
     status ENUM('Available', 'Borrowed', 'Maintenance', 'Damaged', 'Returned', 'Reserved') NOT NULL,
-    category ENUM('Farming Equipment', 'Harvesting Tools', 'Irrigation Systems', 'Storage Equipment', 'Processing Equipment', 'Safety Gear', 'Pest Control', 'Livestock Equipment', 'Measuring Tools', 'Fisheries', 'Machinery') NOT NULL,
+    category ENUM('Farming Equipment', 'Harvesting Tools', 'Irrigation Systems', 'Storage Equipment', 'Processing Equipment', 'Safety Gear', 'Pest Control', 'Livestock Equipment', 'Measuring Tools', 'Fisheries', 'Machinery', 'Other') NOT NULL,
+    added_by INT NOT NULL,
     photo LONGBLOB,
+
+    FOREIGN KEY (added_by) REFERENCES accounts(id),
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

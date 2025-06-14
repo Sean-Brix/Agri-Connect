@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 // ASSETS
-import default_image from '../Assets/default_image.png';
+import default_image from '../../Assets/default_image.png';
 
 // MODALS
 import Edit_Modal from './Edit_Modal';
@@ -12,16 +12,15 @@ export default function Item_Card({ item }) {
 
     // INITIAL RENDER
     useEffect(() => {
-
+        // Set default
         const defaultItem = {
             image: default_image,
             category: 'Category',
             name: 'Item Name',
             description:
                 'This is where the description of eic item will be placed at. The text is just an example for reference',
-            status: 'Available',
+            status: 'Returned',
         };
-
         const newItem = {
             image: item.image || default_image,
             category: item.category || defaultItem.category,
@@ -62,22 +61,35 @@ export default function Item_Card({ item }) {
                     <div className="flex items-center justify-between">
                         <span className="text-sm text-gray-700 block">
                             Status:{' '}
-                            <span className="font-semibold bg-gray-200 px-2 py-1 rounded-full text-xs">
+                            <span
+                                className={`font-semibold px-2 py-1 text-xs rounded-md
+                                        ${
+                                            card.status === 'Available'
+                                                ? 'bg-green-200 text-green-700'
+                                                : card.status === 'Returned'
+                                                ? 'bg-blue-200 text-blue-700'
+                                                : card.status === 'Reserved'
+                                                ? 'bg-yellow-200 text-yellow-700'
+                                                : card.status === 'Borrowed'
+                                                ? 'bg-red-200 text-red-700'
+                                                : 'bg-gray-200 text-gray-700'
+                                        }`}
+                            >
                                 {card.status}
                             </span>
                         </span>
 
                         {/* CONTROLS */}
                         <div className="flex gap-2">
-                            <button 
+                            <button
                                 className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-2 w-[70px] rounded text-xs"
-                                onClick={()=>setIsOpen(true)}
+                                onClick={() => setIsOpen(true)}
                             >
                                 Details
                             </button>
 
                             <button
-                                onClick={()=>setIsOpen(true)}
+                                onClick={() => setIsOpen(true)}
                                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-xs w-1/2"
                             >
                                 Edit
@@ -87,7 +99,7 @@ export default function Item_Card({ item }) {
                         <Edit_Modal
                             isOpen={isOpen}
                             item={card}
-                            onClose={()=>setIsOpen(false)}
+                            onClose={() => setIsOpen(false)}
                         />
                     </div>
                 </div>

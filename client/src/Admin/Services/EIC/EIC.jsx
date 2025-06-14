@@ -4,7 +4,9 @@ import { useState } from 'react';
 import default_image from './Assets/default_image.png';
 
 // SUB COMPONENTS
-import All_Items from './All_Items/All_Items.jsx';
+import All_Items from './Components/All_Items/All_Items.jsx';
+import EIC_Request from './Components/Request/EIC_Request.jsx';
+import EIC_Issued from './Components/Issued/EIC_Issued.jsx';
 
 export default function EIC() {
     const [section, setSection] = useState('all');
@@ -20,9 +22,9 @@ export default function EIC() {
                 {/* NAVIGATION */}
                 {
                     section === 'issued'?
-                        <h1>Issued Page Comming Soon</h1>:
+                        <EIC_Issued />:
                     section === 'requests'?
-                        <h1>Request Page Comming Soon</h1>:
+                        <EIC_Request />:
                         <All_Items />
                 }
 
