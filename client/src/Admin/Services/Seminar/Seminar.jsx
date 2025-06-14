@@ -151,104 +151,118 @@ export default function Seminar({ admin_navigate }) {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-green-50 py-10 px-2 md:px-8">
-            {/* Header */}
-            <div className="relative mt-20 mb-10 flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto gap-4">
-                <span className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight flex items-center gap-2">
-                    <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path d="M12 20V10M12 10L8 14M12 10l4 4" strokeLinecap="round" strokeLinejoin="round"/>
-                        <circle cx="12" cy="12" r="10" />
-                    </svg>
-                    Seminars & Programs
-                </span>
-                {/* Responsive button group */}
-                <div className="flex gap-2 flex-wrap w-full md:w-auto justify-center md:justify-end">
-                    <button
-                        className={`flex-1 min-w-[120px] md:min-w-0 bg-gradient-to-r from-red-500 to-red-600 text-white px-5 py-2 rounded-xl text-base font-semibold shadow-md transition-all ${
-                            selectMode
-                                ? 'hover:from-red-600 hover:to-red-700'
-                                : 'hover:opacity-90'
-                        } ${selectMode ? '' : 'opacity-80'}`}
-                        onClick={
-                            selectMode
-                                ? handleDeleteSelected
-                                : handleToggleSelectMode
-                        }
-                        disabled={selectMode && selectedItems.length === 0}
-                    >
-                        {selectMode
-                            ? selectedItems.length > 0
-                                ? `Delete (${selectedItems.length})`
-                                : 'Delete'
-                            : 'Delete'}
-                    </button>
-                    <button
-                        className="flex-1 min-w-[120px] md:min-w-0 bg-gradient-to-r from-green-500 to-green-600 text-white px-5 py-2 rounded-xl hover:from-green-600 hover:to-green-700 text-base font-semibold shadow-md transition-all"
-                        onClick={() => setShowAdd(true)}
-                    >
-                        <span className="mr-1 text-xl font-bold">+</span> Add Program
-                    </button>
-                    {selectMode && (
-                        <button
-                            className="flex-1 min-w-[120px] md:min-w-0 bg-gray-100 text-gray-700 px-4 py-2 rounded-xl text-sm font-semibold ml-2 hover:bg-gray-200 border border-gray-200 shadow"
-                            onClick={handleToggleSelectMode}
-                        >
-                            Cancel
-                        </button>
-                    )}
-                </div>
-            </div>
+           {/* Header */}
+                        <div className="relative mt-20 mb-10 flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto gap-4">
+                            <span className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight flex items-center gap-2">
+                                {/* Changed icon to a graduation cap */}
+                                <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <path d="M12 3L2 9l10 6 10-6-10-6zm0 13v5m-7-7v2a2 2 0 002 2h10a2 2 0 002-2v-2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                                Seminars & Programs
+                            </span>
+                            {/* Modern, compact button group */}
+                                <div className="flex gap-2 flex-wrap w-full md:w-auto justify-center md:justify-end">
+                                    {selectMode && (
+                                        <button
+                                            className={`flex items-center justify-center px-4 py-1.5 rounded-lg text-sm font-medium shadow bg-blue-100 hover:bg-blue-200 text-blue-700 transition-all`}
+                                            onClick={() => {
+                                                if (selectedItems.length === programList.length) {
+                                                    setSelectedItems([]);
+                                                } else {
+                                                    setSelectedItems(programList.map((_, idx) => idx));
+                                                }
+                                            }}
+                                        >
+                                            {selectedItems.length === programList.length ? 'Unselect All' : 'Select All'}
+                                        </button>
+                                    )}
+                                    <button
+                                        className={`flex items-center justify-center px-4 py-1.5 rounded-lg text-sm font-medium shadow transition-all
+                                            ${selectMode
+                                                ? 'bg-red-700 hover:bg-red-800 text-white'
+                                                : 'bg-red-300 hover:bg-red-400 text-red-700'
+                                            }
+                                            ${selectMode && selectedItems.length === 0 ? 'opacity-60 cursor-not-allowed' : ''}
+                                        `}
+                                        onClick={
+                                            selectMode
+                                                ? handleDeleteSelected
+                                                : handleToggleSelectMode
+                                        }
+                                        disabled={selectMode && selectedItems.length === 0}
+                                    >
+                                        {selectMode
+                                            ? selectedItems.length > 0
+                                                ? `Delete (${selectedItems.length})`
+                                                : 'Delete'
+                                            : 'Delete'}
+                                    </button>
+                                    <button
+                                        className="flex items-center justify-center px-4 py-1.5 rounded-lg text-sm font-medium shadow bg-green-500 hover:bg-green-600 text-white transition-all"
+                                        onClick={() => setShowAdd(true)}
+                                    >
+                                        <span className="mr-1 text-lg font-bold">+</span> Add Program
+                                    </button>
+                                    {selectMode && (
+                                        <button
+                                            className="flex items-center justify-center px-4 py-1.5 rounded-lg text-sm font-medium shadow bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200"
+                                            onClick={handleToggleSelectMode}
+                                        >
+                                            Cancel
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-7xl mx-auto gap-4">
+                                <div className="flex-1 flex flex-col md:flex-row gap-4 w-full">
+                                    <div className="relative w-full max-w-lg">
+                                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                            <svg
+                                                className="w-5 h-5 text-gray-400"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <circle cx="11" cy="11" r="8" />
+                                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                            </svg>
+                                        </span>
+                                        <input
+                                            type="text"
+                                            placeholder="Search programs..."
+                                            value={search}
+                                            onChange={(e) => setSearch(e.target.value)}
+                                            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 text-black bg-white shadow"
+                                        />
+                                    </div>
+                                    <select
+                                        onChange={(e) => setSearchFilter(e.target.value)}
+                                        className="w-full md:w-44 border border-gray-200 rounded-xl px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700 shadow"
+                                    >
+                                        <option value="all">All</option>
+                                        <option value="title">Title</option>
+                                        <option value="speaker">Speaker</option>
+                                        <option value="location">Location</option>
+                                    </select>
+                                    <select
+                                        onChange={(e) => setStatusFilter(e.target.value)}
+                                        className="w-full md:w-44 border border-gray-200 rounded-xl px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700 shadow"
+                                        defaultValue=""
+                                    >
+                                        <option value="" disabled>
+                                            Status
+                                        </option>
+                                        <option value="all">All</option>
+                                        <option value="Ongoing">Ongoing</option>
+                                        <option value="Completed">Completed</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                        <option value="Upcoming">Upcoming</option>
+                                    </select>
+                                </div>
+                            </div>
 
-            {/* Search Bar and Filters */}
-            <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-7xl mx-auto gap-4">
-                <div className="flex-1 flex flex-col md:flex-row gap-4 w-full">
-                    <div className="relative w-full max-w-lg">
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg
-                                className="w-5 h-5 text-gray-400"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                viewBox="0 0 24 24"
-                            >
-                                <circle cx="11" cy="11" r="8" />
-                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                            </svg>
-                        </span>
-                        <input
-                            type="text"
-                            placeholder="Search programs..."
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 text-black bg-white shadow"
-                        />
-                    </div>
-                    <select
-                        onChange={(e) => setSearchFilter(e.target.value)}
-                        className="w-full md:w-44 border border-gray-200 rounded-xl px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700 shadow"
-                    >
-                        <option value="all">All</option>
-                        <option value="title">Title</option>
-                        <option value="speaker">Speaker</option>
-                        <option value="location">Location</option>
-                    </select>
-                    <select
-                        onChange={(e) => setStatusFilter(e.target.value)}
-                        className="w-full md:w-44 border border-gray-200 rounded-xl px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700 shadow"
-                        defaultValue=""
-                    >
-                        <option value="" disabled>
-                            Status
-                        </option>
-                        <option value="all">All</option>
-                        <option value="Ongoing">Ongoing</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Cancelled">Cancelled</option>
-                        <option value="Upcoming">Upcoming</option>
-                    </select>
-                </div>
-            </div>
-
-            {/* Add Program Modal */}
+                            {/* Add Program Modal */}
             {showAdd && (
                 <Add_Program 
                     programList = {programList} 

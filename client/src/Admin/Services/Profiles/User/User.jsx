@@ -73,32 +73,32 @@ export default function User({ user, details }) {
     };
 
     return (
-        <div className="flex flex-col items-center w-full">
-            <div className="flex items-center justify-between w-full max-w-4xl bg-white rounded-xl shadow p-6 ">
-                <div className="flex items-center gap-4">
+        <div className="flex flex-col items-center w-full px-2">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full max-w-4xl bg-white rounded-xl shadow p-3 sm:p-6 gap-4 transition-all duration-200"
+                style={{ minWidth: 0 }}>
+                <div className="flex flex-col sm:flex-row items-center gap-4 flex-1 min-w-0 w-full">
                     <img
                         src={account.picture}
                         alt={`${rowUpdate.username}'s profile`}
-                        className="w-16 h-16 rounded-full object-cover border-2 border-blue-400"
+                        className="w-16 h-16 rounded-full object-cover border-2 border-blue-400 flex-shrink-0"
                     />
 
-                    <div>
-
+                    <div className="flex flex-col min-w-0 w-full">
                         {/* FULLNAME */}
-                        <h3 className="text-xl font-semibold text-gray-900">
+                        <h3 className="text-lg sm:text-xl font-semibold text-gray-900 truncate">
                             {rowUpdate.firstname} {rowUpdate.lastname}
                         </h3>
 
                         {/* EMAIL */}
-                        <p>
+                        <p className="truncate text-sm sm:text-base">
                             Email: {rowUpdate.email_address}
                         </p>
 
                         {/* USERNAME */}
-                        <p className="text-gray-500">Username: {rowUpdate.username}</p>
+                        <p className="text-gray-500 truncate text-sm sm:text-base">Username: {rowUpdate.username}</p>
 
                         <p
-                            className={`font-semibold text-center py-1 px-2 rounded-full text-sm w-fit ${
+                            className={`font-semibold text-center py-1 px-2 rounded-full text-xs sm:text-sm w-fit ${
                                 rowUpdate.access === 'Super Admin'
                                     ? 'bg-red-500 text-white'
                                     : rowUpdate.access === 'Admin'
@@ -108,32 +108,35 @@ export default function User({ user, details }) {
                         >
                             {rowUpdate.access}
                         </p>
-
                     </div>
-             
                 </div>
-                <div className="flex gap-3">
+                {/* Button container for responsiveness */}
+                <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 justify-center sm:justify-end w-full sm:w-auto">
                     {details.access === 'Super Admin' && (
-                        <button
-                            onClick={() => {
-                                setEditBtn(true);
-                                setIsExpanded(true);
-                            }}
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-lg shadow transition"
-                        >
-                            Edit
-                        </button>
+                        <div className="w-full sm:w-auto">
+                            <button
+                                onClick={() => {
+                                    setEditBtn(true);
+                                    setIsExpanded(true);
+                                }}
+                                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-lg shadow transition w-full sm:w-auto"
+                            >
+                                Edit
+                            </button>
+                        </div>
                     )}
 
-                    <button
-                        onClick={() => {
-                            setIsExpanded(true);
-                            setEditBtn(false);
-                        }}
-                        className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-5 rounded-lg shadow transition"
-                    >
-                        Details
-                    </button>
+                    <div className="w-full sm:w-auto">
+                        <button
+                            onClick={() => {
+                                setIsExpanded(true);
+                                setEditBtn(false);
+                            }}
+                            className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-5 rounded-lg shadow transition w-full sm:w-auto"
+                        >
+                            Details
+                        </button>
+                    </div>
                 </div>
             </div>
 
