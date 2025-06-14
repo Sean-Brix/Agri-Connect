@@ -14,7 +14,9 @@ export default function EIC() {
             {/* HEADER SECTIONS */}
             {Section_Buttons(section, setSection)}
 
-            <All_Items />
+            <div className='mt-[21vh] bg-amber-100 w-[100%]'>
+                <All_Items />
+            </div>
         </>
     );
 }
@@ -24,7 +26,7 @@ export default function EIC() {
 // SECTION CONTROL
 function Section_Buttons(section, setSection) {
     return (
-        <div className="flex mt-[10vh] space-x-4 mb-6 justify-center">
+        <div className="flex mt-[12vh] ml-8 space-x-4 justify-center fixed z-10">
             {[
                 { key: 'all', label: 'All Items' },
                 { key: 'requests', label: 'Requests' },

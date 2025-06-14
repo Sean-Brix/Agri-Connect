@@ -1,16 +1,21 @@
-import React from 'react'
+import React from 'react';
 import Item_Card from './Item_Card.jsx';
 
 export default function All_Items() {
-  return (
-    <>
+    const items = Array.from({ length: 10 });
 
-    <div className='w-full h-[75vh] p-4 bg-amber-100 rounded-2xl'>
+    return (
+        <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full h-auto p-4 rounded-2xl">
 
-        <Item_Card />
+              <Item_Card/>
+              <Item_Card/>
+              <Item_Card/>
+              <Item_Card/>
 
-    </div>
+      
 
-    </>
-  )
+            </div>
+        </>
+    );
 }
