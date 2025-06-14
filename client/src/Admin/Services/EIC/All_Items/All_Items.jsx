@@ -5,7 +5,7 @@ export default function All_Items() {
   return (
     <>
 
-    <div className='w-full h-[75vh] bg-amber-100'>
+    <div className='w-full h-[75vh] p-4 bg-amber-100 rounded-2xl'>
 
         <Item_Card />
 

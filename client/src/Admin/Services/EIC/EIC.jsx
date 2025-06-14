@@ -24,33 +24,29 @@ export default function EIC() {
 // SECTION CONTROL
 function Section_Buttons(section, setSection) {
     return (
-        <div className="flex mt-[10vh] space-x-4 mb-4">
-            <button
-                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
-                    section === 'all' ? 'bg-blue-800' : ''
-                }`}
-                onClick={() => setSection('all')}
-            >
-                All Items
-            </button>
-
-            <button
-                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
-                    section === 'requests' ? 'bg-blue-800' : ''
-                }`}
-                onClick={() => setSection('requests')}
-            >
-                Requests
-            </button>
-
-            <button
-                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
-                    section === 'issued' ? 'bg-blue-800' : ''
-                }`}
-                onClick={() => setSection('issued')}
-            >
-                Issued
-            </button>
+        <div className="flex mt-[10vh] space-x-4 mb-6 justify-center">
+            {[
+                { key: 'all', label: 'All Items' },
+                { key: 'requests', label: 'Requests' },
+                { key: 'issued', label: 'Issued' },
+            ].map(({ key, label }) => (
+                <button
+                    key={key}
+                    className={`relative px-6 py-2 font-semibold rounded-full transition-all duration-200
+                        ${
+                            section === key
+                                ? 'bg-gradient-to-r from-blue-600 to-blue-400 text-white shadow-lg scale-105'
+                                : 'bg-white text-blue-600 border border-blue-400 hover:bg-blue-50'
+                        }
+                        focus:outline-none focus:ring-2 focus:ring-blue-300`}
+                    onClick={() => setSection(key)}
+                >
+                    {label}
+                    {section === key && (
+                        <span className="absolute left-1/2 -bottom-2 -translate-x-1/2 w-3 h-3 bg-blue-400 rounded-full border-2 border-white shadow"></span>
+                    )}
+                </button>
+            ))}
         </div>
     );
 }
