@@ -98,7 +98,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                             type="text"
                             value={userDetail.id || ''}
                             readOnly
-                            className="w-full bg-white border-b-2 border-blue-300 text-blue-900 font-bold py-1 px-2 mb-2 focus:outline-none"
+                            className="w-full bg-white border border-blue-300 text-blue-900 font-bold py-1 px-2 mb-2 focus:outline-none rounded-lg"
                         />
                     </div>
                     <div>
@@ -107,7 +107,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                             type="text"
                             value={userDetail.username || ''}
                             readOnly
-                            className="w-full bg-white border-b-2 border-blue-300 text-blue-900 font-bold py-1 px-2 mb-2 focus:outline-none"
+                            className="w-full bg-white border border-blue-300 text-blue-900 font-bold py-1 px-2 mb-2 focus:outline-none rounded-lg"
                         />
                     </div>
                     <div>
@@ -116,7 +116,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                             type="text"
                             value={userDetail.access || ''}
                             readOnly
-                            className="w-full bg-white border-b-2 border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none"
+                            className="w-full bg-white border border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none rounded-lg"
                         />
                     </div>
                     <div>
@@ -125,7 +125,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                             type="text"
                             value={`${userDetail.firstname || ''} ${userDetail.lastname || ''}`}
                             readOnly
-                            className="w-full bg-white border-b-2 border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none"
+                            className="w-full bg-white border border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none rounded-lg"
                         />
                     </div>
                     <div>
@@ -134,7 +134,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                             type="text"
                             value={userDetail.gender || ''}
                             readOnly
-                            className="w-full bg-white border-b-2 border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none"
+                            className="w-full bg-white border border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none rounded-lg"
                         />
                     </div>
                     <div>
@@ -143,7 +143,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                             type="text"
                             value={userDetail.client_profile || ''}
                             readOnly
-                            className="w-full bg-white border-b-2 border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none"
+                            className="w-full bg-white border border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none rounded-lg"
                         />
                     </div>
                     <div>
@@ -152,7 +152,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                             type="text"
                             value={userDetail.address || ''}
                             readOnly
-                            className="w-full bg-white border-b-2 border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none"
+                            className="w-full bg-white border border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none rounded-lg"
                         />
                     </div>
                     <div>
@@ -161,7 +161,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                             type="text"
                             value={userDetail.telephone_no || ''}
                             readOnly
-                            className="w-full bg-white border-b-2 border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none"
+                            className="w-full bg-white border border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none rounded-lg"
                         />
                     </div>
                     <div>
@@ -170,7 +170,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                             type="text"
                             value={userDetail.cellphone_no || ''}
                             readOnly
-                            className="w-full bg-white border-b-2 border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none"
+                            className="w-full bg-white border border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none rounded-lg"
                         />
                     </div>
                     <div>
@@ -179,7 +179,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                             type="text"
                             value={userDetail.occupation || ''}
                             readOnly
-                            className="w-full bg-white border-b-2 border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none"
+                            className="w-full bg-white border border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none rounded-lg"
                         />
                     </div>
                     <div>
@@ -188,7 +188,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                             type="text"
                             value={userDetail.position || ''}
                             readOnly
-                            className="w-full bg-white border-b-2 border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none"
+                            className="w-full bg-white border border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none rounded-lg"
                         />
                     </div>
                     <div>
@@ -197,7 +197,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                             type="text"
                             value={userDetail.institution || ''}
                             readOnly
-                            className="w-full bg-white border-b-2 border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none"
+                            className="w-full bg-white border border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none rounded-lg"
                         />
                     </div>
                     <div>
@@ -206,7 +206,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                             type="text"
                             value={userDetail.email_address || ''}
                             readOnly
-                            className="w-full bg-white border-b-2 border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none"
+                            className="w-full bg-white border border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none rounded-lg"
                         />
                     </div>
                     <div>
@@ -223,7 +223,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                                     : ''
                             }
                             readOnly
-                            className="w-full bg-white border-b-2 border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none"
+                            className="w-full bg-white border border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none rounded-lg"
                         />
                     </div>
                     <div>
@@ -240,7 +240,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                                     : ''
                             }
                             readOnly
-                            className="w-full bg-white border-b-2 border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none"
+                            className="w-full bg-white border border-blue-300 text-blue-900 py-1 px-2 mb-2 focus:outline-none rounded-lg"
                         />
                     </div>
                 </div>
@@ -274,7 +274,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                             type="text"
                             value={editedUser.id || ''}
                             readOnly
-                            className="w-full bg-white border-2 border-blue-400 text-blue-900 font-bold py-1 px-2 mb-2 focus:outline-none focus:border-blue-600 rounded-lg"
+                            className="w-full bg-white border border-blue-400 text-blue-900 font-bold py-1 px-2 mb-2 focus:outline-none focus:border-blue-600 rounded-lg"
                         />
                     </div>
                     {/* Username */}

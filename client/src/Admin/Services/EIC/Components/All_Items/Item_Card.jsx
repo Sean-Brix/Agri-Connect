@@ -45,109 +45,103 @@ export default function Item_Card({ item }) {
 
     return (
         <>
-            <div className="max-w-full max-h-[350px] rounded-md overflow-hidden shadow-md hover:shadow-lg m-3">
+            <div className="max-w-full max-h-[370px] rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-white m-4 border border-gray-100">
                 <div className="relative">
                     {/* IMAGE */}
                     <img
-                        className="w-full h-48 object-cover"
+                        className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
                         src={card.image}
-                        alt="Product Image"
+                        alt="Product"
                     />
 
                     {/* CATEGORY */}
-                    <div
-                        className={`absolute top-0 right-0 px-2 py-1 m-2 rounded-md text-xs font-medium text-white
+                    <span
+                        className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold shadow-sm
                         ${
                             card.category === 'Farming Equipment'
-                                ? 'bg-blue-700'
+                                ? 'bg-blue-600'
                                 : card.category === 'Harvesting Tools'
-                                ? 'bg-pink-700'
+                                ? 'bg-pink-600'
                                 : card.category === 'Irrigation Systems'
-                                ? 'bg-purple-700'
+                                ? 'bg-purple-600'
                                 : card.category === 'Storage Equipment'
-                                ? 'bg-yellow-700'
+                                ? 'bg-yellow-600'
                                 : card.category === 'Processing Equipment'
-                                ? 'bg-green-700'
+                                ? 'bg-green-600'
                                 : card.category === 'Safety Gear'
-                                ? 'bg-red-700'
+                                ? 'bg-red-600'
                                 : card.category === 'Pest Control'
-                                ? 'bg-indigo-700'
+                                ? 'bg-indigo-600'
                                 : card.category === 'Livestock Equipment'
-                                ? 'bg-orange-700'
+                                ? 'bg-orange-600'
                                 : card.category === 'Measuring Tools'
-                                ? 'bg-teal-700'
+                                ? 'bg-teal-600'
                                 : card.category === 'Fisheries'
-                                ? 'bg-lime-700'
+                                ? 'bg-lime-600'
                                 : card.category === 'Machinery'
-                                ? 'bg-cyan-700'
-                                : 'bg-gray-700'
-                        }`}
+                                ? 'bg-cyan-600'
+                                : 'bg-gray-600'
+                        } text-white`}
                     >
                         {card.category}
-                    </div>
+                    </span>
                 </div>
-                <div className="p-3">
+                <div className="p-4 flex flex-col h-[170px]">
                     {/* ITEM NAME */}
-                    <h3 className="text-lg font-medium mb-1">{card.name}</h3>
+                    <h3 className="text-xl font-semibold mb-1 truncate">{card.name}</h3>
 
                     {/* DESCRIPTION */}
-                    <p className="text-gray-600 text-xs mb-6">
-                        {card.description}
-                    </p>
+                    <p className="text-gray-500 text-sm mb-4 line-clamp-2">{card.description}</p>
 
                     {/* FOOTER */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between mt-auto">
                         {/* STATUS */}
-                        <span className="text-sm text-gray-700 block">
-                            Status:{' '}
+                        <span className="text-xs text-gray-500 flex items-center gap-1">
                             <span
-                                className={`font-semibold px-2 py-1 text-xs rounded-md
-                                        ${
-                                            card.status === 'Available'
-                                                ? 'bg-green-200 text-green-700'
-                                                : card.status === 'Returned'
-                                                ? 'bg-blue-200 text-blue-700'
-                                                : card.status === 'Reserved'
-                                                ? 'bg-yellow-200 text-yellow-700'
-                                                : card.status === 'Borrowed'
-                                                ? 'bg-red-200 text-red-700'
-                                                : 'bg-gray-200 text-gray-700'
-                                        }`}
-                            >
-                                {card.status}
-                            </span>
+                                className={`inline-block w-2 h-2 rounded-full mr-1
+                                    ${
+                                        card.status === 'Available'
+                                            ? 'bg-green-500'
+                                            : card.status === 'Returned'
+                                            ? 'bg-blue-500'
+                                            : card.status === 'Reserved'
+                                            ? 'bg-yellow-400'
+                                            : card.status === 'Borrowed'
+                                            ? 'bg-red-500'
+                                            : 'bg-gray-400'
+                                    }`}
+                            ></span>
+                            {card.status}
                         </span>
 
                         {/* CONTROLS */}
                         <div className="flex gap-2">
                             <button
-                                className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-2 w-[70px] rounded text-xs"
+                                className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-1 px-3 rounded-lg text-xs border border-gray-200 transition-colors"
                                 onClick={() =>
                                     setIsOpen({ state: true, modal: 'details' })
                                 }
                             >
                                 Details
                             </button>
-
                             <button
                                 onClick={() =>
                                     setIsOpen({ state: true, modal: 'edit' })
                                 }
-                                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-xs w-1/2"
+                                className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-3 rounded-lg text-xs transition-colors"
                             >
                                 Edit
                             </button>
                         </div>
-
-                        <Edit_Modal
-                            isOpen={isOpen}
-                            item={card}
-                            onClose={() =>
-                                setIsOpen({ state: false, modal: 'details' })
-                            }
-                        />
                     </div>
                 </div>
+                <Edit_Modal
+                    isOpen={isOpen}
+                    item={card}
+                    onClose={() =>
+                        setIsOpen({ state: false, modal: 'details' })
+                    }
+                />
             </div>
         </>
     );
