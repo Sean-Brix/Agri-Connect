@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Item_Card from './item_card.jsx';
-import default_image from '../../Assets/default_image.png'
+import default_image from '../../Assets/default_image.png';
 
 export default function All_Items() {
     const [items, setItems] = useState([]);
@@ -20,75 +20,45 @@ export default function All_Items() {
         imagePreview: null,
     });
 
-    // INITIAL RENDER
     useEffect(() => {
-        (async () => {
-            const response = await fetch(`/api/eic/getAll`);
-            const data = await response.json();
-            // Fetch image URLs for each item
-            const itemsWithImages = await Promise.all(
-                data.payload.map(async (item) => {
-                    try {
-                        const imageResponse = await fetch(
-                            `/api/eic/getImage?id=${item.id}`
-                        );
-                        if (imageResponse.ok) {
-                            
-                            if(imageResponse.status === 204){
-                                return { ...item, photo: default_image };
-                            }
-
-                            const imageBlob = await imageResponse.blob();
-                            const imageUrl = URL.createObjectURL(imageBlob);
-                            return { ...item, photo: imageUrl };
-                        } 
-                    } 
-                    catch (error) {
-                        console.error('Error fetching image:', error);
-                        // Use default image on error
-                        return { ...item, photo: default_image };
-                    }
-                })
-            );
-            setItems(itemsWithImages);
-        })();
+        fetchItems();
     }, []);
 
-    // SEARCH / FILTER
     useEffect(() => {
-        (async () => {
-            const response = await fetch(
-                `/api/eic/getAll?status=${statusFilter}&category=${categoryFilter}&search=${search}`
-            );
-            const data = await response.json();
-
-            // Fetch image URLs for each item after filter
-            const itemsWithImages = await Promise.all(
-                data.payload.map(async (item) => {
-                    try {
-                        const imageResponse = await fetch(
-                            `/api/eic/getImage?id=${item.id}`
-                        );
-                        if (imageResponse.ok) {
-                            const imageBlob = await imageResponse.blob();
-                            const imageUrl = URL.createObjectURL(imageBlob);
-                            return { ...item, imageUrl };
-                        } else {
-                            // Use default image if image not found
-                            return { ...item, imageUrl: '/default-image.jpg' };
-                        }
-                    } catch (error) {
-                        console.error('Error fetching image:', error);
-                        // Use default image on error
-                        return { ...item, imageUrl: '/default-image.jpg' };
-                    }
-                })
-            );
-            setItems(itemsWithImages);
-        })();
+        fetchItems();
     }, [statusFilter, categoryFilter, search]);
 
-    // DELETE
+    const fetchItems = async () => {
+        const response = await fetch(
+            `/api/eic/getAll?status=${statusFilter}&category=${categoryFilter}&search=${search}`
+        );
+        const data = await response.json();
+
+        const itemsWithImages = await Promise.all(
+            data.payload.map(async (item) => {
+                try {
+                    const imageResponse = await fetch(
+                        `/api/eic/getImage?id=${item.id}`
+                    );
+                    if (imageResponse.ok) {
+                        if (imageResponse.status === 204) {
+                            return { ...item, photo: default_image };
+                        }
+                        const imageBlob = await imageResponse.blob();
+                        const imageUrl = URL.createObjectURL(imageBlob);
+                        return { ...item, photo: imageUrl };
+                    } else {
+                        return { ...item, photo: default_image };
+                    }
+                } catch (error) {
+                    console.error('Error fetching image:', error);
+                    return { ...item, photo: default_image };
+                }
+            })
+        );
+        setItems(itemsWithImages);
+    };
+
     const handleDelete = async () => {
         if (selectedItems.length === 0) {
             alert('Please select items to delete.');
@@ -114,7 +84,6 @@ export default function All_Items() {
         }
     };
 
-    // NEW ITEM
     const handleOpenNewItemModal = () => {
         setNewItemModalOpen(true);
     };
@@ -169,9 +138,9 @@ export default function All_Items() {
             if (response.ok) {
                 const data = await response.json();
                 const newItemId = data.payload[0].id;
-                let imageUrl = '/default-image.jpg'; // Default image
 
-                // Fetch image and update imageUrl
+                let photo = default_image;
+
                 if (newItem.image) {
                     const formData = new FormData();
                     formData.append('id', newItemId);
@@ -183,24 +152,14 @@ export default function All_Items() {
                     });
 
                     if (imageResponse.ok) {
-                        try {
-                            const imageFetchResponse = await fetch(
-                                `/api/eic/getImage?id=${newItemId}`
-                            );
-                            if (imageFetchResponse.ok) {
-                                const imageBlob =
-                                    await imageFetchResponse.blob();
-                                imageUrl = URL.createObjectURL(imageBlob);
-                            } else {
-                                console.error(
-                                    'Failed to fetch image after upload'
-                                );
-                            }
-                        } catch (fetchError) {
-                            console.error(
-                                'Error fetching image after upload',
-                                fetchError
-                            );
+                        const imageFetchResponse = await fetch(
+                            `/api/eic/getImage?id=${newItemId}`
+                        );
+                        if (imageFetchResponse.ok) {
+                            const imageBlob = await imageFetchResponse.blob();
+                            photo = URL.createObjectURL(imageBlob);
+                        } else {
+                            console.error('Failed to fetch image after upload');
                         }
                     } else {
                         console.error(
@@ -209,7 +168,8 @@ export default function All_Items() {
                         );
                     }
                 }
-                const newItemWithImage = { ...data.payload[0], imageUrl };
+
+                const newItemWithImage = { ...data.payload[0], photo };
                 setItems([newItemWithImage, ...items]);
                 handleCloseNewItemModal();
             } else {
@@ -250,7 +210,7 @@ export default function All_Items() {
                         onChange={(e) => setCategoryFilter(e.target.value)}
                         className="w-full md:w-50 border border-gray-200 rounded-xl px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700 shadow"
                     >
-                        <option value="all">All Category</option>
+                        <option value="">All Category</option>
                         <option value="Farming Equipment">
                             Farming Equipment
                         </option>
@@ -281,11 +241,11 @@ export default function All_Items() {
                         className="w-full md:w-44 border border-gray-200 rounded-xl px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700 shadow"
                         defaultValue=""
                     >
-                        <option value="all">All Items</option>
-                        <option value="Ongoing">Available</option>
-                        <option value="Completed">Returned</option>
-                        <option value="Cancelled">Reserved</option>
-                        <option value="Upcoming">Borrowed</option>
+                        <option value="">All Items</option>
+                        <option value="Available">Available</option>
+                        <option value="Returned">Returned</option>
+                        <option value="Reserved">Reserved</option>
+                        <option value="Borrowed">Borrowed</option>
                     </select>
                 </div>
                 <div className="flex gap-2">
@@ -345,7 +305,6 @@ export default function All_Items() {
                 ))}
             </div>
 
-            {/* NEW ITEM MODAL */}
             {newItemModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center">
                     <div className="bg-white rounded-lg p-8 max-w-md w-full border-2">

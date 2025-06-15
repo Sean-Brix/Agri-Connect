@@ -139,7 +139,6 @@ class EIC{
         $this->quantity = $params['quantity'] ?? $this->quantity;
         $this->status = $params['status'] ?? $this->status;
         $this->category = $params['category'] ?? $this->category;
-        $this->added_by = $params['added_by'] ?? $this->added_by;
     }
 
     /**
@@ -149,11 +148,11 @@ class EIC{
     public function save(){
         $query = "UPDATE `EIC` SET
             Name = ?, description = ?, quantity = ?,
-            status = ?, category = ?, added_by = ?
+            status = ?, category = ?
             WHERE id = ?";
         $params = [
             $this->Name, $this->description, $this->quantity,
-            $this->status, $this->category, $this->added_by,
+            $this->status, $this->category,
             $this->id
         ];
         $types = getTypes($params);

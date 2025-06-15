@@ -1,20 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import default_image from '../../Assets/default_image.png';
 
-export default function Edit_Modal({ isOpen, onClose, card, onSave, setCard }) {
+export default function Edit_Modal({ isOpen, onClose, card, setCard }) {
     const [editedItem, setEditedItem] = useState(card);
-
-    // Initial Render
-    useEffect(() => {
-        setEditedItem(card || {});
-
-        // Fetch 
-        (async()=>{
-
-            
-
-        })()
-
-    }, [card]);
 
     if (!isOpen.state) {
         return null;
@@ -22,7 +10,7 @@ export default function Edit_Modal({ isOpen, onClose, card, onSave, setCard }) {
 
     return isOpen.modal === 'details'
         ? render_details(onClose, editedItem)
-        : render_edit(onClose, editedItem, setEditedItem, onSave, setCard);
+        : render_edit(onClose, editedItem, setEditedItem, setCard);
 }
 
 function render_details(onClose, editedItem) {
@@ -48,10 +36,10 @@ function render_details(onClose, editedItem) {
 
                 {/* IMAGE */}
                 <div className="w-full h-56 bg-gray-100 flex items-center justify-center overflow-hidden">
-                    {editedItem.image ? (
+                    {editedItem.photo ? (
                         <img
                             className="object-cover w-full h-full"
-                            src={editedItem.image}
+                            src={editedItem.photo}
                             alt="Item"
                         />
                     ) : (
@@ -66,18 +54,23 @@ function render_details(onClose, editedItem) {
                             Item Name
                         </span>
                         <h1 className="text-2xl font-bold text-gray-900 mt-1">
-                            {editedItem.name}
+                            {editedItem.Name}
                         </h1>
                     </div>
                     <p className="text-gray-600 mb-4">
                         {editedItem.description}
                     </p>
 
+                    {/* REQUEST COUNT */}
+                    <button className="px-4 py-2 cursor-pointer rounded-lg font-semibold bg-green-600 text-white hover:bg-green-700 transition shadow">
+                        View Requests
+                    </button>
+
                     {/* PROPERTIES */}
-                    <div className="flex flex-wrap gap-3 mb-4">
+                    <div className="flex flex-wrap gap-3 mt-4">
                         {/* CATEGORY */}
                         <span
-                            className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold
+                            className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold cursor-default
                                 ${
                                     editedItem.category === 'Farming Equipment'
                                         ? 'bg-blue-100 text-blue-800'
@@ -131,8 +124,8 @@ function render_details(onClose, editedItem) {
 
                         {/* QUANTITY */}
                         <span
-                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-gray-100 text-gray-800 text-xs font-semibold"
-                            title="Quantity"
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-gray-100 text-gray-800 text-xs font-semibold cursor-default"
+                            title="Quantity in Stock"
                         >
                             <svg
                                 className="w-4 h-4"
@@ -157,18 +150,39 @@ function render_details(onClose, editedItem) {
                             {editedItem.quantity}
                         </span>
 
+                        {/* BORROW REQUESTS */}
+                        <span
+                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-purple-100 text-gray-800 text-xs font-semibold cursor-default"
+                            title="Requests Count"
+                        >
+                            <svg
+                                className="w-4 h-4"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                aria-hidden="true"
+                            >
+                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            3
+                        </span>
+
                         {/* STATUS */}
                         <span
-                            className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold
+                            className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold cursor-default
                                 ${
-                                    editedItem.status === 'available'
+                                    editedItem.status === 'Available'
                                         ? 'bg-green-100 text-green-800'
-                                        : editedItem.status === 'borrowed'
+                                        : editedItem.status === 'Borrowed'
+                                        ? 'bg-red-100 text-red-800'
+                                        : editedItem.status === 'Reserved'
                                         ? 'bg-yellow-100 text-yellow-800'
-                                        : editedItem.status === 'reserved'
+                                        : editedItem.status === 'Returned'
                                         ? 'bg-blue-100 text-blue-800'
-                                        : editedItem.status === 'returned'
-                                        ? 'bg-gray-100 text-gray-800'
                                         : 'bg-gray-100 text-gray-800'
                                 }`}
                             title="Status"
@@ -235,15 +249,79 @@ function render_details(onClose, editedItem) {
     );
 }
 
-function render_edit(onClose, editedItem, setEditedItem, onSave) {
+function render_edit(onClose, editedItem, setEditedItem, setCard) {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setEditedItem((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSave = () => {
-        onSave(editedItem);
-        onClose();
+    const handleSave = async () => {
+        try {
+            const response = await fetch('/api/eic/updateItem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: editedItem.id,
+                    Name: editedItem.Name,
+                    description: editedItem.description,
+                    quantity: editedItem.quantity,
+                    status: editedItem.status,
+                    category: editedItem.category,
+                }),
+            });
+
+            if (response.ok) {
+                const itemId = editedItem.id;
+                let photo = '';
+
+                if (editedItem.photo) {
+                    const formData = new FormData();
+                    formData.append('id', itemId);
+                    formData.append('image', editedItem.photo);
+
+                    const imageResponse = await fetch('/api/eic/addImage', {
+                        method: 'POST',
+                        body: formData,
+                    });
+                    
+                    //! IMAGE HAVING 409 Request Conflict
+
+                    if (imageResponse.ok) {
+                        const imageFetchResponse = await fetch(
+                            `/api/eic/getImage?id=${itemId}`
+                        );
+                        if (imageFetchResponse.ok) {
+                            const imageBlob = await imageFetchResponse.blob();
+                            photo = URL.createObjectURL(imageBlob);
+                        } 
+                        else {
+                            console.error('Failed to fetch image after upload');
+                        }
+                    } 
+                    else {
+                        console.error(
+                            'Failed to upload image:',
+                            imageResponse.status
+                        );
+                    }
+                }
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                setCard(editedItem);
+                onClose();
+            }
+        } 
+        catch(error) {
+            console.error('Error updating item:', error);
+            alert(
+                'Failed to update item. Please check the console for errors.'
+            );
+        }
     };
 
     return (
@@ -274,16 +352,16 @@ function render_edit(onClose, editedItem, setEditedItem, onSave) {
                     {/* NAME */}
                     <div>
                         <label
-                            htmlFor="name"
+                            htmlFor="Name"
                             className="block text-sm font-medium text-gray-700 mb-1"
                         >
                             Name
                         </label>
                         <input
                             type="text"
-                            id="name"
-                            name="name"
-                            value={editedItem.name || ''}
+                            id="Name"
+                            name="Name"
+                            value={editedItem.Name}
                             onChange={handleChange}
                             className="w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50"
                             placeholder="Name"
@@ -302,7 +380,7 @@ function render_edit(onClose, editedItem, setEditedItem, onSave) {
                         <select
                             id="category"
                             name="category"
-                            value={editedItem.category || ''}
+                            value={editedItem.category}
                             onChange={handleChange}
                             className="w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50"
                         >
@@ -347,14 +425,14 @@ function render_edit(onClose, editedItem, setEditedItem, onSave) {
                         <select
                             id="status"
                             name="status"
-                            value={editedItem.status || ''}
+                            value={editedItem.status}
                             onChange={handleChange}
                             className="w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50"
                         >
-                            <option value="available">Available</option>
-                            <option value="borrowed">Borrowed</option>
-                            <option value="reserved">Reserved</option>
-                            <option value="returned">Returned</option>
+                            <option value="Available">Available</option>
+                            <option value="Borrowed">Borrowed</option>
+                            <option value="Reserved">Reserved</option>
+                            <option value="Returned">Returned</option>
                         </select>
                     </div>
 
@@ -380,15 +458,15 @@ function render_edit(onClose, editedItem, setEditedItem, onSave) {
                     {/* IMAGE */}
                     <div>
                         <label
-                            htmlFor="image"
+                            htmlFor="photo"
                             className="block text-sm font-medium text-gray-700 mb-1"
                         >
-                            Image
+                            photo
                         </label>
                         <input
                             type="file"
-                            id="image"
-                            name="image"
+                            id="photo"
+                            name="photo"
                             accept="image/*"
                             onChange={(e) => {
                                 const file = e.target.files[0];
@@ -397,7 +475,7 @@ function render_edit(onClose, editedItem, setEditedItem, onSave) {
                                     reader.onloadend = () => {
                                         setEditedItem((prev) => ({
                                             ...prev,
-                                            image: reader.result,
+                                            photo: reader.result,
                                         }));
                                     };
                                     reader.readAsDataURL(file);
