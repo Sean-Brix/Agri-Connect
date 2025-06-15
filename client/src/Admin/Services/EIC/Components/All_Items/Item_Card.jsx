@@ -9,8 +9,8 @@ import Edit_Modal from './Edit_Modal';
 export default function Item_Card({ item }) {
     const [card, setCard] = useState(item);
     const [isOpen, setIsOpen] = useState({
-        state: false, 
-        modal: "details"
+        state: false,
+        modal: 'details',
     });
 
     // INITIAL RENDER
@@ -18,11 +18,15 @@ export default function Item_Card({ item }) {
         // Set default
         const defaultItem = {
             image: default_image,
-            category: 'Category',
+            category: 'Other',
             name: 'Item Name',
             description:
                 'This is where the description of eic item will be placed at. The text is just an example for reference',
-            status: 'Returned',
+            status: 'Available',
+            quantity: 1,
+            added_by: 'Admin',
+            created_at: '2024-01-01',
+            updated_at: '2025-06-15',
         };
         const newItem = {
             image: item.image || default_image,
@@ -30,6 +34,10 @@ export default function Item_Card({ item }) {
             name: item.name || defaultItem.name,
             description: item.description || defaultItem.description,
             status: item.status || defaultItem.status,
+            quantity: item.quantity || defaultItem.quantity,
+            added_by: item.added_by || defaultItem.added_by,
+            created_at: item.created_at || defaultItem.created_at,
+            updated_at: item.updated_at || defaultItem.updated_at,
         };
 
         setCard(newItem);
@@ -47,7 +55,34 @@ export default function Item_Card({ item }) {
                     />
 
                     {/* CATEGORY */}
-                    <div className="absolute top-0 right-0 bg-green-700 text-white px-2 py-1 m-2 rounded-md text-xs font-medium">
+                    <div
+                        className={`absolute top-0 right-0 px-2 py-1 m-2 rounded-md text-xs font-medium text-white
+                        ${
+                            card.category === 'Farming Equipment'
+                                ? 'bg-blue-700'
+                                : card.category === 'Harvesting Tools'
+                                ? 'bg-pink-700'
+                                : card.category === 'Irrigation Systems'
+                                ? 'bg-purple-700'
+                                : card.category === 'Storage Equipment'
+                                ? 'bg-yellow-700'
+                                : card.category === 'Processing Equipment'
+                                ? 'bg-green-700'
+                                : card.category === 'Safety Gear'
+                                ? 'bg-red-700'
+                                : card.category === 'Pest Control'
+                                ? 'bg-indigo-700'
+                                : card.category === 'Livestock Equipment'
+                                ? 'bg-orange-700'
+                                : card.category === 'Measuring Tools'
+                                ? 'bg-teal-700'
+                                : card.category === 'Fisheries'
+                                ? 'bg-lime-700'
+                                : card.category === 'Machinery'
+                                ? 'bg-cyan-700'
+                                : 'bg-gray-700'
+                        }`}
+                    >
                         {card.category}
                     </div>
                 </div>
@@ -62,7 +97,6 @@ export default function Item_Card({ item }) {
 
                     {/* FOOTER */}
                     <div className="flex items-center justify-between">
-
                         {/* STATUS */}
                         <span className="text-sm text-gray-700 block">
                             Status:{' '}
@@ -88,13 +122,17 @@ export default function Item_Card({ item }) {
                         <div className="flex gap-2">
                             <button
                                 className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-2 w-[70px] rounded text-xs"
-                                onClick={() => setIsOpen({state: true, modal:"details"})}
+                                onClick={() =>
+                                    setIsOpen({ state: true, modal: 'details' })
+                                }
                             >
                                 Details
                             </button>
 
                             <button
-                                onClick={() => setIsOpen({state: true, modal:"edit"})}
+                                onClick={() =>
+                                    setIsOpen({ state: true, modal: 'edit' })
+                                }
                                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-xs w-1/2"
                             >
                                 Edit
@@ -104,7 +142,9 @@ export default function Item_Card({ item }) {
                         <Edit_Modal
                             isOpen={isOpen}
                             item={card}
-                            onClose={() => setIsOpen(false)}
+                            onClose={() =>
+                                setIsOpen({ state: false, modal: 'details' })
+                            }
                         />
                     </div>
                 </div>
