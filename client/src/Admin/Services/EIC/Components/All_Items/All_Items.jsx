@@ -8,6 +8,16 @@ export default function All_Items() {
     const [categoryFilter, setCategoryFilter] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
     const [selectedItems, setSelectedItems] = useState([]);
+    const [newItemModalOpen, setNewItemModalOpen] = useState(false);
+    const [newItem, setNewItem] = useState({
+        Name: '',
+        description: '',
+        quantity: 1,
+        status: 'Available',
+        category: 'Farming Equipment',
+        image: null,
+        imagePreview: null,
+    });
 
     // INITIAL RENDER
     useEffect(() => {
@@ -55,6 +65,73 @@ export default function All_Items() {
         }
     };
 
+    // NEW ITEM
+    const handleOpenNewItemModal = () => {
+        setNewItemModalOpen(true);
+    };
+    const handleCloseNewItemModal = () => {
+        setNewItemModalOpen(false);
+        setNewItem({
+            Name: '',
+            description: '',
+            quantity: 1,
+            status: 'Available',
+            category: 'Farming Equipment',
+            image: null,
+            imagePreview: null,
+        });
+    };
+    const handleNewItemInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewItem({ ...newItem, [name]: value });
+    };
+    const handleNewItemImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setNewItem({
+                    ...newItem,
+                    image: file,
+                    imagePreview: reader.result,
+                });
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setNewItem({ ...newItem, image: null, imagePreview: null });
+        }
+    };
+    const handleCreateNewItem = async () => {
+        try {
+            const response = await fetch('/api/eic/addNew', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    Name: newItem.Name,
+                    description: newItem.description,
+                    quantity: newItem.quantity,
+                    status: newItem.status,
+                    category: newItem.category,
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setItems([data.payload[0], ...items]);
+                handleCloseNewItemModal();
+            } 
+            else {
+                console.error('Failed to create new item:', response.status);
+            }
+        } 
+        catch (error) {
+            alert('Cannot add item, Something went wrong');
+            console.error('Error creating new item:', error);
+        }
+    };
+
     return (
         <>
             <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-7xl mx-auto gap-4">
@@ -80,8 +157,6 @@ export default function All_Items() {
                             className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 text-black bg-white shadow"
                         />
                     </div>
-
-                    {/* Category Filter */}
                     <select
                         onChange={(e) => setCategoryFilter(e.target.value)}
                         className="w-full md:w-50 border border-gray-200 rounded-xl px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700 shadow"
@@ -112,8 +187,6 @@ export default function All_Items() {
                         <option value="Machinery">Machinery</option>
                         <option value="Other">Other</option>
                     </select>
-
-                    {/* Status Filter */}
                     <select
                         onChange={(e) => setStatusFilter(e.target.value)}
                         className="w-full md:w-44 border border-gray-200 rounded-xl px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700 shadow"
@@ -126,18 +199,13 @@ export default function All_Items() {
                         <option value="Upcoming">Borrowed</option>
                     </select>
                 </div>
-
-                {/* ADD & DELETE */}
                 <div className="flex gap-2">
                     <button
                         className="flex items-center justify-center px-4 py-1.5 rounded-lg text-sm font-medium shadow bg-green-500 hover:bg-green-600 text-white transition-all"
-                        onClick={() =>
-                            document.getElementById('my_modal_1').showModal()
-                        }
+                        onClick={handleOpenNewItemModal}
                     >
                         New Item
                     </button>
-
                     {isDeleting ? (
                         <>
                             <button
@@ -187,6 +255,162 @@ export default function All_Items() {
                     </div>
                 ))}
             </div>
+
+            {/* NEW ITEM MODAL */}
+            {newItemModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    <div className="bg-white rounded-lg p-8 max-w-md w-full border-2">
+                        <h2 className="text-2xl font-bold mb-4">New Item</h2>
+                        <div className="mb-4">
+                            <label
+                                htmlFor="Name"
+                                className="block text-gray-700 text-sm font-bold mb-2"
+                            >
+                                Name:
+                            </label>
+                            <input
+                                type="text"
+                                id="Name"
+                                name="Name"
+                                value={newItem.Name}
+                                onChange={handleNewItemInputChange}
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label
+                                htmlFor="description"
+                                className="block text-gray-700 text-sm font-bold mb-2"
+                            >
+                                Description:
+                            </label>
+                            <textarea
+                                id="description"
+                                name="description"
+                                value={newItem.description}
+                                onChange={handleNewItemInputChange}
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label
+                                htmlFor="quantity"
+                                className="block text-gray-700 text-sm font-bold mb-2"
+                            >
+                                Quantity:
+                            </label>
+                            <input
+                                type="number"
+                                id="quantity"
+                                name="quantity"
+                                value={newItem.quantity}
+                                onChange={handleNewItemInputChange}
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label
+                                htmlFor="status"
+                                className="block text-gray-700 text-sm font-bold mb-2"
+                            >
+                                Status:
+                            </label>
+                            <select
+                                id="status"
+                                name="status"
+                                value={newItem.status}
+                                onChange={handleNewItemInputChange}
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            >
+                                <option value="Available">Available</option>
+                                <option value="Returned">Returned</option>
+                                <option value="Reserved">Reserved</option>
+                                <option value="Borrowed">Borrowed</option>
+                            </select>
+                        </div>
+                        <div className="mb-4">
+                            <label
+                                htmlFor="category"
+                                className="block text-gray-700 text-sm font-bold mb-2"
+                            >
+                                Category:
+                            </label>
+                            <select
+                                id="category"
+                                name="category"
+                                value={newItem.category}
+                                onChange={handleNewItemInputChange}
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            >
+                                <option value="Farming Equipment">
+                                    Farming Equipment
+                                </option>
+                                <option value="Harvesting Tools">
+                                    Harvesting Tools
+                                </option>
+                                <option value="Irrigation Systems">
+                                    Irrigation Systems
+                                </option>
+                                <option value="Storage Equipment">
+                                    Storage Equipment
+                                </option>
+                                <option value="Processing Equipment">
+                                    Processing Equipment
+                                </option>
+                                <option value="Safety Gear">Safety Gear</option>
+                                <option value="Pest Control">
+                                    Pest Control
+                                </option>
+                                <option value="Livestock Equipment">
+                                    Livestock Equipment
+                                </option>
+                                <option value="Measuring Tools">
+                                    Measuring Tools
+                                </option>
+                                <option value="Fisheries">Fisheries</option>
+                                <option value="Machinery">Machinery</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div className="mb-4">
+                            <label
+                                htmlFor="image"
+                                className="block text-gray-700 text-sm font-bold mb-2"
+                            >
+                                Image:
+                            </label>
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                onChange={handleNewItemImageChange}
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            />
+                            {newItem.imagePreview && (
+                                <img
+                                    src={newItem.imagePreview}
+                                    alt="Image Preview"
+                                    className="mt-2 max-h-48"
+                                />
+                            )}
+                        </div>
+                        <div className="flex justify-end">
+                            <button
+                                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
+                                onClick={handleCloseNewItemModal}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                onClick={handleCreateNewItem}
+                            >
+                                Create
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

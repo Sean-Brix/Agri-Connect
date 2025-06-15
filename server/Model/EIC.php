@@ -37,7 +37,6 @@ class EIC{
             'status' => $this->status,
             'category' => $this->category,
             'added_by' => $this->added_by,
-            'photo' => $this->photo,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];
@@ -97,7 +96,11 @@ class EIC{
         ];
         $types = getTypes($param_array);
         $result = statement($query, $param_array, $types);
-        return $result;
+        if ($result) {
+            return mysqli_insert_id($GLOBALS['conn']);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -237,6 +240,7 @@ class EIC{
             $query .= " WHERE " . implode(" AND ", $whereClauses);
         }
 
+        $query .= " ORDER BY created_at DESC";
 
         if (!empty($params)) {
             $result = statement($query, $params, $types);
