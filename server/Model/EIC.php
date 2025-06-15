@@ -202,8 +202,7 @@ class EIC{
         $params = [];
         $types = '';
 
-        $query = "SELECT * FROM EIC";
-
+        $query = "SELECT id, Name, description, quantity, status, category, added_by, created_at, updated_at FROM EIC";
         if (!$include_zeroQuantity) {
             $whereClauses[] = "quantity != 0";
         }
