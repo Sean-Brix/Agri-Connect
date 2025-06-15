@@ -125,6 +125,10 @@ class EIC{
         return false;
     }
 
+    public function getPhoto(){
+        return $this->photo;
+    }
+
     /**
      * What it Does: Sets the details of the EIC object.
      * Returns What: void
@@ -257,5 +261,7 @@ class EIC{
 
         return $eic_items;
     }
+
+
 
 }

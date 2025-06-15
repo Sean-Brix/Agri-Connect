@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Item_Card from './item_card.jsx';
+import default_image from '../../Assets/default_image.png'
 
 export default function All_Items() {
     const [items, setItems] = useState([]);
@@ -24,7 +25,32 @@ export default function All_Items() {
         (async () => {
             const response = await fetch(`/api/eic/getAll`);
             const data = await response.json();
-            setItems(data.payload);
+            // Fetch image URLs for each item
+            const itemsWithImages = await Promise.all(
+                data.payload.map(async (item) => {
+                    try {
+                        const imageResponse = await fetch(
+                            `/api/eic/getImage?id=${item.id}`
+                        );
+                        if (imageResponse.ok) {
+                            
+                            if(imageResponse.status === 204){
+                                return { ...item, photo: default_image };
+                            }
+
+                            const imageBlob = await imageResponse.blob();
+                            const imageUrl = URL.createObjectURL(imageBlob);
+                            return { ...item, photo: imageUrl };
+                        } 
+                    } 
+                    catch (error) {
+                        console.error('Error fetching image:', error);
+                        // Use default image on error
+                        return { ...item, photo: default_image };
+                    }
+                })
+            );
+            setItems(itemsWithImages);
         })();
     }, []);
 
@@ -35,7 +61,30 @@ export default function All_Items() {
                 `/api/eic/getAll?status=${statusFilter}&category=${categoryFilter}&search=${search}`
             );
             const data = await response.json();
-            setItems(data.payload);
+
+            // Fetch image URLs for each item after filter
+            const itemsWithImages = await Promise.all(
+                data.payload.map(async (item) => {
+                    try {
+                        const imageResponse = await fetch(
+                            `/api/eic/getImage?id=${item.id}`
+                        );
+                        if (imageResponse.ok) {
+                            const imageBlob = await imageResponse.blob();
+                            const imageUrl = URL.createObjectURL(imageBlob);
+                            return { ...item, imageUrl };
+                        } else {
+                            // Use default image if image not found
+                            return { ...item, imageUrl: '/default-image.jpg' };
+                        }
+                    } catch (error) {
+                        console.error('Error fetching image:', error);
+                        // Use default image on error
+                        return { ...item, imageUrl: '/default-image.jpg' };
+                    }
+                })
+            );
+            setItems(itemsWithImages);
         })();
     }, [statusFilter, categoryFilter, search]);
 
@@ -119,14 +168,54 @@ export default function All_Items() {
 
             if (response.ok) {
                 const data = await response.json();
-                setItems([data.payload[0], ...items]);
+                const newItemId = data.payload[0].id;
+                let imageUrl = '/default-image.jpg'; // Default image
+
+                // Fetch image and update imageUrl
+                if (newItem.image) {
+                    const formData = new FormData();
+                    formData.append('id', newItemId);
+                    formData.append('image', newItem.image);
+
+                    const imageResponse = await fetch('/api/eic/addImage', {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    if (imageResponse.ok) {
+                        try {
+                            const imageFetchResponse = await fetch(
+                                `/api/eic/getImage?id=${newItemId}`
+                            );
+                            if (imageFetchResponse.ok) {
+                                const imageBlob =
+                                    await imageFetchResponse.blob();
+                                imageUrl = URL.createObjectURL(imageBlob);
+                            } else {
+                                console.error(
+                                    'Failed to fetch image after upload'
+                                );
+                            }
+                        } catch (fetchError) {
+                            console.error(
+                                'Error fetching image after upload',
+                                fetchError
+                            );
+                        }
+                    } else {
+                        console.error(
+                            'Failed to upload image:',
+                            imageResponse.status
+                        );
+                    }
+                }
+                const newItemWithImage = { ...data.payload[0], imageUrl };
+                setItems([newItemWithImage, ...items]);
                 handleCloseNewItemModal();
-            } 
-            else {
+            } else {
                 console.error('Failed to create new item:', response.status);
             }
-        } 
-        catch (error) {
+        } catch (error) {
             alert('Cannot add item, Something went wrong');
             console.error('Error creating new item:', error);
         }

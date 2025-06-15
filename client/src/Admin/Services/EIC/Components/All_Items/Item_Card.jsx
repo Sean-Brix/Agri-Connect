@@ -13,36 +13,6 @@ export default function Item_Card({ item, isSelected }) {
         modal: 'details',
     });
 
-    // INITIAL RENDER
-    useEffect(() => {
-        // Set default
-        const defaultItem = {
-            photo: default_image,
-            category: 'Other',
-            name: 'Item Name',
-            description:
-                'This is where the description of eic item will be placed at. The text is just an example for reference',
-            status: 'Available',
-            quantity: 1,
-            added_by: 'Sean-Brix',
-            created_at: '2024-01-01',
-            updated_at: '2025-06-15',
-        };
-        const newItem = {
-            photo: item.photo || default_image,
-            category: item.category || defaultItem.category,
-            name: item.Name || defaultItem.name,
-            description: item.description || defaultItem.description,
-            status: item.status || defaultItem.status,
-            quantity: item.quantity || defaultItem.quantity,
-            added_by: item.added_by || defaultItem.added_by,
-            created_at: item.created_at || defaultItem.created_at,
-            updated_at: item.updated_at || defaultItem.updated_at,
-        };
-
-        setCard(newItem);
-    }, [item]);
-
     return (
         <>
             <div
@@ -52,6 +22,7 @@ export default function Item_Card({ item, isSelected }) {
                         : 'border-gray-100 border'
                 }`}
             >
+
                 <div className="relative">
                     {/* IMAGE */}
                     <img
@@ -97,7 +68,7 @@ export default function Item_Card({ item, isSelected }) {
                 <div className="p-4 flex flex-col h-[170px]">
                     {/* ITEM NAME */}
                     <h3 className="text-xl font-semibold mb-1 truncate">
-                        {card.name}
+                        {card.Name}
                     </h3>
 
                     {/* DESCRIPTION */}
