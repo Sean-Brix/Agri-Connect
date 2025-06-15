@@ -18,13 +18,15 @@ export default function Edit_Modal({ isOpen, onClose, item, onSave }) {
 
 function render_details(onClose, editedItem) {
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/60">
             <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden flex flex-col">
                 {/* HEADER */}
                 <div className="flex items-center justify-between px-6 py-4 border-b">
                     <div className="flex items-center gap-2">
                         <span className="text-xs text-gray-400">Added by:</span>
-                        <span className="text-sm font-medium text-gray-700">{editedItem.added_by}</span>
+                        <span className="text-sm font-medium text-gray-700">
+                            {editedItem.added_by}
+                        </span>
                     </div>
                     <button
                         className="text-2xl text-gray-400 hover:text-gray-700 transition-colors"
@@ -54,9 +56,13 @@ function render_details(onClose, editedItem) {
                         <span className="text-xs uppercase tracking-widest text-gray-400 font-semibold">
                             Item Name
                         </span>
-                        <h1 className="text-2xl font-bold text-gray-900 mt-1">{editedItem.name}</h1>
+                        <h1 className="text-2xl font-bold text-gray-900 mt-1">
+                            {editedItem.name}
+                        </h1>
                     </div>
-                    <p className="text-gray-600 mb-4">{editedItem.description}</p>
+                    <p className="text-gray-600 mb-4">
+                        {editedItem.description}
+                    </p>
 
                     {/* PROPERTIES */}
                     <div className="flex flex-wrap gap-3 mb-4">
@@ -66,21 +72,27 @@ function render_details(onClose, editedItem) {
                                 ${
                                     editedItem.category === 'Farming Equipment'
                                         ? 'bg-blue-100 text-blue-800'
-                                        : editedItem.category === 'Harvesting Tools'
+                                        : editedItem.category ===
+                                          'Harvesting Tools'
                                         ? 'bg-pink-100 text-pink-800'
-                                        : editedItem.category === 'Irrigation Systems'
+                                        : editedItem.category ===
+                                          'Irrigation Systems'
                                         ? 'bg-purple-100 text-purple-800'
-                                        : editedItem.category === 'Storage Equipment'
+                                        : editedItem.category ===
+                                          'Storage Equipment'
                                         ? 'bg-yellow-100 text-yellow-800'
-                                        : editedItem.category === 'Processing Equipment'
+                                        : editedItem.category ===
+                                          'Processing Equipment'
                                         ? 'bg-green-100 text-green-800'
                                         : editedItem.category === 'Safety Gear'
                                         ? 'bg-red-100 text-red-800'
                                         : editedItem.category === 'Pest Control'
                                         ? 'bg-indigo-100 text-indigo-800'
-                                        : editedItem.category === 'Livestock Equipment'
+                                        : editedItem.category ===
+                                          'Livestock Equipment'
                                         ? 'bg-orange-100 text-orange-800'
-                                        : editedItem.category === 'Measuring Tools'
+                                        : editedItem.category ===
+                                          'Measuring Tools'
                                         ? 'bg-teal-100 text-teal-800'
                                         : editedItem.category === 'Fisheries'
                                         ? 'bg-lime-100 text-lime-800'
@@ -122,7 +134,14 @@ function render_details(onClose, editedItem) {
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                             >
-                                <rect x="4" y="4" width="16" height="16" rx="2" ry="2" />
+                                <rect
+                                    x="4"
+                                    y="4"
+                                    width="16"
+                                    height="16"
+                                    rx="2"
+                                    ry="2"
+                                />
                                 <line x1="12" y1="8" x2="12" y2="16" />
                                 <line x1="8" y1="12" x2="16" y2="12" />
                             </svg>
@@ -169,10 +188,14 @@ function render_details(onClose, editedItem) {
                 <div className="flex justify-between items-center px-6 py-3 bg-gray-50 border-t">
                     {/* CREATED AT */}
                     <div>
-                        <span className="block text-xs text-gray-400 font-medium">Created At</span>
+                        <span className="block text-xs text-gray-400 font-medium">
+                            Created At
+                        </span>
                         <span className="block text-sm text-gray-700">
                             {editedItem.created_at
-                                ? new Date(editedItem.created_at).toLocaleDateString(undefined, {
+                                ? new Date(
+                                      editedItem.created_at
+                                  ).toLocaleDateString(undefined, {
                                       year: 'numeric',
                                       month: 'long',
                                       day: 'numeric',
@@ -182,10 +205,14 @@ function render_details(onClose, editedItem) {
                     </div>
                     {/* UPDATED AT */}
                     <div>
-                        <span className="block text-xs text-gray-400 font-medium">Recent Update</span>
+                        <span className="block text-xs text-gray-400 font-medium">
+                            Recent Update
+                        </span>
                         <span className="block text-sm text-gray-700">
                             {editedItem.updated_at
-                                ? new Date(editedItem.updated_at).toLocaleDateString(undefined, {
+                                ? new Date(
+                                      editedItem.updated_at
+                                  ).toLocaleDateString(undefined, {
                                       year: 'numeric',
                                       month: 'long',
                                       day: 'numeric',
@@ -215,7 +242,9 @@ function render_edit(onClose, editedItem, setEditedItem, onSave) {
             <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden flex flex-col">
                 {/* HEADER */}
                 <div className="flex items-center justify-between px-6 py-4 border-b">
-                    <h2 className="text-xl font-bold text-gray-900">Edit Item</h2>
+                    <h2 className="text-xl font-bold text-gray-900">
+                        Edit Item
+                    </h2>
                     <button
                         className="text-2xl text-gray-400 hover:text-gray-700 transition-colors"
                         onClick={onClose}
@@ -228,14 +257,17 @@ function render_edit(onClose, editedItem, setEditedItem, onSave) {
                 {/* FORM */}
                 <form
                     className="flex-1 overflow-y-auto px-6 py-6 space-y-5"
-                    onSubmit={e => {
+                    onSubmit={(e) => {
                         e.preventDefault();
                         handleSave();
                     }}
                 >
                     {/* NAME */}
                     <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label
+                            htmlFor="name"
+                            className="block text-sm font-medium text-gray-700 mb-1"
+                        >
                             Name
                         </label>
                         <input
@@ -252,7 +284,10 @@ function render_edit(onClose, editedItem, setEditedItem, onSave) {
 
                     {/* CATEGORY */}
                     <div>
-                        <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label
+                            htmlFor="category"
+                            className="block text-sm font-medium text-gray-700 mb-1"
+                        >
                             Category
                         </label>
                         <select
@@ -263,15 +298,29 @@ function render_edit(onClose, editedItem, setEditedItem, onSave) {
                             className="w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50"
                         >
                             <option value="Other">Not Specified</option>
-                            <option value="Farming Equipment">Farming Equipment</option>
-                            <option value="Harvesting Tools">Harvesting Tools</option>
-                            <option value="Irrigation Systems">Irrigation Systems</option>
-                            <option value="Storage Equipment">Storage Equipment</option>
-                            <option value="Processing Equipment">Processing Equipment</option>
+                            <option value="Farming Equipment">
+                                Farming Equipment
+                            </option>
+                            <option value="Harvesting Tools">
+                                Harvesting Tools
+                            </option>
+                            <option value="Irrigation Systems">
+                                Irrigation Systems
+                            </option>
+                            <option value="Storage Equipment">
+                                Storage Equipment
+                            </option>
+                            <option value="Processing Equipment">
+                                Processing Equipment
+                            </option>
                             <option value="Safety Gear">Safety Gear</option>
                             <option value="Pest Control">Pest Control</option>
-                            <option value="Livestock Equipment">Livestock Equipment</option>
-                            <option value="Measuring Tools">Measuring Tools</option>
+                            <option value="Livestock Equipment">
+                                Livestock Equipment
+                            </option>
+                            <option value="Measuring Tools">
+                                Measuring Tools
+                            </option>
                             <option value="Fisheries">Fisheries</option>
                             <option value="Machinery">Machinery</option>
                             <option value="Other">Other</option>
@@ -280,7 +329,10 @@ function render_edit(onClose, editedItem, setEditedItem, onSave) {
 
                     {/* STATUS */}
                     <div>
-                        <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label
+                            htmlFor="status"
+                            className="block text-sm font-medium text-gray-700 mb-1"
+                        >
                             Status
                         </label>
                         <select
@@ -299,7 +351,10 @@ function render_edit(onClose, editedItem, setEditedItem, onSave) {
 
                     {/* DESCRIPTION */}
                     <div>
-                        <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label
+                            htmlFor="description"
+                            className="block text-sm font-medium text-gray-700 mb-1"
+                        >
                             Description
                         </label>
                         <textarea
@@ -315,7 +370,10 @@ function render_edit(onClose, editedItem, setEditedItem, onSave) {
 
                     {/* IMAGE */}
                     <div>
-                        <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label
+                            htmlFor="image"
+                            className="block text-sm font-medium text-gray-700 mb-1"
+                        >
                             Image
                         </label>
                         <input
@@ -323,12 +381,12 @@ function render_edit(onClose, editedItem, setEditedItem, onSave) {
                             id="image"
                             name="image"
                             accept="image/*"
-                            onChange={e => {
+                            onChange={(e) => {
                                 const file = e.target.files[0];
                                 if (file) {
                                     const reader = new FileReader();
                                     reader.onloadend = () => {
-                                        setEditedItem(prev => ({
+                                        setEditedItem((prev) => ({
                                             ...prev,
                                             image: reader.result,
                                         }));
