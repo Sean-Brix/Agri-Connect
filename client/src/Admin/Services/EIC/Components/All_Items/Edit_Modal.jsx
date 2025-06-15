@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Edit_Modal({ isOpen, onClose, item, onSave }) {
-    const [editedItem, setEditedItem] = useState({});
+export default function Edit_Modal({ isOpen, onClose, card, onSave, setCard }) {
+    const [editedItem, setEditedItem] = useState(card);
 
+    // Initial Render
     useEffect(() => {
-        setEditedItem(item || {});
-    }, [item]);
+        setEditedItem(card || {});
+
+        // Fetch 
+        (async()=>{
+
+            
+
+        })()
+
+    }, [card]);
 
     if (!isOpen.state) {
         return null;
     }
 
     return isOpen.modal === 'details'
-        ? render_details(onClose, editedItem, setEditedItem, onSave)
-        : render_edit(onClose, editedItem, setEditedItem, onSave);
+        ? render_details(onClose, editedItem)
+        : render_edit(onClose, editedItem, setEditedItem, onSave, setCard);
 }
 
 function render_details(onClose, editedItem) {

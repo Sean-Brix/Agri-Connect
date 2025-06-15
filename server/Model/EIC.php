@@ -190,19 +190,23 @@ class EIC{
         $result = statement($query, $params, $types);
 
         return $result;
-}
+    }
 
     /**
      * What it Does: Searches and filters EIC items based on a search term and filters.
      * Returns What: An array of associative arrays representing the matching EIC items.
      */
-    public static function searchAndFilter($searchTerm = '', $filters = [])
+    public static function searchAndFilter($searchTerm = '', $filters = [], $include_zeroQuantity = false)
     {
         $whereClauses = [];
         $params = [];
         $types = '';
 
         $query = "SELECT * FROM EIC";
+
+        if (!$include_zeroQuantity) {
+            $whereClauses[] = "quantity != 0";
+        }
 
         if (!empty($searchTerm)) {
             $whereClauses[] = "(Name LIKE ? OR description LIKE ?)";
@@ -213,11 +217,14 @@ class EIC{
 
         foreach ($filters as $field => $value) {
             if (!empty($value) && in_array($field, ['status', 'category', 'quantity'])) { //Whitelist
+                
                 if($field == 'quantity'){
                     $whereClauses[] = "quantity = ?";
                     $params[] = $value;
                     $types .= 'i';
-                }else{
+                }
+
+                else{
                     $whereClauses[] = "$field = ?";
                     $params[] = $value;
                     $types .= 's';
@@ -248,24 +255,4 @@ class EIC{
         return $eic_items;
     }
 
-}
-
-/**
- * What it Does: Determines the data types of the parameters in an array.
- * Returns What: A string representing the data types of the parameters.
- */
-function getTypes(array $params) : string{
-    $types = "";
-    foreach($params as $param){
-        if(is_int($param)){
-            $types .= "i";
-        }elseif(is_double($param)){
-            $types .= "d";
-        }elseif(is_string($param)){
-            $types .= "s";
-        }else{
-            $types .= "b";
-        }
-    }
-    return $types;
 }

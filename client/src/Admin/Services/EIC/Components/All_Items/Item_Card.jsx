@@ -24,7 +24,7 @@ export default function Item_Card({ item }) {
                 'This is where the description of eic item will be placed at. The text is just an example for reference',
             status: 'Available',
             quantity: 1,
-            added_by: 'Admin',
+            added_by: 'Sean-Brix',
             created_at: '2024-01-01',
             updated_at: '2025-06-15',
         };
@@ -86,6 +86,8 @@ export default function Item_Card({ item }) {
                         {card.category}
                     </span>
                 </div>
+
+                {/* DETAILS */}
                 <div className="p-4 flex flex-col h-[170px]">
                     {/* ITEM NAME */}
                     <h3 className="text-xl font-semibold mb-1 truncate">{card.name}</h3>
@@ -135,13 +137,17 @@ export default function Item_Card({ item }) {
                         </div>
                     </div>
                 </div>
+
+                {/* MODAL */}
                 <Edit_Modal
                     isOpen={isOpen}
-                    item={card}
+                    card={card}
+                    setCard={setCard}
                     onClose={() =>
                         setIsOpen({ state: false, modal: 'details' })
                     }
                 />
+
             </div>
         </>
     );

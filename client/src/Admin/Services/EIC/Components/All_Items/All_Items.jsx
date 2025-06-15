@@ -1,14 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Item_Card from './item_card.jsx';
 
 export default function All_Items() {
-    const items = Array.from({ length: 10 });
+    const [items, setItems] = useState([]);
     const [statusFilter, setStatusFilter] = useState('');
     const [search, setSearch] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
 
+    useEffect(()=>{
+
+        (async()=>{
+
+            const response = await fetch(`/api/eic/getAll`);
+            const data = await response.json();
+
+            console.log(data);
+            setItems(data.payload.list);
+
+        })()
+
+    }, [])
+
+    useEffect(()=>{
+
+        (async()=>{
+
+            const response = await fetch(`/api/eic/getAll?status=${statusFilter}&category=${categoryFilter}&search=${search}`);
+
+        })()
+
+    }, [statusFilter, categoryFilter, search])
+
     return (
         <>
+            {/* CONTROLS */}
             <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-7xl mx-auto gap-4">
                 <div className="flex-1 flex flex-col md:flex-row gap-4 w-full">
 
@@ -91,6 +116,7 @@ export default function All_Items() {
                 </button>
             </div>
 
+            {/* CARDS */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full h-auto p-4 rounded-2xl">
                 <Item_Card item={{}} />
                 <Item_Card item={{}} />
