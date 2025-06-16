@@ -237,7 +237,7 @@ export default function Seminar() {
                                     >
                                         {/* Image with border and outline */}
                                         <div className="flex-shrink-0 flex items-center justify-center w-full md:w-56 h-56">
-                                            <div className="w-52 h-52 sm:w-44 sm:h-44 md:w-40 md:h-40 rounded-2xl bg-white shadow-lg flex items-center justify-center overflow-hidden border-4 border-blue-400 outline outline-4 outline-blue-200 transition-all duration-300 ease-in-out">
+                                            <div className="w-52 h-52 sm:w-44 sm:h-44 md:w-40 md:h-40 rounded-2xl bg-white shadow-lg flex items-center justify-center overflow-hidden border-4 border-blue-400 outline outline-blue-200 transition-all duration-300 ease-in-out">
                                                 <img
                                                     src={
                                                         program.photo ||

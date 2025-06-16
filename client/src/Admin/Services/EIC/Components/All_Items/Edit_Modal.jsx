@@ -3,6 +3,7 @@ import default_image from '../../Assets/default_image.png';
 
 export default function Edit_Modal({ isOpen, onClose, card, setCard }) {
     const [editedItem, setEditedItem] = useState(card);
+    const [new_photo, setNew_Photo] = useState('');
 
     if (!isOpen.state) {
         return null;
@@ -10,7 +11,7 @@ export default function Edit_Modal({ isOpen, onClose, card, setCard }) {
 
     return isOpen.modal === 'details'
         ? render_details(onClose, editedItem)
-        : render_edit(onClose, editedItem, setEditedItem, setCard);
+        : render_edit(onClose, editedItem, setEditedItem, setCard, setNew_Photo, new_photo);
 }
 
 function render_details(onClose, editedItem) {
@@ -249,13 +250,14 @@ function render_details(onClose, editedItem) {
     );
 }
 
-function render_edit(onClose, editedItem, setEditedItem, setCard) {
+function render_edit(onClose, editedItem, setEditedItem, setCard, setNew_Photo, new_photo) {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setEditedItem((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleSave = async () => {
+
         try {
             const response = await fetch('/api/eic/updateItem', {
                 method: 'POST',
@@ -273,47 +275,28 @@ function render_edit(onClose, editedItem, setEditedItem, setCard) {
             });
 
             if (response.ok) {
-                const itemId = editedItem.id;
-                let photo = '';
 
-                if (editedItem.photo) {
+                if(new_photo != ''){
+
+                    const itemId = editedItem.id;
+                    
                     const formData = new FormData();
                     formData.append('id', itemId);
-                    formData.append('image', editedItem.photo);
+                    formData.append('image', new_photo);
 
                     const imageResponse = await fetch('/api/eic/addImage', {
                         method: 'POST',
                         body: formData,
                     });
-                    
-                    //! IMAGE HAVING 409 Request Conflict
-
-                    if (imageResponse.ok) {
-                        const imageFetchResponse = await fetch(
-                            `/api/eic/getImage?id=${itemId}`
-                        );
-                        if (imageFetchResponse.ok) {
-                            const imageBlob = await imageFetchResponse.blob();
-                            photo = URL.createObjectURL(imageBlob);
-                        } 
-                        else {
-                            console.error('Failed to fetch image after upload');
-                        }
-                    } 
-                    else {
-                        console.error(
-                            'Failed to upload image:',
-                            imageResponse.status
-                        );
-                    }
                 }
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                setCard(editedItem);
                 onClose();
+                setCard(editedItem)
+            }
+
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
         } 
         catch(error) {
@@ -477,6 +460,7 @@ function render_edit(onClose, editedItem, setEditedItem, setCard) {
                                             ...prev,
                                             photo: reader.result,
                                         }));
+                                        setNew_Photo(file);
                                     };
                                     reader.readAsDataURL(file);
                                 }
