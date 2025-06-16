@@ -183,7 +183,7 @@ export default function All_Items() {
 
     return (
         <>
-            <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-7xl mx-auto gap-4">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-7xl mx-auto gap-4 p-6">
                 <div className="flex-1 flex flex-col md:flex-row gap-4 w-full">
                     <div className="relative w-full max-w-lg">
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">

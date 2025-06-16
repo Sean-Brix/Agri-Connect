@@ -164,176 +164,179 @@ function AuditLogsTable({ admin_navigate }) {
   const paginatedLogs = filteredLogs.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   return (
-    <div
-      className="mt-10 p-2 sm:p-4 md:p-8"
-      style={{
-        overflowY: 'auto',
-        overflowX: 'hidden'
-      }}
-    >
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-2 sm:gap-4">
-        <div className="text-xl sm:text-2xl font-bold text-blue-800 tracking-tight">Recent Activities</div>
-        <div className="relative w-full md:w-1/3 flex items-center gap-2">
-          {/* Search icon added inside the search bar */}
-          <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+    <>
+      <div
+        className="mt-10 p-2 sm:p-6 md:p-10 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-xl"
+      >
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
+          <div className="text-2xl sm:text-3xl font-extrabold text-blue-900 tracking-tight flex items-center gap-2">
+            <svg className="w-7 h-7 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <circle cx="11" cy="11" r="7" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
-          </span>
-          <input
-            type="text"
-            placeholder="Search logs..."
-            className="w-full pl-8 pr-2 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 text-xs sm:text-sm"
-            value={search}
-            onChange={e => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
-          />
-          <button
-            type="button"
-            className="ml-2 px-2 py-1 rounded-lg border border-blue-300 bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors flex items-center gap-1"
-            title="Filter options"
-            onClick={() => setShowFilter((prev) => !prev)}
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path d="M3 4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2a2 2 0 0 1-.553 1.382l-5.894 6.183A2 2 0 0 0 14 15.118V19a1 1 0 0 1-1.447.894l-2-1A1 1 0 0 1 10 18v-2.882a2 2 0 0 0-.553-1.382L3.553 7.382A2 2 0 0 1 3 6V4Z" />
-            </svg>
-            <span className="hidden sm:inline text-xs">Filter</span>
-          </button>
-          {showFilter && (
-            <div className="absolute right-0 top-10 z-10 bg-white border border-blue-200 rounded-lg shadow-lg p-3 w-56">
-              <div className="mb-2 font-semibold text-blue-800 text-xs">Filter by Column</div>
-              <select
-                className="w-full border border-gray-300 rounded px-2 py-1 text-xs mb-2"
-                value={filterColumn}
-                onChange={e => {
-                  setFilterColumn(e.target.value);
-                  setFilterUser('');
-                  setPage(1);
-                }}
-              >
-                <option value="user">User</option>
-                <option value="id">User ID</option>
-                <option value="action">Action</option>
-                <option value="timestamp">Timestamp</option>
-                {/* Removed <option value="details">Details</option> */}
-              </select>
-              <div className="mb-2 font-semibold text-blue-800 text-xs">Filter Value</div>
-              <select
-                className="w-full border border-gray-300 rounded px-2 py-1 text-xs"
-                value={filterUser}
-                onChange={e => {
-                  setFilterUser(e.target.value);
-                  setPage(1);
-                }}
-              >
-                <option value="">All</option>
-                {Array.from(new Set(extendedLogs.map(log => String(log[filterColumn])))).map(val => (
-                  <option key={val} value={val}>{val}</option>
-                ))}
-              </select>
-              <button
-                className="mt-2 w-full bg-blue-100 text-blue-700 rounded px-2 py-1 text-xs hover:bg-blue-200"
-                onClick={() => setShowFilter(false)}
-              >
-                Close
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-      <div className="rounded-lg shadow border border-blue-200 bg-white p-6 ">
-        <table className="min-w-full w-full text-xs sm:text-sm table-fixed">
-          <thead className="bg-blue-50">
-            <tr>
-              <th
-                className="px-2 sm:px-3 py-3 sm:py-4 text-left font-semibold text-blue-800 cursor-pointer select-none whitespace-nowrap"
-                onClick={() => { handleSort('timestamp'); setPage(1); }}
-                style={{ minWidth: 120 }}
-              >
-                Timestamp
-                {sortBy === 'timestamp' && (
-                  <span className="ml-1">{sortOrder === 'asc' ? '▲' : '▼'}</span>
-                )}
-              </th>
-              <th
-                className="px-2 sm:px-3 py-3 sm:py-4 text-center font-semibold text-blue-800 cursor-pointer select-none whitespace-nowrap"
-                onClick={() => { handleSort('id'); setPage(1); }}
-                style={{ minWidth: 60 }}
-              >
-                User ID
-                {sortBy === 'id' && (
-                  <span className="ml-1">{sortOrder === 'asc' ? '▲' : '▼'}</span>
-                )}
-              </th>
-              <th
-                className="px-2 sm:px-3 py-3 sm:py-4 text-left font-semibold text-blue-800 cursor-pointer select-none whitespace-nowrap"
-                onClick={() => { handleSort('user'); setPage(1); }}
-                style={{ minWidth: 100 }}
-              >
-                User
-                {sortBy === 'user' && (
-                  <span className="ml-1">{sortOrder === 'asc' ? '▲' : '▼'}</span>
-                )}
-              </th>
-              <th
-                className="px-2 sm:px-3 py-3 sm:py-4 text-left font-semibold text-blue-800 cursor-pointer select-none whitespace-nowrap"
-                onClick={() => { handleSort('action'); setPage(1); }}
-                style={{ minWidth: 120 }}
-              >
-                Action
-                {sortBy === 'action' && (
-                  <span className="ml-1">{sortOrder === 'asc' ? '▲' : '▼'}</span>
-                )}
-              </th>
-              <th
-                className="px-2 sm:px-3 py-3 sm:py-4 text-left font-semibold text-blue-800 whitespace-nowrap"
-                style={{ minWidth: 120 }}
-              >
-                Details
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedLogs.length === 0 ? (
-              <tr>
-                <td colSpan={5} className="text-center py-12 text-gray-500 text-xs sm:text-sm">
-                  No logs found.
-                </td>
-              </tr>
-            ) : (
-              paginatedLogs.map(log => (
-                <tr
-                  key={log.id}
-                  className="hover:bg-blue-100 transition-colors group"
-                  style={{ height: '3.2rem' }}
+            Recent Activities
+          </div>
+          <div className="relative w-full md:w-1/3 flex items-center gap-2">
+            <input
+              type="text"
+              placeholder="Search logs..."
+              className="w-full pl-10 pr-3 py-2 border border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm bg-white shadow-sm transition"
+              value={search}
+              onChange={e => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
+            />
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400 pointer-events-none">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="7" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </span>
+            <button
+              type="button"
+              className="ml-2 px-3 py-2 rounded-xl border border-blue-200 bg-white text-blue-700 hover:bg-blue-100 transition-colors flex items-center gap-1 shadow-sm"
+              title="Filter options"
+              onClick={() => setShowFilter((prev) => !prev)}
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path d="M3 4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2a2 2 0 0 1-.553 1.382l-5.894 6.183A2 2 0 0 0 14 15.118V19a1 1 0 0 1-1.447.894l-2-1A1 1 0 0 1 10 18v-2.882a2 2 0 0 0-.553-1.382L3.553 7.382A2 2 0 0 1 3 6V4Z" />
+              </svg>
+              <span className="hidden sm:inline text-xs font-semibold">Filter</span>
+            </button>
+            {showFilter && (
+              <div className="absolute right-0 top-12 z-20 bg-white border border-blue-200 rounded-2xl shadow-2xl p-4 w-64 animate-fade-in">
+                <div className="mb-2 font-semibold text-blue-800 text-xs">Filter by Column</div>
+                <select
+                  className="w-full border border-gray-200 rounded-lg px-2 py-1 text-xs mb-2 focus:ring-2 focus:ring-blue-200"
+                  value={filterColumn}
+                  onChange={e => {
+                    setFilterColumn(e.target.value);
+                    setFilterUser('');
+                    setPage(1);
+                  }}
                 >
-                  <td className="px-2 sm:px-3 py-3 sm:py-4 border-b border-blue-100 text-blue-900 whitespace-nowrap align-middle">{log.timestamp}</td>
-                  <td className="px-2 sm:px-3 py-3 sm:py-4 border-b border-blue-100 text-blue-900 whitespace-nowrap align-middle text-center">{log.id}</td>
-                  <td className="px-2 sm:px-3 py-3 sm:py-4 border-b border-blue-100 text-blue-900 whitespace-nowrap align-middle">
-                    <span className="inline-flex items-center gap-2 sm:gap-2">
-                      {log.user}
-                    </span>
-                  </td>
-                  <td className="px-2 sm:px-3 py-3 sm:py-4 border-b border-blue-100 text-blue-900 whitespace-nowrap align-middle">{log.action}</td>
-                  <td className="px-2 sm:px-3 py-3 sm:py-4 border-b border-blue-100 text-blue-700 align-middle">
-                    <span className="block max-w-[80px] sm:max-w-[120px] truncate group-hover:whitespace-normal group-hover:truncate-none">
-                      {log.details}
-                    </span>
+                  <option value="user">User</option>
+                  <option value="id">User ID</option>
+                  <option value="action">Action</option>
+                  <option value="timestamp">Timestamp</option>
+                </select>
+                <div className="mb-2 font-semibold text-blue-800 text-xs">Filter Value</div>
+                <select
+                  className="w-full border border-gray-200 rounded-lg px-2 py-1 text-xs focus:ring-2 focus:ring-blue-200"
+                  value={filterUser}
+                  onChange={e => {
+                    setFilterUser(e.target.value);
+                    setPage(1);
+                  }}
+                >
+                  <option value="">All</option>
+                  {Array.from(new Set(extendedLogs.map(log => String(log[filterColumn])))).map(val => (
+                    <option key={val} value={val}>{val}</option>
+                  ))}
+                </select>
+                <button
+                  className="mt-3 w-full bg-blue-100 text-blue-700 rounded-lg px-2 py-1 text-xs hover:bg-blue-200 font-semibold"
+                  onClick={() => setShowFilter(false)}
+                >
+                  Close
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+        {/* Only the table is horizontally scrollable on small screens */}
+        <div className="rounded-2xl shadow-lg border border-blue-100 bg-white p-0 overflow-x-auto">
+          <table className="min-w-[700px] w-full text-sm table-fixed">
+            <thead className="bg-gradient-to-r from-blue-100 to-blue-50">
+              <tr>
+                <th
+                  className="px-4 py-4 text-left font-bold text-blue-900 cursor-pointer select-none whitespace-nowrap transition hover:bg-blue-100"
+                  onClick={() => { handleSort('timestamp'); setPage(1); }}
+                  style={{ minWidth: 140 }}
+                >
+                  Timestamp
+                  {sortBy === 'timestamp' && (
+                    <span className="ml-1 text-blue-500">{sortOrder === 'asc' ? '▲' : '▼'}</span>
+                  )}
+                </th>
+                <th
+                  className="px-4 py-4 text-center font-bold text-blue-900 cursor-pointer select-none whitespace-nowrap transition hover:bg-blue-100"
+                  onClick={() => { handleSort('id'); setPage(1); }}
+                  style={{ minWidth: 70 }}
+                >
+                  User ID
+                  {sortBy === 'id' && (
+                    <span className="ml-1 text-blue-500">{sortOrder === 'asc' ? '▲' : '▼'}</span>
+                  )}
+                </th>
+                <th
+                  className="px-4 py-4 text-left font-bold text-blue-900 cursor-pointer select-none whitespace-nowrap transition hover:bg-blue-100"
+                  onClick={() => { handleSort('user'); setPage(1); }}
+                  style={{ minWidth: 110 }}
+                >
+                  User
+                  {sortBy === 'user' && (
+                    <span className="ml-1 text-blue-500">{sortOrder === 'asc' ? '▲' : '▼'}</span>
+                  )}
+                </th>
+                <th
+                  className="px-4 py-4 text-left font-bold text-blue-900 cursor-pointer select-none whitespace-nowrap transition hover:bg-blue-100"
+                  onClick={() => { handleSort('action'); setPage(1); }}
+                  style={{ minWidth: 130 }}
+                >
+                  Action
+                  {sortBy === 'action' && (
+                    <span className="ml-1 text-blue-500">{sortOrder === 'asc' ? '▲' : '▼'}</span>
+                  )}
+                </th>
+                <th
+                  className="px-4 py-4 text-left font-bold text-blue-900 whitespace-nowrap"
+                  style={{ minWidth: 140 }}
+                >
+                  Details
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginatedLogs.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="text-center py-16 text-gray-400 text-base font-medium">
+                    No logs found.
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                paginatedLogs.map(log => (
+                  <tr
+                    key={log.id}
+                    className="hover:bg-blue-50 transition group"
+                    style={{ height: '3.2rem' }}
+                  >
+                    <td className="px-4 py-4 border-b border-blue-50 text-blue-900 whitespace-nowrap align-middle">{log.timestamp}</td>
+                    <td className="px-4 py-4 border-b border-blue-50 text-blue-900 whitespace-nowrap align-middle text-center">{log.id}</td>
+                    <td className="px-4 py-4 border-b border-blue-50 text-blue-900 whitespace-nowrap align-middle">
+                      <span className="inline-flex items-center gap-2">
+                        <span className="bg-blue-100 text-blue-700 rounded-full px-2 py-1 text-xs font-semibold">{log.user}</span>
+                      </span>
+                    </td>
+                    <td className="px-4 py-4 border-b border-blue-50 text-blue-900 whitespace-nowrap align-middle">{log.action}</td>
+                    <td className="px-4 py-4 border-b border-blue-50 text-blue-700 align-middle">
+                      <span className="block max-w-[120px] truncate group-hover:whitespace-normal group-hover:truncate-none">
+                        {log.details}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-      {/* Pagination controls */}
+      {/* Pagination controls OUTSIDE the table container and not scrollable */}
       {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-2 mt-4">
+        <div className="flex justify-center items-center gap-2 mt-6">
           <button
-            className="px-2 py-1 rounded border bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs"
+            className="px-3 py-2 rounded-xl border bg-white text-blue-700 hover:bg-blue-100 text-xs font-semibold shadow-sm disabled:opacity-50"
             disabled={page === 1}
             onClick={() => setPage(page - 1)}
           >
@@ -342,14 +345,18 @@ function AuditLogsTable({ admin_navigate }) {
           {Array.from({ length: totalPages }, (_, i) => (
             <button
               key={i + 1}
-              className={`px-2 py-1 rounded border text-xs ${page === i + 1 ? 'bg-blue-200 text-blue-900 font-bold' : 'bg-blue-50 text-blue-700 hover:bg-blue-100'}`}
+              className={`px-3 py-2 rounded-xl border text-xs font-semibold shadow-sm ${
+                page === i + 1
+                  ? 'bg-blue-600 text-white border-blue-600'
+                  : 'bg-white text-blue-700 hover:bg-blue-100 border-blue-200'
+              }`}
               onClick={() => setPage(i + 1)}
             >
               {i + 1}
             </button>
           ))}
           <button
-            className="px-2 py-1 rounded border bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs"
+            className="px-3 py-2 rounded-xl border bg-white text-blue-700 hover:bg-blue-100 text-xs font-semibold shadow-sm disabled:opacity-50"
             disabled={page === totalPages}
             onClick={() => setPage(page + 1)}
           >
@@ -357,6 +364,6 @@ function AuditLogsTable({ admin_navigate }) {
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 }
