@@ -46,8 +46,11 @@ export default function Navbar() {
         window.location.href = to;
     };
 
-    // Scroll to top on route change
+    // Scroll to top on route change and on refresh
     React.useEffect(() => {
+        // Always scroll to top on mount (refresh)
+        window.scrollTo(0, 0);
+
         const handleScrollToTop = () => {
             window.scrollTo(0, 0);
         };
