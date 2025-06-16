@@ -64,9 +64,43 @@ export default function All_Items() {
             alert('Please select items to delete.');
             return;
         }
-        alert('items deleted');
-        console.log(selectedItems);
+
+        try {
+            const deletePromises = selectedItems.map(async (id) => {
+                const response = await fetch(`/api/eic/deleteEIC?id=${id}`);
+                const data = await response.json();
+
+                if (response.ok && data.status === 'Success') {
+                    return true;
+                } else {
+                    console.error(
+                        `Failed to delete item with id ${id}: ${
+                            data.message || 'Unknown error'
+                        }`
+                    );
+                    return false;
+                }
+            });
+
+            const results = await Promise.all(deletePromises);
+            if (results.every((result) => result)) {
+                alert('Items deleted successfully.');
+                setItems(
+                    items.filter((item) => !selectedItems.includes(item.id))
+                );
+                setSelectedItems([]);
+                setIsDeleting(false);
+            } else {
+                alert(
+                    'Some items failed to delete. Please check the console for errors.'
+                );
+            }
+        } catch (error) {
+            console.error('Error deleting items:', error);
+            alert('Failed to delete items. Please try again.');
+        }
     };
+
     const toggleSelectItem = (itemId) => {
         if (selectedItems.includes(itemId)) {
             setSelectedItems(selectedItems.filter((id) => id !== itemId));
