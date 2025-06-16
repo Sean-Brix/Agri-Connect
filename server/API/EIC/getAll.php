@@ -3,9 +3,13 @@
 require_once __DIR__.'../../../global.php';
 
 try {
+    $status = $_GET['status'];
+    $category = $_GET['category'];
+    $search = $_GET['search'];
+
     $EIC = new EIC(null);
 
-    $item_list = $EIC->searchAndFilter();
+    $item_list = $EIC->searchAndFilter($search, ['status'=>$status, 'category'=>$category], true);
 
     foreach ($item_list as &$item) {
             if (isset($item['added_by'])) {

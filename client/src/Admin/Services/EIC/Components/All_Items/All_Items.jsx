@@ -34,6 +34,11 @@ export default function All_Items() {
         );
         const data = await response.json();
 
+        if (!data.payload || data.payload.length === 0) {
+            setItems([]);
+            return;
+        }
+
         const itemsWithImages = await Promise.all(
             data.payload.map(async (item) => {
                 try {
@@ -316,27 +321,31 @@ export default function All_Items() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full h-auto p-4 rounded-2xl">
-                {items.map((item) => (
-                    <div
-                        key={item.id}
-                        className="relative"
-                        onClick={() => handleItemClick(item.id)}
-                    >
-                        {isDeleting && (
-                            <input
-                                type="checkbox"
-                                className="absolute top-2 left-2 z-10"
-                                checked={selectedItems.includes(item.id)}
-                                onChange={() => toggleSelectItem(item.id)}
-                            />
-                        )}
-                        <Item_Card
+                {items.length === 0 ? (
+                    <div className="text-center w-full">No items found</div>
+                ) : (
+                    items.map((item) => (
+                        <div
                             key={item.id}
-                            item={item}
-                            isSelected={selectedItems.includes(item.id)}
-                        />
-                    </div>
-                ))}
+                            className="relative"
+                            onClick={() => handleItemClick(item.id)}
+                        >
+                            {isDeleting && (
+                                <input
+                                    type="checkbox"
+                                    className="absolute top-2 left-2 z-10"
+                                    checked={selectedItems.includes(item.id)}
+                                    onChange={() => toggleSelectItem(item.id)}
+                                />
+                            )}
+                            <Item_Card
+                                key={item.id}
+                                item={item}
+                                isSelected={selectedItems.includes(item.id)}
+                            />
+                        </div>
+                    ))
+                )}
             </div>
 
             {newItemModalOpen && (
