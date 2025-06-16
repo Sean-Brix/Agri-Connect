@@ -46,8 +46,35 @@ export default function Navbar() {
         window.location.href = to;
     };
 
+    // Scroll to top on route change
+    React.useEffect(() => {
+        const handleScrollToTop = () => {
+            window.scrollTo(0, 0);
+        };
+        // Listen for popstate (browser navigation)
+        window.addEventListener('popstate', handleScrollToTop);
+
+        // Listen for pushState/replaceState (programmatic navigation)
+        const origPushState = window.history.pushState;
+        const origReplaceState = window.history.replaceState;
+        window.history.pushState = function (...args) {
+            origPushState.apply(this, args);
+            handleScrollToTop();
+        };
+        window.history.replaceState = function (...args) {
+            origReplaceState.apply(this, args);
+            handleScrollToTop();
+        };
+
+        return () => {
+            window.removeEventListener('popstate', handleScrollToTop);
+            window.history.pushState = origPushState;
+            window.history.replaceState = origReplaceState;
+        };
+    }, []);
+
     return (
-        <nav className="bg-white shadow-lg fixed w-full z-30 top-0 left-0">
+          <nav className="bg-white shadow-lg fixed w-full z-30 top-0 left-0">
             <div className="max-w-7xl mx-auto flex items-center justify-between px-2 md:px-8 py-6">
                 {/* Logo */}
                 <img
