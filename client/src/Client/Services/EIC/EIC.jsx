@@ -8,7 +8,6 @@ import default_image from './Assets/default_image.jpg';
 const ITEMS_PER_PAGE = 8;
 
 export default function Eic() {
-
     const navigate = useNavigate();
     const [equipmentList, setEquipmentList] = useState([]);
     const [filter, setFilter] = useState('All');
@@ -21,6 +20,7 @@ export default function Eic() {
         borrow_date: '',
         return_date: '',
         request_note: '',
+        quantity: 1,
     });
 
     const categories = [
@@ -180,24 +180,21 @@ export default function Eic() {
 
     // SEND REQUEST
     const handleRequestClick = async (item) => {
-
-        try{
-
-        //Check if user is logged in
-        const response = await fetch('/api/authentication/gotToken');
-        if(!response.ok){
-            if(confirm("Login first?")){
-                navigate('/login');
-                return
+        try {
+            //Check if user is logged in
+            const response = await fetch('/api/authentication/gotToken');
+            if (!response.ok) {
+                if (confirm('Login first?')) {
+                    navigate('/login');
+                    return;
+                }
+                return;
             }
-            return;
-        }
 
-        setSelectedItem(item);
-        setModalOpen(true);
-        }
-        catch(e){
-            console.log("Request EIC Item:  " + e);
+            setSelectedItem(item);
+            setModalOpen(true);
+        } catch (e) {
+            console.log('Request EIC Item:  ' + e);
         }
     };
 
@@ -226,6 +223,7 @@ export default function Eic() {
                     borrow_date: requestData.borrow_date,
                     return_date: requestData.return_date,
                     request_note: requestData.request_note,
+                    quantity: requestData.quantity,
                 }),
             });
 
@@ -476,7 +474,7 @@ export default function Eic() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full">
                         <h2 className="text-2xl font-bold mb-4 text-gray-800">
-                            Request for {selectedItem?.name}
+                            Request for "{selectedItem?.Name}"
                         </h2>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
@@ -511,6 +509,24 @@ export default function Eic() {
                                     onChange={handleInputChange}
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     required
+                                />
+                            </div>
+                            <div>
+                                <label
+                                    htmlFor="quantity"
+                                    className="block text-gray-700 text-sm font-bold mb-2"
+                                >
+                                    Quantity:
+                                </label>
+                                <input
+                                    type="number"
+                                    id="quantity"
+                                    name="quantity"
+                                    value={requestData.quantity}
+                                    onChange={handleInputChange}
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    required
+                                    min="1"
                                 />
                             </div>
                             <div>
