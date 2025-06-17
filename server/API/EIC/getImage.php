@@ -13,6 +13,7 @@ if($photo != null){
     exit();
 }
 
+// If no Image
 sendResponse(
     204,
     "Not Found",

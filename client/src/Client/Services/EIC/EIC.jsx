@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from '../../Components/Navbar';
 
 // ASSETS
@@ -6,137 +6,19 @@ import default_image from './Assets/default_image.jpg';
 
 const ITEMS_PER_PAGE = 8;
 
-const equipmentList = [
-    {
-        id: 1,
-        name: 'Tractor',
-        description:
-            'A powerful vehicle used for pulling farm machinery and trailers.',
-        quantity: 5,
-        status: 'Available',
-        category: 'Machinery',
-        added_by: 1,
-        img: default_image,
-    },
-    {
-        id: 2,
-        name: 'Combine Harvester',
-        description: 'A machine that harvests grain crops efficiently.',
-        quantity: 2,
-        status: 'Available',
-        category: 'Machinery',
-        added_by: 1,
-        img: default_image,
-    },
-    {
-        id: 3,
-        name: 'Hoe',
-        description:
-            'A tool with a flat blade used to break up soil, remove weeds, and shape the earth.',
-        quantity: 50,
-        status: 'Available',
-        category: 'Farming Equipment',
-        added_by: 1,
-        img: default_image,
-    },
-    {
-        id: 4,
-        name: 'Shovel',
-        description:
-            'A tool for digging, lifting, and moving bulk materials such as soil or gravel.',
-        quantity: 45,
-        status: 'Available',
-        category: 'Harvesting Tools',
-        added_by: 1,
-        img: default_image,
-    },
-    {
-        id: 5,
-        name: 'Sprinkler System',
-        description: 'Automated system for irrigating crops efficiently.',
-        quantity: 10,
-        status: 'Available',
-        category: 'Irrigation Systems',
-        added_by: 1,
-        img: default_image,
-    },
-    {
-        id: 6,
-        name: 'Grain Silo',
-        description: 'Large storage facility for harvested grains.',
-        quantity: 3,
-        status: 'Available',
-        category: 'Storage Equipment',
-        added_by: 1,
-        img: default_image,
-    },
-    {
-        id: 7,
-        name: 'Grain Mill',
-        description: 'Machine used for processing grains into flour.',
-        quantity: 1,
-        status: 'Available',
-        category: 'Processing Equipment',
-        added_by: 1,
-        img: default_image,
-    },
-    {
-        id: 8,
-        name: 'Safety Goggles',
-        description: 'Protective eyewear for farming activities.',
-        quantity: 100,
-        status: 'Available',
-        category: 'Safety Gear',
-        added_by: 1,
-        img: default_image,
-    },
-    {
-        id: 9,
-        name: 'Insecticide Sprayer',
-        description: 'Equipment for applying insecticides to crops.',
-        quantity: 15,
-        status: 'Available',
-        category: 'Pest Control',
-        added_by: 1,
-        img: default_image,
-    },
-    {
-        id: 10,
-        name: 'Cattle Feeder',
-        description: 'Equipment for dispensing feed to livestock.',
-        quantity: 8,
-        status: 'Available',
-        category: 'Livestock Equipment',
-        added_by: 1,
-        img: default_image,
-    },
-    {
-        id: 11,
-        name: 'Measuring Tape',
-        description: 'Tool for accurate measurements in farming.',
-        quantity: 30,
-        status: 'Available',
-        category: 'Measuring Tools',
-        added_by: 1,
-        img: default_image,
-    },
-    {
-        id: 12,
-        name: 'Fishing Net',
-        description: 'Net used for catching fish in aquaculture.',
-        quantity: 20,
-        status: 'Available',
-        category: 'Fisheries',
-        added_by: 1,
-        img: default_image,
-    },
-];
-
 export default function Eic() {
-    const [filter, setFilter] = React.useState('All');
-    const [search, setSearch] = React.useState('');
-    const [currentPage, setCurrentPage] = React.useState(1);
-    const [showFilter, setShowFilter] = React.useState(false);
+    const [equipmentList, setEquipmentList] = useState([]);
+    const [filter, setFilter] = useState('All');
+    const [search, setSearch] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [showFilter, setShowFilter] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [requestData, setRequestData] = useState({
+        borrow_date: '',
+        return_date: '',
+        request_note: '',
+    });
 
     const categories = [
         'All',
@@ -146,12 +28,67 @@ export default function Eic() {
     const filteredItems = equipmentList.filter(
         (i) =>
             (filter === 'All' || i.category === filter) &&
-            (i.name.toLowerCase().includes(search.toLowerCase()) ||
-                i.category.toLowerCase().includes(search.toLowerCase()) ||
-                i.description.toLowerCase().includes(search.toLowerCase()))
+            (search === '' ||
+                (i.name &&
+                    i.name.toLowerCase().includes(search.toLowerCase())) ||
+                (i.category &&
+                    i.category.toLowerCase().includes(search.toLowerCase())) ||
+                (i.description &&
+                    i.description.toLowerCase().includes(search.toLowerCase())))
     );
 
-    React.useEffect(() => {
+    useEffect(() => {
+        (async () => {
+            const response = await fetch('/api/eic/getAll?status=Available');
+            const data = await response.json();
+
+            if (response.ok) {
+                const equipmentWithImages = await Promise.all(
+                    data.payload.map(async (item) => {
+                        try {
+                            const imageResponse = await fetch(
+                                `/api/eic/getImage?id=${item.id}`
+                            );
+                            if (imageResponse.ok) {
+
+                                const imageBlob = await imageResponse.blob();
+                                if (imageBlob.size > 0) {
+                                    // Check if the blob has data
+                                    const imageURL =
+                                        URL.createObjectURL(imageBlob);
+                                    return { ...item, img: imageURL };
+                                } 
+                                else {
+                                    return { ...item, img: default_image };
+                                }
+
+                            } 
+                            else {
+                                console.error(
+                                    `Failed to fetch image for item ${item.id}:`,
+                                    imageResponse.statusText
+                                );
+                                return { ...item, img: default_image }; // Use default image on failure
+                            }
+                        } 
+                        catch (error) {
+                            console.error(
+                                `Error fetching image for item ${item.id}:`,
+                                error
+                            );
+                            return { ...item, img: default_image }; // Use default image on error
+                        }
+                    })
+                );
+                setEquipmentList(equipmentWithImages);
+            } else {
+                console.error('Failed to fetch equipment:', data.message);
+            }
+        })();
+    }, []);
+
+
+    useEffect(() => {
         setCurrentPage(1);
     }, [filter, search]);
 
@@ -167,7 +104,7 @@ export default function Eic() {
         label: c,
     }));
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!showFilter) return;
         const handler = (e) => {
             const dropdown = document.getElementById('modernFilterDropdown');
@@ -211,7 +148,7 @@ export default function Eic() {
         return <i className="fa-solid fa-toolbox text-gray-500"></i>;
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         const style = document.createElement('style');
         style.innerHTML = `
           ::-webkit-scrollbar {
@@ -228,9 +165,33 @@ export default function Eic() {
         };
     }, []);
 
-    React.useEffect(() => {
+    useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [currentPage]);
+
+    const handleRequestClick = (item) => {
+        setSelectedItem(item);
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setRequestData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('Request Data:', requestData);
+        console.log('Item ID:', selectedItem.id);
+        setModalOpen(false);
+    };
 
     return (
         <>
@@ -338,7 +299,6 @@ export default function Eic() {
                                 <div
                                     key={item.id}
                                     className="max-w-full max-h-[370px] rounded-xl overflow-hidden shadow-2xl hover:shadow-[0_8px_32px_0_rgba(60,60,60,0.25)] bg-green-700 m-4 border-2 border-green-800 transition duration-200 hover:border-green-700 hover:scale-[1.025] backdrop-blur-lg"
- 
                                 >
                                     <div className="relative">
                                         <img
@@ -370,7 +330,7 @@ export default function Eic() {
                                     </div>
                                     <div className="p-5 flex flex-col h-[170px]">
                                         <h3 className="text-xl font-bold mb-1 truncate text-white">
-                                            {item.name}
+                                            {item.Name}
                                         </h3>
                                         <p
                                             className="text-gray-200 text-sm mb-4 truncate"
@@ -390,10 +350,7 @@ export default function Eic() {
                                                               'Borrowed'
                                                             ? 'bg-yellow-400'
                                                             : item.status ===
-                                                              'Maintenance'
-                                                            ? 'bg-blue-400'
-                                                            : item.status ===
-                                                              'Damaged'
+                                                              'Reserved'
                                                             ? 'bg-red-400'
                                                             : item.status ===
                                                               'Returned'
@@ -404,8 +361,13 @@ export default function Eic() {
                                                 {item.status}
                                             </span>
                                             <div className="flex gap-2">
-                                                <button className="bg-white hover:bg-green-700 text-green-900 hover:text-white font-bold py-2 px-5 rounded-2xl text-base border-2 border-green-700 transition-colors shadow-lg">
-                                                    Details
+                                                <button
+                                                    className="bg-white hover:bg-green-700 text-green-900 hover:text-white font-bold py-2 px-5 rounded-2xl text-base border-2 border-green-700 transition-colors shadow-lg"
+                                                    onClick={() =>
+                                                        handleRequestClick(item)
+                                                    }
+                                                >
+                                                    Request
                                                 </button>
                                             </div>
                                         </div>
@@ -462,6 +424,83 @@ export default function Eic() {
                     </section>
                 </main>
             </div>
+
+            {modalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full">
+                        <h2 className="text-2xl font-bold mb-4 text-gray-800">
+                            Request for {selectedItem?.name}
+                        </h2>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label
+                                    htmlFor="borrow_date"
+                                    className="block text-gray-700 text-sm font-bold mb-2"
+                                >
+                                    Borrow Date:
+                                </label>
+                                <input
+                                    type="date"
+                                    id="borrow_date"
+                                    name="borrow_date"
+                                    value={requestData.borrow_date}
+                                    onChange={handleInputChange}
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label
+                                    htmlFor="return_date"
+                                    className="block text-gray-700 text-sm font-bold mb-2"
+                                >
+                                    Return Date:
+                                </label>
+                                <input
+                                    type="date"
+                                    id="return_date"
+                                    name="return_date"
+                                    value={requestData.return_date}
+                                    onChange={handleInputChange}
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label
+                                    htmlFor="request_note"
+                                    className="block text-gray-700 text-sm font-bold mb-2"
+                                >
+                                    Request Notes:
+                                </label>
+                                <textarea
+                                    id="request_note"
+                                    name="request_note"
+                                    value={requestData.request_note}
+                                    onChange={handleInputChange}
+                                    rows="4"
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                ></textarea>
+                            </div>
+                            <div className="flex justify-end gap-4">
+                                <button
+                                    type="button"
+                                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    onClick={handleCloseModal}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                >
+                                    Submit Request
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
             <style>{`
                 .letter-spacing-wide {
                     letter-spacing: 0.15em;

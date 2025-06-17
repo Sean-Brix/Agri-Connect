@@ -1,4 +1,3 @@
-
 CREATE TABLE accounts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     access ENUM('User', 'Admin', 'Super Admin') NOT NULL,
