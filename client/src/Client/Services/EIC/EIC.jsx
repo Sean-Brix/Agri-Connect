@@ -162,6 +162,11 @@ export default function Eic() {
       }, []);
     
 
+    // Scroll to top when page changes
+    React.useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [currentPage]);
+
     return (
         <>
             <Navbar />
@@ -205,15 +210,15 @@ export default function Eic() {
                             <div className="relative h-12 flex items-center">
                                 <button
                                     id="modernFilterButton"
-                                    className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-gray-700 font-semibold border border-gray-200 shadow transition-all duration-200 hover:bg-gray-50 focus:outline-none text-base sm:text-lg"
+                                    className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-green-900 font-semibold border border-gray-200 shadow transition-all duration-200 hover:bg-gray-50 focus:outline-none text-base sm:text-lg"
                                     onClick={() => setShowFilter(f => !f)}
                                     type="button"
                                     aria-label="Show filter options"
                                     style={{ minHeight: '3rem' }}
                                 >
-                                    <i className="fa-solid fa-filter text-gray-400 text-base sm:text-lg"></i>
+                                    <i className="fa-solid fa-filter text-green-900 text-base sm:text-lg"></i>
                                     <span className="hidden sm:inline">{filterBy}</span>
-                                    <i className={`fa-solid fa-chevron-${showFilter ? 'up' : 'down'} ml-2 text-gray-300`}></i>
+                                    <i className={`fa-solid fa-chevron-${showFilter ? 'up' : 'down'} ml-2 text-geen-900`}></i>
                                 </button>
                                 {showFilter && (
                                     <div
@@ -256,11 +261,11 @@ export default function Eic() {
                             </div>
                         </div>
                         {/* Cards */}
-                        <div className="grid gap-8 sm:gap-10 md:gap-12 grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl">
+                        <div className="grid  grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl">
                             {paginatedItems.map((item) => (
                                 <div
                                     key={item.id}
-                                    className="max-w-full max-h-[370px] rounded-2xl overflow-hidden shadow-2xl hover:shadow-[0_8px_32px_0_rgba(60,60,60,0.25)] bg-green-900 m-4 border-2 border-green-800 transition duration-200 hover:border-green-700 hover:scale-[1.025] backdrop-blur-lg"
+                                    className="max-w-full max-h-[370px] rounded-xl overflow-hidden shadow-2xl hover:shadow-[0_8px_32px_0_rgba(60,60,60,0.25)] bg-green-900 m-4 border-2 border-green-800 transition duration-200 hover:border-green-700 hover:scale-[1.025] backdrop-blur-lg"
                                     style={{
                                         boxShadow: '0 8px 32px 0 rgba(60,60,60,0.18), 0 1.5px 8px 0 rgba(80,80,80,0.10)',
                                         background: '#14532d',

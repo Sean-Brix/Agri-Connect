@@ -8,7 +8,7 @@ import default_seminar_pic from './Assets/default_seminar_pic.jpg';
 
 export default function Seminar() {
     const [search, setSearch] = useState('');
-    const [filterBy, setFilterBy] = useState('title');
+    const [filterBy, setFilterBy] = useState('Title');
     const [showFilter, setShowFilter] = useState(false);
 
     // Programs data
@@ -123,6 +123,11 @@ export default function Seminar() {
         };
     }, []);
 
+    // Scroll to top when page changes
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [currentPage]);
+
     return (
         <>
             <Navbar />
@@ -234,7 +239,7 @@ export default function Seminar() {
                                 paginatedPrograms.map((program) => (
                                     <article
                                         key={program.id}
-                                        className="relative flex flex-col md:flex-row gap-6 bg-green-700 rounded-3xl shadow-2xl p-0 border border-green-800 overflow-hidden group transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1) hover:scale-105"
+                                        className="relative flex flex-col md:flex-row gap-6 bg-green-900 rounded-3xl shadow-2xl p-0 border border-green-800 overflow-hidden group transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1) hover:scale-105"
                                         style={{ transition: '0.3s' }}
                                     >
                                         {/* Image with border and outline */}
@@ -303,16 +308,18 @@ export default function Seminar() {
                                                         className="inline-flex items-center gap-1 text-xs text-green-900 bg-green-200 px-3 py-1 rounded-lg font-semibold border border-green-300 shadow-sm truncate"
                                                         title={program.speaker}
                                                     >
+                                                        <i className="fa-solid fa-user"></i>
+                                                        {program.speaker}
                                                     </span>
                                                 </div>
                                             </div>
                                             {/* Buttons */}
                                             <div className="flex gap-3 w-full justify-end mt-6">
-                                                <button className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-green-700 font-bold shadow-lg hover:bg-green-100 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400">
+                                                <button className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-green-900 font-bold shadow-lg hover:bg-green-100 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400">
                                                     <i className="fa-solid fa-paper-plane"></i>
                                                     Apply
                                                 </button>
-                                                <button className="flex items-center gap-2 px-8 py-2 rounded-xl border-2 border-white text-white bg-green-700 font-bold shadow-lg hover:bg-green-800 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400">
+                                                <button className="flex items-center gap-2 px-8 py-2 rounded-xl border-2 border-white text-white bg-green-900 font-bold shadow-lg hover:bg-green-800 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400">
                                                     <i className="fa-solid fa-circle-info"></i>
                                                     Details
                                                 </button>
