@@ -77,7 +77,7 @@ export default function Profiles({ details }) {
             <div className="flex items-center justify-center md:justify-start max-w-5xl mx-auto mb-8">
                 <div className="flex items-center w-full">
                     <hr className="flex-grow border-t-2 border-blue-400" />
-                    <h1 className="mx-4 text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-blue-500 to-blue-300 px-8 py-2 rounded-full shadow-lg whitespace-nowrap tracking-tight">
+                    <h1 className="mx-4 text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-blue-900 px-8 py-2 rounded-full shadow-lg whitespace-nowrap tracking-tight">
                         Account Management
                     </h1>
                     <hr className="flex-grow border-t-2 border-blue-400" />

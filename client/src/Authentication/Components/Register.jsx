@@ -395,7 +395,6 @@ class Register extends Component {
             />
 
             <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
-                
                 <div className="flex flex-col items-center justify-center mb-6 text-center">
                 <img src={logo} alt="" className="rounded-full mb-4 h-16 w-16 sm:h-20 sm:w-20" />
                 <h1 className="px-4 font-bold text-lg sm:text-2xl text-center">
@@ -406,7 +405,7 @@ class Register extends Component {
                 <div className="w-full max-w-xs sm:max-w-md p-6 sm:p-8 space-y-6 bg-white rounded-lg shadow-lg border border-gray-300 backdrop-blur-md bg-opacity-70">
                 <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800">Register Now</h2>
                 <form className="space-y-4" onSubmit={this.post_account}>
-                    
+
                     <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                         Username
@@ -446,6 +445,8 @@ class Register extends Component {
                         name="confirmPass"
                         required
                         className="w-full px-3 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500 border-gray-300"
+                        autoComplete="new-password"
+                        value={this.inputs.confirmPass}
                     />
                     </div>
 
@@ -462,10 +463,10 @@ class Register extends Component {
                     </div>
 
                     <button
-                        type="submit"
-                        className="w-full px-4 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-500"
+                    type="submit"
+                    className="w-full px-4 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-500"
                     >
-                        Register
+                    Register
                     </button>
 
                     <div className="flex items-center my-2">

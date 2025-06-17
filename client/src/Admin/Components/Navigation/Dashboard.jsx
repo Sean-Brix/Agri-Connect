@@ -131,6 +131,12 @@ export default function Dashboard() {
     setCurrentPageKey(key);
   };
 
+  // Scroll to top on route change
+  const { pathname } = window.location;
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
     <>
       <div className="flex min-h-screen h-screen">
@@ -436,43 +442,8 @@ export default function Dashboard() {
         html, body, #root {
           height: 100%;
         }
-        .neon-profile-hover .neon-avatar {
-          transition: box-shadow 0.3s;
-        }
-        .neon-avatar {
-          display: inline-block;
-          position: relative;
-        }
-        .neon-avatar .neon-border {
-          content: '';
-          position: absolute;
-          top: -8px;
-          left: -8px;
-          width: 54px;
-          height: 54px;
-          border-radius: 22px;
-          pointer-events: none;
-          opacity: 0;
-          z-index: 1;
-          border: 3px solid transparent;
-        }
-        .neon-profile-hover:hover .neon-avatar .neon-border,
-        .neon-profile-hover:focus .neon-avatar .neon-border {
-          opacity: 1;
-          border-image: linear-gradient(270deg, #00fff0, #00f0ff, #00ffea, #00ffb7, #00fff0) 1;
-          animation: neon-rotate 1.0s linear infinite;
-          box-shadow: 0 0 8px 2px #00fff0, 0 0 14px 4px #00f0ff;
-        }
-        @keyframes neon-rotate {
-          0% {
-            border-image-source: linear-gradient(0deg, #00fff0, #00f0ff, #00ffea, #00ffb7, #00fff0);
-            transform: rotate(0deg);
-          }
-          100% {
-            border-image-source: linear-gradient(360deg, #00fff0, #00f0ff, #00ffea, #00ffb7, #00fff0);
-            transform: rotate(360deg);
-          }
-        }
+      
+      
         /* Sidebar icon-only mode for 1000px-1300px */
         @media (max-width: 1300px) and (min-width: 1000px) {
           .sidebar-icon-only {
