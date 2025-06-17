@@ -210,16 +210,17 @@ export default function Eic() {
         }));
     };
 
+    // SUBMIT REQUEST
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('/api/requests/create', {
+            const response = await fetch('/api/eic/request_item', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    equipmentId: selectedItem.id,
+                    item_id: selectedItem.id,
                     borrow_date: requestData.borrow_date,
                     return_date: requestData.return_date,
                     request_note: requestData.request_note,
@@ -229,11 +230,29 @@ export default function Eic() {
 
             if (response.ok) {
                 console.log('Request submitted successfully!');
+                alert('Request submitted successfully!');
                 setModalOpen(false);
+                setRequestData({
+                    borrow_date: '',
+                    return_date: '',
+                    request_note: '',
+                    quantity: 1,
+                });
             } else {
+                const data = await response.json();
                 console.error('Failed to submit request:', response.statusText);
+                alert('Admin cannot borrow an EIC item');
+                setModalOpen(false);
+                setRequestData({
+                    borrow_date: '',
+                    return_date: '',
+                    request_note: '',
+                    quantity: 1,
+                });
+                return;
             }
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('Error submitting request:', error);
         }
     };

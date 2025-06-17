@@ -261,6 +261,35 @@ class EIC{
         return $eic_items;
     }
 
+    /**
+         * What it Does: Creates a new EIC request in the database.
+         * Returns What: The ID of the newly inserted request, or false on failure.
+         */
+        public static function requestEIC($account_id, $eic_id, $quantity, $request_note = null, $borrow_date = null, $return_date = null) {
+            $query = "INSERT INTO eic_request (account_id, eic_id, quantity, request_note, borrow_date, return_date) VALUES (?, ?, ?, ?, ?, ?)";
+            $params = [$account_id, $eic_id, $quantity, $request_note, $borrow_date, $return_date];
 
+            // Determine types
+            $types = 'iiisss'; // Assuming account_id, eic_id, quantity are integers and the rest are strings/nullable
+
+             // Adjust types string if null values are not strings
+            if ($request_note === null) {
+                $types[3] = 's';
+            }
+            if ($borrow_date === null) {
+                $types[4] = 's';
+            }
+            if ($return_date === null) {
+                $types[5] = 's';
+            }
+
+            $result = statement($query, $params, $types);
+
+            if ($result) {
+                return mysqli_insert_id($GLOBALS['conn']);
+            } else {
+                return false;
+            }
+        }
 
 }

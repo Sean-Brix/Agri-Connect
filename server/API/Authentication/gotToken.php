@@ -26,3 +26,12 @@ if($user === null){
     );
     exit();
 }
+
+$Account = new Account($user['ID']);
+$detail = $Account->getDetails();
+
+sendResponse(
+    200,
+    'success',
+    ["access"=>$detail['access']]
+);
