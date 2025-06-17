@@ -22,6 +22,8 @@ export default function Eic() {
         request_note: '',
         quantity: 1,
     });
+    const [myRequests, setMyRequests] = useState([]);
+    const [showMyRequestsModal, setShowMyRequestsModal] = useState(false);
 
     const categories = [
         'All',
@@ -251,10 +253,44 @@ export default function Eic() {
                 });
                 return;
             }
-        } 
-        catch (error) {
+        } catch (error) {
             console.error('Error submitting request:', error);
         }
+    };
+
+    const handleMyRequestsClick = async () => {
+        try {
+            //Check if user is logged in
+            const response = await fetch('/api/authentication/gotToken');
+            if (!response.ok) {
+                if (confirm('Login first?')) {
+                    navigate('/login');
+                    return;
+                }
+                return;
+            }
+
+            // TODO do
+            // const requestsResponse = await fetch('/api/eic/my_requests');
+            // if (requestsResponse.ok) {
+            //     const requestsData = await requestsResponse.json();
+            //     setMyRequests(requestsData.payload);
+                setShowMyRequestsModal(true);
+            // } else {
+            //     console.error(
+            //         'Failed to fetch user requests:',
+            //         requestsResponse.statusText
+            //     );
+            //     alert('Failed to fetch your requests.');
+            // }
+        } catch (error) {
+            console.error('Error fetching user requests:', error);
+            alert('Error fetching your requests.');
+        }
+    };
+
+    const handleCloseMyRequestsModal = () => {
+        setShowMyRequestsModal(false);
     };
 
     return (
@@ -357,6 +393,18 @@ export default function Eic() {
                                     </select>
                                 </div>
                             </div>
+                            <button
+                                className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-green-900 font-semibold border border-gray-200 shadow transition-all duration-200 hover:bg-gray-50 focus:outline-none text-base sm:text-lg"
+                                onClick={handleMyRequestsClick}
+                                type="button"
+                                aria-label="View your requests"
+                                style={{ minHeight: '3rem' }}
+                            >
+                                <i className="fa-solid fa-list text-green-900 text-base sm:text-lg"></i>
+                                <span className="hidden sm:inline">
+                                    My Requests
+                                </span>
+                            </button>
                         </div>
                         <div className="grid  grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl">
                             {paginatedItems.map((item) => (
