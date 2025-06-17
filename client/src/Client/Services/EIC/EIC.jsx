@@ -166,39 +166,38 @@ export default function Eic() {
         <>
             <Navbar />
             <div
-                className="flex min-h-screen bg-gradient-to-br from-green-900 via-blue-900 to-green-800 relative"
+                className="flex min-h-screen bg-white relative"
                 style={{
-                    backgroundImage: `linear-gradient(rgba(20,30,40,0.85),rgba(20,30,40,0.85)), url(${backg})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    backgroundColor: '#fff',
                     overflow: 'hidden',
                 }}
             >
                 <main className="flex-1 w-full relative z-10 mt-30">
                     <section className="w-full px-2 sm:px-4 flex flex-col items-center pt-16 ">
                         <header className="flex flex-col items-center mb-10">
-                            <span className="uppercase tracking-widest text-blue-300 text-xs font-medium mb-1 letter-spacing-wide">
+                            <span className="uppercase tracking-widest text-gray-400 text-xs font-medium mb-1 letter-spacing-wide">
                                 Welcome to
                             </span>
-                            <h1 className="text-4xl xs:text-2xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-blue-400 to-green-200 drop-shadow-lg text-center">
+                            <h1 className="text-4xl xs:text-2xl sm:text-4xl md:text-5xl font-extrabold text-center eic-title">
                                 Farming Equipment & Inventory Center
                             </h1>
-                            <div className="mt-3 w-16 sm:w-24 h-2 rounded-full bg-gradient-to-r from-blue-400 via-green-400 to-blue-400 opacity-80 animate-pulse"></div>
+                            <div className="mt-3 w-16 sm:w-24 h-2 rounded-full bg-gray-200 opacity-80"></div>
                         </header>
                         {/* Search and Modern Filter */}
-                        <div className="flex flex-row items-center w-full max-w-3xl mt-4 mb-8 gap-3">
+                        <div className="flex flex-row items-center w-full max-w-3xl mt-4 mb-8 gap-3 justify-center">
                             {/* Search Bar */}
-                            <div className="flex flex-none min-w-1/2 max-w-xs gap-2 bg-white/90 rounded-2xl shadow-lg px-4 py-1 items-center border border-blue-100 h-12">
+                            <div className="flex flex-none min-w-1/2 max-w-xs gap-2 bg-white rounded-2xl shadow-lg px-4 py-1 items-center border</div> border-gray-200 h-12">
                                 <div className="relative w-full">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                                         <i className="fa-solid fa-magnifying-glass"></i>
                                     </span>
                                     <input
                                         type="text"
-                                        className="w-full pl-10 pr-4 py-2 rounded-xl border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-900 bg-transparent transition placeholder:text-gray-400"
+                                        className="w-full pl-10 pr-4 py-2 rounded-xl border border-transparent focus:outline-none focus:ring-0 text-gray-900 bg-transparent transition placeholder:text-gray-400"
                                         placeholder="Search by name, type, description..."
                                         value={search}
                                         onChange={e => setSearch(e.target.value)}
+                                        style={{ boxShadow: 'none' }}
                                     />
                                 </div>
                             </div>
@@ -206,20 +205,20 @@ export default function Eic() {
                             <div className="relative h-12 flex items-center">
                                 <button
                                     id="modernFilterButton"
-                                    className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-blue-700 font-semibold border border-blue-200 shadow transition-all duration-200 hover:bg-blue-50 focus:outline-none text-base sm:text-lg"
+                                    className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-gray-700 font-semibold border border-gray-200 shadow transition-all duration-200 hover:bg-gray-50 focus:outline-none text-base sm:text-lg"
                                     onClick={() => setShowFilter(f => !f)}
                                     type="button"
                                     aria-label="Show filter options"
                                     style={{ minHeight: '3rem' }}
                                 >
-                                    <i className="fa-solid fa-filter text-blue-400 text-base sm:text-lg"></i>
+                                    <i className="fa-solid fa-filter text-gray-400 text-base sm:text-lg"></i>
                                     <span className="hidden sm:inline">{filterBy}</span>
-                                    <i className={`fa-solid fa-chevron-${showFilter ? 'up' : 'down'} ml-2 text-blue-300`}></i>
+                                    <i className={`fa-solid fa-chevron-${showFilter ? 'up' : 'down'} ml-2 text-gray-300`}></i>
                                 </button>
                                 {showFilter && (
                                     <div
                                         id="modernFilterDropdown"
-                                        className="absolute left-0 top-full mt-2 w-44 sm:w-48 bg-white rounded-2xl shadow-2xl border border-blue-100 z-20 animate-fade-in py-2 px-2"
+                                        className="absolute left-0 top-full mt-2 w-44 sm:w-48 bg-white rounded-2xl shadow-2xl border border-gray-100 z-20 animate-fade-in py-2 px-2"
                                         style={{ minWidth: '100%' }}
                                     >
                                         {filterOptions.map(opt => (
@@ -227,8 +226,8 @@ export default function Eic() {
                                                 key={opt.value}
                                                 className={`flex items-center gap-3 w-full text-left px-3 sm:px-4 py-2 rounded-xl font-semibold transition text-sm sm:text-base ${
                                                     filterBy === opt.value
-                                                        ? 'bg-blue-600 text-white'
-                                                        : 'text-blue-700 hover:bg-blue-50'
+                                                        ? 'bg-gray-800 text-white'
+                                                        : 'text-gray-700 hover:bg-gray-50'
                                                 }`}
                                                 onClick={() => {
                                                     setFilter(opt.value);
@@ -257,81 +256,77 @@ export default function Eic() {
                             </div>
                         </div>
                         {/* Cards */}
-                        <div className="grid gap-6 sm:gap-8 md:gap-10 grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl">
+                        <div className="grid gap-8 sm:gap-10 md:gap-12 grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl">
                             {paginatedItems.map((item) => (
                                 <div
                                     key={item.id}
-                                    className="bg-white rounded-3xl shadow border border-gray-200 flex flex-col hover:scale-[1.025] hover:shadow-lg transition-transform duration-300"
+                                    className="max-w-full max-h-[370px] rounded-2xl overflow-hidden shadow-2xl hover:shadow-[0_8px_32px_0_rgba(60,60,60,0.25)] bg-green-900 m-4 border-2 border-green-800 transition duration-200 hover:border-green-700 hover:scale-[1.025] backdrop-blur-lg"
+                                    style={{
+                                        boxShadow: '0 8px 32px 0 rgba(60,60,60,0.18), 0 1.5px 8px 0 rgba(80,80,80,0.10)',
+                                        background: '#14532d',
+                                    }}
                                 >
-                                    <div className="p-4 sm:p-7 flex-1 flex flex-col">
-                                        <div className="flex items-center mb-4 sm:mb-5">
-                                            <div className="relative">
-                                                <img
-                                                    src={item.img}
-                                                    alt={item.name}
-                                                    className="w-16 h-16 sm:w-24 sm:h-24 object-cover rounded-2xl shadow border-4 border-white outline-2 outline-blue-400"
-                                                />
-                                                <span className="absolute -bottom-2 -right-2 bg-gray-200 text-gray-700 text-[10px] sm:text-xs px-2 py-1 rounded-full shadow font-bold flex items-center gap-1">
-                                                    {typeIcon(item.type)}
-                                                    {item.type}
-                                                </span>
-                                            </div>
-                                            <div className="ml-4 sm:ml-6">
-                                                <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-1 flex items-center gap-2">
-                                                    {item.variety}
-                                                    {typeIcon(item.type)}
-                                                </h2>
-                                                <span className="text-[10px] sm:text-xs text-gray-400 font-mono tracking-wider">#ID-00{item.id}</span>
+                                    <div className="relative">
+                                        {/* IMAGE */}
+                                        <img
+                                            className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+                                            src={item.img}
+                                            alt={item.name}
+                                        />
+                                        {/* CATEGORY */}
+                                        <span
+                                            className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold shadow-sm
+                                            ${
+                                                item.type === 'Hand Tool'
+                                                    ? 'bg-gray-700'
+                                                    : item.type === 'Power Tool'
+                                                    ? 'bg-gray-500'
+                                                    : item.type === 'Machinery'
+                                                    ? 'bg-gray-900'
+                                                    : 'bg-gray-400'
+                                            } text-white`}
+                                            style={{
+                                                boxShadow: '0 2px 8px 0 rgba(60,60,60,0.12)',
+                                            }}
+                                        >
+                                            {item.type}
+                                        </span>
+                                    </div>
+                                    {/* DETAILS */}
+                                    <div className="p-5 flex flex-col h-[170px]">
+                                        {/* ITEM NAME */}
+                                        <h3 className="text-xl font-bold mb-1 truncate text-white">
+                                            {item.name}
+                                        </h3>
+                                        {/* DESCRIPTION */}
+                                        <p className="text-gray-200 text-sm mb-4 truncate" title={item.description}>
+                                            {item.description}
+                                        </p>
+                                        {/* FOOTER */}
+                                        <div className="flex items-center justify-between mt-auto">
+                                            {/* STATUS */}
+                                            <span className="text-xs text-gray-200 flex items-center gap-1">
+                                                <span
+                                                    className="inline-block w-2 h-2 rounded-full mr-1 bg-green-400"
+                                                ></span>
+                                                Available
+                                            </span>
+                                            {/* CONTROLS */}
+                                            <div className="flex gap-2">
+                                                <button
+                                                    className="bg-white hover:bg-green-700 text-green-900 hover:text-white font-bold py-2 px-5 rounded-2xl text-base border-2 border-green-700 transition-colors shadow-lg"
+                                                    // Add your details handler here
+                                                >
+                                                    Details
+                                                </button>
                                             </div>
                                         </div>
-                                        <dl className="mb-5 sm:mb-7 grid grid-cols-1 gap-x-4 sm:gap-x-6 gap-y-2 sm:gap-y-3 text-xs sm:text-base text-gray-700">
-                                            <div>
-                                                <dt className="font-semibold text-gray-500 flex items-center gap-1">
-                                                    <i className="fa-solid fa-align-left text-blue-400"></i>
-                                                    Description
-                                                </dt>
-                                                <dd className="text-gray-900">{item.description}</dd>
-                                            </div>
-                                            <div className="flex items-center gap-4">
-                                                <div>
-                                                    <dt className="font-semibold text-gray-500 flex items-center gap-1 ">
-                                                        <i className="fa-solid fa-circle-check text-blue-400"></i>
-                                                        Status
-                                                    </dt>
-                                                    <dd>
-                                                        <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-gray-200 text-gray-700 text-[10px] sm:text-xs font-semibold shadow gap-1">
-                                                            <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                                <circle cx="10" cy="10" r="10" />
-                                                            </svg>
-                                                            Available
-                                                        </span>
-                                                    </dd>
-                                                </div>
-                                                <div>
-                                                    <dt className="font-semibold text-gray-500 flex items-center gap-1">
-                                                        <i className="fa-solid fa-calendar-days text-green-400"></i>
-                                                        Category
-                                                    </dt>
-                                                    <dd className="text-gray-900">{item.type}</dd>
-                                                </div>
-                                            </div>
-                                        </dl>
-                                    </div>
-                                    <div className="px-4 sm:px-7 pb-4 sm:pb-7 flex gap-2">
-                                        <button className="flex-1 bg-blue-700 text-white text-xs sm:text-base px-3 sm:px-5 py-2 sm:py-3 rounded-xl font-bold shadow hover:bg-blue-800 transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2">
-                                            <i className="fa-solid fa-check"></i>
-                                            Borrow
-                                        </button>
-                                        <button className="flex-1 bg-gray-200 text-blue-700 text-xs sm:text-base px-3 sm:px-5 py-2 sm:py-3 rounded-xl font-bold shadow hover:bg-blue-100 transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2">
-                                            <i className="fa-solid fa-circle-info"></i>
-                                            Details
-                                        </button>
                                     </div>
                                 </div>
                             ))}
                         </div>
                         {filteredItems.length === 0 && (
-                            <div className="text-center text-blue-300 py-10 sm:py-16 text-base sm:text-lg font-medium">
+                            <div className="text-center text-gray-400 py-10 sm:py-16 text-base sm:text-lg font-medium">
                                 No items found for this category.
                             </div>
                         )}
@@ -351,7 +346,7 @@ export default function Eic() {
                                         key={i}
                                         className={`px-4 py-2 rounded-lg font-semibold ${
                                             currentPage === i + 1
-                                                ? 'bg-blue-700 text-white'
+                                                ? 'bg-gray-900 text-white'
                                                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                                         }`}
                                         onClick={() => setCurrentPage(i + 1)}
@@ -376,11 +371,14 @@ export default function Eic() {
                 .letter-spacing-wide {
                     letter-spacing: 0.15em;
                 }
-               @media (max-width: 640px) {
-            .text-4xl, .md\:text-5xl { font-size: 1.7rem !important; }
-            .text-2xl, .sm\:text-2xl { font-size: 1.2rem !important; }
-            .text-3xl, .sm\:text-3xl { font-size: 1.5rem !important; }
-
+                .eic-title {
+                    color: #14532d !important; /* dark green */
+                }
+                @media (max-width: 640px) {
+                    .text-4xl, .md\\:text-5xl { font-size: 1.7rem !important; }
+                    .text-2xl, .sm\\:text-2xl { font-size: 1.2rem !important; }
+                    .text-3xl, .sm\\:text-3xl { font-size: 1.5rem !important; }
+                }
                 .animate-fade-in {
                     animation: fadeIn 0.2s;
                 }
@@ -395,15 +393,6 @@ export default function Eic() {
                 html::-webkit-scrollbar, body::-webkit-scrollbar, #root::-webkit-scrollbar {
                     display: none;
                 }
-                    html, body, #root {
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
-    html::-webkit-scrollbar, 
-    body::-webkit-scrollbar, 
-    #root::-webkit-scrollbar {
-        display: none;
-    }
             `}</style>
             {/* FontAwesome CDN for icons */}
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />

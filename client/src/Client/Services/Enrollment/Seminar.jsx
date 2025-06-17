@@ -71,9 +71,9 @@ export default function Seminar() {
     }, [allPrograms, search, filterBy]);
 
     const filterOptions = [
-        { label: 'Title', value: 'title' },
-        { label: 'Speaker', value: 'speaker' },
-        { label: 'Location', value: 'location' },
+        { label: 'Title', value: 'Title' },
+        { label: 'Speaker', value: 'Speaker' },
+        { label: 'Location', value: 'Location' },
     ];
 
     const faIcons = {
@@ -127,59 +127,61 @@ export default function Seminar() {
         <>
             <Navbar />
             <div
-                className="flex min-h-screen bg-gray-100"
+                className="flex min-h-screen bg-white relative"
                 style={{
-                    backgroundImage: `linear-gradient(rgba(20,30,40,0.85),rgba(20,30,40,0.85)), url(${backg})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    backgroundColor: '#fff',
+                    overflow: 'hidden',
                 }}
             >
                 <main className="flex-1 w-full relative z-10 mt-30">
-                    <section className="w-full px-4 flex flex-col items-center pt-16">
+                    <section className="w-full px-2 sm:px-4 flex flex-col items-center pt-16 ">
                         <header className="flex flex-col items-center mb-10">
-                            <span className="uppercase tracking-widest text-blue-300 text-xs font-medium mb-1">
+                            <span className="uppercase tracking-widest text-gray-400 text-xs font-medium mb-1 letter-spacing-wide">
                                 Welcome to
                             </span>
-                            <h1 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-blue-400 to-green-200 drop-shadow-lg text-center">
+                            <h1 className="text-4xl xs:text-2xl sm:text-4xl md:text-5xl font-extrabold text-center eic-title"
+                                style={{ color: '#14532d' }}
+                            >
                                 Seminar Enrollment
                             </h1>
-                            <div className="mt-3 w-20 h-1 rounded-full bg-gradient-to-r from-blue-400 via-green-400 to-blue-400 opacity-80 animate-pulse"></div>
+                            <div className="mt-3 w-16 sm:w-24 h-2 rounded-full bg-gray-200 opacity-80"></div>
                         </header>
-                        {/* Modern Search Bar & Filter Side by Side */}
-                        <div className="flex flex-row items-center w-full max-w-3xl mt-4 mb-8 gap-3">
-                            <div className="flex flex-none min-w-1/2 max-w-xs gap-2 bg-white/90 rounded-2xl shadow-lg px-4 py-1 items-center border border-blue-100 h-12">
+                        {/* Search and Modern Filter */}
+                        <div className="flex flex-row items-center w-full max-w-3xl mt-4 mb-8 gap-3 justify-center">
+                            {/* Search Bar */}
+                            <div className="flex flex-none min-w-1/2 max-w-xs gap-2 bg-white rounded-2xl shadow-lg px-4 py-1 items-center border border-gray-200 h-12">
                                 <div className="relative w-full">
-                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                                         <i className="fa-solid fa-magnifying-glass"></i>
                                     </span>
                                     <input
                                         type="text"
-                                        className="w-full pl-10 pr-4 py-2 rounded-xl border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-900 bg-transparent transition placeholder:text-gray-400"
+                                        className="w-full pl-10 pr-4 py-2 rounded-xl border border-transparent focus:outline-none focus:ring-0 text-gray-900 bg-transparent transition placeholder:text-gray-400"
                                         placeholder={`Search by ${filterBy.toLowerCase()}...`}
                                         value={search}
-                                        onChange={(e) =>
-                                            setSearch(e.target.value)
-                                        }
+                                        onChange={e => setSearch(e.target.value)}
+                                        style={{ boxShadow: 'none' }}
                                     />
                                 </div>
                             </div>
-                            {/* Simple Filter Button */}
-                            <div className="relative h-12 flex flex-col items-center w-full max-w-xs">
+                            {/* Modern Filter Button with Dropdown */}
+                            <div className="relative h-12 flex items-center">
                                 <button
-                                    className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-blue-700 font-semibold border border-blue-200 shadow transition-all duration-200 hover:bg-blue-50 focus:outline-none text-base sm:text-lg w-full"
+                                    id="modernFilterButton"
+                                    className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-green-700 font-semibold border border-gray-200 shadow transition-all duration-200 hover:bg-blue-50 focus:outline-none text-base sm:text-lg w-full"
                                     onClick={() => setShowFilter((f) => !f)}
                                     type="button"
                                     aria-label="Show filter options"
                                     style={{ minHeight: '3rem' }}
                                 >
-                                    <i className="fa-solid fa-filter text-blue-400 text-base sm:text-lg"></i>
+                                    <i className="fa-solid fa-filter text-green-700 text-base sm:text-lg"></i>
                                     <span className="  sm:inline">
                                         {filterBy}
                                     </span>
                                     <i
                                         className={`fa-solid fa-chevron-${
                                             showFilter ? 'up' : 'down'
-                                        } ml-2 text-blue-300`}
+                                        } ml-2 text-green-700`}
                                     ></i>
                                 </button>
                                 {/* Dropdown below the filter button */}
@@ -232,12 +234,12 @@ export default function Seminar() {
                                 paginatedPrograms.map((program) => (
                                     <article
                                         key={program.id}
-                                        className="relative flex flex-col md:flex-row gap-6 bg-white/95 rounded-3xl shadow-2xl p-0 border border-blue-100 overflow-hidden group transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1) hover:scale-105"
+                                        className="relative flex flex-col md:flex-row gap-6 bg-green-700 rounded-3xl shadow-2xl p-0 border border-green-800 overflow-hidden group transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1) hover:scale-105"
                                         style={{ transition: '0.3s' }}
                                     >
                                         {/* Image with border and outline */}
                                         <div className="flex-shrink-0 flex items-center justify-center w-full md:w-56 h-56">
-                                            <div className="w-52 h-52 sm:w-44 sm:h-44 md:w-40 md:h-40 rounded-2xl bg-white shadow-lg flex items-center justify-center overflow-hidden border-4 border-blue-400 outline outline-blue-200 transition-all duration-300 ease-in-out">
+                                            <div className="w-52 h-52 sm:w-44 sm:h-44 md:w-40 md:h-40 rounded-2xl bg-white shadow-lg flex items-center justify-center overflow-hidden border-4 border-green-500 outline outline-green-200 transition-all duration-300 ease-in-out">
                                                 <img
                                                     src={
                                                         program.photo ||
@@ -252,7 +254,7 @@ export default function Seminar() {
                                         <div className="flex flex-col justify-between flex-1 px-6 py-6">
                                             <div>
                                                 <div className="flex items-center gap-3 mb-2">
-                                                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-blue-200 to-green-200 text-blue-700 text-lg shadow">
+                                                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-green-200 to-green-400 text-green-900 text-lg shadow">
                                                         <i
                                                             className={
                                                                 faIcons.All
@@ -260,14 +262,14 @@ export default function Seminar() {
                                                         ></i>
                                                     </span>
                                                     <span
-                                                        className="font-bold text-2xl text-gray-900 tracking-tight truncate"
+                                                        className="font-bold text-2xl text-white tracking-tight truncate"
                                                         title={program.title}
                                                     >
                                                         {program.title}
                                                     </span>
                                                 </div>
                                                 <div
-                                                    className="text-gray-600 text-base mb-4 line-clamp-2 truncate"
+                                                    className="text-white text-base mb-4 line-clamp-2 truncate"
                                                     title={program.description}
                                                 >
                                                     {truncate(
@@ -277,7 +279,7 @@ export default function Seminar() {
                                                 </div>
                                                 <div className="flex flex-wrap gap-3 mt-2">
                                                     <span
-                                                        className="inline-flex items-center gap-1 text-xs text-blue-700 bg-blue-100 px-3 py-1 rounded-lg font-semibold border border-blue-200 shadow-sm truncate"
+                                                        className="inline-flex items-center gap-1 text-xs text-green-900 bg-green-200 px-3 py-1 rounded-lg font-semibold border border-green-300 shadow-sm truncate"
                                                         title={program.category}
                                                     >
                                                         <i
@@ -291,28 +293,26 @@ export default function Seminar() {
                                                         {program.category}
                                                     </span>
                                                     <span
-                                                        className="inline-flex items-center gap-1 text-xs text-green-700 bg-green-100 px-3 py-1 rounded-lg font-semibold border border-green-200 shadow-sm truncate"
+                                                        className="inline-flex items-center gap-1 text-xs text-green-900 bg-green-200 px-3 py-1 rounded-lg font-semibold border border-green-300 shadow-sm truncate"
                                                         title={program.location}
                                                     >
                                                         <i className="fa-solid fa-location-dot"></i>
                                                         {program.location}
                                                     </span>
                                                     <span
-                                                        className="inline-flex items-center gap-1 text-xs text-purple-700 bg-purple-100 px-3 py-1 rounded-lg font-semibold border border-purple-200 shadow-sm truncate"
+                                                        className="inline-flex items-center gap-1 text-xs text-green-900 bg-green-200 px-3 py-1 rounded-lg font-semibold border border-green-300 shadow-sm truncate"
                                                         title={program.speaker}
                                                     >
-                                                        <i className="fa-solid fa-user"></i>
-                                                        {program.speaker}
                                                     </span>
                                                 </div>
                                             </div>
                                             {/* Buttons */}
                                             <div className="flex gap-3 w-full justify-end mt-6">
-                                                <button className="flex items-center gap-2 px-8 py-2 rounded-xl bg-blue-600 text-white font-bold shadow-lg hover:bg-blue-700 transition text-base focus:outline-none focus:ring-2 focus:ring-blue-400">
+                                                <button className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-green-700 font-bold shadow-lg hover:bg-green-100 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400">
                                                     <i className="fa-solid fa-paper-plane"></i>
                                                     Apply
                                                 </button>
-                                                <button className="flex items-center gap-2 px-8 py-2 rounded-xl border-2 border-blue-600 text-blue-700 bg-white font-bold shadow-lg hover:bg-blue-50 transition text-base focus:outline-none focus:ring-2 focus:ring-blue-400">
+                                                <button className="flex items-center gap-2 px-8 py-2 rounded-xl border-2 border-white text-white bg-green-700 font-bold shadow-lg hover:bg-green-800 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400">
                                                     <i className="fa-solid fa-circle-info"></i>
                                                     Details
                                                 </button>
@@ -344,7 +344,7 @@ export default function Seminar() {
                                         key={i + 1}
                                         className={`px-4 py-1.5 rounded-xl font-semibold transition ${
                                             currentPage === i + 1
-                                                ? 'bg-blue-700 text-white'
+                                                ? 'bg-black text-white'
                                                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                         }`}
                                         onClick={() => setCurrentPage(i + 1)}
