@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../../Components/Navbar';
 
 // ASSETS
@@ -7,6 +8,8 @@ import default_image from './Assets/default_image.jpg';
 const ITEMS_PER_PAGE = 8;
 
 export default function Eic() {
+
+    const navigate = useNavigate();
     const [equipmentList, setEquipmentList] = useState([]);
     const [filter, setFilter] = useState('All');
     const [search, setSearch] = useState('');
@@ -29,8 +32,8 @@ export default function Eic() {
         (i) =>
             (filter === 'All' || i.category === filter) &&
             (search === '' ||
-                (i.name &&
-                    i.name.toLowerCase().includes(search.toLowerCase())) ||
+                (i.Name &&
+                    i.Name.toLowerCase().includes(search.toLowerCase())) ||
                 (i.category &&
                     i.category.toLowerCase().includes(search.toLowerCase())) ||
                 (i.description &&
@@ -38,55 +41,61 @@ export default function Eic() {
     );
 
     useEffect(() => {
-        (async () => {
-            const response = await fetch('/api/eic/getAll?status=Available');
-            const data = await response.json();
+        const fetchEquipment = async () => {
+            try {
+                const response = await fetch(
+                    `/api/eic/getAll?status=Available`
+                );
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
 
-            if (response.ok) {
-                const equipmentWithImages = await Promise.all(
-                    data.payload.map(async (item) => {
-                        try {
-                            const imageResponse = await fetch(
-                                `/api/eic/getImage?id=${item.id}`
-                            );
-                            if (imageResponse.ok) {
-
-                                const imageBlob = await imageResponse.blob();
-                                if (imageBlob.size > 0) {
-                                    // Check if the blob has data
-                                    const imageURL =
-                                        URL.createObjectURL(imageBlob);
-                                    return { ...item, img: imageURL };
-                                } 
-                                else {
+                if (data.payload && Array.isArray(data.payload)) {
+                    const equipmentWithImages = await Promise.all(
+                        data.payload.map(async (item) => {
+                            try {
+                                const imageResponse = await fetch(
+                                    `/api/eic/getImage?id=${item.id}`
+                                );
+                                if (imageResponse.ok) {
+                                    const imageBlob =
+                                        await imageResponse.blob();
+                                    if (imageBlob.size > 0) {
+                                        const imageURL =
+                                            URL.createObjectURL(imageBlob);
+                                        return { ...item, img: imageURL };
+                                    } else {
+                                        return { ...item, img: default_image };
+                                    }
+                                } else {
+                                    console.error(
+                                        `Failed to fetch image for item ${item.id}: ${imageResponse.statusText}`
+                                    );
                                     return { ...item, img: default_image };
                                 }
-
-                            } 
-                            else {
+                            } catch (imageError) {
                                 console.error(
-                                    `Failed to fetch image for item ${item.id}:`,
-                                    imageResponse.statusText
+                                    `Error fetching image for item ${item.id}:`,
+                                    imageError
                                 );
-                                return { ...item, img: default_image }; // Use default image on failure
+                                return { ...item, img: default_image };
                             }
-                        } 
-                        catch (error) {
-                            console.error(
-                                `Error fetching image for item ${item.id}:`,
-                                error
-                            );
-                            return { ...item, img: default_image }; // Use default image on error
-                        }
-                    })
-                );
-                setEquipmentList(equipmentWithImages);
-            } else {
-                console.error('Failed to fetch equipment:', data.message);
+                        })
+                    );
+                    setEquipmentList(equipmentWithImages);
+                } else {
+                    console.warn('Payload is not an array or is empty:', data);
+                    setEquipmentList([]);
+                }
+            } catch (error) {
+                console.error('Failed to fetch equipment:', error);
+                setEquipmentList([]);
             }
-        })();
-    }, []);
+        };
 
+        fetchEquipment();
+    }, [search]);
 
     useEffect(() => {
         setCurrentPage(1);
@@ -169,9 +178,27 @@ export default function Eic() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [currentPage]);
 
-    const handleRequestClick = (item) => {
+    // SEND REQUEST
+    const handleRequestClick = async (item) => {
+
+        try{
+
+        //Check if user is logged in
+        const response = await fetch('/api/authentication/gotToken');
+        if(!response.ok){
+            if(confirm("Login first?")){
+                navigate('/login');
+                return
+            }
+            return;
+        }
+
         setSelectedItem(item);
         setModalOpen(true);
+        }
+        catch(e){
+            console.log("Request EIC Item:  " + e);
+        }
     };
 
     const handleCloseModal = () => {
@@ -186,11 +213,31 @@ export default function Eic() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Request Data:', requestData);
-        console.log('Item ID:', selectedItem.id);
-        setModalOpen(false);
+        try {
+            const response = await fetch('/api/requests/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    equipmentId: selectedItem.id,
+                    borrow_date: requestData.borrow_date,
+                    return_date: requestData.return_date,
+                    request_note: requestData.request_note,
+                }),
+            });
+
+            if (response.ok) {
+                console.log('Request submitted successfully!');
+                setModalOpen(false);
+            } else {
+                console.error('Failed to submit request:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error submitting request:', error);
+        }
     };
 
     return (
@@ -298,7 +345,7 @@ export default function Eic() {
                             {paginatedItems.map((item) => (
                                 <div
                                     key={item.id}
-                                    className="max-w-full max-h-[370px] rounded-xl overflow-hidden shadow-2xl hover:shadow-[0_8px_32px_0_rgba(60,60,60,0.25)] bg-green-700 m-4 border-2 border-green-800 transition duration-200 hover:border-green-700 hover:scale-[1.025] backdrop-blur-lg"
+                                    className="max-w-full max-h-[370px] rounded-xl overflow-hidden shadow-2xl hover:shadow-[0_8px_32px_0_rgba(60,60,60,0.25)] bg-green-700 m-4 border-2 border-green-800 transition duration-200 hover:border-green-700 hover:scale-[1.025 backdrop-blur-lg"
                                 >
                                     <div className="relative">
                                         <img
