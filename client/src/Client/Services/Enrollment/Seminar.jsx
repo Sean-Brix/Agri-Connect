@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 import Navbar from '../../Components/Navbar';
 
 // ASSETS
-import backg from './Assets/backg.jpg';
 import default_seminar_pic from './Assets/default_seminar_pic.jpg';
 
 export default function Seminar() {
@@ -12,99 +11,112 @@ export default function Seminar() {
     const [search, setSearch] = useState('');
     const [filterBy, setFilterBy] = useState('Title');
     const [showFilter, setShowFilter] = useState(false);
+    const [selectedSeminarId, setSelectedSeminarId] = useState(null);
 
     // Programs data
     const [allPrograms, setAllPrograms] = useState([]);
     const [filteredPrograms, setFilteredPrograms] = useState([]);
 
     useEffect(() => {
-        (async () => {
-            const response = await fetch('/api/seminars/getSeminars');
-            const data = await response.json();
+        const fetchData = async () => {
+            try {
+                const response = await fetch('/api/seminars/getSeminars');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
 
-            console.log(data.payload.seminars);
-            const temp = data.payload.seminars;
+                if (data && data.payload && data.payload.seminars) {
+                    const seminars = data.payload.seminars;
+                    const programsWithPhotos = await Promise.all(
+                        seminars.map(async (item) => {
+                            try {
+                                const imageFetch = await fetch(
+                                    `/api/seminars/getPhoto?id=${item.id}`
+                                );
+                                let photoUrl = default_seminar_pic;
 
-            const final = await Promise.all(
-                temp.map(async (item) => {
-                    try {
-                        const imageFetch = await fetch(
-                            `/api/seminars/getPhoto?id=${item.id}`
-                        );
-
-                        if (imageFetch.status == 204) {
-                            // Don't log errors for missing images
-                            return { ...item, photo: default_seminar_pic };
-                        } else {
+                                if (imageFetch.ok && imageFetch.status !== 204) {
                             const blob = await imageFetch.blob();
-                            const picture = URL.createObjectURL(blob);
-                            return { ...item, photo: picture };
+                                    photoUrl = URL.createObjectURL(blob);
                         }
-                    } catch (error) {
+
+                                return { ...item, photo: photoUrl };
+                            } catch (imageError) {
                         console.error(
                             `Error fetching image for seminar ${item.id}:`,
-                            error
+                                    imageError
                         );
-                        return { ...item, photo: default_seminar_pic }; // Fallback in case of error
+                                return { ...item, photo: default_seminar_pic };
                     }
                 })
             );
+                    setAllPrograms(programsWithPhotos);
+                    setFilteredPrograms(programsWithPhotos);
+                } else {
+                    console.warn('No seminars found or invalid data format');
+                    setAllPrograms([]);
+                    setFilteredPrograms([]);
+                }
+            } catch (error) {
+                console.error('Failed to fetch seminars:', error);
+                setAllPrograms([]);
+                setFilteredPrograms([]);
+            }
+        };
 
-            console.log(final);
-            setAllPrograms(final);
-        })();
+        fetchData();
     }, []);
 
     useEffect(() => {
         const filtered = allPrograms.filter((program) => {
             const searchLower = search.toLowerCase();
-            if (filterBy === 'title') {
-                return program.title.toLowerCase().includes(searchLower);
+            let match = false;
+            if (filterBy === 'Title') {
+                match = program.title.toLowerCase().includes(searchLower);
+            } else if (filterBy === 'Speaker') {
+                match = program.speaker.toLowerCase().includes(searchLower);
+            } else if (filterBy === 'Location') {
+                match = program.location.toLowerCase().includes(searchLower);
+            } else {
+                match = true;
             }
-            if (filterBy === 'speaker') {
-                return program.speaker.toLowerCase().includes(searchLower);
-            }
-            if (filterBy === 'location') {
-                return program.location.toLowerCase().includes(searchLower);
-            }
-            return true;
+
+            return match;
         });
+
         setFilteredPrograms(filtered);
-    }, [allPrograms, search, filterBy]);
-
-    const apply_user = async(seminarId)=>{
-
+    }, [search, filterBy, allPrograms]);
+    const apply_user = async (seminarId) => {
         const check = await fetch('/api/authentication/gotToken');
-        if(!check.ok){
+        if (!check.ok) {
             alert('Login First');
             navigate('/login');
-            return
+            return;
         }
 
         try {
-            const response = await fetch('/api/seminars/participants/user_apply', {
-                method: 'POST',
-                headers: {
+            const response = await fetch(
+                '/api/seminars/participants/user_apply',
+                {
+                    method: 'POST',
+                    headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ id: seminarId }),
-            });
-        
+            } 
+            );
+
             if (response.ok) {
                 alert('Successfully applied!');
-            } 
-            else {
+            } else {
                 alert('Failed to apply.');
-            }
         } 
-        catch (error) {
+        } catch (error) {
             console.error('Error applying for seminar:', error);
             alert('Error applying for seminar.');
         }
-
-
-
-    }
+    };
 
     const filterOptions = [
         { label: 'Title', value: 'Title' },
@@ -164,6 +176,12 @@ export default function Seminar() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [currentPage]);
 
+    const handleDetailsClick = (seminarId) => {
+        setSelectedSeminarId(seminarId);
+    };
+
+    const selectedSeminar = filteredPrograms.find(program => program.id === selectedSeminarId);
+
     return (
         <>
             <Navbar />
@@ -180,7 +198,8 @@ export default function Seminar() {
                             <span className="uppercase tracking-widest text-gray-400 text-xs font-medium mb-1 letter-spacing-wide">
                                 Welcome to
                             </span>
-                            <h1 className="text-4xl xs:text-2xl sm:text-4xl md:text-5xl font-extrabold text-center eic-title"
+                            <h1
+                                className="text-4xl xs:text-2xl sm:text-4xl md:text-5xl font-extrabold text-center eic-title"
                                 style={{ color: '#14532d' }}
                             >
                                 Seminar Enrollment
@@ -200,7 +219,7 @@ export default function Seminar() {
                                         className="w-full pl-10 pr-4 py-2 rounded-xl border border-transparent focus:outline-none focus:ring-0 text-gray-900 bg-transparent transition placeholder:text-gray-400"
                                         placeholder={`Search by ${filterBy.toLowerCase()}...`}
                                         value={search}
-                                        onChange={e => setSearch(e.target.value)}
+                                        onChange={(e) => setSearch(e.target.value)}
                                         style={{ boxShadow: 'none' }}
                                     />
                                 </div>
@@ -216,9 +235,7 @@ export default function Seminar() {
                                     style={{ minHeight: '3rem' }}
                                 >
                                     <i className="fa-solid fa-filter text-green-700 text-base sm:text-lg"></i>
-                                    <span className="  sm:inline">
-                                        {filterBy}
-                                    </span>
+                                    <span className="  sm:inline">{filterBy}</span>
                                     <i
                                         className={`fa-solid fa-chevron-${
                                             showFilter ? 'up' : 'down'
@@ -250,10 +267,10 @@ export default function Seminar() {
                                             >
                                                 <i
                                                     className={
-                                                        opt.value === 'title'
+                                                        opt.value === 'Title'
                                                             ? 'fa-solid fa-heading'
                                                             : opt.value ===
-                                                              'speaker'
+                                                              'Speaker'
                                                             ? 'fa-solid fa-user'
                                                             : 'fa-solid fa-location-dot'
                                                     }
@@ -352,12 +369,18 @@ export default function Seminar() {
                                             {/* Buttons */}
                                             <div className="flex gap-3 w-full justify-end mt-6">
                                                 <button
-                                                    onClick={()=>apply_user(program.id)}
-                                                    className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-green-900 font-bold shadow-lg hover:bg-green-100 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400">
+                                                    onClick={() =>
+                                                        apply_user(program.id)
+                                                    }
+                                                    className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-green-900 font-bold shadow-lg hover:bg-green-100 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400"
+                                                >
                                                     <i className="fa-solid fa-paper-plane"></i>
                                                     Apply
                                                 </button>
-                                                <button className="flex items-center gap-2 px-8 py-2 rounded-xl border-2 border-white text-white bg-green-900 font-bold shadow-lg hover:bg-green-800 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400">
+                                                <button
+                                                    onClick={() => handleDetailsClick(program.id)}
+                                                    className="flex items-center gap-2 px-8 py-2 rounded-xl border-2 border-white text-white bg-green-900 font-bold shadow-lg hover:bg-green-800 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400"
+                                                >
                                                     <i className="fa-solid fa-circle-info"></i>
                                                     Details
                                                 </button>
@@ -419,6 +442,38 @@ export default function Seminar() {
                     </section>
                 </main>
             </div>
+            {selectedSeminar && (
+                <SeminarDetails
+                    seminar={selectedSeminar}
+                    onClose={() => setSelectedSeminarId(null)}
+                />
+            )}
         </>
+    );
+}
+
+function SeminarDetails({ seminar, onClose }) {
+    if (!seminar) {
+        return (
+            <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white p-6 rounded-md">
+                    <p>Loading...</p>
+                    <button onClick={onClose} className="mt-4 px-4 py-2 bg-gray-200 rounded">Close</button>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-md max-w-md">
+                <h2 className="text-2xl font-bold mb-4">{seminar.title}</h2>
+                <p className="mb-2"><strong>Description:</strong> {seminar.description}</p>
+                <p className="mb-2"><strong>Speaker:</strong> {seminar.speaker}</p>
+                <p className="mb-2"><strong>Location:</strong> {seminar.location}</p>
+                <p className="mb-2"><strong>Category:</strong> {seminar.category}</p>
+                <button onClick={onClose} className="mt-4 px-4 py-2 bg-gray-200 rounded">Close</button>
+            </div>
+        </div>
     );
 }
