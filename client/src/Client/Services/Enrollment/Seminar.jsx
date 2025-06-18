@@ -22,7 +22,6 @@ export default function Seminar() {
             const response = await fetch('/api/seminars/getSeminars');
             const data = await response.json();
 
-            console.log(data.payload.seminars);
             const temp = data.payload.seminars;
 
             const final = await Promise.all(
@@ -50,7 +49,6 @@ export default function Seminar() {
                 })
             );
 
-            console.log(final);
             setAllPrograms(final);
         })();
     }, []);
@@ -89,6 +87,9 @@ export default function Seminar() {
                 },
                 body: JSON.stringify({ id: seminarId }),
             });
+
+            const data = await response.text();
+            console.log(data);
         
             if (response.ok) {
                 alert('Successfully applied!');
@@ -101,8 +102,6 @@ export default function Seminar() {
             console.error('Error applying for seminar:', error);
             alert('Error applying for seminar.');
         }
-
-
 
     }
 
@@ -360,7 +359,7 @@ export default function Seminar() {
                                             <div className="flex gap-3 w-full justify-end mt-6">
                                                 <button
                                                     onClick={()=>apply_user(program.id)}
-                                                    className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-green-900 font-bold shadow-lg hover:bg-green-100 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400" disabled>
+                                                    className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-green-900 font-bold shadow-lg hover:bg-green-100 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400">
                                                     <i className="fa-solid fa-paper-plane"></i>
                                                     Apply
                                                 </button>
