@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Item_Card from './item_card.jsx';
+import Item_Card from './Item_Card.jsx';
 import default_image from '../Assets/default_image.png';
 export default function All_Items() {
     const [items, setItems] = useState([]);
