@@ -45,11 +45,11 @@ export default function Navbar() {
             // Start fade out by adding a class
             const alert = document.getElementById('logout-alert');
             if (alert) {
-                alert.classList.add('opacity-0');
+            alert.classList.add('opacity-0');
             }
             // Wait for fade-out transition, then hide alert
             setTimeout(() => setShowAlert(false), 1000);
-        }, 10000); // 10 seconds
+        }, 80000); // 20 seconds
         if (navigate) navigate('/login');
     };
 
@@ -92,61 +92,44 @@ export default function Navbar() {
     return (
         
         <>
-{/* Custom Alert */}
+{/* Modern Toast Alert - Top Center */}
 {showAlert && (
-    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/30 backdrop-blur-sm">
+    <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-[999] flex items-center justify-center w-full pointer-events-none">
         <div
             id="logout-alert"
-            className="bg-white rounded-2xl shadow-2xl px-8 py-6 flex flex-col items-center border border-blue-200 transition-opacity duration-700 animate-fade-in-up"
+            className="bg-white rounded-xl shadow-xl px-6 py-4 flex items-center gap-4 border border-blue-200 transition-opacity duration-700 animate-fade-in-up pointer-events-auto"
+            style={{ minWidth: 320, maxWidth: 400 }}
         >
-            {/* Modern animated icon */}
-            <svg
-                className="w-14 h-14 text-blue-600 mb-3 animate-bounce"
-                viewBox="0 0 64 64"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="3"
-            >
-                <circle
-                    cx="32"
-                    cy="32"
-                    r="28"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    fill="#e0f2fe"
-                />
-                <path
-                    d="M40 24L24 40"
-                    stroke="#2563eb"
-                    strokeWidth="3.5"
-                    strokeLinecap="round"
-                />
-                <path
-                    d="M24 24L40 40"
-                    stroke="#2563eb"
-                    strokeWidth="3.5"
-                    strokeLinecap="round"
-                />
-                <circle
-                    cx="32"
-                    cy="32"
-                    r="28"
-                    strokeDasharray="175"
-                    strokeDashoffset="0"
-                    stroke="#60a5fa"
-                    strokeWidth="3"
+            {/* Animated check icon */}
+            <span className="flex items-center justify-center bg-blue-100 rounded-full w-12 h-12">
+                <svg
+                    className="w-7 h-7 text-blue-600 animate-pulse"
+                    viewBox="0 0 24 24"
                     fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
                 >
-                    <animate
-                        attributeName="stroke-dashoffset"
-                        values="175;0"
-                        dur="1s"
-                        fill="freeze"
+                    <circle
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="#60a5fa"
+                        strokeWidth="2.5"
+                        fill="#e0f2fe"
                     />
-                </circle>
-            </svg>
-            <span className="text-lg font-semibold text-blue-700 mb-1">Logged out</span>
-            <span className="text-gray-500 text-sm">You have been successfully logged out.</span>
+                    <path
+                        d="M8 12.5l3 3 5-5"
+                        stroke="#2563eb"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                </svg>
+            </span>
+            <div>
+                <span className="block text-base font-semibold text-blue-700 mb-0.5">Logged out</span>
+                <span className="block text-gray-500 text-sm">You have been successfully logged out.</span>
+            </div>
         </div>
     </div>
 )}
