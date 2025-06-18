@@ -122,15 +122,16 @@ export default function Landing() {
                             </p>
                             <div className="flex gap-4 flex-wrap mb-8 justify-center">
                                 <a
-                                    href="#programs"
+                                    href="/seminar"
                                     className="bg-gradient-to-r from-green-600 to-green-800 text-white px-8 py-3 rounded-2xl font-semibold shadow hover:scale-105 transition-transform"
-                                    onClick={() => window.location = '/seminar'}
+                                    onClick={e => { e.preventDefault(); window.location = '/seminar'; }}
                                 >
                                     Our Programs
                                 </a>
                                 <a
-                                    href="#about"
-                                    className="border-2 border-green-100 text-green-50 px-8 py-3 rounded-2xl font-semibold hover:bg-green-900/30 transition" onClick={() => window.location = '/about'}
+                                    href="/about"
+                                    className="border-2 border-green-100 text-green-50 px-8 py-3 rounded-2xl font-semibold hover:bg-green-900/30 transition"
+                                    onClick={e => { e.preventDefault(); window.location = '/about'; }}
                                 >
                                     Learn More
                                 </a>

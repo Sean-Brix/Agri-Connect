@@ -114,8 +114,136 @@ export default function Dashboard() {
   const logging = async()=>{
 
     
-    if(confirm("Are you sure you want to logout?")) {
-      
+    // Ultra-modern logout confirmation modal (glassmorphism, animated, no alert/confirm, no blur bg)
+    const confirmed = await new Promise((resolve) => {
+      // Create modal container
+      const modal = document.createElement('div');
+      modal.style.position = 'fixed';
+      modal.style.top = '0';
+      modal.style.left = '0';
+      modal.style.width = '100vw';
+      modal.style.height = '100vh';
+      modal.style.background = 'rgba(30,41,59,0.25)'; // Lighter, minimalist overlay
+      modal.style.display = 'flex';
+      modal.style.alignItems = 'center';
+      modal.style.justifyContent = 'center';
+      modal.style.zIndex = '9999';
+      modal.style.transition = 'background 0.3s';
+
+      // Minimalist modal content, animated
+      modal.innerHTML = `
+      <div style="
+        background: #fff;
+        border-radius: 1rem;
+        box-shadow: 0 8px 32px 0 rgba(30,41,59,0.13);
+        padding: 2.2rem 2.2rem 1.7rem 2.2rem;
+        min-width: 300px;
+        max-width: 95vw;
+        text-align: center;
+        font-family: inherit;
+        border: 1.5px solid #e0e7ef;
+        animation: minimalFadeIn 0.32s cubic-bezier(.4,2,.6,1) both;
+      ">
+        <div style="
+          font-size:2.1rem;
+          color:#2563eb;
+          margin-bottom:0.5rem;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+        ">
+          <span style="
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.7rem;
+        height: 2.7rem;
+        border-radius: 50%;
+        background: #e0e7ef;
+        animation: minimalPop 0.38s cubic-bezier(.4,2,.6,1);
+          ">
+        <i class='fas fa-sign-out-alt'></i>
+          </span>
+        </div>
+        <div style="font-size:1.15rem; font-weight:700; margin-bottom:0.5rem; color:#1e293b;">
+          Logout?
+        </div>
+        <div style="color:#64748b; margin-bottom:1.5rem; font-size:1rem;">
+          Are you sure you want to logout?
+        </div>
+        <div style="display:flex; gap:0.8rem; justify-content:center;">
+          <button id="modern-logout-yes" style="
+        background: #2563eb;
+        color: #fff;
+        border: none;
+        border-radius: 0.7rem;
+        padding: 0.55rem 1.6rem;
+        font-weight: 700;
+        font-size: 1rem;
+        box-shadow: 0 2px 8px #2563eb22;
+        cursor: pointer;
+        transition: background 0.18s, transform 0.12s;
+        outline: none;
+          ">Logout</button>
+          <button id="modern-logout-no" style="
+        background: #f1f5f9;
+        color: #222;
+        border: none;
+        border-radius: 0.7rem;
+        padding: 0.55rem 1.6rem;
+        font-weight: 700;
+        font-size: 1rem;
+        box-shadow: 0 2px 8px #64748b11;
+        cursor: pointer;
+        transition: background 0.18s, transform 0.12s;
+        outline: none;
+          ">Cancel</button>
+        </div>
+      </div>
+      <style>
+        @keyframes minimalFadeIn {
+          0% { opacity: 0; transform: translateY(24px) scale(0.98);}
+          100% { opacity: 1; transform: translateY(0) scale(1);}
+        }
+        @keyframes minimalPop {
+          0% { transform: scale(0.7); opacity: 0;}
+          100% { transform: scale(1); opacity: 1;}
+        }
+        #modern-logout-yes:active, #modern-logout-no:active {
+          transform: scale(0.97);
+        }
+        #modern-logout-yes:hover {
+          background: #1d4ed8;
+        }
+        #modern-logout-no:hover {
+          background: #e0e7ef;
+        }
+      </style>
+      `;
+
+      document.body.appendChild(modal);
+
+      modal.querySelector('#modern-logout-yes').onclick = () => {
+      document.body.removeChild(modal);
+      resolve(true);
+      };
+      modal.querySelector('#modern-logout-no').onclick = () => {
+      document.body.removeChild(modal);
+      resolve(false);
+      };
+
+      // Allow ESC to close
+      const escListener = (e) => {
+      if (e.key === 'Escape') {
+        document.body.removeChild(modal);
+        resolve(false);
+        window.removeEventListener('keydown', escListener);
+      }
+      };
+      window.addEventListener('keydown', escListener);
+    });
+
+    if (confirmed) {
       await fetch('/api/authentication/logout');
       return navigate('/login');
     }

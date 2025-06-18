@@ -254,8 +254,79 @@ export default function Eic() {
             });
 
             if (response.ok) {
-                console.log('Request submitted successfully!');
-                alert('Request submitted successfully!');
+                // Show custom animated alert centered on screen
+                const alertDiv = document.createElement('div');
+                alertDiv.innerHTML = `
+                    <div id="custom-eic-alert" style="
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%) scale(0.95);
+                        z-index: 9999;
+                        background: rgba(22,163,74,0.98);
+                        background: linear-gradient(100deg, #16a34a 0%, #22c55e 100%);
+                        color: #fff;
+                        padding: 1.5rem 2.8rem;
+                        border-radius: 2rem;
+                        box-shadow: 0 12px 40px 0 rgba(34,197,94,0.22);
+                        font-size: 1.18rem;
+                        font-weight: 700;
+                        display: flex;
+                        align-items: center;
+                        gap: 1.1rem;
+                        min-width: 320px;
+                        max-width: 90vw;
+                        animation: eicAlertPopIn 0.45s cubic-bezier(.68,-0.55,.27,1.55);
+                        overflow: hidden;
+                    ">
+                        <span style="
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            background: rgba(255,255,255,0.13);
+                            border-radius: 50%;
+                            width: 2.8rem;
+                            height: 2.8rem;
+                            box-shadow: 0 2px 8px 0 rgba(34,197,94,0.10);
+                        ">
+                            <i class="fa-solid fa-circle-check" style="font-size:2rem; color: #fff; filter: drop-shadow(0 2px 8px #22c55e88);"></i>
+                        </span>
+                        <span style="letter-spacing:0.01em;">Request submitted successfully!</span>
+                        <span class="eic-alert-bar" style="
+                            position: absolute;
+                            bottom: 0; left: 0;
+                            height: 4px;
+                            width: 100%;
+                            background: linear-gradient(90deg, #bbf7d0 0%, #22c55e 100%);
+                            animation: eicAlertBar 2.1s linear;
+                        "></span>
+                    </div>
+                    <style>
+                        @keyframes eicAlertPopIn {
+                            0% { opacity: 0; transform: translate(-50%, -60%) scale(0.85);}
+                            60% { opacity: 1; transform: translate(-50%, -50%) scale(1.05);}
+                            100% { opacity: 1; transform: translate(-50%, -50%) scale(1);}
+                        }
+                        @keyframes eicAlertBar {
+                            from { width: 0%; }
+                            to { width: 100%; }
+                        }
+                    </style>
+                `;
+                document.body.appendChild(alertDiv);
+
+                setTimeout(() => {
+                    const el = document.getElementById('custom-eic-alert');
+                    if (el) {
+                        el.style.transition = 'opacity 0.35s, transform 0.35s';
+                        el.style.opacity = '0';
+                        el.style.transform = 'translate(-50%, -50%) scale(0.95)';
+                        setTimeout(() => {
+                            if (alertDiv.parentNode) alertDiv.parentNode.removeChild(alertDiv);
+                        }, 350);
+                    }
+                }, 2100);
+
                 setModalOpen(false);
                 setRequestData({
                     borrow_date: '',
@@ -265,8 +336,79 @@ export default function Eic() {
                 });
             } else {
                 const data = await response.json();
-                console.error('Failed to submit request:', response.statusText);
-                alert('Admin cannot borrow an EIC item');
+                // Custom alert for admin cannot borrow
+                const alertDiv = document.createElement('div');
+                alertDiv.innerHTML = `
+                    <div id="custom-eic-alert" style="
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%) scale(0.95);
+                        z-index: 9999;
+                        background: #dc2626;
+                        background: linear-gradient(100deg, #dc2626 0%, #f87171 100%);
+                        color: #fff;
+                        padding: 1.5rem 2.8rem;
+                        border-radius: 2rem;
+                        box-shadow: 0 12px 40px 0 rgba(239,68,68,0.22);
+                        font-size: 1.18rem;
+                        font-weight: 700;
+                        display: flex;
+                        align-items: center;
+                        gap: 1.1rem;
+                        min-width: 320px;
+                        max-width: 90vw;
+                        animation: eicAlertPopIn 0.45s cubic-bezier(.68,-0.55,.27,1.55);
+                        overflow: hidden;
+                    ">
+                        <span style="
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            background: rgba(255,255,255,0.13);
+                            border-radius: 50%;
+                            width: 2.8rem;
+                            height: 2.8rem;
+                            box-shadow: 0 2px 8px 0 rgba(239,68,68,0.10);
+                        ">
+                            <i class="fa-solid fa-circle-xmark" style="font-size:2rem; color: #fff; filter: drop-shadow(0 2px 8px #f8717188);"></i>
+                        </span>
+                        <span style="letter-spacing:0.01em;">Admin cannot borrow an EIC item</span>
+                        <span class="eic-alert-bar" style="
+                            position: absolute;
+                            bottom: 0; left: 0;
+                            height: 4px;
+                            width: 100%;
+                            background: linear-gradient(90deg, #fecaca 0%, #dc2626 100%);
+                            animation: eicAlertBar 2.1s linear;
+                        "></span>
+                    </div>
+                    <style>
+                        @keyframes eicAlertPopIn {
+                            0% { opacity: 0; transform: translate(-50%, -60%) scale(0.85);}
+                            60% { opacity: 1; transform: translate(-50%, -50%) scale(1.05);}
+                            100% { opacity: 1; transform: translate(-50%, -50%) scale(1);}
+                        }
+                        @keyframes eicAlertBar {
+                            from { width: 0%; }
+                            to { width: 100%; }
+                        }
+                    </style>
+                `;
+                document.body.appendChild(alertDiv);
+
+                setTimeout(() => {
+                    const el = document.getElementById('custom-eic-alert');
+                    if (el) {
+                        el.style.transition = 'opacity 0.35s, transform 0.35s';
+                        el.style.opacity = '0';
+                        el.style.transform = 'translate(-50%, -50%) scale(0.95)';
+                        setTimeout(() => {
+                            if (alertDiv.parentNode) alertDiv.parentNode.removeChild(alertDiv);
+                        }, 350);
+                    }
+                }, 2100);
+
                 setModalOpen(false);
                 setRequestData({
                     borrow_date: '',
@@ -277,6 +419,79 @@ export default function Eic() {
                 return;
             }
         } catch (error) {
+            // Custom alert for error submitting request
+            const alertDiv = document.createElement('div');
+            alertDiv.innerHTML = `
+                <div id="custom-eic-alert" style="
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%) scale(0.95);
+                    z-index: 9999;
+                    background: #dc2626;
+                    background: linear-gradient(100deg, #dc2626 0%, #f87171 100%);
+                    color: #fff;
+                    padding: 1.5rem 2.8rem;
+                    border-radius: 2rem;
+                    box-shadow: 0 12px 40px 0 rgba(239,68,68,0.22);
+                    font-size: 1.18rem;
+                    font-weight: 700;
+                    display: flex;
+                    align-items: center;
+                    gap: 1.1rem;
+                    min-width: 320px;
+                    max-width: 90vw;
+                    animation: eicAlertPopIn 0.45s cubic-bezier(.68,-0.55,.27,1.55);
+                    overflow: hidden;
+                ">
+                    <span style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background: rgba(255,255,255,0.13);
+                        border-radius: 50%;
+                        width: 2.8rem;
+                        height: 2.8rem;
+                        box-shadow: 0 2px 8px 0 rgba(239,68,68,0.10);
+                    ">
+                        <i class="fa-solid fa-triangle-exclamation" style="font-size:2rem; color: #fff; filter: drop-shadow(0 2px 8px #f8717188);"></i>
+                    </span>
+                    <span style="letter-spacing:0.01em;">Error submitting request</span>
+                    <span class="eic-alert-bar" style="
+                        position: absolute;
+                        bottom: 0; left: 0;
+                        height: 4px;
+                        width: 100%;
+                        background: linear-gradient(90deg, #fecaca 0%, #dc2626 100%);
+                        animation: eicAlertBar 2.1s linear;
+                    "></span>
+                </div>
+                <style>
+                    @keyframes eicAlertPopIn {
+                        0% { opacity: 0; transform: translate(-50%, -60%) scale(0.85);}
+                        60% { opacity: 1; transform: translate(-50%, -50%) scale(1.05);}
+                        100% { opacity: 1; transform: translate(-50%, -50%) scale(1);}
+                    }
+                    @keyframes eicAlertBar {
+                        from { width: 0%; }
+                        to { width: 100%; }
+                    }
+                </style>
+            `;
+            document.body.appendChild(alertDiv);
+
+            setTimeout(() => {
+                const el = document.getElementById('custom-eic-alert');
+                if (el) {
+                    el.style.transition = 'opacity 0.35s, transform 0.35s';
+                    el.style.opacity = '0';
+                    el.style.transform = 'translate(-50%, -50%) scale(0.95)';
+                    setTimeout(() => {
+                        if (alertDiv.parentNode) alertDiv.parentNode.removeChild(alertDiv);
+                    }, 350);
+                }
+            }, 2100);
+
             console.error('Error submitting request:', error);
         }
     };
