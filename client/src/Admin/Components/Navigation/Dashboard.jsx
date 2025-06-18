@@ -11,6 +11,7 @@ import EIC from '../../Services/EIC/EIC.jsx';
 import Content from '../../Services/Content/Content.jsx';
 import Audit from '../../Services/Logs/Audit.jsx';
 import Survey from '../../Services/Survey/Survey.jsx';
+import Distribution from '../../Services/Distribution/Distribution.jsx';
 
 // GLOBAL
 import Settings from '../../../Components/settings/Setting.jsx';
@@ -43,13 +44,14 @@ export default function Dashboard() {
     content: ()=> Content,
     audit: ()=> Audit,
     survey: ()=> Survey,
+    distribution: ()=> Distribution,
 
     // GLOBAL
     settings: ()=> Settings,
     account: ()=> AccountProfile,
   });
 
-  const [Page, setPage] = useState(elements.current.analytics); // [ analytics, enrollment, profiles, eic, settings, audit, survey, content ]
+  const [Page, setPage] = useState(elements.current.analytics); // [ analytics, enrollment, profiles, eic, settings, audit, survey, content, distribution ]
   const admin_navigate = (page)=>{
     setPage(elements.current[page]);
   }
@@ -452,6 +454,23 @@ export default function Dashboard() {
                     <span>EIC - Item Panel</span>
                   </div>
                 </li>
+                {/* DOSTRIBUTION */}
+                <li
+                  className={`p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer ${
+                    currentPageKey === 'distribution' ? 'bg-blue-800 text-white font-bold' : ''
+                  }`}
+                  onClick={() => {
+                    handleSetPage('distribution');
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  <div className="flex items-center space-x-4">
+                    <span>
+                      <i className="fas fa-id-card h-6 w-6"></i>
+                    </span>
+                    <span>Distributions</span>
+                  </div>
+                </li>
                 {/* Content Management */}
                 <li
                   className={`p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer ${
@@ -466,7 +485,7 @@ export default function Dashboard() {
                     <span>
                       <i className="fas fa-home h-6 w-6"></i>
                     </span>
-                    <span>Content Management</span>
+                    <span>Inventory</span>
                   </div>
                 </li>
                 {/* Audit */}

@@ -138,3 +138,52 @@ CREATE TABLE inventory (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+
+CREATE TABLE distribution_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    quantity INT NOT NULL,
+    status ENUM('Available', 'Out of Stock', 'Scheduled', 'Discontinued') NOT NULL DEFAULT 'Available',
+    category ENUM(
+        'Seeds',
+        'Fertilizers',
+        'Livestock',
+        'Fish Fingerlings',
+        'Organic Inputs',
+        'Tools',
+        'Plants',
+        'Compost',
+        'Other'
+    ) NOT NULL,
+    added_by INT NOT NULL,
+    photo LONGBLOB,
+
+    FOREIGN KEY (added_by) REFERENCES accounts(id),
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE distribution_request (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    account_id INT NOT NULL,
+    distribution_item_id INT NOT NULL,
+    admin_id INT,
+
+    quantity INT NOT NULL,
+    status ENUM('Waiting', 'Approved', 'Rejected', 'Processing', 'Claimed') NOT NULL DEFAULT 'Waiting',
+
+    request_note TEXT,
+    schedule_date DATE,
+    approval_date TIMESTAMP NULL DEFAULT NULL,
+
+    FOREIGN KEY (account_id) REFERENCES accounts(id),
+    FOREIGN KEY (distribution_item_id) REFERENCES distribution_items(id),
+    FOREIGN KEY (admin_id) REFERENCES accounts(id),
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
