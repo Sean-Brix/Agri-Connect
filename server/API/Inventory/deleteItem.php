@@ -24,32 +24,32 @@ if($details['access']=="User"){
         403,
         "Forbidden",
         ["Error"=>"Insufficient privileges"],
-        "User cannot add an item"
+        "User cannot delete an item"
     );
     exit();
 }
 
 
-// Get Json Body
-$req = getJsonBody();
+// Query Parameter
+$delete_id = $_GET['id'];
 
 $Inventory = new Inventory(null);
-$result = $Inventory->create($req);
+$result = $Inventory->deleteItem($delete_id);
 
 if($result){
     sendResponse(
-        201,
-        "Created",
-        [$result],
-        "item created"
+        204,
+        "OK",
+        [],
+        "item deleted"
     );
 }
 else{
     sendResponse(
         500,
         "Internal Server Error",
-        ["Error"=>"Failed to create item"],
-        "item creation failed"
+        ["Error"=>"Failed to delete item"],
+        "item deletion failed"
     );
 }
 exit();

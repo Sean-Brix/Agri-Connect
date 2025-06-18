@@ -24,7 +24,7 @@ if($details['access']=="User"){
         403,
         "Forbidden",
         ["Error"=>"Insufficient privileges"],
-        "User cannot add an item"
+        "User cannot edit an item"
     );
     exit();
 }
@@ -34,22 +34,22 @@ if($details['access']=="User"){
 $req = getJsonBody();
 
 $Inventory = new Inventory(null);
-$result = $Inventory->create($req);
+$result = $Inventory->update($req);
 
 if($result){
     sendResponse(
-        201,
+        200,
         "Created",
         [$result],
-        "item created"
+        "item updated"
     );
 }
 else{
     sendResponse(
         500,
         "Internal Server Error",
-        ["Error"=>"Failed to create item"],
-        "item creation failed"
+        ["Error"=>"Failed to update item"],
+        "item edit failed"
     );
 }
 exit();

@@ -20,12 +20,13 @@ const statuses = ['Available', 'Borrowed', 'Damaged', 'Out of Stock'];
 function Content() {
     const [items, setItems] = useState([]);
     const [form, setForm] = useState({
+        id: '',
         name: '',
         quantity: '',
-        description: '',
-        category: 'Other',
-        status: 'Available',
-    });
+                description: '',
+                category: 'Other',
+                status: 'Available',
+            });
     const [showModal, setShowModal] = useState(false);
     const [search, setSearch] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('All');
@@ -37,20 +38,22 @@ function Content() {
     const [showEditModal, setShowEditModal] = useState(false);
 
     useEffect(() => {
-        (async () => {
-            try {
-                const response = await fetch('/api/inventory/getAll');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                setItems(data.payload?.list || []);
-            } catch (error) {
-                console.error('Failed to fetch inventory:', error);
-                setItems([]);
-            }
-        })();
+            fetchItems();
     }, []);
+
+    const fetchItems = async () => {
+        try {
+            const response = await fetch('/api/inventory/getAll');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            setItems(data.payload?.list || []);
+        } catch (error) {
+            console.error('Failed to fetch inventory:', error);
+            setItems([]);
+        }
+    };
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -68,24 +71,20 @@ function Content() {
                 },
                 body: JSON.stringify(form),
             });
-
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            const newItem = await response.json();
-
-            setItems([...items, newItem.payload]);
-
             setForm({
+                id: '',
                 name: '',
                 quantity: '',
                 description: '',
                 category: 'Other',
                 status: 'Available',
             });
-
             setShowModal(false);
+            fetchItems();
         } catch (error) {
             console.error('Failed to create item:', error);
             alert('Failed to add item');
@@ -96,6 +95,7 @@ function Content() {
     const handleEdit = (item) => {
         setEditItemId(item.id);
         setForm({
+            id: item.id,
             name: item.name,
             quantity: item.quantity,
             description: item.description,
@@ -111,29 +111,22 @@ function Content() {
 
         try {
             const response = await fetch(
-                `/api/inventory/updateItem/${editItemId}`,
+                `/api/inventory/editItem`,
                 {
-                    method: 'PUT',
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(form),
                 }
-            );
+                                );
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            const updatedItem = await response.json();
-
-            setItems(
-                items.map((item) =>
-                    item.id === editItemId ? updatedItem.payload : item
-                )
-            );
-
             setForm({
+                id: '',
                 name: '',
                 quantity: '',
                 description: '',
@@ -142,6 +135,7 @@ function Content() {
             });
             setShowEditModal(false);
             setEditItemId(null);
+            fetchItems();
         } catch (error) {
             console.error('Failed to update item:', error);
             alert('Failed to update item');
@@ -171,9 +165,9 @@ function Content() {
             await Promise.all(
                 selectedItems.map(async (id) => {
                     const response = await fetch(
-                        `/api/inventory/deleteItem/${id}`,
+                        `/api/inventory/deleteItem?id=${id}`,
                         {
-                            method: 'DELETE',
+                            method: 'GET',
                         }
                     );
                     if (!response.ok) {
@@ -184,10 +178,10 @@ function Content() {
                 })
             );
 
-            setItems(items.filter((item) => !selectedItems.includes(item.id)));
             setSelectedItems([]);
             setSelectAll(false);
             setShowDelete(false);
+            fetchItems();
         } catch (error) {
             console.error('Failed to delete items:', error);
             alert('Failed to delete selected items');
@@ -215,19 +209,19 @@ function Content() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-[91%] w-full bg-gradient-to-br from-blue-200 via-blue-100 to-blue-300 p-2 sm:p-4 md:p-8 rounded-2xl shadow-2xl mt-[5%] transition-all">
+        <div className="flex flex-col items-center justify-center min-h-[91% w-full bg-gradient-to-br from-blue-200 via-blue-100 to-blue-300 p-2 sm:p-4 md:p-8 rounded-2xl shadow-2xl mt-[5%] transition-all">
             <div className="w-full max-w-5xl z-20 sticky top-0 md:top-14 bg-white/80 backdrop-blur-md p-4 sm:p-6 md:p-10 rounded-2xl shadow-lg border-b border-blue-200">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-blue-800 mb-4 text-center tracking-tight drop-shadow">
                     Inventory Management
                 </h1>
                 <div className="flex flex-col md:flex-row gap-2 sm:gap-3 md:gap-4 w-full max-w-2xl mx-auto">
                     <input
-                        type="text"
+                                type="text"
                         placeholder="Search items..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         className="flex-1 border border-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow transition text-blue-900 placeholder:text-blue-400 text-sm sm:text-base"
-                    />
+                            />
                     <select
                         value={categoryFilter}
                         onChange={(e) => setCategoryFilter(e.target.value)}
@@ -240,41 +234,41 @@ function Content() {
                             </option>
                         ))}
                     </select>
-                    <select
+                            <select
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value)}
-                        className="border border-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow transition text-blue-900 text-sm sm:text-base"
-                    >
+                                className="border border-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow transition text-blue-900 text-sm sm:text-base"
+                            >
                         <option key="All">All</option>
-                        {statuses.map((status) => (
-                            <option key={status} value={status}>
-                                {status}
-                            </option>
-                        ))}
-                    </select>
-                    <button
+                                {statuses.map((status) => (
+                                    <option key={status} value={status}>
+                                        {status}
+                                    </option>
+                                ))}
+                            </select>
+                            <button
                         onClick={() => setShowModal(true)}
                         className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold px-4 sm:px-6 py-2 rounded-xl hover:from-blue-600 hover:to-blue-800 transition shadow-lg flex items-center gap-2 text-sm sm:text-base"
-                    >
+                            >
                         <svg
                             className="w-5 h-5"
                             fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
                                 d="M12 4v16m8-8H4"
-                            />
-                        </svg>
+                                />
+                            </svg>
                         Add Item
                     </button>
                     <button
                         onClick={() => setShowDelete(!showDelete)}
                         className="bg-gradient-to-r from-red-400 to-red-600 text-white font-bold px-4 sm:px-6 py-2 rounded-xl hover:from-red-500 hover:to-red-700 transition shadow-lg flex items-center gap-2 text-sm sm:text-base"
-                    >
+                        >
                         <svg
                             className="w-5 h-5"
                             fill="none"
@@ -289,7 +283,7 @@ function Content() {
                             />
                         </svg>
                         Delete
-                    </button>
+                            </button>
                 </div>
                 {showDelete && (
                     <div className="flex flex-col sm:flex-row justify-end mt-4 gap-2">
@@ -299,7 +293,7 @@ function Content() {
                             className={`px-4 py-2 rounded-xl font-semibold transition shadow-lg bg-red-500 text-white hover:bg-red-600 disabled:bg-red-200 disabled:cursor-not-allowed text-sm sm:text-base`}
                         >
                             Remove Selected
-                        </button>
+                                            </button>
                         <button
                             onClick={() => {
                                 setSelectAll(true);
@@ -311,9 +305,9 @@ function Content() {
                         >
                             Select All
                         </button>
-                    </div>
-                )}
             </div>
+                )}
+        </div>
             {showModal && (
                 <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl shadow-2xl p-4 sm:p-8 w-[98vw] max-w-lg relative border border-blue-200 animate-fadeIn">
@@ -510,7 +504,7 @@ function Content() {
                                         checked={
                                             selectAll &&
                                             filteredItems.length > 0
-                                        }
+}
                                         onChange={handleSelectAll}
                                         aria-label="Select all"
                                     />
@@ -565,8 +559,7 @@ function Content() {
                                             />
                                         </td>
                                         <td className="py-2 sm:py-3 px-1 sm:px-2 md:px-4 border-b font-semibold text-blue-900">
-                                            {item.name} -
-                                            {item.id}
+                                            {item.name}
                                         </td>
                                         <td className="py-2 sm:py-3 px-1 sm:px-2 md:px-4 border-b text-blue-700">
                                             {item.quantity}

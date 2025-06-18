@@ -124,13 +124,21 @@ class Inventory {
 
         if ($result) {
             $this->id = mysqli_insert_id($GLOBALS['conn']); // Assuming $conn is your database connection
-            return true;
+            $this->initialize();
+            return $this->getDetails();
         } else {
             return false;
         }
     }
 
-    public function update() {
+    public function update($data) {
+        $this->name = $data['name'] ?? $this->name;
+        $this->quantity = $data['quantity'] ?? $this->quantity;
+        $this->description = $data['description'] ?? $this->description;
+        $this->category = $data['category'] ?? $this->category;
+        $this->status = $data['status'] ?? $this->status;
+        $this->id = $data['id'] ?? $this->id;
+
         $query = "UPDATE `inventory` SET name = ?, quantity = ?, description = ?, category = ?, status = ? WHERE id = ?";
         $params = [$this->name, $this->quantity, $this->description, $this->category, $this->status, $this->id];
         $types = getTypes($params);
@@ -139,9 +147,9 @@ class Inventory {
         return $result !== false;
     }
 
-    public function delete() {
+    public static function deleteItem($id) {
         $query = "DELETE FROM `inventory` WHERE id = ?";
-        $result = statement($query, [$this->id], "i");
+        $result = statement($query, [$id], "i");
 
         return $result !== false;
     }
