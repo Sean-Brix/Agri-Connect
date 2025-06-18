@@ -499,27 +499,45 @@ function SeminarDetails({ seminar, onClose }) {
     }
 
     return (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-md max-w-md">
-                <h2 className="text-2xl font-bold mb-4">{seminar.title}</h2>
-                <p className="mb-2">
-                    <strong>Description:</strong> {seminar.description}
-                </p>
-                <p className="mb-2">
-                    <strong>Speaker:</strong> {seminar.speaker}
-                </p>
-                <p className="mb-2">
-                    <strong>Location:</strong> {seminar.location}
-                </p>
-                <p className="mb-2">
-                    <strong>Category:</strong> {seminar.category}
-                </p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 transition-all">
+            <div className="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] p-8 animate-fade-in overflow-y-auto">
+                {/* Close X button */}
                 <button
                     onClick={onClose}
-                    className="mt-4 px-4 py-2 bg-gray-200 rounded"
+                    className="absolute top-4 right-4 text-gray-400 hover:text-green-700 transition text-2xl focus:outline-none"
+                    aria-label="Close"
                 >
-                    Close
+                    <i className="fa-solid fa-xmark"></i>
                 </button>
+                {/* Seminar Poster Image - Large */}
+                <div className="flex justify-center mb-6">
+                    <div className="w-full max-w-md h-80 rounded-2xl overflow-hidden border-4 border-green-200 shadow">
+                        <img
+                            src={seminar.photo}
+                            alt={seminar.title}
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+                </div>
+                {/* Seminar Info */}
+                <h2 className="text-3xl font-extrabold text-green-900 mb-2 text-center">{seminar.title}</h2>
+                <div className="flex flex-wrap gap-2 justify-center mb-4">
+                    <span className="inline-flex items-center gap-1 text-xs text-green-900 bg-green-200 px-3 py-1 rounded-lg font-semibold border border-green-300 shadow-sm">
+                        <i className="fa-solid fa-user"></i>
+                        {seminar.speaker}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-xs text-green-900 bg-green-200 px-3 py-1 rounded-lg font-semibold border border-green-300 shadow-sm">
+                        <i className="fa-solid fa-location-dot"></i>
+                        {seminar.location}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-xs text-green-900 bg-green-200 px-3 py-1 rounded-lg font-semibold border border-green-300 shadow-sm">
+                        <i className="fa-solid fa-layer-group"></i>
+                        {seminar.category}
+                    </span>
+                </div>
+                <div className="mb-6 text-gray-700 text-base leading-relaxed text-center">
+                    {seminar.description}
+                </div>
             </div>
         </div>
     );

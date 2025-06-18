@@ -295,23 +295,23 @@ function Content() {
     const stats = calculateStats();
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-[91% w-full bg-gradient-to-br from-blue-200 via-blue-100 to-blue-300 p-2 sm:p-4 md:p-8 rounded-2xl shadow-2xl mt-[5%] transition-all">
-            <div className="w-full max-w-5xl z-20 sticky top-0 md:top-14 bg-white/80 backdrop-blur-md p-4 sm:p-6 md:p-10 rounded-2xl shadow-lg border-b border-blue-200">
+        <div className="flex flex-col items-center justify-center min-h-[91vh] w-full bg-gradient-to-br from-blue-200 via-blue-100 to-blue-300 p-2 sm:p-4 md:p-8 rounded-2xl shadow-2xl mt-[5%] transition-all">
+            <div className="w-full max-w-6xl z-20 sticky top-0 md:top-14 bg-white/80 backdrop-blur-md p-4 sm:p-6 md:p-10 rounded-2xl shadow-lg border-b border-blue-200">
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-blue-800 mb-4 text-center tracking-tight drop-shadow">
                     Inventory Management
                 </h1>
-                <div className="flex flex-col md:flex-row gap-2 sm:gap-3 md:gap-4 w-full max-w-2xl mx-auto">
+                <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4 w-full max-w-3xl mx-auto justify-center md:justify-between">
                     <input
                         type="text"
                         placeholder="Search items..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="flex-1 border border-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow transition text-blue-900 placeholder:text-blue-400 text-sm sm:text-base"
+                        className="flex-1 min-w-[160px] border border-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow transition text-blue-900 placeholder:text-blue-400 text-sm sm:text-base"
                     />
                     <select
                         value={categoryFilter}
                         onChange={(e) => setCategoryFilter(e.target.value)}
-                        className="border border-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow transition text-blue-900 text-sm sm:text-base"
+                        className="min-w-[120px] border border-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow transition text-blue-900 text-sm sm:text-base"
                     >
                         <option key="All">All</option>
                         {categories.map((cat) => (
@@ -323,7 +323,7 @@ function Content() {
                     <select
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value)}
-                        className="border border-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow transition text-blue-900 text-sm sm:text-base"
+                        className="min-w-[120px] border border-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow transition text-blue-900 text-sm sm:text-base"
                     >
                         <option key="All">All</option>
                         {statuses.map((status) => (
@@ -351,25 +351,47 @@ function Content() {
                         </svg>
                         Add Item
                     </button>
-                    <button
-                        onClick={() => setShowDelete(!showDelete)}
-                        className="bg-gradient-to-r from-red-400 to-red-600 text-white font-bold px-4 sm:px-6 py-2 rounded-xl hover:from-red-500 hover:to-red-700 transition shadow-lg flex items-center gap-2 text-sm sm:text-base"
-                    >
-                        <svg
-                            className="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            viewBox="0 0 24 24"
+                    {!showDelete ? (
+                        <button
+                            onClick={() => setShowDelete(true)}
+                            className="bg-gradient-to-r from-red-400 to-red-600 text-white font-bold px-4 sm:px-6 py-2 rounded-xl hover:from-red-500 hover:to-red-700 transition shadow-lg flex items-center gap-2 text-sm sm:text-base"
                         >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M6 18L18 6M6 6l12 12"
-                            />
-                        </svg>
-                        Delete
-                    </button>
+                            <svg
+                                className="w-5 h-5"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                            Delete
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => setShowDelete(false)}
+                            className="bg-gradient-to-r from-gray-300 to-gray-400 text-blue-900 font-bold px-4 sm:px-6 py-2 rounded-xl hover:from-gray-400 hover:to-gray-500 transition shadow-lg flex items-center gap-2 text-sm sm:text-base"
+                        >
+                            <svg
+                                className="w-5 h-5"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                            Cancel
+                        </button>
+                    )}
                     <button
                         onClick={() => setShowStats(!showStats)}
                         className="bg-gradient-to-r from-green-400 to-green-600 text-white font-bold px-4 sm:px-6 py-2 rounded-xl hover:from-green-500 hover:to-green-700 transition shadow-lg flex items-center gap-2 text-sm sm:text-base"
@@ -391,25 +413,27 @@ function Content() {
                     </button>
                 </div>
                 {showDelete && (
-                    <div className="flex flex-col sm:flex-row justify-end mt-4 gap-2">
-                        <button
-                            onClick={handleRemoveSelected}
-                            disabled={selectedItems.length === 0}
-                            className={`px-4 py-2 rounded-xl font-semibold transition shadow-lg bg-red-500 text-white hover:bg-red-600 disabled:bg-red-200 disabled:cursor-not-allowed text-sm sm:text-base`}
-                        >
-                            Remove Selected
-                        </button>
-                        <button
-                            onClick={() => {
-                                setSelectAll(true);
-                                setSelectedItems(
-                                    filteredItems.map((item) => item.id)
-                                );
-                            }}
-                            className="px-4 py-2 rounded-xl font-semibold transition shadow-lg bg-blue-500 text-white hover:bg-blue-600 text-sm sm:text-base"
-                        >
-                            Select All
-                        </button>
+                    <div className="flex flex-col items-end mt-2 gap-2 w-full">
+                        <div className="flex flex-col gap-2 w-full sm:w-auto">
+                            <button
+                                onClick={handleRemoveSelected}
+                                disabled={selectedItems.length === 0}
+                                className={`px-4 py-2 rounded-xl font-semibold transition shadow-lg bg-red-500 text-white hover:bg-red-600 disabled:bg-red-200 disabled:cursor-not-allowed text-sm sm:text-base`}
+                            >
+                                Remove Selected
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setSelectAll(true);
+                                    setSelectedItems(
+                                        filteredItems.map((item) => item.id)
+                                    );
+                                }}
+                                className="px-4 py-2 rounded-xl font-semibold transition shadow-lg bg-blue-500 text-white hover:bg-blue-600 text-sm sm:text-base"
+                            >
+                                Select All
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
@@ -595,7 +619,7 @@ function Content() {
                 </div>
             )}
             {showStats && (
-                <div className="w-full max-w-5xl mt-4">
+                <div className="w-full max-w-6xl mt-4">
                     <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-blue-800 mb-4 text-center tracking-tight">
                         Inventory Statistics
                     </h2>
@@ -665,7 +689,7 @@ function Content() {
                 </div>
             )}
 
-            <div className="w-full max-w-5xl mt-4">
+            <div className="w-full max-w-6xl mt-4">
                 <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-blue-800 mb-4 text-center tracking-tight">
                     Current Inventory
                 </h2>
