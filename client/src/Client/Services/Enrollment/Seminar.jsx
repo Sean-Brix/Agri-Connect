@@ -239,7 +239,7 @@ export default function Seminar() {
                                 paginatedPrograms.map((program) => (
                                     <article
                                         key={program.id}
-                                        className="relative flex flex-col md:flex-row gap-6 bg-green-900 rounded-xl shadow-2xl p-0 border border-green-800 overflow-hidden group transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1) hover:scale-105"
+                                        className="relative flex flex-col md:flex-row gap-6 bg-green-800 rounded-xl shadow-2xl p-0 border border-green-800 overflow-hidden group transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1) hover:scale-105"
                                         style={{ transition: '0.3s' }}
                                     >
                                         {/* Image with border and outline */}

@@ -506,7 +506,7 @@ export default function Landing() {
                 </div>
             </section>
 
-            <section className="max-w-5xl mx-auto px-4 py-14 mb-20">
+            <section className="max-w-3xl mx-auto px-8 py-14 mb-20">
                 <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
                     Useful External Resources
                 </h2>
@@ -523,9 +523,7 @@ export default function Landing() {
                             </svg>
                         </span>
                         <h3 className="font-bold text-lg text-green-50 mb-2 text-center">Department of Agriculture</h3>
-                        <p className="text-green-100 text-center text-base font-semibold">
-                            Visit the official DA website for national programs, news, and resources.
-                        </p>
+                        
                     </a>
                     <a
                         href="https://ati.da.gov.ph/"
@@ -539,9 +537,7 @@ export default function Landing() {
                             </svg>
                         </span>
                         <h3 className="font-bold text-lg text-green-50 mb-2 text-center">Agricultural Training Institute</h3>
-                        <p className="text-green-100 text-center text-base font-semibold">
-                            Access training modules, e-learning, and extension services for farmers.
-                        </p>
+                        
                     </a>
                     <a
                         href="https://www.philrice.gov.ph/"
@@ -549,15 +545,13 @@ export default function Landing() {
                         rel="noopener noreferrer"
                         className="bg-green-900/90 rounded-full shadow-xl border border-green-800 p-8 flex flex-col items-center hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10 delay-300"
                     >
-                        <span className="bg-green-700 rounded-full p-4 mb-4">
+                        <span className="bg-green-700 rounded-full p-4 mb-4 ">
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-green-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a5 5 0 00-10 0v2a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2v-7a2 2 0 00-2-2z" />
                             </svg>
                         </span>
                         <h3 className="font-bold text-lg text-green-50 mb-2 text-center">PhilRice</h3>
-                        <p className="text-green-100 text-center text-base font-semibold">
-                            Learn about rice research, technologies, and farmer support from PhilRice.
-                        </p>
+                       
                     </a>
                 </div>
             </section>

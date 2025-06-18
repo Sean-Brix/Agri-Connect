@@ -201,16 +201,13 @@ export default function Distribution() {
                                 </div>
                             </div>
                         </div>
-                        {/* Cards */}
+                        
                         <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl">
                             {paginatedItems.map((item, idx) => (
                                 <div
                                     key={item.id}
-                                    className="max-w-full max-h-[370px] rounded-xl overflow-hidden shadow-2xl hover:shadow-[0_8px_32px_0_rgba(60,60,60,0.25)] bg-green-900 m-4 border-2 border-green-800 transition duration-200 hover:border-green-700 hover:scale-[1.025] backdrop-blur-lg"
-                                    style={{
-                                        boxShadow: '0 8px 32px 0 rgba(60,60,60,0.18), 0 1.5px 8px 0 rgba(80,80,80,0.10)',
-                                        background: '#14532d',
-                                    }}
+                                    className="max-w-full max-h-[370px] rounded-xl overflow-hidden shadow-2xl hover:shadow-[0_8px_32px_0_rgba(60,60,60,0.25)] bg-green-800 m-4 border-2 border-green-300 transition duration-200 hover:border-green-400 hover:scale-[1.025] backdrop-blur-lg"
+                                   
                                 >
                                     <div className="relative">
                                         {/* IMAGE */}
