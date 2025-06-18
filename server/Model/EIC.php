@@ -312,4 +312,25 @@ class EIC{
         return $requests;
     }
 
+
+   /**
+         * What it Does: Retrieves all EIC requests for a specific EIC ID from the database.
+         * Returns What: An array of associative arrays, where each array represents an EIC request.
+         */
+        public static function getEICRequest($eic_id) {
+            $query = "SELECT * FROM eic_request WHERE eic_id = ?";
+            $params = [$eic_id];
+            $types = "i";
+
+            $result = statement($query, $params, $types);
+
+            $requests = array();
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                $requests[] = $row;
+            }
+
+            return $requests;
+        }
+
 }

@@ -1,20 +1,245 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import default_image from '../../Assets/default_image.png';
 
 export default function Edit_Modal({ isOpen, onClose, card, setCard }) {
     const [editedItem, setEditedItem] = useState(card);
     const [new_photo, setNew_Photo] = useState('');
+    const [showRequests, setShowRequests] = useState(false);
 
-    if (!isOpen.state) {
+    const closeAll = () => {
+        setShowRequests(false);
+        onClose();
+    };
+
+    if (!isOpen.state && !showRequests) {
         return null;
     }
 
+    if (showRequests) {
+        return (
+            <RequestModal
+                itemId={editedItem.id}
+                onClose={() => setShowRequests(false)}
+            />
+        );
+    }
+
     return isOpen.modal === 'details'
-        ? render_details(onClose, editedItem)
-        : render_edit(onClose, editedItem, setEditedItem, setCard, setNew_Photo, new_photo);
+        ? render_details(closeAll, editedItem, () => setShowRequests(true))
+        : render_edit(
+              closeAll,
+              editedItem,
+              setEditedItem,
+              setCard,
+              setNew_Photo,
+              new_photo
+          );
 }
 
-function render_details(onClose, editedItem) {
+function RequestModal({ itemId, onClose }) {
+    const [requests, setRequests] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [item_name, setItem_Name] = useState('');
+    const [requestStats, setRequestStats] = useState({
+        total: 0,
+        pending: 0,
+        approved: 0,
+        rejected: 0,
+        processing: 0,
+    });
+
+    useEffect(() => {
+        const fetchRequests = async () => {
+            try {
+                const response = await fetch(
+                    `/api/eic/item_requests?id=${itemId}`
+                );
+                if (!response.ok) {
+                    console.error('Failed to fetch requests:', e);
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                const requestsData = data.payload.requests;
+                setRequests(requestsData);
+                setItem_Name(data.payload.item_name);
+
+                // Calculate statistics
+                const total = requestsData.length;
+                const pending = requestsData.filter(
+                    (req) => req.status === 'Waiting'
+                ).length;
+                const approved = requestsData.filter(
+                    (req) => req.status === 'Approved'
+                ).length;
+                const rejected = requestsData.filter(
+                    (req) => req.status === 'Rejected'
+                ).length;
+                const processing = requestsData.filter(
+                    (req) => req.status === 'Processing'
+                ).length;
+
+                setRequestStats({
+                    total,
+                    pending,
+                    approved,
+                    rejected,
+                    processing,
+                });
+            } catch (e) {
+                setError(e);
+                console.error('Failed to fetch requests:', e);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchRequests();
+    }, [itemId]);
+
+    if (loading) {
+        return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+                <div className="bg-white rounded-lg p-8">
+                    Loading requests...
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+                <div className="bg-white rounded-lg p-8">
+                    Error: {error.message}
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+            <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col">
+                <div className="flex items-center justify-between px-6 py-4 border-b">
+                    <h2 className="text-xl font-bold text-gray-900">
+                        Item: "{item_name}"
+                    </h2>
+                    <button
+                        className="text-2xl text-gray-400 hover:text-gray-700 transition-colors"
+                        onClick={onClose}
+                        aria-label="Close"
+                    >
+                        &times;
+                    </button>
+                </div>
+
+                {/* Stats Section */}
+                <div className="px-6 py-3 border-b">
+                    <h3 className="text-lg font-semibold text-gray-700">
+                        Request Statistics
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-2">
+                        <div className="bg-gray-100 rounded-md p-3 text-center">
+                            <div className="text-sm text-gray-500">Total</div>
+                            <div className="font-bold text-gray-700">
+                                {requestStats.total}
+                            </div>
+                        </div>
+                        <div className="bg-yellow-100 rounded-md p-3 text-center">
+                            <div className="text-sm text-gray-500">Pending</div>
+                            <div className="font-bold text-gray-700">
+                                {requestStats.pending}
+                            </div>
+                        </div>
+                        <div className="bg-blue-100 rounded-md p-3 text-center">
+                            <div className="text-sm text-gray-500">
+                                Processing
+                            </div>
+                            <div className="font-bold text-gray-700">
+                                {requestStats.processing}
+                            </div>
+                        </div>
+                        <div className="bg-green-100 rounded-md p-3 text-center">
+                            <div className="text-sm text-gray-500">
+                                Approved
+                            </div>
+                            <div className="font-bold text-gray-700">
+                                {requestStats.approved}
+                            </div>
+                        </div>
+                        <div className="bg-red-100 rounded-md p-3 text-center">
+                            <div className="text-sm text-gray-500">
+                                Rejected
+                            </div>
+                            <div className="font-bold text-gray-700">
+                                {requestStats.rejected}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="overflow-y-auto p-4">
+                    {requests.length > 0 ? (
+                        <ul className="space-y-2">
+                            {requests.map((request) => (
+                                <li
+                                    key={request.id}
+                                    className="border rounded-md p-3"
+                                >
+                                    <p>
+                                        <strong>User ID:</strong>{' '}
+                                        {request.account_id}
+                                    </p>
+                                    <p>
+                                        <strong>Request Date:</strong>{' '}
+                                        {new Date(
+                                            request.created_at
+                                        ).toLocaleDateString(undefined, {
+                                            month: 'long',
+                                            day: 'numeric',
+                                            year: 'numeric',
+                                        })}
+                                    </p>
+                                    <p>
+                                        <strong>Borrow Date:</strong>{' '}
+                                        {new Date(
+                                            request.borrow_date
+                                        ).toLocaleDateString(undefined, {
+                                            month: 'long',
+                                            day: 'numeric',
+                                            year: 'numeric',
+                                        })}
+                                    </p>
+                                    <p>
+                                        <strong>Return Date:</strong>{' '}
+                                        {new Date(
+                                            request.return_date
+                                        ).toLocaleDateString(undefined, {
+                                            month: 'long',
+                                            day: 'numeric',
+                                            year: 'numeric',
+                                        })}
+                                    </p>
+                                    <p>
+                                        <strong>Status:</strong>{' '}
+                                        {request.status}
+                                    </p>
+                                    {/* Add more request details as needed */}
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No requests found for this item.</p>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function render_details(onClose, editedItem, onShowRequests) {
+    
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/60">
             <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden flex flex-col">
@@ -63,7 +288,10 @@ function render_details(onClose, editedItem) {
                     </p>
 
                     {/* REQUEST COUNT */}
-                    <button className="px-4 py-2 cursor-pointer rounded-lg font-semibold bg-green-600 text-white hover:bg-green-700 transition shadow">
+                    <button
+                        className="px-4 py-2 cursor-pointer rounded-lg font-semibold bg-green-600 text-white hover:bg-green-700 transition shadow"
+                        onClick={onShowRequests}
+                    >
                         View Requests
                     </button>
 
@@ -151,27 +379,6 @@ function render_details(onClose, editedItem) {
                             {editedItem.quantity}
                         </span>
 
-                        {/* BORROW REQUESTS */}
-                        <span
-                            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-purple-100 text-gray-800 text-xs font-semibold cursor-default"
-                            title="Requests Count"
-                        >
-                            <svg
-                                className="w-4 h-4"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                aria-hidden="true"
-                            >
-                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                            3
-                        </span>
-
                         {/* STATUS */}
                         <span
                             className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold cursor-default
@@ -250,14 +457,20 @@ function render_details(onClose, editedItem) {
     );
 }
 
-function render_edit(onClose, editedItem, setEditedItem, setCard, setNew_Photo, new_photo) {
+function render_edit(
+    onClose,
+    editedItem,
+    setEditedItem,
+    setCard,
+    setNew_Photo,
+    new_photo
+) {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setEditedItem((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleSave = async () => {
-
         try {
             const response = await fetch('/api/eic/updateItem', {
                 method: 'POST',
@@ -275,11 +488,9 @@ function render_edit(onClose, editedItem, setEditedItem, setCard, setNew_Photo, 
             });
 
             if (response.ok) {
-
-                if(new_photo != ''){
-
+                if (new_photo != '') {
                     const itemId = editedItem.id;
-                    
+
                     const formData = new FormData();
                     formData.append('id', itemId);
                     formData.append('image', new_photo);
@@ -291,15 +502,13 @@ function render_edit(onClose, editedItem, setEditedItem, setCard, setNew_Photo, 
                 }
 
                 onClose();
-                setCard(editedItem)
+                setCard(editedItem);
             }
-
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-        } 
-        catch(error) {
+        } catch (error) {
             console.error('Error updating item:', error);
             alert(
                 'Failed to update item. Please check the console for errors.'
