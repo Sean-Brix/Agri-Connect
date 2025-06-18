@@ -29,39 +29,43 @@ export default function All_Items() {
     }, [statusFilter, categoryFilter, search]);
 
     const fetchItems = async () => {
-        const response = await fetch(
-            `/api/eic/getAll?status=${statusFilter}&category=${categoryFilter}&search=${search}`
-        );
-        const data = await response.json();
+        try {
+            const response = await fetch(
+                `/api/eic/getAll?status=${statusFilter}&category=${categoryFilter}&search=${search}`
+            );
+                const data = await response.json();
 
-        if (!data.payload || data.payload.length === 0) {
-            setItems([]);
-            return;
-        }
+            if (!data.payload || data.payload.length === 0) {
+                setItems([]);
+                return;
+            }
 
-        const itemsWithImages = await Promise.all(
-            data.payload.map(async (item) => {
-                try {
-                    const imageResponse = await fetch(
-                        `/api/eic/getImage?id=${item.id}`
-                    );
-                    if (imageResponse.ok) {
-                        if (imageResponse.status === 204) {
-                            return { ...item, photo: default_image };
+            const itemsWithImages = await Promise.all(
+                data.payload.map(async (item) => {
+                    try {
+                        const imageResponse = await fetch(
+                            `/api/eic/getImage?id=${item.id}`
+                        );
+                        if (imageResponse.ok) {
+                            if (imageResponse.status === 204) {
+                                return { ...item, photo: default_image };
                         }
-                        const imageBlob = await imageResponse.blob();
-                        const imageUrl = URL.createObjectURL(imageBlob);
-                        return { ...item, photo: imageUrl };
+                            const imageBlob = await imageResponse.blob();
+                            const imageUrl = URL.createObjectURL(imageBlob);
+                            return { ...item, photo: imageUrl };
                     } else {
-                        return { ...item, photo: default_image };
+                            return { ...item, photo: default_image };
                     }
-                } catch (error) {
-                    console.error('Error fetching image:', error);
-                    return { ...item, photo: default_image };
-                }
-            })
-        );
-        setItems(itemsWithImages);
+        } catch (error) {
+                        console.error('Error fetching image:', error);
+                        return { ...item, photo: default_image };
+        }
+                })
+    );
+            setItems(itemsWithImages);
+        } catch (error) {
+            console.error('Error fetching items:', error);
+}
     };
 
     const handleDelete = async () => {
@@ -71,30 +75,30 @@ export default function All_Items() {
         }
 
         try {
+            setIsDeleting(true);
             const deletePromises = selectedItems.map(async (id) => {
                 const response = await fetch(`/api/eic/deleteEIC?id=${id}`);
                 const data = await response.json();
 
                 if (response.ok && data.status === 'Success') {
-                    return true;
+                    return id;
                 } else {
                     console.error(
                         `Failed to delete item with id ${id}: ${
                             data.message || 'Unknown error'
                         }`
                     );
-                    return false;
+                    return null;
                 }
             });
 
             const results = await Promise.all(deletePromises);
-            if (results.every((result) => result)) {
+            const successfullyDeletedIds = results.filter(id => id !== null);
+
+            if (successfullyDeletedIds.length > 0) {
+                setItems(prevItems => prevItems.filter(item => !successfullyDeletedIds.includes(item.id)));
+                setSelectedItems(prevSelectedItems => prevSelectedItems.filter(id => !successfullyDeletedIds.includes(id)));
                 alert('Items deleted successfully.');
-                setItems(
-                    items.filter((item) => !selectedItems.includes(item.id))
-                );
-                setSelectedItems([]);
-                setIsDeleting(false);
             } else {
                 alert(
                     'Some items failed to delete. Please check the console for errors.'
@@ -103,8 +107,11 @@ export default function All_Items() {
         } catch (error) {
             console.error('Error deleting items:', error);
             alert('Failed to delete items. Please try again.');
+        } finally {
+            setIsDeleting(false);
         }
     };
+
 
     const toggleSelectItem = (itemId) => {
         if (selectedItems.includes(itemId)) {
@@ -281,7 +288,7 @@ export default function All_Items() {
                         className="flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium shadow bg-blue-600 hover:bg-blue-700 text-white transition"
                         onClick={handleOpenNewItemModal}
                     >
-                       
+
                         New Item
                     </button>
                     {isDeleting ? (
@@ -290,14 +297,14 @@ export default function All_Items() {
                                 className="flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium shadow bg-red-600 hover:bg-red-700 text-white transition"
                                 onClick={handleDelete}
                             >
-                                
+
                                 Delete Selected
                             </button>
                             <button
                                 className="flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium shadow bg-gray-400 hover:bg-gray-500 text-white transition"
                                 onClick={handleCancelDelete}
                             >
-                                
+
                                 Cancel
                             </button>
                         </>
@@ -306,7 +313,7 @@ export default function All_Items() {
                             className="flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium shadow bg-red-500 hover:bg-red-600 text-white transition"
                             onClick={() => setIsDeleting(true)}
                         >
-                            
+
                             Delete
                         </button>
                     )}

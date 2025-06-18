@@ -188,14 +188,29 @@ class EIC{
      * What it Does: Deletes an EIC item from the database based on its ID.
      * Returns What: The result of the statement execution.
      */
+    /**
+     * What it Does: Deletes an EIC item from the database based on its ID.
+     * Returns What: The result of the statement execution.
+     */
     public static function deleteStatic($id)
     {
-        $query = "DELETE FROM EIC WHERE id = ?";
-        $params = [$id];
-        $types = "i";
-        $result = statement($query, $params, $types);
+        // First, delete any related records in the eic_request table
+        $query_request = "DELETE FROM eic_request WHERE eic_id = ?";
+        $params_request = [$id];
+        $types_request = "i";
+        $result_request = statement($query_request, $params_request, $types_request);
+
+        // Only delete from EIC table if the request deletion was successful or there were no requests
+        if ($result_request !== false) {
+            $query = "DELETE FROM EIC WHERE id = ?";
+            $params = [$id];
+            $types = "i";
+            $result = statement($query, $params, $types);
 
         return $result;
+        } else {
+            return false; // Indicate failure to delete related requests
+    }
     }
 
     /**
