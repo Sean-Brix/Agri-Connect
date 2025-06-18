@@ -264,32 +264,52 @@ class EIC{
     /**
          * What it Does: Creates a new EIC request in the database.
          * Returns What: The ID of the newly inserted request, or false on failure.
-         */
-        public static function requestEIC($account_id, $eic_id, $quantity, $request_note = null, $borrow_date = null, $return_date = null) {
-            $query = "INSERT INTO eic_request (account_id, eic_id, quantity, request_note, borrow_date, return_date) VALUES (?, ?, ?, ?, ?, ?)";
-            $params = [$account_id, $eic_id, $quantity, $request_note, $borrow_date, $return_date];
+    */
+    public static function requestEIC($account_id, $eic_id, $quantity, $request_note = null, $borrow_date = null, $return_date = null) {
+        $query = "INSERT INTO eic_request (account_id, eic_id, quantity, request_note, borrow_date, return_date) VALUES (?, ?, ?, ?, ?, ?)";
+        $params = [$account_id, $eic_id, $quantity, $request_note, $borrow_date, $return_date];
 
-            // Determine types
-            $types = 'iiisss'; // Assuming account_id, eic_id, quantity are integers and the rest are strings/nullable
+        // Determine types
+        $types = 'iiisss'; // Assuming account_id, eic_id, quantity are integers and the rest are strings/nullable
 
-             // Adjust types string if null values are not strings
-            if ($request_note === null) {
-                $types[3] = 's';
-            }
-            if ($borrow_date === null) {
-                $types[4] = 's';
-            }
-            if ($return_date === null) {
-                $types[5] = 's';
-            }
-
-            $result = statement($query, $params, $types);
-
-            if ($result) {
-                return mysqli_insert_id($GLOBALS['conn']);
-            } else {
-                return false;
-            }
+            // Adjust types string if null values are not strings
+        if ($request_note === null) {
+            $types[3] = 's';
         }
+        if ($borrow_date === null) {
+            $types[4] = 's';
+        }
+        if ($return_date === null) {
+            $types[5] = 's';
+        }
+
+        $result = statement($query, $params, $types);
+
+        if ($result) {
+            return mysqli_insert_id($GLOBALS['conn']);
+        } else {
+            return false;
+        }
+    }
+
+   /**
+     * What it Does: Retrieves all EIC requests for a specific user ID from the database.
+     * Returns What: An array of associative arrays, where each array represents an EIC request.
+     */
+    public static function getMyRequest($user_id) {
+        $query = "SELECT * FROM eic_request WHERE account_id = ?";
+        $params = [$user_id];
+        $types = "i";
+
+        $result = statement($query, $params, $types);
+
+        $requests = array();
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $requests[] = $row;
+        }
+
+        return $requests;
+    }
 
 }

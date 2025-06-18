@@ -294,18 +294,18 @@ export default function Eic() {
             }
 
             // TODO do
-            // const requestsResponse = await fetch('/api/eic/my_requests');
-            // if (requestsResponse.ok) {
-            //     const requestsData = await requestsResponse.json();
-            //     setMyRequests(requestsData.payload);
-            setShowMyRequestsModal(true);
-            // } else {
-            //     console.error(
-            //         'Failed to fetch user requests:',
-            //         requestsResponse.statusText
-            //     );
-            //     alert('Failed to fetch your requests.');
-            // }
+            const requestsResponse = await fetch('/api/eic/myRequest');
+            if (requestsResponse.ok) {
+                const requestsData = await requestsResponse.json();
+                setMyRequests(requestsData.payload);
+                setShowMyRequestsModal(true);
+            } else {
+                console.error(
+                    'Failed to fetch user requests:',
+                    requestsResponse.statusText
+                );
+                alert('Failed to fetch your requests.');
+            }
         } catch (error) {
             console.error('Error fetching user requests:', error);
             alert('Error fetching your requests.');
