@@ -18,18 +18,7 @@ const categories = [
 const statuses = ['Available', 'Borrowed', 'Damaged', 'Out of Stock'];
 
 function Content() {
-    const [items, setItems] = useState([
-        {
-            category: 'Harvesting Tools',
-            created_at: '2025-06-18 21:00:44',
-            description: 'Handheld harvesting tool with a curved blade',
-            id: 2,
-            name: 'Sickle',
-            quantity: 25,
-            status: 'Available',
-            updated_at: '2025-06-18 21:00:44',
-        },
-    ]);
+    const [items, setItems] = useState([]);
     const [form, setForm] = useState({
         name: '',
         quantity: '',
@@ -55,9 +44,8 @@ function Content() {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                setItems(data.payload.list);
-            } 
-            catch (error) {
+                setItems(data.payload?.list || []);
+            } catch (error) {
                 console.error('Failed to fetch inventory:', error);
                 setItems([]);
             }
@@ -68,30 +56,41 @@ function Content() {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!form.name || !form.quantity) return;
-        setItems([
-            ...items,
-            {
-                id: Date.now(),
-                name: form.name,
-                quantity: Number(form.quantity),
-                description: form.description,
-                category: form.category,
-                status: form.status,
-                created_at: new Date().toISOString(),
-                updated_at: new Date().toISOString(),
-            },
-        ]);
-        setForm({
-            name: '',
-            quantity: '',
-            description: '',
-            category: 'Other',
-            status: 'Available',
-        });
-        setShowModal(false);
+
+        try {
+            const response = await fetch('/api/inventory/addItem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(form),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const newItem = await response.json();
+
+            setItems([...items, newItem.payload]);
+
+            setForm({
+                name: '',
+                quantity: '',
+                description: '',
+                category: 'Other',
+                status: 'Available',
+            });
+
+            setShowModal(false);
+        } catch (error) {
+            console.error('Failed to create item:', error);
+            alert('Failed to add item');
+            return;
+        }
     };
 
     const handleEdit = (item) => {
@@ -106,41 +105,57 @@ function Content() {
         setShowEditModal(true);
     };
 
-    const handleUpdate = (e) => {
+    const handleUpdate = async (e) => {
         e.preventDefault();
         if (!form.name || !form.quantity) return;
 
-        setItems(
-            items.map((item) =>
-                item.id === editItemId
-                    ? {
-                          ...item,
-                          name: form.name,
-                          quantity: Number(form.quantity),
-                          description: form.description,
-                          category: form.category,
-                          status: form.status,
-                          updated_at: new Date().toISOString(),
-                      }
-                    : item
-            )
-        );
+        try {
+            const response = await fetch(
+                `/api/inventory/updateItem/${editItemId}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(form),
+                }
+            );
 
-        setForm({
-            name: '',
-            quantity: '',
-            description: '',
-            category: 'Other',
-            status: 'Available',
-        });
-        setShowEditModal(false);
-        setEditItemId(null);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const updatedItem = await response.json();
+
+            setItems(
+                items.map((item) =>
+                    item.id === editItemId ? updatedItem.payload : item
+                )
+            );
+
+            setForm({
+                name: '',
+                quantity: '',
+                description: '',
+                category: 'Other',
+                status: 'Available',
+            });
+            setShowEditModal(false);
+            setEditItemId(null);
+        } catch (error) {
+            console.error('Failed to update item:', error);
+            alert('Failed to update item');
+        }
     };
 
     const filteredItems = items.filter((item) => {
         const matchesSearch =
-            item.name.toLowerCase().includes(search.toLowerCase()) ||
-            item.description.toLowerCase().includes(search.toLowerCase());
+            (item.name || '')
+                .toLowerCase()
+                .includes((search || '').toLowerCase()) ||
+            (item.description || '')
+                .toLowerCase()
+                .includes((search || '').toLowerCase());
         const matchesCategoryFilter =
             categoryFilter === 'All' || item.category === categoryFilter;
         const matchesStatusFilter =
@@ -151,11 +166,32 @@ function Content() {
     const truncate = (str, n = 40) =>
         str && str.length > n ? str.slice(0, n) + '...' : str;
 
-    const handleRemoveSelected = () => {
-        setItems(items.filter((item) => !selectedItems.includes(item.id)));
-        setSelectedItems([]);
-        setSelectAll(false);
-        setShowDelete(false);
+    const handleRemoveSelected = async () => {
+        try {
+            await Promise.all(
+                selectedItems.map(async (id) => {
+                    const response = await fetch(
+                        `/api/inventory/deleteItem/${id}`,
+                        {
+                            method: 'DELETE',
+                        }
+                    );
+                    if (!response.ok) {
+                        throw new Error(
+                            `HTTP error! status: ${response.status}`
+                        );
+                    }
+                })
+            );
+
+            setItems(items.filter((item) => !selectedItems.includes(item.id)));
+            setSelectedItems([]);
+            setSelectAll(false);
+            setShowDelete(false);
+        } catch (error) {
+            console.error('Failed to delete items:', error);
+            alert('Failed to delete selected items');
+        }
     };
 
     const handleSelectAll = (e) => {
@@ -199,7 +235,9 @@ function Content() {
                     >
                         <option key="All">All</option>
                         {categories.map((cat) => (
-                            <option key={cat}>{cat}</option>
+                            <option key={cat} value={cat}>
+                                {cat}
+                            </option>
                         ))}
                     </select>
                     <select
@@ -209,7 +247,9 @@ function Content() {
                     >
                         <option key="All">All</option>
                         {statuses.map((status) => (
-                            <option key={status}>{status}</option>
+                            <option key={status} value={status}>
+                                {status}
+                            </option>
                         ))}
                     </select>
                     <button
@@ -337,7 +377,9 @@ function Content() {
                                 className="border border-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow transition text-blue-900 text-sm sm:text-base"
                             >
                                 {categories.map((cat) => (
-                                    <option key={cat}>{cat}</option>
+                                    <option key={cat} value={cat}>
+                                        {cat}
+                                    </option>
                                 ))}
                             </select>
                             <select
@@ -347,7 +389,9 @@ function Content() {
                                 className="border border-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow transition text-blue-900 text-sm sm:text-base"
                             >
                                 {statuses.map((status) => (
-                                    <option key={status}>{status}</option>
+                                    <option key={status} value={status}>
+                                        {status}
+                                    </option>
                                 ))}
                             </select>
                             <button
@@ -424,7 +468,9 @@ function Content() {
                                 className="border border-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow transition text-blue-900 text-sm sm:text-base"
                             >
                                 {categories.map((cat) => (
-                                    <option key={cat}>{cat}</option>
+                                    <option key={cat} value={cat}>
+                                        {cat}
+                                    </option>
                                 ))}
                             </select>
                             <select
@@ -434,7 +480,9 @@ function Content() {
                                 className="border border-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow transition text-blue-900 text-sm sm:text-base"
                             >
                                 {statuses.map((status) => (
-                                    <option key={status}>{status}</option>
+                                    <option key={status} value={status}>
+                                        {status}
+                                    </option>
                                 ))}
                             </select>
                             <button
@@ -493,14 +541,15 @@ function Content() {
                                     <td
                                         colSpan={7}
                                         className="py-6 text-center text-blue-400 font-semibold"
+                                        key="no-items"
                                     >
                                         No items found.
                                     </td>
                                 </tr>
                             ) : (
-                                filteredItems.map((item) => (
+                                filteredItems.map((item, index) => (
                                     <tr
-                                        key={item.id}
+                                        key={item.id + index}
                                         className="hover:bg-blue-50/70 transition"
                                     >
                                         <td className="py-2 sm:py-3 px-1 sm:px-2 md:px-4 border-b">
@@ -516,7 +565,8 @@ function Content() {
                                             />
                                         </td>
                                         <td className="py-2 sm:py-3 px-1 sm:px-2 md:px-4 border-b font-semibold text-blue-900">
-                                            {item.name}
+                                            {item.name} -
+                                            {item.id}
                                         </td>
                                         <td className="py-2 sm:py-3 px-1 sm:px-2 md:px-4 border-b text-blue-700">
                                             {item.quantity}

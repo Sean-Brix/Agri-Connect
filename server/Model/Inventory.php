@@ -110,7 +110,13 @@ class Inventory {
         return $inventories;
     }
 
-    public function create() {
+    public function create($data) {
+        $this->name = $data['name'] ?? null;
+        $this->quantity = $data['quantity'] ?? null;
+        $this->description = $data['description'] ?? null;
+        $this->category = $data['category'] ?? null;
+        $this->status = $data['status'] ?? null;
+
         $query = "INSERT INTO `inventory` (name, quantity, description, category, status) VALUES (?, ?, ?, ?, ?)";
         $params = [$this->name, $this->quantity, $this->description, $this->category, $this->status];
         $types = getTypes($params);
