@@ -173,10 +173,6 @@ class Distribution{
      * What it Does: Deletes a DistributionItem item from the database based on its ID.
      * Returns What: The result of the statement execution.
      */
-    /**
-     * What it Does: Deletes a DistributionItem item from the database based on its ID.  Also deletes any associated distribution requests.
-     * Returns What: The result of the statement execution.
-     */
     public static function deleteStatic($id)
     {
 
@@ -307,8 +303,23 @@ class Distribution{
         }
         return $requests;
     }
+
+
     /**
-     * What it Does: Approves a DistributionItem request by its ID.
+     * What it Does: Cancels a DistributionItem request in the database.
+     * Returns What: The result of the statement execution.
+     */
+    public static function cancelRequest($request_id) {
+        $query = "DELETE FROM distribution_request WHERE id = ?";
+        $params = [$request_id];
+        $types = "i";
+        $result = statement($query, $params, $types);
+        return $result;
+    }
+
+
+    /**
+
      * Returns What: The result of the statement execution.
      */
     public static function approveRequest($request_id, $admin_id, $status) {
@@ -366,6 +377,7 @@ class Distribution{
         }
         return $result;
     }
+
     private static function getRequestDetails($request_id) {
         $query = "SELECT distribution_item_id, quantity FROM distribution_request WHERE id = ?";
         $params = [$request_id];

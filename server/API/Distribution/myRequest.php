@@ -31,8 +31,7 @@ foreach($my_request as $request){
         $data[] = [
             "id"=>$request['id'],
                 "item_name"=>$item_details['name'],
-                "borrow_date"=>$request['schedule_date'],
-                "return_date"=>null,
+                "schedule_date"=>$request['schedule_date'],
                 "status"=>$request['status'],
                 "quantity"=>$request['quantity'],
                 "request_note"=>$request['request_note']
@@ -43,8 +42,7 @@ foreach($my_request as $request){
         $data[] = [
             "id"=>$request['id'],
             "item_name"=>"Item Not Found",
-                "borrow_date"=>$request['schedule_date'],
-                "return_date"=>null,
+                "schedule_date"=>$request['schedule_date'],
                 "status"=>$request['status'],
                 "quantity"=>$request['quantity'],
                 "request_note"=>$request['request_note']

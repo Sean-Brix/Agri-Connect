@@ -36,14 +36,14 @@ $req = getJsonBody();
 $distribution_item_id = $req['item_id'];
 $quantity = $req['quantity'];
 $request_note = $req['request_note'];
-$borrow_date = $req['borrow_date'];
+$schedule_date = $req['schedule_date'];
 
 $result = Distribution::requestDistributionItem(
     $user['ID'], 
     $distribution_item_id,
     $quantity,
     $request_note,
-    $borrow_date
+    $schedule_date
 );
 
 if($result){
