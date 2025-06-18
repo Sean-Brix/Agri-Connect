@@ -6,7 +6,6 @@ import default_image from './Assets/default_image.png';
 // SUB COMPONENTS
 import All_Items from './Components/All_Items/All_Items.jsx';
 import EIC_Request from './Components/Request/EIC_Request.jsx';
-import EIC_Issued from './Components/Issued/EIC_Issued.jsx';
 
 export default function EIC() {
     const [section, setSection] = useState('all');
@@ -21,8 +20,6 @@ export default function EIC() {
 
                 {/* NAVIGATION */}
                 {
-                    section === 'issued'?
-                        <EIC_Issued />:
                     section === 'requests'?
                         <EIC_Request />:
                         <All_Items />
@@ -42,7 +39,6 @@ function Section_Buttons(section, setSection) {
             {[
                 { key: 'all', label: 'All Items' },
                 { key: 'requests', label: 'Requests' },
-                { key: 'issued', label: 'Issued' },
             ].map(({ key, label }) => (
 
                 <button
