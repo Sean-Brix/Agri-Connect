@@ -53,7 +53,7 @@ export default function AccountProfile({admin_navigate, details}){
 
     return (
         <>
-            <div className="relative mt-30">
+            <div className="relative mt-20 sm:mt-30  md:mt-30">
                 <hr className="border-black-300" />
                 <span className="absolute left-1/8 -translate-x-1/4 -top-5 bg-white rounded-lg px-4 text-2xl font-semibold text-black-700">
                     Account Settings
