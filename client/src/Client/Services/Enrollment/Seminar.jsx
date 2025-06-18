@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import {useNavigate} from 'react-router-dom'
 
 import Navbar from '../../Components/Navbar';
 
@@ -7,6 +8,7 @@ import backg from './Assets/backg.jpg';
 import default_seminar_pic from './Assets/default_seminar_pic.jpg';
 
 export default function Seminar() {
+    const navigate = useNavigate();
     const [search, setSearch] = useState('');
     const [filterBy, setFilterBy] = useState('Title');
     const [showFilter, setShowFilter] = useState(false);
@@ -69,6 +71,40 @@ export default function Seminar() {
         });
         setFilteredPrograms(filtered);
     }, [allPrograms, search, filterBy]);
+
+    const apply_user = async(seminarId)=>{
+
+        const check = await fetch('/api/authentication/gotToken');
+        if(!check.ok){
+            alert('Login First');
+            navigate('/login');
+            return
+        }
+
+        try {
+            const response = await fetch('/api/seminars/participants/user_apply', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id: seminarId }),
+            });
+        
+            if (response.ok) {
+                alert('Successfully applied!');
+            } 
+            else {
+                alert('Failed to apply.');
+            }
+        } 
+        catch (error) {
+            console.error('Error applying for seminar:', error);
+            alert('Error applying for seminar.');
+        }
+
+
+
+    }
 
     const filterOptions = [
         { label: 'Title', value: 'Title' },
@@ -315,7 +351,9 @@ export default function Seminar() {
                                             </div>
                                             {/* Buttons */}
                                             <div className="flex gap-3 w-full justify-end mt-6">
-                                                <button className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-green-900 font-bold shadow-lg hover:bg-green-100 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400">
+                                                <button
+                                                    onClick={()=>apply_user(program.id)}
+                                                    className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-green-900 font-bold shadow-lg hover:bg-green-100 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400">
                                                     <i className="fa-solid fa-paper-plane"></i>
                                                     Apply
                                                 </button>

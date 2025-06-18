@@ -68,6 +68,14 @@ class Seminars {
         return $participants;
     }
 
+    public function addParticipant($account_id) {
+        $query = "INSERT INTO `seminar_participants` (seminar_id, account_id, status, registration_date) VALUES (?, ?, 'Registered', NOW())";
+        $params = [$this->id, $account_id];
+        $types = getTypes($params);
+        $result = statement($query, $params, $types);
+
+        return $result;
+    }
 
     public function initialize(){
         $query = "SELECT * FROM `seminars` WHERE id = ?";

@@ -22,30 +22,7 @@ export default function Eic() {
         request_note: '',
         quantity: 1,
     });
-    const [myRequests, setMyRequests] = useState([
-        // Sample data - replace with actual fetched data
-        {
-            id: 1,
-            item_name: 'Tractor',
-            borrow_date: '2024-01-20',
-            return_date: '2024-01-27',
-            status: 'Approved',
-        },
-        {
-            id: 2,
-            item_name: 'Harvester',
-            borrow_date: '2024-02-01',
-            return_date: '2024-02-08',
-            status: 'Pending',
-        },
-        {
-            id: 3,
-            item_name: 'Plow',
-            borrow_date: '2024-02-15',
-            return_date: '2024-02-22',
-            status: 'Rejected',
-        },
-    ]);
+    const [myRequests, setMyRequests] = useState([]);
     const [showMyRequestsModal, setShowMyRequestsModal] = useState(false);
 
     const categories = [
