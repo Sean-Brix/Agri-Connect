@@ -19,7 +19,7 @@ function Edit_Profile({admin_navigate, details}) {
         body: formData
       }
     );
-    
+
     if(!response.ok){
       const data = await response.json();
       console.log(data.payload.error);
@@ -31,7 +31,6 @@ function Edit_Profile({admin_navigate, details}) {
     
     console.log(newUrl);
     details.setProfile((prev)=>({...prev, picture: newUrl}));
-
   }
 
   return (

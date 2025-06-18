@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-export default function Info_Block({ user }) {
+export default function Info_Block({ user, admin_navigate }) {
     const [edit, setEdit] = useState(false);
     const [editedUser, setEditedUser] = useState({ ...user });
     const [newPicture, setNewPicture] = useState(null);
+    const [file_pic, setFile_Pic] = useState(null);
 
     useEffect(() => {
         setEditedUser({ ...user });
@@ -20,6 +21,7 @@ export default function Info_Block({ user }) {
 
     const handlePictureChange = (e) => {
         const file = e.target.files[0];
+        setFile_Pic(file);
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -29,7 +31,7 @@ export default function Info_Block({ user }) {
         }
     };
 
-    const handleSaveClick = () => {
+    const handleSaveClick = async () => {
         // Here you would typically make an API call to save the updated user data
         // For now, we'll just update the user state in the parent component (if needed)
 
@@ -39,8 +41,34 @@ export default function Info_Block({ user }) {
                 ...prevUser,
                 picture: newPicture,
             }));
-        }
 
+            const formData = new FormData();
+            formData.append('image', file_pic); // Append the data URL as a file
+
+            try {
+                const response = await fetch('/api/Accounts/uploadProfile', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    const data = await response.json();
+                    console.error(
+                        'Upload failed:',
+                        data?.payload?.error || response.statusText
+                    );
+                    // Optionally, display an error message to the user.
+                    return;
+                }
+
+                setEditedUser((prev) => ({ ...prev, picture: newPicture }));
+
+            } 
+            catch (error) {
+                console.error('Error uploading image:', error);
+                // Handle the error appropriately (e.g., show an error message)
+            }
+        }
         setEdit(false);
     };
 
@@ -52,7 +80,6 @@ export default function Info_Block({ user }) {
 
     return (
         <div className="flex flex-col items-center min-h-screen bg-white px-2 sm:px-0 mt-20 gap-10">
-
             {/* HEADER */}
             <div className="border-2 border-blue-900 rounded-lg shadow-lg p-4 sm:p-6 w-full max-w-5xl bg-white">
                 <div className="flex items-center mb-2 mt-10">
@@ -204,7 +231,10 @@ export default function Info_Block({ user }) {
                                         accept="image/*"
                                         onChange={handlePictureChange}
                                         className="absolute inset-0 opacity-0 cursor-pointer"
-                                        style={{ width: '100%', height: '100%' }}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                        }}
                                     />
                                 )}
                                 {/* Pencil icon at bottom right in edit mode */}
@@ -215,8 +245,13 @@ export default function Info_Block({ user }) {
                                         onClick={() => {
                                             // Focus the file input when pencil is clicked
                                             // Find the file input and trigger click
-                                            const parent = document.activeElement?.parentElement;
-                                            const fileInput = parent?.querySelector('input[type="file"]');
+                                            const parent =
+                                                document.activeElement
+                                                    ?.parentElement;
+                                            const fileInput =
+                                                parent?.querySelector(
+                                                    'input[type="file"]'
+                                                );
                                             if (fileInput) fileInput.click();
                                         }}
                                         tabIndex={0}
@@ -245,7 +280,9 @@ export default function Info_Block({ user }) {
                                         style={{ minWidth: 80 }}
                                     />
                                 ) : (
-                                    <span className="block w-full text-center">{editedUser.gender}</span>
+                                    <span className="block w-full text-center">
+                                        {editedUser.gender}
+                                    </span>
                                 )}
                             </span>
                             <span className="text-black-600 text-base text-center w-full">
@@ -260,7 +297,9 @@ export default function Info_Block({ user }) {
                                         style={{ minWidth: 80 }}
                                     />
                                 ) : (
-                                    <span className="block w-full text-center">{editedUser.position}</span>
+                                    <span className="block w-full text-center">
+                                        {editedUser.position}
+                                    </span>
                                 )}
                             </span>
                         </div>
@@ -302,7 +341,6 @@ export default function Info_Block({ user }) {
 
             {/* CONTENT */}
             <div className="border-2 border-blue-900 rounded-lg shadow-lg p-4 sm:p-6 w-full max-w-5xl bg-white">
-
                 <div className="flex items-center mb-4">
                     <span className="bg-white rounded-lg px-4 text-2xl sm:text-2xl font-semibold text-black-700 whitespace-nowrap z-10">
                         Contacts Information
@@ -357,14 +395,14 @@ export default function Info_Block({ user }) {
                             <input
                                 type="text"
                                 name="facebook"
-                                value={editedUser.facebook || ""}
+                                value={editedUser.facebook || ''}
                                 onChange={handleChange}
                                 className="border rounded-lg p-1 px-2 ml-2"
                                 style={{ minWidth: 100 }}
                             />
                         ) : (
                             <span className="text-black-600">
-                                {editedUser.facebook || "None"}
+                                {editedUser.facebook || 'None'}
                             </span>
                         )}
                     </div>
