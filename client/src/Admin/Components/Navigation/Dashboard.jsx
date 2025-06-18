@@ -59,49 +59,139 @@ export default function Dashboard() {
 
     (async()=>{
 
-        try{
+        try {
           // Get Account Details
           const response = await fetch("/api/accounts/details");
           const data = (await response.json()).payload;
 
-          if(!response.ok){
-            throw new error(data.error);
+          if (!response.ok) {
+            throw new Error(data.error);
           }
 
           // Get Profile Picture
           const profile = await fetch("/api/accounts/getProfile");
           let image_url;
-          
-          if (profile.ok && profile.headers.get('content-type').includes('image')) {
 
+          if (profile.ok && profile.headers.get('content-type').includes('image')) {
             const blob = await profile.blob();
             image_url = URL.createObjectURL(blob);
-
-          } 
-          else {
-
-            image_url = default_picture
-
+          } else {
+            image_url = default_picture;
           }
 
           // Render State
           setDetails({
-              username: data.username, 
-              position: data.position,
-              picture: image_url,
-              setProfile: setDetails,
-              id: data.id,
-              access: data.access
+            username: data.username,
+            position: data.position,
+            picture: image_url,
+            setProfile: setDetails,
+            id: data.id,
+            access: data.access
           });
 
-        }
-        catch(err){
+        } catch (err) {
+          // Prevent multiple 401 containers and listeners
+          if (document.getElementById('unauthorized-401-container')) return;
 
-          console.log(err);
-          alert("Hahaha kala mo pede ka dito, d ka naman admin");
-          navigate('/login');
+          const container = document.createElement('div');
+          container.id = 'unauthorized-401-container';
+          container.style.position = 'fixed';
+          container.style.top = '0';
+          container.style.left = '0';
+          container.style.width = '100vw';
+          container.style.height = '100vh';
+          container.style.background = 'linear-gradient(135deg, #2563eb 0%, #1e293b 100%)';
+          container.style.display = 'flex';
+          container.style.alignItems = 'center';
+          container.style.justifyContent = 'center';
+          container.style.zIndex = '99999';
+
+          container.innerHTML = `
+            <div style="
+              background: rgba(255,255,255,0.97);
+              border-radius: 1.5rem;
+              box-shadow: 0 8px 32px 0 rgba(30,41,59,0.18);
+              padding: 2.5rem 2.5rem 2rem 2.5rem;
+              min-width: 340px;
+              max-width: 95vw;
+              text-align: center;
+              font-family: inherit;
+              border: 1.5px solid #e0e7ef;
+              animation: fadeIn401 0.38s cubic-bezier(.4,2,.6,1) both;
+            ">
+              <div style="
+          font-size:3.5rem;
+          color:#2563eb;
+          margin-bottom:0.5rem;
+          font-weight:900;
+          letter-spacing: -2px;
+          line-height: 1;
+              ">
+          401
+              </div>
+              <div style="font-size:1.35rem; font-weight:700; margin-bottom:0.5rem; color:#1e293b;">
+          Unauthorized Access
+              </div>
+              <div style="color:#64748b; margin-bottom:1.7rem; font-size:1.05rem;">
+          You are not authorized to view this page.<br/>
+          Please login to continue.
+              </div>
+              <button id="go-login-btn" style="
+          background: linear-gradient(90deg,#2563eb 60%,#1e293b 100%);
+          color: #fff;
+          border: none;
+          border-radius: 0.8rem;
+          padding: 0.7rem 2.2rem;
+          font-weight: 700;
+          font-size: 1.1rem;
+          box-shadow: 0 2px 12px #2563eb22;
+          cursor: pointer;
+          transition: background 0.18s, transform 0.12s;
+          outline: none;
+          margin-top: 0.5rem;
+          letter-spacing: 0.02em;
+              ">
+          Go to Login
+              </button>
+            </div>
+            <style>
+              @keyframes fadeIn401 {
+          0% { opacity: 0; transform: translateY(32px) scale(0.97);}
+          100% { opacity: 1; transform: translateY(0) scale(1);}
+              }
+              #go-login-btn:active {
+          transform: scale(0.97);
+              }
+              #go-login-btn:hover {
+          background: linear-gradient(90deg,#1d4ed8 60%,#1e293b 100%);
+              }
+            </style>
+          `;
+
+          document.body.appendChild(container);
+
+          const remove401 = () => {
+            if (document.getElementById('unauthorized-401-container')) {
+              document.body.removeChild(container);
+              window.removeEventListener('keydown', escListener);
+            }
+          };
+
+          container.querySelector('#go-login-btn').onclick = () => {
+            remove401();
+            navigate('/login');
+          };
+
+          // Remove on ESC
+          const escListener = (e) => {
+            if (e.key === 'Escape') {
+              remove401();
+              navigate('/login');
+            }
+          };
+          window.addEventListener('keydown', escListener);
+
           return;
-
         }
 
     })()
@@ -113,7 +203,7 @@ export default function Dashboard() {
   // Switch Between Logout and Login
   const logging = async()=>{
 
-
+    
     // Ultra-modern logout confirmation modal (glassmorphism, animated, no alert/confirm, no blur bg)
     const confirmed = await new Promise((resolve) => {
       // Create modal container
