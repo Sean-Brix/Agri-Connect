@@ -119,14 +119,15 @@ function RequestModal({ itemId, onClose }) {
     }
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-            <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col">
-                <div className="flex items-center justify-between px-6 py-4 border-b">
-                    <h2 className="text-xl font-bold text-gray-900">
-                        Item: "{item_name}"
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-2">
+            <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-3xl flex flex-col overflow-hidden max-h-[90vh]">
+                {/* Header */}
+                <div className="flex items-center justify-between px-6 py-5 border-b bg-gradient-to-r from-blue-50 to-blue-100">
+                    <h2 className="text-2xl font-bold text-gray-900 truncate">
+                        Item: <span className="text-blue-700">"{item_name}"</span>
                     </h2>
                     <button
-                        className="text-2xl text-gray-400 hover:text-gray-700 transition-colors"
+                        className="text-3xl text-gray-400 hover:text-blue-600 transition-colors"
                         onClick={onClose}
                         aria-label="Close"
                     >
@@ -135,102 +136,104 @@ function RequestModal({ itemId, onClose }) {
                 </div>
 
                 {/* Stats Section */}
-                <div className="px-6 py-3 border-b">
-                    <h3 className="text-lg font-semibold text-gray-700">
+                <div className="px-6 py-4 border-b bg-white">
+                    <h3 className="text-lg font-semibold text-gray-700 mb-2">
                         Request Statistics
                     </h3>
-                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-2">
-                        <div className="bg-gray-100 rounded-md p-3 text-center">
-                            <div className="text-sm text-gray-500">Total</div>
-                            <div className="font-bold text-gray-700">
-                                {requestStats.total}
+                    <div className="overflow-x-auto">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 min-w-0">
+                            <div className="flex flex-col items-center bg-gray-50 rounded-lg p-2 sm:p-3 shadow-sm text-xs sm:text-sm min-w-0">
+                                <span className="text-[10px] sm:text-xs text-gray-500">Total</span>
+                                <span className="font-bold text-base sm:text-lg text-gray-800">{requestStats.total}</span>
                             </div>
-                        </div>
-                        <div className="bg-yellow-100 rounded-md p-3 text-center">
-                            <div className="text-sm text-gray-500">Pending</div>
-                            <div className="font-bold text-gray-700">
-                                {requestStats.pending}
+                            <div className="flex flex-col items-center bg-yellow-50 rounded-lg p-2 sm:p-3 shadow-sm text-xs sm:text-sm min-w-0">
+                                <span className="text-[10px] sm:text-xs text-yellow-700">Pending</span>
+                                <span className="font-bold text-base sm:text-lg text-yellow-700">{requestStats.pending}</span>
                             </div>
-                        </div>
-                        <div className="bg-blue-100 rounded-md p-3 text-center">
-                            <div className="text-sm text-gray-500">
-                                Processing
+                            <div className="flex flex-col items-center bg-blue-50 rounded-lg p-2 sm:p-3 shadow-sm text-xs sm:text-sm min-w-0">
+                                <span className="text-[10px] sm:text-xs text-blue-700">Processing</span>
+                                <span className="font-bold text-base sm:text-lg text-blue-700">{requestStats.processing}</span>
                             </div>
-                            <div className="font-bold text-gray-700">
-                                {requestStats.processing}
+                            <div className="flex flex-col items-center bg-green-50 rounded-lg p-2 sm:p-3 shadow-sm text-xs sm:text-sm min-w-0">
+                                <span className="text-[10px] sm:text-xs text-green-700">Approved</span>
+                                <span className="font-bold text-base sm:text-lg text-green-700">{requestStats.approved}</span>
                             </div>
-                        </div>
-                        <div className="bg-green-100 rounded-md p-3 text-center">
-                            <div className="text-sm text-gray-500">
-                                Approved
-                            </div>
-                            <div className="font-bold text-gray-700">
-                                {requestStats.approved}
-                            </div>
-                        </div>
-                        <div className="bg-red-100 rounded-md p-3 text-center">
-                            <div className="text-sm text-gray-500">
-                                Rejected
-                            </div>
-                            <div className="font-bold text-gray-700">
-                                {requestStats.rejected}
+                            <div className="flex flex-col items-center bg-red-50 rounded-lg p-2 sm:p-3 shadow-sm text-xs sm:text-sm min-w-0">
+                                <span className="text-[10px] sm:text-xs text-red-700">Rejected</span>
+                                <span className="font-bold text-base sm:text-lg text-red-700">{requestStats.rejected}</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="overflow-y-auto p-4">
+                {/* Requests List */}
+                <div className="flex-1 overflow-y-auto p-4 bg-gradient-to-br from-white to-blue-50">
                     {requests.length > 0 ? (
-                        <ul className="space-y-2">
+                        <ul className="space-y-4">
                             {requests.map((request) => (
                                 <li
                                     key={request.id}
-                                    className="border rounded-md p-3"
+                                    className="border border-gray-200 rounded-2xl p-4 bg-white shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 transition hover:shadow-md"
                                 >
-                                    <p>
-                                        <strong>User ID:</strong>{' '}
-                                        {request.account_id}
-                                    </p>
-                                    <p>
-                                        <strong>Request Date:</strong>{' '}
-                                        {new Date(
-                                            request.created_at
-                                        ).toLocaleDateString(undefined, {
-                                            month: 'long',
-                                            day: 'numeric',
-                                            year: 'numeric',
-                                        })}
-                                    </p>
-                                    <p>
-                                        <strong>Borrow Date:</strong>{' '}
-                                        {new Date(
-                                            request.borrow_date
-                                        ).toLocaleDateString(undefined, {
-                                            month: 'long',
-                                            day: 'numeric',
-                                            year: 'numeric',
-                                        })}
-                                    </p>
-                                    <p>
-                                        <strong>Return Date:</strong>{' '}
-                                        {new Date(
-                                            request.return_date
-                                        ).toLocaleDateString(undefined, {
-                                            month: 'long',
-                                            day: 'numeric',
-                                            year: 'numeric',
-                                        })}
-                                    </p>
-                                    <p>
-                                        <strong>Status:</strong>{' '}
-                                        {request.status}
-                                    </p>
-                                    {/* Add more request details as needed */}
+                                    <div className="flex-1 space-y-1">
+                                        <div className="flex flex-wrap gap-2 items-center">
+                                            <span className="inline-block px-2 py-1 rounded bg-blue-100 text-blue-700 text-xs font-semibold">
+                                                User ID: {request.account_id}
+                                            </span>
+                                            <span className={`inline-block px-2 py-1 rounded text-xs font-semibold
+                                                ${request.status === 'Approved'
+                                                    ? 'bg-green-100 text-green-700'
+                                                    : request.status === 'Rejected'
+                                                    ? 'bg-red-100 text-red-700'
+                                                    : request.status === 'Processing'
+                                                    ? 'bg-blue-100 text-blue-700'
+                                                    : request.status === 'Waiting'
+                                                    ? 'bg-yellow-100 text-yellow-700'
+                                                    : 'bg-gray-100 text-gray-700'
+                                                }`
+                                            }>
+                                                {request.status}
+                                            </span>
+                                        </div>
+                                        <div className="flex flex-wrap gap-4 mt-2 text-sm text-gray-600">
+                                            <span>
+                                                <strong>Request:</strong>{" "}
+                                                {new Date(request.created_at).toLocaleDateString(undefined, {
+                                                    month: 'short',
+                                                    day: 'numeric',
+                                                    year: 'numeric',
+                                                })}
+                                            </span>
+                                            <span>
+                                                <strong>Borrow:</strong>{" "}
+                                                {new Date(request.borrow_date).toLocaleDateString(undefined, {
+                                                    month: 'short',
+                                                    day: 'numeric',
+                                                    year: 'numeric',
+                                                })}
+                                            </span>
+                                            <span>
+                                                <strong>Return:</strong>{" "}
+                                                {new Date(request.return_date).toLocaleDateString(undefined, {
+                                                    month: 'short',
+                                                    day: 'numeric',
+                                                    year: 'numeric',
+                                                })}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </li>
                             ))}
                         </ul>
                     ) : (
-                        <p>No requests found for this item.</p>
+                        <div className="text-center text-gray-500 py-8">
+                            <>
+                                <svg className="mx-auto mb-2 w-12 h-12 text-gray-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 17v-2a4 4 0 014-4h2a4 4 0 014 4v2M7 7a4 4 0 118 0 4 4 0 01-8 0z" />
+                                </svg>
+                                <p>No requests found for this item.</p>
+                            </>
+                        </div>
                     )}
                 </div>
             </div>
@@ -517,15 +520,15 @@ function render_edit(
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-            <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden flex flex-col">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-2">
+            <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-2xl flex flex-col overflow-hidden max-h-[95vh]">
                 {/* HEADER */}
-                <div className="flex items-center justify-between px-6 py-4 border-b">
-                    <h2 className="text-xl font-bold text-gray-900">
+                <div className="flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6 border-b bg-gradient-to-r from-blue-50 to-blue-100">
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
                         Edit Item
                     </h2>
                     <button
-                        className="text-2xl text-gray-400 hover:text-gray-700 transition-colors"
+                        className="text-2xl sm:text-3xl text-gray-400 hover:text-blue-600 transition-colors"
                         onClick={onClose}
                         aria-label="Close"
                     >
@@ -535,104 +538,152 @@ function render_edit(
 
                 {/* FORM */}
                 <form
-                    className="flex-1 overflow-y-auto px-6 py-6 space-y-5"
+                    className="flex-1 overflow-y-auto px-4 sm:px-8 py-6 sm:py-8 space-y-6"
                     onSubmit={(e) => {
                         e.preventDefault();
                         handleSave();
                     }}
+                    style={{ minHeight: 0 }}
                 >
-                    {/* NAME */}
-                    <div>
-                        <label
-                            htmlFor="Name"
-                            className="block text-sm font-medium text-gray-700 mb-1"
-                        >
-                            Name
-                        </label>
-                        <input
-                            type="text"
-                            id="Name"
-                            name="Name"
-                            value={editedItem.Name}
-                            onChange={handleChange}
-                            className="w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50"
-                            placeholder="Name"
-                            autoComplete="off"
-                        />
-                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* NAME */}
+                        <div>
+                            <label
+                                htmlFor="Name"
+                                className="block text-sm font-medium text-gray-700 mb-2"
+                            >
+                                Name
+                            </label>
+                            <input
+                                type="text"
+                                id="Name"
+                                name="Name"
+                                value={editedItem.Name}
+                                onChange={handleChange}
+                                className="w-full rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50"
+                                placeholder="Name"
+                                autoComplete="off"
+                            />
+                        </div>
 
-                    {/* CATEGORY */}
-                    <div>
-                        <label
-                            htmlFor="category"
-                            className="block text-sm font-medium text-gray-700 mb-1"
-                        >
-                            Category
-                        </label>
-                        <select
-                            id="category"
-                            name="category"
-                            value={editedItem.category}
-                            onChange={handleChange}
-                            className="w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50"
-                        >
-                            <option value="Other">Not Specified</option>
-                            <option value="Farming Equipment">
-                                Farming Equipment
-                            </option>
-                            <option value="Harvesting Tools">
-                                Harvesting Tools
-                            </option>
-                            <option value="Irrigation Systems">
-                                Irrigation Systems
-                            </option>
-                            <option value="Storage Equipment">
-                                Storage Equipment
-                            </option>
-                            <option value="Processing Equipment">
-                                Processing Equipment
-                            </option>
-                            <option value="Safety Gear">Safety Gear</option>
-                            <option value="Pest Control">Pest Control</option>
-                            <option value="Livestock Equipment">
-                                Livestock Equipment
-                            </option>
-                            <option value="Measuring Tools">
-                                Measuring Tools
-                            </option>
-                            <option value="Fisheries">Fisheries</option>
-                            <option value="Machinery">Machinery</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
+                        {/* CATEGORY */}
+                        <div>
+                            <label
+                                htmlFor="category"
+                                className="block text-sm font-medium text-gray-700 mb-2"
+                            >
+                                Category
+                            </label>
+                            <select
+                                id="category"
+                                name="category"
+                                value={editedItem.category}
+                                onChange={handleChange}
+                                className="w-full rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50"
+                            >
+                                <option value="Other">Not Specified</option>
+                                <option value="Farming Equipment">
+                                    Farming Equipment
+                                </option>
+                                <option value="Harvesting Tools">
+                                    Harvesting Tools
+                                </option>
+                                <option value="Irrigation Systems">
+                                    Irrigation Systems
+                                </option>
+                                <option value="Storage Equipment">
+                                    Storage Equipment
+                                </option>
+                                <option value="Processing Equipment">
+                                    Processing Equipment
+                                </option>
+                                <option value="Safety Gear">Safety Gear</option>
+                                <option value="Pest Control">Pest Control</option>
+                                <option value="Livestock Equipment">
+                                    Livestock Equipment
+                                </option>
+                                <option value="Measuring Tools">
+                                    Measuring Tools
+                                </option>
+                                <option value="Fisheries">Fisheries</option>
+                                <option value="Machinery">Machinery</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
 
-                    {/* STATUS */}
-                    <div>
-                        <label
-                            htmlFor="status"
-                            className="block text-sm font-medium text-gray-700 mb-1"
-                        >
-                            Status
-                        </label>
-                        <select
-                            id="status"
-                            name="status"
-                            value={editedItem.status}
-                            onChange={handleChange}
-                            className="w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50"
-                        >
-                            <option value="Available">Available</option>
-                            <option value="Borrowed">Borrowed</option>
-                            <option value="Reserved">Reserved</option>
-                            <option value="Returned">Returned</option>
-                        </select>
+                        {/* STATUS */}
+                        <div>
+                            <label
+                                htmlFor="status"
+                                className="block text-sm font-medium text-gray-700 mb-2"
+                            >
+                                Status
+                            </label>
+                            <select
+                                id="status"
+                                name="status"
+                                value={editedItem.status}
+                                onChange={handleChange}
+                                className="w-full rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50"
+                            >
+                                <option value="Available">Available</option>
+                                <option value="Borrowed">Borrowed</option>
+                                <option value="Reserved">Reserved</option>
+                                <option value="Returned">Returned</option>
+                            </select>
+                        </div>
+
+                        {/* IMAGE UPLOAD */}
+                        <div>
+                            <label
+                                htmlFor="photo"
+                                className="block text-sm font-medium text-gray-700 mb-2"
+                            >
+                                Photo
+                            </label>
+                            <input
+                                type="file"
+                                id="photo"
+                                name="photo"
+                                accept="image/*"
+                                onChange={(e) => {
+                                    const file = e.target.files[0];
+                                    if (file) {
+                                        const reader = new FileReader();
+                                        reader.onloadend = () => {
+                                            setEditedItem((prev) => ({
+                                                ...prev,
+                                                photo: reader.result,
+                                            }));
+                                            setNew_Photo(file);
+                                        };
+                                        reader.readAsDataURL(file);
+                                    }
+                                }}
+                                className="w-full rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50"
+                            />
+                            {/* IMAGE PREVIEW */}
+                            <div className="mt-3 flex items-center gap-3">
+                                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg border border-gray-200 bg-gray-50 flex items-center justify-center overflow-hidden">
+                                    <img
+                                        src={
+                                            editedItem.photo ||
+                                            editedItem.image ||
+                                            default_image
+                                        }
+                                        alt="Preview"
+                                        className="object-cover w-full h-full"
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     {/* DESCRIPTION */}
                     <div>
                         <label
                             htmlFor="description"
-                            className="block text-sm font-medium text-gray-700 mb-1"
+                            className="block text-sm font-medium text-gray-700 mb-2"
                         >
                             Description
                         </label>
@@ -641,71 +692,26 @@ function render_edit(
                             name="description"
                             value={editedItem.description || ''}
                             onChange={handleChange}
-                            rows="3"
-                            className="w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50 resize-none"
+                            rows="4"
+                            className="w-full rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50 resize-none"
                             placeholder="Description"
                         ></textarea>
                     </div>
-
-                    {/* IMAGE */}
-                    <div>
-                        <label
-                            htmlFor="photo"
-                            className="block text-sm font-medium text-gray-700 mb-1"
-                        >
-                            photo
-                        </label>
-                        <input
-                            type="file"
-                            id="photo"
-                            name="photo"
-                            accept="image/*"
-                            onChange={(e) => {
-                                const file = e.target.files[0];
-                                if (file) {
-                                    const reader = new FileReader();
-                                    reader.onloadend = () => {
-                                        setEditedItem((prev) => ({
-                                            ...prev,
-                                            photo: reader.result,
-                                        }));
-                                        setNew_Photo(file);
-                                    };
-                                    reader.readAsDataURL(file);
-                                }
-                            }}
-                            className="w-full rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50"
-                        />
-                    </div>
-
-                    {/* IMAGE PREVIEW */}
-                    {editedItem.image && (
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Image Preview
-                            </label>
-                            <img
-                                src={editedItem.image}
-                                alt="Item Preview"
-                                className="w-32 h-32 object-cover rounded-lg border border-gray-200 shadow"
-                            />
-                        </div>
-                    )}
                 </form>
 
                 {/* CONTROLS */}
-                <div className="flex justify-end gap-3 px-6 py-4 border-t bg-gray-50">
+                <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 px-4 sm:px-8 py-4 sm:py-6 border-t bg-gradient-to-r from-blue-50 to-blue-100">
                     <button
                         onClick={onClose}
                         type="button"
-                        className="px-5 py-2 rounded-lg font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition"
+                        className="px-6 py-2 rounded-xl font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition w-full sm:w-auto"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={handleSave}
                         type="button"
-                        className="px-5 py-2 rounded-lg font-semibold bg-blue-600 text-white hover:bg-blue-700 transition shadow"
+                        className="px-6 py-2 rounded-xl font-semibold bg-blue-600 text-white hover:bg-blue-700 transition shadow w-full sm:w-auto"
                     >
                         Save
                     </button>
