@@ -1,4 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import {
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+} from 'recharts';
 
 const categories = [
     'Farming Equipment',
@@ -23,10 +32,10 @@ function Content() {
         id: '',
         name: '',
         quantity: '',
-                description: '',
-                category: 'Other',
-                status: 'Available',
-            });
+        description: '',
+        category: 'Other',
+        status: 'Available',
+    });
     const [showModal, setShowModal] = useState(false);
     const [search, setSearch] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('All');
@@ -38,7 +47,7 @@ function Content() {
     const [showEditModal, setShowEditModal] = useState(false);
 
     useEffect(() => {
-            fetchItems();
+        fetchItems();
     }, []);
 
     const fetchItems = async () => {
@@ -54,6 +63,71 @@ function Content() {
             setItems([]);
         }
     };
+
+    useEffect(() => {
+        if (items.length > 0) {
+            items.forEach(async (item) => {
+                if (item.quantity === 0 && item.status !== 'Out of Stock') {
+                    try {
+                        const response = await fetch(
+                            '/api/inventory/editItem',
+                            {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    ...item,
+                                    status: 'Out of Stock',
+                                }),
+                            }
+                        );
+                        if (!response.ok) {
+                            throw new Error(
+                                `HTTP error! status: ${response.status}`
+                            );
+                        }
+                        fetchItems();
+                    } catch (error) {
+                        console.error(
+                            `Failed to update status for item ${item.id}:`,
+                            error
+                        );
+                    }
+                } else if (
+                    item.status === 'Out of Stock' &&
+                    item.quantity > 0
+                ) {
+                    try {
+                        const response = await fetch(
+                            '/api/inventory/editItem',
+                            {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    ...item,
+                                    status: 'Available',
+                                }),
+                            }
+                        );
+                        if (!response.ok) {
+                            throw new Error(
+                                `HTTP error! status: ${response.status}`
+                            );
+                        }
+                        fetchItems();
+                    } catch (error) {
+                        console.error(
+                            `Failed to update status for item ${item.id}:`,
+                            error
+                        );
+                    }
+                }
+            });
+        }
+    }, [items]);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -110,16 +184,13 @@ function Content() {
         if (!form.name || !form.quantity) return;
 
         try {
-            const response = await fetch(
-                `/api/inventory/editItem`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(form),
-                }
-                                );
+            const response = await fetch(`/api/inventory/editItem`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(form),
+            });
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -197,6 +268,8 @@ function Content() {
         }
     };
 
+    const [showStats, setShowStats] = useState(false);
+
     const handleSelectItem = (id) => {
         if (selectedItems.includes(id)) {
             setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
@@ -208,6 +281,28 @@ function Content() {
         }
     };
 
+    const calculateStats = () => {
+        const categoryCounts = {};
+        const statusCounts = {};
+
+        items.forEach((item) => {
+            categoryCounts[item.category] =
+                (categoryCounts[item.category] || 0) + 1;
+            statusCounts[item.status] = (statusCounts[item.status] || 0) + 1;
+        });
+
+        const totalItems = items.length;
+        const uniqueCategories = Object.keys(categoryCounts).length;
+        return {
+            totalItems,
+            uniqueCategories,
+            categoryCounts,
+            statusCounts,
+        };
+    };
+
+    const stats = calculateStats();
+
     return (
         <div className="flex flex-col items-center justify-center min-h-[91% w-full bg-gradient-to-br from-blue-200 via-blue-100 to-blue-300 p-2 sm:p-4 md:p-8 rounded-2xl shadow-2xl mt-[5%] transition-all">
             <div className="w-full max-w-5xl z-20 sticky top-0 md:top-14 bg-white/80 backdrop-blur-md p-4 sm:p-6 md:p-10 rounded-2xl shadow-lg border-b border-blue-200">
@@ -216,12 +311,12 @@ function Content() {
                 </h1>
                 <div className="flex flex-col md:flex-row gap-2 sm:gap-3 md:gap-4 w-full max-w-2xl mx-auto">
                     <input
-                                type="text"
+                        type="text"
                         placeholder="Search items..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         className="flex-1 border border-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow transition text-blue-900 placeholder:text-blue-400 text-sm sm:text-base"
-                            />
+                    />
                     <select
                         value={categoryFilter}
                         onChange={(e) => setCategoryFilter(e.target.value)}
@@ -234,41 +329,41 @@ function Content() {
                             </option>
                         ))}
                     </select>
-                            <select
+                    <select
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value)}
-                                className="border border-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow transition text-blue-900 text-sm sm:text-base"
-                            >
+                        className="border border-blue-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow transition text-blue-900 text-sm sm:text-base"
+                    >
                         <option key="All">All</option>
-                                {statuses.map((status) => (
-                                    <option key={status} value={status}>
-                                        {status}
-                                    </option>
-                                ))}
-                            </select>
-                            <button
+                        {statuses.map((status) => (
+                            <option key={status} value={status}>
+                                {status}
+                            </option>
+                        ))}
+                    </select>
+                    <button
                         onClick={() => setShowModal(true)}
                         className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold px-4 sm:px-6 py-2 rounded-xl hover:from-blue-600 hover:to-blue-800 transition shadow-lg flex items-center gap-2 text-sm sm:text-base"
-                            >
+                    >
                         <svg
                             className="w-5 h-5"
                             fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                                 d="M12 4v16m8-8H4"
-                                />
-                            </svg>
+                            />
+                        </svg>
                         Add Item
                     </button>
                     <button
                         onClick={() => setShowDelete(!showDelete)}
                         className="bg-gradient-to-r from-red-400 to-red-600 text-white font-bold px-4 sm:px-6 py-2 rounded-xl hover:from-red-500 hover:to-red-700 transition shadow-lg flex items-center gap-2 text-sm sm:text-base"
-                        >
+                    >
                         <svg
                             className="w-5 h-5"
                             fill="none"
@@ -283,7 +378,26 @@ function Content() {
                             />
                         </svg>
                         Delete
-                            </button>
+                    </button>
+                    <button
+                        onClick={() => setShowStats(!showStats)}
+                        className="bg-gradient-to-r from-green-400 to-green-600 text-white font-bold px-4 sm:px-6 py-2 rounded-xl hover:from-green-500 hover:to-green-700 transition shadow-lg flex items-center gap-2 text-sm sm:text-base"
+                    >
+                        <svg
+                            className="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M4 6h16M4 12h16M4 18h7"
+                            />
+                        </svg>
+                        Statistics
+                    </button>
                 </div>
                 {showDelete && (
                     <div className="flex flex-col sm:flex-row justify-end mt-4 gap-2">
@@ -293,7 +407,7 @@ function Content() {
                             className={`px-4 py-2 rounded-xl font-semibold transition shadow-lg bg-red-500 text-white hover:bg-red-600 disabled:bg-red-200 disabled:cursor-not-allowed text-sm sm:text-base`}
                         >
                             Remove Selected
-                                            </button>
+                        </button>
                         <button
                             onClick={() => {
                                 setSelectAll(true);
@@ -305,9 +419,9 @@ function Content() {
                         >
                             Select All
                         </button>
-            </div>
+                    </div>
                 )}
-        </div>
+            </div>
             {showModal && (
                 <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl shadow-2xl p-4 sm:p-8 w-[98vw] max-w-lg relative border border-blue-200 animate-fadeIn">
@@ -444,7 +558,7 @@ function Content() {
                                 onChange={handleChange}
                                 placeholder="Quantity"
                                 className="border border-blue-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow text-sm sm:text-base"
-                                min="1"
+                                min="0"
                                 required
                             />
                             <input
@@ -489,6 +603,76 @@ function Content() {
                     </div>
                 </div>
             )}
+            {showStats && (
+                <div className="w-full max-w-5xl mt-4">
+                    <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-blue-800 mb-4 text-center tracking-tight">
+                        Inventory Statistics
+                    </h2>
+                    <div className="rounded-2xl shadow-lg bg-white/80 backdrop-blur-md border border-blue-100 p-4 flex flex-col gap-4">
+                        {/* Category Counts */}
+                        <div>
+                            <h3 className="text-md font-semibold text-blue-800 text-center">
+                                Category Distribution
+                            </h3>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 mt-2">
+                                {Object.entries(stats.categoryCounts).length >
+                                0 ? (
+                                    Object.entries(stats.categoryCounts).map(
+                                        ([category, count]) => (
+                                            <div
+                                                key={category}
+                                                className="flex flex-col items-center p-2 rounded-md bg-blue-50 shadow-inner"
+                                            >
+                                                <span className="text-blue-700 font-semibold text-sm">
+                                                    {category}
+                                                </span>
+                                                <span className="text-blue-500 text-xs">
+                                                    ({count})
+                                                </span>
+                                            </div>
+                                        )
+                                    )
+                                ) : (
+                                    <p className="text-blue-700 text-center">
+                                        No category data available.
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                        {/* Status Counts */}
+                        <div>
+                            <h3 className="text-md font-semibold text-blue-800 text-center">
+                                Status Distribution
+                            </h3>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 mt-2">
+                                {statuses.map((status) => {
+                                    const count =
+                                        stats.statusCounts[status] || 0;
+                                    let textColor = 'text-blue-700';
+                                    if (status === 'Out of Stock') {
+                                        textColor = 'text-red-700';
+                                    }
+                                    return (
+                                        <div
+                                            key={status}
+                                            className="flex flex-col items-center p-2 rounded-md bg-blue-50 shadow-inner"
+                                        >
+                                            <span
+                                                className={`${textColor} font-semibold text-sm`}
+                                            >
+                                                {status}
+                                            </span>
+                                            <span className="text-blue-500 text-xs">
+                                                ({count})
+                                            </span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <div className="w-full max-w-5xl mt-4">
                 <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-blue-800 mb-4 text-center tracking-tight">
@@ -504,7 +688,7 @@ function Content() {
                                         checked={
                                             selectAll &&
                                             filteredItems.length > 0
-}
+                                        }
                                         onChange={handleSelectAll}
                                         aria-label="Select all"
                                     />
