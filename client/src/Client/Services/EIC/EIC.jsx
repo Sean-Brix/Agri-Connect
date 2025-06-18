@@ -51,11 +51,11 @@ export default function Eic() {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-                const data = await response.json();
+                const { payload } = await response.json();
 
-                if (data.payload && Array.isArray(data.payload)) {
+                if (Array.isArray(payload)) {
                     const equipmentWithImages = await Promise.all(
-                        data.payload.map(async (item) => {
+                        payload.map(async (item) => {
                             try {
                                 const imageResponse = await fetch(
                                     `/api/eic/getImage?id=${item.id}`
@@ -87,7 +87,7 @@ export default function Eic() {
                     );
                     setEquipmentList(equipmentWithImages);
                 } else {
-                    console.warn('Payload is not an array or is empty:', data);
+                    console.warn('Payload is not an array or is empty:', payload);
                     setEquipmentList([]);
                 }
             } catch (error) {
@@ -312,7 +312,7 @@ export default function Eic() {
                     quantity: 1,
                 });
             } else {
-                const data = await response.json();
+                await response.json();
                 // Custom alert for admin cannot borrow
                 const alertDiv = document.createElement('div');
                 alertDiv.innerHTML = `
@@ -489,7 +489,7 @@ export default function Eic() {
             const requestsResponse = await fetch('/api/eic/myRequest');
             if (requestsResponse.ok) {
                 const requestsData = await requestsResponse.json();
-                setMyRequests(requestsData.payload);
+                setMyRequests(Array.isArray(requestsData.payload) ? requestsData.payload : []);
                 setShowMyRequestsModal(true);
             } else {
                 console.error(
