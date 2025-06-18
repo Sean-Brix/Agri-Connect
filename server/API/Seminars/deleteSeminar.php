@@ -32,15 +32,29 @@ if(strtolower($details['access']) === "user"){
 
 $delete_id = $_GET['delete'];
 
-$result = statement("DELETE FROM seminars WHERE id = ?", [$delete_id], "s");
+// Delete related records in seminar_participants table first
+$result_participants = statement("DELETE FROM seminar_participants WHERE seminar_id = ?", [$delete_id], "i");
+
+if($result_participants === false){
+    sendResponse(
+        500,
+        "Server Error",
+        ["Error"=>"Unable to delete seminar participants"],
+        "delete participants failed"
+    );
+    exit();
+}
+
+
+$result = statement("DELETE FROM seminars WHERE id = ?", [$delete_id], "i");
 
 if(!$result){
-    sendResponse(
+sendResponse(
         500,
         "Server Error",
         ["Error"=>"Unable to delete seminar program"],
         "delete failed"
-    );
+);
     exit();
 }
 

@@ -123,7 +123,6 @@ export default function Seminar({ admin_navigate }) {
                 `/api/Seminars/deleteSeminar?delete=${programList[idx].id}`
             );
             const data = await response.json();
-            console.log(data);
         });
 
         const updatedProgramList = programList.filter(
