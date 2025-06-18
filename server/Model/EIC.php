@@ -349,4 +349,97 @@ class EIC{
 
         return $requests;
     }
+
+   /**
+         * What it Does: Approves an EIC request by its ID.
+         * Returns What: The result of the statement execution.
+         */
+    public static function approveRequest($request_id, $admin_id, $status) {
+        $allowedStatuses = ['Approved', 'Rejected', 'Processing', 'Waiting'];
+        if (!in_array($status, $allowedStatuses)) {
+            return false;
+        }
+        $query = "UPDATE eic_request SET status = ?, approval_date = NOW(), admin_id = ? WHERE id = ?";
+        $params = [$status, $admin_id, $request_id];
+        $types = "sii";
+        $result = statement($query, $params, $types);
+
+        if ($result && $status == 'Approved') {
+            // Subtract the requested quantity from the EIC quantity
+            $requestDetails = self::getRequestDetails($request_id);
+            if ($requestDetails) {
+                $eic_id = $requestDetails['eic_id'];
+                $quantity = $requestDetails['quantity'];
+
+                $updateQuery = "UPDATE EIC SET quantity = quantity - ? WHERE id = ?";
+                $updateParams = [$quantity, $eic_id];
+                $updateTypes = "ii";
+                $updateResult = statement($updateQuery, $updateParams, $updateTypes);
+
+                 if (!$updateResult) {
+                     // Revert the request status if EIC update fails
+                    $revertQuery = "UPDATE eic_request SET status = 'Waiting', approval_date = NULL, admin_id = NULL WHERE id = ?";
+                    $revertParams = [$request_id];
+                    $revertTypes = "i";
+                    statement($revertQuery, $revertParams, $revertTypes);
+                    return false;
+                }
+            }
+        } else if ($result && $status == 'Rejected') {
+             // Get the request details
+             $requestDetails = self::getRequestDetails($request_id);
+
+             if ($requestDetails) {
+                // Only add to quantity if the status was not already "Waiting"
+                $requestStatus = self::getRequestStatus($request_id);
+                if ($requestStatus != 'Waiting') {
+                 $eic_id = $requestDetails['eic_id'];
+                 $quantity = $requestDetails['quantity'];
+
+                 // Add the rejected quantity back to the EIC quantity
+                 $updateQuery = "UPDATE EIC SET quantity = quantity + ? WHERE id = ?";
+                 $updateParams = [$quantity, $eic_id];
+                 $updateTypes = "ii";
+                 $updateResult = statement($updateQuery, $updateParams, $updateTypes);
+
+                 if (!$updateResult) {
+                     // Revert the request status if EIC update fails
+                     $revertQuery = "UPDATE eic_request SET status = 'Waiting', approval_date = NULL, admin_id = NULL WHERE id = ?";
+                     $revertParams = [$request_id];
+                     $revertTypes = "i";
+                     statement($revertQuery, $revertParams, $revertTypes);
+                     return false;
+                 }
+             }
+         }
+    }
+
+        return $result;
+    }
+
+    private static function getRequestDetails($request_id) {
+        $query = "SELECT eic_id, quantity FROM eic_request WHERE id = ?";
+        $params = [$request_id];
+        $types = "i";
+        $result = statement($query, $params, $types);
+
+        if ($row = mysqli_fetch_assoc($result)) {
+            return $row;
+        }
+
+        return null;
+    }
+
+    private static function getRequestStatus($request_id) {
+        $query = "SELECT status FROM eic_request WHERE id = ?";
+        $params = [$request_id];
+        $types = "i";
+        $result = statement($query, $params, $types);
+
+        if ($row = mysqli_fetch_assoc($result)) {
+            return $row['status'];
+        }
+
+        return null;
+    }
 }

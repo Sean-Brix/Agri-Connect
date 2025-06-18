@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function EIC_Request() {
+    const navigate = useNavigate();
     const [requests, setRequests] = useState([]);
     const [eics, setEics] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
@@ -15,6 +17,8 @@ export default function EIC_Request() {
                 setRequests(data?.payload || []);
             } catch (error) {
                 console.error('Error fetching requests:', error);
+                alert('Unauthorize, Only Admin Account');
+                navigate('/login');
             }
         };
 
@@ -25,6 +29,8 @@ export default function EIC_Request() {
                 setAccounts(data?.payload || []);
             } catch (error) {
                 console.error('Error fetching accounts:', error);
+                alert('Unauthorize, Only Admin Account');
+                navigate('/login');
             }
         };
 
@@ -35,6 +41,8 @@ export default function EIC_Request() {
                 setEics(data?.payload || []);
             } catch (error) {
                 console.error('Error fetching eics:', error);
+                alert('Unauthorize, Only Admin Account');
+                navigate('/login');
             }
         };
 
@@ -77,15 +85,21 @@ export default function EIC_Request() {
 
     const handleApprove = async (id) => {
         try {
-            await fetch(`/api/eic_requests/${id}`, {
-                method: 'PUT',
+            const response = await fetch(`/api/eic/approve_request`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                    request_id: id,
                     status: 'Approved',
                 }),
             });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
             setRequests((prevRequests) =>
                 prevRequests.map((request) =>
                     request.id === id
@@ -95,20 +109,57 @@ export default function EIC_Request() {
             );
         } catch (error) {
             console.error('Error approving request:', error);
+            alert('Unauthorize, Only Admin Account');
+            navigate('/login');
+        }
+    };
+
+    const handleProcessing = async (id) => {
+        try {
+            const response = await fetch(`/api/eic/approve_request`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    request_id: id,
+                    status: 'Processing',
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            setRequests((prevRequests) =>
+                prevRequests.map((request) =>
+                    request.id === id
+                        ? { ...request, status: 'Processing' }
+                        : request
+                )
+            );
+        } catch (error) {
+            console.error('Error approving request:', error);
+            alert('Unauthorize, Only Admin Account');
+            navigate('/login');
         }
     };
 
     const handleReject = async (id) => {
         try {
-            await fetch(`/api/eic_requests/${id}`, {
-                method: 'PUT',
+            const response = await fetch(`/api/eic/approve_request`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                    request_id: id,
                     status: 'Rejected',
                 }),
             });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
             setRequests((prevRequests) =>
                 prevRequests.map((request) =>
                     request.id === id
@@ -118,16 +169,10 @@ export default function EIC_Request() {
             );
         } catch (error) {
             console.error('Error rejecting request:', error);
+            alert('Unauthorize, Only Admin Account');
+            navigate('/login');
         }
     };
-
-    useEffect(()=>{
-
-        console.log(requests);
-        console.log(accounts);
-        console.log(eics);
-
-    }, [requests])
 
     const RequestCard = ({ request }) => {
         const account = accounts?.find(
@@ -165,7 +210,7 @@ export default function EIC_Request() {
                     <div className="space-y-2">
                         <div className="flex justify-between text-xs text-gray-500">
                             <span className="font-medium">Item ID</span>
-                            <span>{request?.id}</span>
+                            <span>{eic?.id}</span>
                         </div>
                         <div className="flex justify-between text-xs text-gray-500">
                             <span className="font-medium">Quantity</span>
@@ -220,21 +265,45 @@ export default function EIC_Request() {
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-end gap-3 mt-10">
-                    <button
-                        className={`px-6 py-2 rounded-full bg-gradient-to-r from-blue-400 to-blue-500 text-white text-sm font-semibold shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:opacity-40 hover:from-blue-500 hover:to-blue-600`}
-                        onClick={() => handleApprove(request.id)}
-                        disabled={request.status === 'Approved'}
+                <div className="flex justify-end mt-4">
+                    <select
+                        className="w-full md:w-auto px-4 py-2 border border-gray-200 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700 shadow-sm transition-all duration-200 cursor-pointer"
+                        defaultValue={request.status}
+                        onChange={(e) => {
+                            if (e.target.value === 'Approved') {
+                                handleApprove(request.id);
+                            } else if (e.target.value === 'Rejected') {
+                                handleReject(request.id);
+                            } else if (e.target.value === 'Processing') {
+                                handleProcessing(request.id);
+                            }
+                        }}
                     >
-                        Approve
-                    </button>
-                    <button
-                        className={`px-6 py-2 rounded-full bg-gradient-to-r from-red-400 to-red-500 text-white text-sm font-semibold shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-300 disabled:opacity-40 hover:from-red-500 hover:to-red-600`}
-                        onClick={() => handleReject(request.id)}
-                        disabled={request.status === 'Rejected'}
-                    >
-                        Reject
-                    </button>
+                        <option
+                            value="Waiting"
+                            disabled={request.status !== 'Waiting'}
+                        >
+                            Waiting
+                        </option>
+                        <option
+                            value="Approved"
+                            disabled={request.status === 'Approved'}
+                        >
+                            Approve
+                        </option>
+                        <option
+                            value="Rejected"
+                            disabled={request.status === 'Rejected'}
+                        >
+                            Reject
+                        </option>
+                        <option
+                            value="Processing"
+                            disabled={request.status === 'Processing'}
+                        >
+                            Processing
+                        </option>
+                    </select>
                 </div>
             </div>
         );
