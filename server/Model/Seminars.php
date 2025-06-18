@@ -69,6 +69,17 @@ class Seminars {
     }
 
     public function addParticipant($account_id) {
+        // Check if the participant is already registered
+        $check_query = "SELECT COUNT(*) FROM `seminar_participants` WHERE seminar_id = ? AND account_id = ?";
+        $check_params = [$this->id, $account_id];
+        $check_types = getTypes($check_params);
+        $check_result = statement($check_query, $check_params, $check_types);
+        $check_row = mysqli_fetch_array($check_result);
+
+        if ($check_row[0] > 0) {
+            return false; // Already registered
+        }
+
         $query = "INSERT INTO `seminar_participants` (seminar_id, account_id, status, registration_date) VALUES (?, ?, 'Registered', NOW())";
         $params = [$this->id, $account_id];
         $types = getTypes($params);

@@ -4,7 +4,6 @@ import {useNavigate} from 'react-router-dom'
 import Navbar from '../../Components/Navbar';
 
 // ASSETS
-import backg from './Assets/backg.jpg';
 import default_seminar_pic from './Assets/default_seminar_pic.jpg';
 
 export default function Seminar() {
@@ -78,6 +77,11 @@ export default function Seminar() {
             navigate('/login');
             return
         }
+        const access = await check.json();
+        if(access.payload.access != "User"){
+            alert("Admin cannot apply");
+            return;
+        }
 
         try {
             const response = await fetch('/api/seminars/participants/user_apply', {
@@ -95,7 +99,7 @@ export default function Seminar() {
                 alert('Successfully applied!');
             } 
             else {
-                alert('Failed to apply.');
+                alert('Already Applied.');
             }
         } 
         catch (error) {

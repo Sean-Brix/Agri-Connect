@@ -20,6 +20,16 @@ if(!$user){
 $Account = new Account($user['ID']);
 $details = $Account->getDetails();
 
+if(!$details['access'] === "User"){  
+    sendResponse(
+        401,
+        "Unauthorize",
+        ["Error"=>"Only User can apply"],
+        "Admin cannot apply for seminar"
+    );
+    exit();
+}
+
 $req = getJsonBody();
 $seminar_id = $req['id'];
 
@@ -38,9 +48,9 @@ sendResponse(
 } 
 else {
     sendResponse(
-        500,
+        409,
         "Error",
         ["error"=>"Failed to enroll in seminar"],
-        "Failed to enroll"
+        "Already Enrolled to the seminar"
     );
 }

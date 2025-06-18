@@ -110,3 +110,31 @@ CREATE TABLE eic_request (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+
+
+CREATE TABLE inventory (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    quantity INT NOT NULL DEFAULT 0,
+    description TEXT,
+
+    category ENUM(
+        'Farming Equipment',
+        'Harvesting Tools',
+        'Irrigation Systems',
+        'Storage Equipment',
+        'Processing Equipment',
+        'Safety Gear',
+        'Pest Control',
+        'Livestock Equipment',
+        'Measuring Tools',
+        'Fisheries',
+        'Machinery',
+        'Other'
+    ) NOT NULL,
+
+    status ENUM('Available', 'Maintenance', 'Damaged', 'Out of Stock') DEFAULT 'Available',
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
