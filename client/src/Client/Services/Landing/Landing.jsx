@@ -180,7 +180,7 @@ export default function Landing() {
                             </div>
 
                             {/* Modern Horizontal Scrollbar for Programs */}
-                            <div id="programs" className="mb-20">
+                            <div id="programs" className="mb-20 py-14">
                                 <h2 className="text-3xl font-extrabold text-green-900 mb-15 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
                                     Our Programs
                                 </h2>
@@ -311,10 +311,10 @@ export default function Landing() {
                     </section>
 
                     <div>
-                        <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
+                        <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100 ">
                             Why Choose Us?
                         </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-15 max-w-5xl mx-auto">
                             {/* Card 1 */}
                             <div className="flex-1 bg-gradient-to-br from-green-900 via-green-800 to-green-700 shadow-xl border border-green-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10 delay-100">
                                 <div className="bg-green-800 rounded-full p-4 mb-5 shadow">
