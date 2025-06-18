@@ -33,7 +33,7 @@ export default function All_Items() {
             const response = await fetch(
                 `/api/eic/getAll?status=${statusFilter}&category=${categoryFilter}&search=${search}`
             );
-                const data = await response.json();
+            const data = await response.json();
 
             if (!data.payload || data.payload.length === 0) {
                 setItems([]);
@@ -49,23 +49,23 @@ export default function All_Items() {
                         if (imageResponse.ok) {
                             if (imageResponse.status === 204) {
                                 return { ...item, photo: default_image };
-                        }
+                            }
                             const imageBlob = await imageResponse.blob();
                             const imageUrl = URL.createObjectURL(imageBlob);
                             return { ...item, photo: imageUrl };
-                    } else {
+                        } else {
                             return { ...item, photo: default_image };
-                    }
-        } catch (error) {
+                        }
+                    } catch (error) {
                         console.error('Error fetching image:', error);
                         return { ...item, photo: default_image };
-        }
+                    }
                 })
-    );
+            );
             setItems(itemsWithImages);
         } catch (error) {
             console.error('Error fetching items:', error);
-}
+        }
     };
 
     const handleDelete = async () => {
@@ -93,11 +93,19 @@ export default function All_Items() {
             });
 
             const results = await Promise.all(deletePromises);
-            const successfullyDeletedIds = results.filter(id => id !== null);
+            const successfullyDeletedIds = results.filter((id) => id !== null);
 
             if (successfullyDeletedIds.length > 0) {
-                setItems(prevItems => prevItems.filter(item => !successfullyDeletedIds.includes(item.id)));
-                setSelectedItems(prevSelectedItems => prevSelectedItems.filter(id => !successfullyDeletedIds.includes(id)));
+                setItems((prevItems) =>
+                    prevItems.filter(
+                        (item) => !successfullyDeletedIds.includes(item.id)
+                    )
+                );
+                setSelectedItems((prevSelectedItems) =>
+                    prevSelectedItems.filter(
+                        (id) => !successfullyDeletedIds.includes(id)
+                    )
+                );
                 alert('Items deleted successfully.');
             } else {
                 alert(
@@ -111,7 +119,6 @@ export default function All_Items() {
             setIsDeleting(false);
         }
     };
-
 
     const toggleSelectItem = (itemId) => {
         if (selectedItems.includes(itemId)) {
@@ -318,10 +325,6 @@ export default function All_Items() {
                         className="flex items-center justify-center px-4 py-1.5 rounded-lg text-sm font-medium shadow bg-green-500 hover:bg-green-600 text-white transition-all"
                         onClick={handleOpenNewItemModal}
                     >
-<<<<<<< HEAD
-
-=======
->>>>>>> 3df6485ba7d894df11a91cfc1af8d077842c8873
                         New Item
                     </button>
                     {isDeleting ? (
@@ -330,20 +333,12 @@ export default function All_Items() {
                                 className="flex items-center justify-center px-4 py-1.5 rounded-lg text-sm font-medium shadow bg-red-600 hover:bg-red-700 text-white transition-all"
                                 onClick={handleDelete}
                             >
-<<<<<<< HEAD
-
-=======
->>>>>>> 3df6485ba7d894df11a91cfc1af8d077842c8873
                                 Delete Selected
                             </button>
                             <button
                                 className="flex items-center justify-center px-4 py-1.5 rounded-lg text-sm font-medium shadow bg-gray-400 hover:bg-gray-500 text-white transition-all"
                                 onClick={handleCancelDelete}
                             >
-<<<<<<< HEAD
-
-=======
->>>>>>> 3df6485ba7d894df11a91cfc1af8d077842c8873
                                 Cancel
                             </button>
                         </>
@@ -352,10 +347,6 @@ export default function All_Items() {
                             className="flex items-center justify-center px-4 py-1.5 rounded-lg text-sm font-medium shadow bg-red-500 hover:bg-red-600 text-white transition-all"
                             onClick={() => setIsDeleting(true)}
                         >
-<<<<<<< HEAD
-
-=======
->>>>>>> 3df6485ba7d894df11a91cfc1af8d077842c8873
                             Delete
                         </button>
                     )}
@@ -404,8 +395,18 @@ export default function All_Items() {
                             disabled={currentPage === 1}
                             aria-label="Previous"
                         >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                            <svg
+                                className="w-5 h-5"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M15 19l-7-7 7-7"
+                                />
                             </svg>
                         </button>
                         {Array.from({ length: totalPages }, (_, i) => {
@@ -432,10 +433,14 @@ export default function All_Items() {
                             // Ellipsis
                             if (
                                 (i === 1 && currentPage > 3) ||
-                                (i === totalPages - 2 && currentPage < totalPages - 2)
+                                (i === totalPages - 2 &&
+                                    currentPage < totalPages - 2)
                             ) {
                                 return (
-                                    <span key={i + 1} className="mx-1 px-3 py-2 text-gray-400 select-none">
+                                    <span
+                                        key={i + 1}
+                                        className="mx-1 px-3 py-2 text-gray-400 select-none"
+                                    >
                                         ...
                                     </span>
                                 );
@@ -452,8 +457,18 @@ export default function All_Items() {
                             disabled={currentPage === totalPages}
                             aria-label="Next"
                         >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                            <svg
+                                className="w-5 h-5"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M9 5l7 7-7 7"
+                                />
                             </svg>
                         </button>
                     </nav>
