@@ -37,7 +37,7 @@ $req = getJsonBody();
 $Distribution = new Distribution(null);
 
 $new = $Distribution->create([
-    'name' => $req['Name'],
+    'name' => $req['name'],
     'description' => $req['description'],
     'quantity' => $req['quantity'],
     'status' => $req['status'],

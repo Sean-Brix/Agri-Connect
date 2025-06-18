@@ -173,8 +173,20 @@ class Distribution{
      * What it Does: Deletes a DistributionItem item from the database based on its ID.
      * Returns What: The result of the statement execution.
      */
+    /**
+     * What it Does: Deletes a DistributionItem item from the database based on its ID.  Also deletes any associated distribution requests.
+     * Returns What: The result of the statement execution.
+     */
     public static function deleteStatic($id)
     {
+
+        // First, delete any associated requests
+        $query_requests = "DELETE FROM distribution_request WHERE distribution_item_id = ?";
+        $params_requests = [$id];
+        $types_requests = "i";
+        statement($query_requests, $params_requests, $types_requests);
+
+        // Then, delete the distribution item
         $query = "DELETE FROM distribution_items WHERE id = ?";
         $params = [$id];
         $types = "i";

@@ -31,10 +31,10 @@ if($detail['access'] === "User"){
 
 $distribution_item_id = $_GET['id'];
 
-$DistributionItem = new Distribution($distribution_item_id);
-$request_list = Distribution::getDistributionItemRequest($distribution_item_id);
+$Distribution = new Distribution($distribution_item_id);
+$request_list = $Distribution->getDistributionItemRequest($distribution_item_id);
 
-$distribution_item_details = $DistributionItem->getDetails();
+$distribution_item_details = $Distribution->getDetails();
 if (is_array($request_list)) {
     
     foreach($request_list as &$request){

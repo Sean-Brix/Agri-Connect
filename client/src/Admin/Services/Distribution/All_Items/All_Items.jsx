@@ -50,88 +50,48 @@ export default function All_Items() {
     }, [statusFilter, categoryFilter, search, originalItems]);
 
     const fetchItems = async () => {
-        // try {
-        //   const response = await fetch(
-        //     `/api/eic/getAll?status=${statusFilter}&category=${categoryFilter}&search=${search}`
-        //   );
-        //   const data = await response.json();
+        try {
+            const response = await fetch(
+                `/api/distribution/getAll?status=${statusFilter}&category=${categoryFilter}&search=${search}`
+            );
+            const data = await response.json();
 
-        //   if (!data.payload || data.payload.length === 0) {
-        //     setItems([]);
-        //     return;
-        //   }
+            if (!data.payload || data.payload.length === 0) {
+                setItems([]);
+                return;
+            }
 
-        //   const itemsWithImages = await Promise.all(
-        //     data.payload.map(async (item) => {
-        //       try {
-        //         const imageResponse = await fetch(
-        //           `/api/eic/getImage?id=${item.id}`
-        //         );
+            const itemsWithImages = await Promise.all(
+                data.payload.map(async (item) => {
+                    try {
+                        const imageResponse = await fetch(
+                            `/api/distribution/getImage?id=${item.id}`
+                        );
 
-        //         if (imageResponse.ok) {
-        //           if (imageResponse.status === 204) {
-        //             return { ...item, photo: default_image };
-        //           }
+                        if (imageResponse.ok) {
+                            if (imageResponse.status === 204) {
+                                return { ...item, photo: default_image };
+                            }
 
-        //           const imageBlob = await imageResponse.blob();
-        //           const imageUrl = URL.createObjectURL(imageBlob);
-        //           return { ...item, photo: imageUrl };
-        //         } else {
-        //           return { ...item, photo: default_image };
-        //         }
-        //       } catch (error) {
-        //         console.error('Error fetching image:', error);
-        //         return { ...item, photo: default_image };
-        //       }
-        //     })
-        //   );
+                            const imageBlob = await imageResponse.blob();
+                            const imageUrl = URL.createObjectURL(imageBlob);
+                            return { ...item, photo: imageUrl };
+                        } else {
+                            return { ...item, photo: default_image };
+                        }
+                    } catch (error) {
+                        console.error('Error fetching image:', error);
+                        return { ...item, photo: default_image };
+                    }
+                })
+            );
 
-        //   setItems(itemsWithImages);
-        // } catch (error) {
-        //   console.error('Error fetching items:', error);
-        // }
-
-        // Dummy data for testing purposes
-        const dummyData = [
-            {
-                id: 1,
-                name: 'Tomato Seeds',
-                description: 'High-yield tomato seeds for home gardening.',
-                quantity: 100,
-                status: 'Available',
-                category: 'Seeds',
-                photo: default_image,
-            },
-            {
-                id: 2,
-                name: 'Organic Fertilizer',
-                description: 'All-natural fertilizer for healthy plant growth.',
-                quantity: 50,
-                status: 'Available',
-                category: 'Fertilizers',
-                photo: default_image,
-            },
-            {
-                id: 3,
-                name: 'Hybrid Tomato Seeds',
-                description: 'Improved hybrid tomato seeds for better yield.',
-                quantity: 75,
-                status: 'Out of Stock',
-                category: 'Seeds',
-                photo: default_image,
-            },
-            {
-                id: 4,
-                name: 'Rose Plant',
-                description: 'Beautiful rose plant for your garden.',
-                quantity: 20,
-                status: 'Available',
-                category: 'Plants',
-                photo: default_image,
-            },
-        ];
-        setItems(dummyData);
-        setOriginalItems(dummyData); // Store fetched items in originalItems
+            setItems(itemsWithImages);
+            setOriginalItems(itemsWithImages);
+        } catch (error) {
+            console.error('Error fetching items:', error);
+            setItems([]);
+        }
     };
 
     const handleDelete = async () => {
@@ -140,51 +100,50 @@ export default function All_Items() {
             return;
         }
 
-        // try {
-        //   const deletePromises = selectedItems.map(async (id) => {
-        //     const response = await fetch(`/api/eic/deleteEIC?id=${id}`);
-        //     const data = await response.json();
+        try {
+            const deletePromises = selectedItems.map(async (id) => {
+                const response = await fetch(
+                    `/api/distribution/deleteDist?id=${id}`
+                );
+                const data = await response.json();
+                console.log(data);
 
-        //     if (response.ok && data.status === 'Success') {
-        //       return true;
-        //     } else {
-        //       console.error(
-        //         `Failed to delete item with id ${id}: ${
-        //           data.message || 'Unknown error'
-        //         }`
-        //       );
-        //       return false;
-        //     }
-        //   });
+                if (response.ok && data.status === 'Success') {
+                    return true;
+                } else {
+                    console.error(
+                        `Failed to delete item with id ${id}: ${
+                            data.message || 'Unknown error'
+                        }`
+                    );
+                    return false;
+                }
+            });
 
-        //   const results = await Promise.all(deletePromises);
+            const results = await Promise.all(deletePromises);
 
-        //   if (results.every((result) => result)) {
-        //     alert('Items deleted successfully.');
-        //     setItems(
-        //       items.filter((item) => !selectedItems.includes(item.id))
-        //     );
-        //     setSelectedItems([]);
-        //     setIsDeleting(false);
-        //   } else {
-        //     alert(
-        //       'Some items failed to delete. Please check the console for errors.'
-        //     );
-        //   }
-        // } catch (error) {
-        //   console.error('Error deleting items:', error);
-        //   alert('Failed to delete items. Please try again.');
-        // }
-        const updatedItems = items.filter(
-            (item) => !selectedItems.includes(item.id)
-        );
-        setItems(updatedItems);
-        setOriginalItems(
-            originalItems.filter((item) => !selectedItems.includes(item.id))
-        ); // Update originalItems as well
-        setSelectedItems([]);
-        setIsDeleting(false);
-        alert('Items deleted successfully.');
+            if (results.every((result) => result)) {
+                alert('Items deleted successfully.');
+                const updatedItems = items.filter(
+                    (item) => !selectedItems.includes(item.id)
+                );
+                setItems(updatedItems);
+                setOriginalItems(
+                    originalItems.filter(
+                        (item) => !selectedItems.includes(item.id)
+                    )
+                ); // Update originalItems as well
+                setSelectedItems([]);
+                setIsDeleting(false);
+            } else {
+                alert(
+                    'Some items failed to delete. Please check the console for errors.'
+                );
+            }
+        } catch (error) {
+            console.error('Error deleting items:', error);
+            alert('Failed to delete items. Please try again.');
+        }
     };
 
     const toggleSelectItem = (itemId) => {
@@ -246,74 +205,72 @@ export default function All_Items() {
     };
 
     const handleCreateNewItem = async () => {
-        // try {
-        //   const response = await fetch('/api/eic/addNew', {
-        //     method: 'POST',
-        //     headers: {
-        //       'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //       Name: newItem.Name,
-        //       description: newItem.description,
-        //       quantity: newItem.quantity,
-        //       status: newItem.status,
-        //       category: newItem.category,
-        //     }),
-        //   });
+        try {
+            const response = await fetch('/api/distribution/addNew', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: newItem.name,
+                    description: newItem.description,
+                    quantity: newItem.quantity,
+                    status: newItem.status,
+                    category: newItem.category,
+                }),
+            });
+            if (response.ok) {
+                const data = await response.json();
+                const newItemId = data.payload[0].id;
 
-        //   if (response.ok) {
-        //     const data = await response.json();
-        //     const newItemId = data.payload[0].id;
+                let photo = default_image;
 
-        //     let photo = default_image;
+                if (newItem.image) {
+                    const formData = new FormData();
+                    formData.append('id', newItemId);
+                    formData.append('image', newItem.image);
 
-        //     if (newItem.image) {
-        //       const formData = new FormData();
-        //       formData.append('id', newItemId);
-        //       formData.append('image', newItem.image);
+                    const imageResponse = await fetch(
+                        '/api/distribution/addImage',
+                        {
+                            method: 'POST',
+                            body: formData,
+                        }
+                    );
 
-        //       const imageResponse = await fetch('/api/eic/addImage', {
-        //         method: 'POST',
-        //         body: formData,
-        //       });
+                    if (imageResponse.ok) {
+                        const imageFetchResponse = await fetch(
+                            `/api/distribution/getImage?id=${newItemId}`
+                        );
 
-        //       if (imageResponse.ok) {
-        //         const imageFetchResponse = await fetch(
-        //           `/api/eic/getImage?id=${newItemId}`
-        //         );
-
-        //         if (imageFetchResponse.ok) {
-        //           const imageBlob = await imageFetchResponse.blob();
-        //           photo = URL.createObjectURL(imageBlob);
-        //         } else {
-        //           console.error('Failed to fetch image after upload');
-        //         }
-        //       } else {
-        //         console.error(
-        //           'Failed to upload image:',
-        //           imageResponse.status
-        //         );
-        //       }
-        //     }
-
-        //     const newItemWithImage = { ...data.payload[0], photo };
-        //     setItems([newItemWithImage, ...items]);
-        //     handleCloseNewItemModal();
-        //   } else {
-        //     console.error('Failed to create new item:', response.status);
-        //   }
-        // } catch (error) {
-        //   alert('Cannot add item, Something went wrong');
-        //   console.error('Error creating new item:', error);
-        // }
-        const newItemWithImage = {
-            ...newItem,
-            photo: newItem.imagePreview || default_image,
-            id: Math.random(),
-        };
-        setItems([newItemWithImage, ...items]);
-        setOriginalItems([newItemWithImage, ...originalItems]); // Update originalItems as well
-        handleCloseNewItemModal();
+                        if (imageFetchResponse.ok) {
+                            const imageBlob = await imageFetchResponse.blob();
+                            photo = URL.createObjectURL(imageBlob);
+                        } else {
+                            console.error('Failed to fetch image after upload');
+                        }
+                    } else {
+                        console.error(
+                            'Failed to upload image:',
+                            imageResponse.status
+                        );
+                    }
+                }
+                const newItemWithImage = {
+                    ...data.payload[0],
+                    photo,
+                };
+                setItems([newItemWithImage, ...items]);
+                setOriginalItems([newItemWithImage, ...originalItems]);
+                handleCloseNewItemModal();
+            } else {
+                console.error('Failed to create new item:', response.status);
+                alert('Failed to create new item.');
+            }
+        } catch (error) {
+            alert('Cannot add item, Something went wrong');
+            console.error('Error creating new item:', error);
+        }
     };
 
     return (

@@ -34,7 +34,7 @@ if(strtolower($details['access']) === "user"){
 $delete_id = $_GET['id'];
 
 $Distribution = new Distribution(null);
-$result = Distribution::deleteStatic($delete_id);
+$result = $Distribution->deleteStatic($delete_id);
 
 if($result){
     sendResponse(
