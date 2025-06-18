@@ -129,7 +129,14 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                         </div>
                                         {/* Profile and Logout at the bottom, styled like mobile */}
                                         <div className="p-4 border-t logout flex flex-col items-center mt-auto bg-gradient-to-t from-blue-900/80 via-blue-900/60 to-transparent">
-                                                <div className="flex items-start mb-4 w-full justify-evenly neon-profile-hover">
+                                                <button
+                                                        className="flex items-start mb-4 w-full justify-evenly neon-profile-hover focus:outline-none"
+                                                         onClick={() => {
+                                                        setPage(elements.current["account"]);
+                                                        // Don't mutate props directly
+                                                }}
+                                                        style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+                                                >
                                                         <div className="relative rounded-full border-3 border-blue-800 neon-avatar">
                                                                 <img
                                                                         src={details.picture}
@@ -142,7 +149,7 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                                                 <span className="font-bold">{details.username}</span>
                                                                 <span className="text-sm text-gray-300">{details.position}</span>
                                                         </div>
-                                                </div>
+                                                </button>
                                                 {/* Logout button (desktop sidebar, bottom) */}
                                                 <button
                                                         className="flex items-center justify-center space-x-2 px-4 py-2 element hover:element rounded-lg transition text w-full border"
