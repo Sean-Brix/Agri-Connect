@@ -1,81 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 export default function EIC_Request() {
-    const [requests, setRequests] = useState([
-        {
-            id: 1,
-            account_id: 101,
-            eic_id: 1,
-            quantity: 2,
-            status: 'Waiting',
-            borrow_date: '2024-01-15',
-            return_date: '2024-01-22',
-            request_note: 'Need for project demo For testing purposes For testing purposes Insufficient stock',
-        },
-        {
-            id: 2,
-            account_id: 102,
-            eic_id: 2,
-            quantity: 1,
-            status: 'Approved',
-            borrow_date: '2024-01-16',
-            return_date: '2024-01-23',
-            request_note: 'For testing purposes',
-        },
-        {
-            id: 3,
-            account_id: 103,
-            eic_id: 3,
-            quantity: 3,
-            status: 'Rejected',
-            borrow_date: '2024-01-17',
-            return_date: '2024-01-24',
-            request_note: 'Insufficient stock',
-        },
-        {
-            id: 4,
-            account_id: 101,
-            eic_id: 4,
-            quantity: 1,
-            status: 'Waiting',
-            borrow_date: '2024-01-18',
-            return_date: '2024-01-25',
-            request_note: 'Need urgently',
-        },
-        {
-            id: 5,
-            account_id: 102,
-            eic_id: 5,
-            quantity: 2,
-            status: 'Processing',
-            borrow_date: '2024-01-19',
-            return_date: '2024-01-26',
-            request_note: 'Preparing shipment',
-        },
-        {
-            id: 6,
-            account_id: 103,
-            eic_id: 1,
-            quantity: 1,
-            status: 'Waiting',
-            borrow_date: '2024-01-20',
-            return_date: '2024-01-27',
-            request_note: 'Extra item needed',
-        },
-    ]);
-    const [eics, setEics] = useState([
-        { id: 1, Name: 'Resistor', stock: 100, category: 'Electrical' },
-        { id: 2, Name: 'Capacitor', stock: 50, category: 'Electrical' },
-        { id: 3, Name: 'Inductor', stock: 75, category: 'Electrical' },
-        { id: 4, Name: 'Transistor', stock: 120, category: 'Semiconductor' },
-        { id: 5, Name: 'Diode', stock: 80, category: 'Semiconductor' },
-        {
-            id: 6,
-            Name: 'Integrated Circuit',
-            stock: 60,
-            category: 'Semiconductor',
-        },
-    ]);
+    const [requests, setRequests] = useState([]);
+    const [eics, setEics] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState('');
     const [accounts, setAccounts] = useState([]);
@@ -83,9 +10,9 @@ export default function EIC_Request() {
     useEffect(() => {
         const fetchRequests = async () => {
             try {
-                const response = await fetch('/api/eic_requests');
+                const response = await fetch('/api/eic/getAll_Request');
                 const data = await response.json();
-                setRequests(data);
+                setRequests(data?.payload || []);
             } catch (error) {
                 console.error('Error fetching requests:', error);
             }
@@ -93,9 +20,9 @@ export default function EIC_Request() {
 
         const fetchAccounts = async () => {
             try {
-                const response = await fetch('/api/accounts');
+                const response = await fetch('/api/accounts/allAccounts');
                 const data = await response.json();
-                setAccounts(data);
+                setAccounts(data?.payload || []);
             } catch (error) {
                 console.error('Error fetching accounts:', error);
             }
@@ -103,9 +30,9 @@ export default function EIC_Request() {
 
         const fetchEics = async () => {
             try {
-                const response = await fetch('/api/eic');
+                const response = await fetch('/api/eic/getAll');
                 const data = await response.json();
-                setEics(data);
+                setEics(data?.payload || []);
             } catch (error) {
                 console.error('Error fetching eics:', error);
             }
@@ -116,26 +43,29 @@ export default function EIC_Request() {
         fetchEics();
     }, []);
 
-    const filteredRequests = requests.filter((request) => {
-        const account = accounts.find(
-            (account) => account.id === request.account_id
-        );
-        const eic = eics.find((eic) => eic.id === request.eic_id);
+    const filteredRequests =
+        requests?.filter((request) => {
+            const account = accounts?.find(
+                (account) => account.id === request.account_id
+            );
+            const eic = eics?.find((eic) => eic.id === request.eic_id);
 
-        const searchMatch =
-            request.request_note
-                ?.toLowerCase()
-                .includes(searchQuery.toLowerCase()) ||
-            account?.username
-                ?.toLowerCase()
-                .includes(searchQuery.toLowerCase()) ||
-            eic?.Name?.toLowerCase().includes(searchQuery.toLowerCase());
+            const searchMatch =
+                request.request_note
+                    ?.toLowerCase()
+                    .includes(searchQuery.toLowerCase()) ||
+                account?.username
+                    ?.toLowerCase()
+                    .includes(searchQuery.toLowerCase()) ||
+                request?.item_name
+                    ?.toLowerCase()
+                    .includes(searchQuery.toLowerCase());
 
-        const statusMatch =
-            statusFilter === '' || request.status === statusFilter;
+            const statusMatch =
+                statusFilter === '' || request.status === statusFilter;
 
-        return searchMatch && statusMatch;
-    });
+            return searchMatch && statusMatch;
+        }) || [];
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
@@ -191,90 +121,121 @@ export default function EIC_Request() {
         }
     };
 
+    useEffect(()=>{
+
+        console.log(requests);
+        console.log(accounts);
+        console.log(eics);
+
+    }, [requests])
+
     const RequestCard = ({ request }) => {
-        const account = accounts.find(
-            (account) => account.id === request.account_id
+        const account = accounts?.find(
+            (account) => account.id === request.user_id
         );
-        const eic = eics.find((eic) => eic.id === request.eic_id);
+        const eic = eics?.find((eic) => eic.id === request.eic_id);
 
         return (
             <div className="w-full p-6 rounded-3xl shadow-xl bg-white flex flex-col justify-between h-[400px] border border-gray-100 transition-all hover:shadow-2xl group relative overflow-hidden">
-            <div>
-            <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xl font-semibold text-gray-900 truncate">{eic?.Name}</h3>
-            <span
-                className={`font-medium px-3 py-1 rounded-full text-xs border transition ${
-                request.status === 'Approved'
-                ? 'bg-green-50 text-green-600 border-green-100'
-                : request.status === 'Rejected'
-                ? 'bg-red-50 text-red-500 border-red-100'
-                : request.status === 'Processing'
-                ? 'bg-yellow-50 text-yellow-600 border-yellow-100'
-                : 'bg-gray-50 text-gray-600 border-gray-100'
-                }`}
-            >
-                {request.status}
-            </span>
-            </div>
-            <p className="text-xs text-gray-400 mb-6">
-            Requested by <span className="font-semibold text-gray-700">{account?.username}</span>
-            </p>
-            <div className="space-y-2">
-            <div className="flex justify-between text-xs text-gray-500">
-                <span className="font-medium">Item ID</span>
-                <span>{eic?.id}</span>
-            </div>
-            <div className="flex justify-between text-xs text-gray-500">
-                <span className="font-medium">Quantity</span>
-                <span>{request.quantity}</span>
-            </div>
-            <div className="flex justify-between text-xs text-gray-500">
-                <span className="font-medium">Borrow</span>
-                <span>{request.borrow_date}</span>
-            </div>
-            <div className="flex justify-between text-xs text-gray-500">
-                <span className="font-medium">Return</span>
-                <span>{request.return_date}</span>
-            </div>
-            <div className="flex justify-between text-xs text-gray-500">
-                <span className="font-medium">Stock</span>
-                <span>{eic?.stock}</span>
-            </div>
-            <div className="flex justify-between text-xs text-gray-500">
-                <span className="font-medium">Category</span>
-                <span>{eic?.category}</span>
-            </div>
-            <div className="flex justify-between text-xs text-gray-500">
-                <span className="font-medium">Note</span>
-                <button
-                className="text-gray-400 hover:text-green-600 focus:outline-none transition"
-                title="View note"
-                onClick={() => alert(request.request_note)}
-                type="button"
-                >
-                <svg xmlns="http://www.w3.org/2000/svg" className="inline w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z" />
-                </svg>
-                </button>
-            </div>
-            </div>
-            </div>
-            <div className="flex justify-end gap-3 mt-10">
-            <button
-            className={`px-6 py-2 rounded-full bg-gradient-to-r from-blue-400 to-blue-500 text-white text-sm font-semibold shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:opacity-40 hover:from-blue-500 hover:to-blue-600`}
-            onClick={() => handleApprove(request.id)}
-            disabled={request.status === 'Approved'}
-            >
-            Approve
-            </button>
-            <button
-            className={`px-6 py-2 rounded-full bg-gradient-to-r from-red-400 to-red-500 text-white text-sm font-semibold shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-300 disabled:opacity-40 hover:from-red-500 hover:to-red-600`}
-            onClick={() => handleReject(request.id)}
-            disabled={request.status === 'Rejected'}
-            >
-            Reject
-            </button>
-            </div>
+                <div>
+                    <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-xl font-semibold text-gray-900 truncate">
+                            {request?.item_name}
+                        </h3>
+                        <span
+                            className={`font-medium px-3 py-1 rounded-full text-xs border transition ${
+                                request.status === 'Approved'
+                                    ? 'bg-green-50 text-green-600 border-green-100'
+                                    : request.status === 'Rejected'
+                                    ? 'bg-red-50 text-red-500 border-red-100'
+                                    : request.status === 'Processing'
+                                    ? 'bg-yellow-50 text-yellow-600 border-yellow-100'
+                                    : 'bg-gray-50 text-gray-600 border-gray-100'
+                            }`}
+                        >
+                            {request.status}
+                        </span>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-6">
+                        Requested by{' '}
+                        <span className="font-semibold text-gray-700">
+                            {account?.firstname} {account?.lastname}
+                        </span>
+                    </p>
+                    <div className="space-y-2">
+                        <div className="flex justify-between text-xs text-gray-500">
+                            <span className="font-medium">Item ID</span>
+                            <span>{request?.id}</span>
+                        </div>
+                        <div className="flex justify-between text-xs text-gray-500">
+                            <span className="font-medium">Quantity</span>
+                            <span>{request.quantity}</span>
+                        </div>
+                        <div className="flex justify-between text-xs text-gray-500">
+                            <span className="font-medium">Borrow</span>
+                            <span>{request.borrow_date}</span>
+                        </div>
+                        <div className="flex justify-between text-xs text-gray-500">
+                            <span className="font-medium">Return</span>
+                            <span>{request.return_date}</span>
+                        </div>
+                        {eic && (
+                            <>
+                                <div className="flex justify-between text-xs text-gray-500">
+                                    <span className="font-medium">Stock</span>
+                                    <span>{eic?.quantity}</span>
+                                </div>
+                                <div className="flex justify-between text-xs text-gray-500">
+                                    <span className="font-medium">
+                                        Category
+                                    </span>
+                                    <span>{eic?.category}</span>
+                                </div>
+                            </>
+                        )}
+
+                        <div className="flex justify-between text-xs text-gray-500">
+                            <span className="font-medium">Note</span>
+                            <button
+                                className="text-gray-400 hover:text-green-600 focus:outline-none transition"
+                                title="View note"
+                                onClick={() => alert(request.request_note)}
+                                type="button"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="inline w-5 h-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div className="flex justify-end gap-3 mt-10">
+                    <button
+                        className={`px-6 py-2 rounded-full bg-gradient-to-r from-blue-400 to-blue-500 text-white text-sm font-semibold shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:opacity-40 hover:from-blue-500 hover:to-blue-600`}
+                        onClick={() => handleApprove(request.id)}
+                        disabled={request.status === 'Approved'}
+                    >
+                        Approve
+                    </button>
+                    <button
+                        className={`px-6 py-2 rounded-full bg-gradient-to-r from-red-400 to-red-500 text-white text-sm font-semibold shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-300 disabled:opacity-40 hover:from-red-500 hover:to-red-600`}
+                        onClick={() => handleReject(request.id)}
+                        disabled={request.status === 'Rejected'}
+                    >
+                        Reject
+                    </button>
+                </div>
             </div>
         );
     };
@@ -317,7 +278,13 @@ export default function EIC_Request() {
                             <option value="Processing">Processing</option>
                         </select>
                         <span className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-                            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <svg
+                                className="w-4 h-4 text-gray-400"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                viewBox="0 0 24 24"
+                            >
                                 <path d="M19 9l-7 7-7-7" />
                             </svg>
                         </span>
@@ -328,7 +295,13 @@ export default function EIC_Request() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full h-auto p-4 rounded-2xl">
                 {filteredRequests.length === 0 ? (
                     <div className="text-center w-full text-gray-400 py-10 bg-white rounded-2xl shadow">
-                        <svg className="mx-auto mb-2 w-10 h-10 text-gray-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <svg
+                            className="mx-auto mb-2 w-10 h-10 text-gray-300"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                        >
                             <circle cx="12" cy="12" r="10" />
                             <path d="M8 15h8M9 9h.01M15 9h.01" />
                         </svg>
