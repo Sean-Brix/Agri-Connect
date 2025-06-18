@@ -538,91 +538,123 @@ export default function Eic() {
             </div>
 
             {modalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full">
-                        <h2 className="text-2xl font-bold mb-4 text-gray-800">
-                            Request for "{selectedItem?.Name}"
-                        </h2>
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <div>
-                                <label
-                                    htmlFor="borrow_date"
-                                    className="block text-gray-700 text-sm font-bold mb-2"
-                                >
-                                    Borrow Date:
-                                </label>
-                                <input
-                                    type="date"
-                                    id="borrow_date"
-                                    name="borrow_date"
-                                    value={requestData.borrow_date}
-                                    onChange={handleInputChange}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    required
+                  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70  backdrop-blur-sm transition-all">
+                    <div className="bg-white rounded-3xl shadow-2xl p-0 max-w-lg w-full relative overflow-hidden animate-fade-in">
+                        {/* Modal Header */}
+                        <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100 bg-gradient-to-r from-green-700 to-green-600">
+                            <h2 className="text-xl font-bold text-white">
+                                <i className="fa-solid fa-paper-plane mr-2"></i>
+                                Request Equipment
+                            </h2>
+                            <button
+                                className="text-white text-2xl hover:text-green-200 transition"
+                                onClick={handleCloseModal}
+                                aria-label="Close"
+                            >
+                                <i className="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        {/* Modal Body */}
+                        <form onSubmit={handleSubmit} className="px-8 py-6 space-y-5">
+                            <div className="flex items-center gap-4 mb-2">
+                                <img
+                                    src={selectedItem?.img}
+                                    alt={selectedItem?.Name}
+                                    className="w-16 h-16 rounded-xl object-cover border-2 border-green-700 shadow"
                                 />
+                                <div>
+                                    <div className="text-lg font-semibold text-green-900 truncate">
+                                        {selectedItem?.Name}
+                                    </div>
+                                    <div className="text-xs text-gray-500">
+                                        {selectedItem?.category}
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <label
-                                    htmlFor="return_date"
-                                    className="block text-gray-700 text-sm font-bold mb-2"
-                                >
-                                    Return Date:
-                                </label>
-                                <input
-                                    type="date"
-                                    id="return_date"
-                                    name="return_date"
-                                    value={requestData.return_date}
-                                    onChange={handleInputChange}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    required
-                                />
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label
+                                        htmlFor="borrow_date"
+                                        className="block text-gray-700 text-sm font-medium mb-1"
+                                    >
+                                        Borrow Date
+                                    </label>
+                                    <input
+                                        type="date"
+                                        id="borrow_date"
+                                        name="borrow_date"
+                                        value={requestData.borrow_date}
+                                        onChange={handleInputChange}
+                                        className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none transition"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        htmlFor="return_date"
+                                        className="block text-gray-700 text-sm font-medium mb-1"
+                                    >
+                                        Return Date
+                                    </label>
+                                    <input
+                                        type="date"
+                                        id="return_date"
+                                        name="return_date"
+                                        value={requestData.return_date}
+                                        onChange={handleInputChange}
+                                        className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none transition"
+                                        required
+                                    />
+                                </div>
                             </div>
-                            <div>
-                                <label
-                                    htmlFor="quantity"
-                                    className="block text-gray-700 text-sm font-bold mb-2"
-                                >
-                                    Quantity:
-                                </label>
-                                <input
-                                    type="number"
-                                    id="quantity"
-                                    name="quantity"
-                                    value={requestData.quantity}
-                                    onChange={handleInputChange}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    required
-                                    min="1"
-                                />
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label
+                                        htmlFor="quantity"
+                                        className="block text-gray-700 text-sm font-medium mb-1"
+                                    >
+                                        Quantity
+                                    </label>
+                                    <input
+                                        type="number"
+                                        id="quantity"
+                                        name="quantity"
+                                        value={requestData.quantity}
+                                        onChange={handleInputChange}
+                                        className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none transition"
+                                        required
+                                        min="1"
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        htmlFor="request_note"
+                                        className="block text-gray-700 text-sm font-medium mb-1"
+                                    >
+                                        Notes
+                                    </label>
+                                    <textarea
+                                        id="request_note"
+                                        name="request_note"
+                                        value={requestData.request_note}
+                                        onChange={handleInputChange}
+                                        rows="2"
+                                        className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none transition resize-none"
+                                        placeholder="Optional"
+                                    ></textarea>
+                                </div>
                             </div>
-                            <div>
-                                <label
-                                    htmlFor="request_note"
-                                    className="block text-gray-700 text-sm font-bold mb-2"
-                                >
-                                    Request Notes:
-                                </label>
-                                <textarea
-                                    id="request_note"
-                                    name="request_note"
-                                    value={requestData.request_note}
-                                    onChange={handleInputChange}
-                                    rows="4"
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                ></textarea>
-                            </div>
-                            <div className="flex justify-end gap-4">
+                            <div className="flex justify-end gap-3 pt-2">
                                 <button
                                     type="button"
-                                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-5 py-2 rounded-xl transition focus:outline-none"
                                     onClick={handleCloseModal}
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    className="bg-green-700 hover:bg-green-800 text-white font-semibold px-6 py-2 rounded-xl shadow transition focus:outline-none"
                                 >
                                     Submit Request
                                 </button>

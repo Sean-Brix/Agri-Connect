@@ -204,8 +204,8 @@ export default function Seminar() {
                                                 key={opt.value}
                                                 className={`flex items-center gap-3 w-full text-left px-3 sm:px-4 py-2 rounded-xl font-semibold transition text-sm sm:text-base ${
                                                     filterBy === opt.value
-                                                        ? 'bg-blue-600 text-white'
-                                                        : 'text-blue-700 hover:bg-blue-50'
+                                                        ? 'bg-green-600 text-white'
+                                                        : 'text-green-900 hover:bg-blue-50'
                                                 }`}
                                                 onClick={() => {
                                                     setFilterBy(opt.value);

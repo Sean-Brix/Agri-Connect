@@ -79,13 +79,13 @@ export default function Landing() {
     return (
         <>
             <Navbar />
-            <main className="bg-gradient-to-br from-green-50 to-green-100 min-h-screen">
-                <section className="max-w-6xl mx-auto px-4 py-30 mb-0">
+            <main className="bg-gradient-to-br from-green-50 to-green-100 pb-20  min-h-screen">
+                <section className="max-w-6xl mx-auto px-4  mb-0">
                     <div
                         className="
-                            w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]
+                            w-screen relative left-1/2 right-1/2  -ml-[50vw] -mr-[50vw]
                             flex flex-col items-center justify-center gap-6
-                            bg-black/80 backdrop-blur shadow-2xl p-20 mb-20 border border-green-900
+                            bg-black/80 backdrop-blur shadow-2xl p-35 sm:p-55 mb-20 border border-green-900
                             overflow-hidden
                             reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700
                         "
@@ -130,7 +130,7 @@ export default function Landing() {
                                 </a>
                                 <a
                                     href="#about"
-                                    className="border-2 border-green-100 text-green-50 px-8 py-3 rounded-2xl font-semibold hover:bg-green-900/30 transition"
+                                    className="border-2 border-green-100 text-green-50 px-8 py-3 rounded-2xl font-semibold hover:bg-green-900/30 transition" onClick={() => window.location = '/about'}
                                 >
                                     Learn More
                                 </a>
@@ -179,54 +179,66 @@ export default function Landing() {
                             </div>
                             </div>
 
+                            {/* Modern Horizontal Scrollbar for Programs */}
                             <div id="programs" className="mb-20">
-                                <h2 className="text-3xl font-extrabold text-green-900 mb-12 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
+                                <h2 className="text-3xl font-extrabold text-green-900 mb-15 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
                                     Our Programs
                                 </h2>
-                                <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
-                                    {programs.map((program, idx) => (
-                                        <div
-                                            key={idx}
-                                            className="
-                                                bg-gradient-to-br from-green-900 via-green-800 to-green-700 rounded-3xl shadow-2xl border border-green-900
-                                                flex flex-col items-center p-8 relative overflow-hidden group transition-all duration-700
-                                                hover:shadow-3xl hover:scale-105
-                                                w-full sm:w-[340px] md:w-[320px] lg:w-[300px]
-                                                reveal-on-scroll opacity-0 translate-y-10
-                                            "
-                                            style={{ transitionDelay: `${100 + idx * 80}ms` }}
-                                        >
-                                            {/* Decorative floating icon */}
-                                            <div className="absolute -top-8 -right-8 w-28 h-28 bg-green-600 opacity-10 rounded-full z-0 group-hover:scale-110 transition-transform"></div>
-                                            {/* Image */}
-                                            <div className="relative z-10 w-24 h-24 rounded-2xl overflow-hidden shadow-lg mb-6 border-4 border-green-800 group-hover:border-green-600 transition-all duration-300 bg-green-950">
-                                                <img
-                                                    src={program.img}
-                                                    alt={program.title}
-                                                    className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-300"
-                                                />
-                                            </div>
-                                            {/* Title */}
-                                            <h3 className="relative z-10 text-xl font-bold text-green-50 mb-2 text-center group-hover:text-green-200 transition">
-                                                {program.title}
-                                            </h3>
-                                            {/* Description */}
-                                            <p className="relative z-10 text-green-100 text-base text-center mb-6 font-medium">
-                                                {program.desc}
-                                            </p>
-                                            {/* Call to Action */}
-                                            <button
-                                                className="
-                                                    mt-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-green-300 to-green-400 text-green-900 font-semibold shadow
-                                                    hover:bg-green-200 hover:from-green-200 hover:to-green-300 transition
-                                                    relative z-10 border border-green-200
-                                                "
-                                                onClick={() => window.location = '/seminar'}
+                                <div className="relative max-w-5xl mx-auto">
+                                    <div
+                                        className="flex gap-8  overflow-x-auto scrollbar-modern scrollbar-thumb-dark-green scrollbar-track-green-100 py-6 px-8 rounded-2xl "
+                                        style={{
+                                            scrollSnapType: 'x mandatory',
+                                            WebkitOverflowScrolling: 'touch',
+                                        }}
+                                    >
+                                        {programs.map((program, idx) => (
+                                            <div
+                                                key={idx}
+                                                className="flex-shrink-0 w-80 md:w-96 bg-gradient-to-br from-green-800 via-green-700 to-green-900 rounded-3xl shadow-2xl border border-green-900 p-8 flex flex-col items-center text-center mx-2 transition-transform duration-300 hover:scale-105 hover:shadow-green-700/40"
+                                                style={{
+                                                    scrollSnapAlign: 'start',
+                                                    minWidth: '20rem',
+                                                    maxWidth: '24rem',
+                                                }}
                                             >
-                                                Learn More
-                                            </button>
-                                        </div>
-                                    ))}
+                                                <div className="relative z-10 w-24 h-24 rounded-2xl overflow-hidden shadow-lg mb-6 border-4 border-green-700 bg-green-950">
+                                                    <img
+                                                        src={program.img}
+                                                        alt={program.title}
+                                                        className="w-full h-full object-cover scale-105 transition-transform duration-300"
+                                                    />
+                                                </div>
+                                                <h3 className="relative z-10 text-2xl font-bold text-green-50 mb-2 tracking-wide">
+                                                    {program.title}
+                                                </h3>
+                                                <p className="relative z-10 text-green-100 text-base mb-4 font-medium">
+                                                    {program.desc}
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    {/* Custom dark green modern scrollbar style */}
+                                    <style>{`
+                                        .scrollbar-modern {
+                                            scrollbar-width: thin;
+                                            scrollbar-color: #064e3b #dcfce7;
+                                        }
+                                        .scrollbar-modern::-webkit-scrollbar {
+                                            height: 12px;
+                                            background: #dcfce7;
+                                            border-radius: 8px;
+                                        }
+                                        .scrollbar-modern::-webkit-scrollbar-thumb {
+                                            background: linear-gradient(135deg, #064e3b 60%, #065f46 100%);
+                                            border-radius: 8px;
+                                            border: 2px solid #dcfce7;
+                                        }
+                                        .scrollbar-modern::-webkit-scrollbar-track {
+                                            background: #dcfce7;
+                                            border-radius: 8px;
+                                        }
+                                    `}</style>
                                 </div>
                             </div>
 
@@ -236,26 +248,26 @@ export default function Landing() {
                                 </h2>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                                     {/* News Card 1 */}
-                            <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-100 p-8 flex flex-col hover:shadow-2xl group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
-                                <div className="relative mb-5">
-                                    <img src={fits} alt="FITS Center" className="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
-                                    <span className="absolute top-3 right-3 bg-green-700 text-green-50 text-xs px-3 py-1 rounded-full font-bold shadow">New</span>
-                                </div>
-                                <h3 className="font-bold text-lg text-green-900 mb-2">FITS Center Launches New Farmer Training</h3>
-                                <p className="text-gray-800 text-base mb-4 font-semibold">
-                                    The FITS Center recently conducted a hands-on training session for local farmers, focusing on sustainable crop management and modern agricultural techniques.
-                                </p>
-                                <div className="flex items-center justify-between mt-auto">
-                                    <span className="text-green-700 text-sm font-semibold">June 2024</span>
-                                    <a href="#" className="text-green-700 font-bold hover:underline flex items-center gap-1 transition">
-                                        Read More
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                            {/* News Card 2 */}
+                                    <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-100 p-8 flex flex-col hover:shadow-2xl group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
+                                        <div className="relative mb-5">
+                                            <img src={fits} alt="FITS Center" className="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
+                                            <span className="absolute top-3 right-3 bg-green-700 text-green-50 text-xs px-3 py-1 rounded-full font-bold shadow">New</span>
+                                        </div>
+                                        <h3 className="font-bold text-lg text-green-900 mb-2">FITS Center Launches New Farmer Training</h3>
+                                        <p className="text-gray-800 text-base mb-4 font-semibold">
+                                            The FITS Center recently conducted a hands-on training session for local farmers, focusing on sustainable crop management and modern agricultural techniques.
+                                        </p>
+                                        <div className="flex items-center justify-between mt-auto">
+                                            <span className="text-green-700 text-sm font-semibold">June 2024</span>
+                                            <span className="text-green-700 font-bold flex items-center gap-1 transition">
+                                                Read More
+                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    {/* News Card 2 */}
                             <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-100 p-8 flex flex-col hover:shadow-2xl group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-200">
                                 <div className="relative mb-5">
                                     <img src={img4} alt="Organic Farming" className="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
@@ -344,7 +356,7 @@ export default function Landing() {
                 </section>
             </main>
 
-            <section className="max-w-full px-4 reveal-on-scroll opacity-0 translate-y-10 flex justify-center py-20 transition-all duration-700 delay-100 bg-gradient-to-br from-green-100 via-green-700 to-green-100">
+            <section className="max-w-full px-4 reveal-on-scroll opacity-0  flex justify-center py-20 transition-all duration-700 delay-100 bg-gradient-to-br from-green-100 via-green-700 to-green-100">
                 <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-950 shadow-2xl border border-gray-700 p-10 md:p-16 max-w-5xl relative overflow-hidden justify-center rounded-3xl">
                     <div className="absolute inset-0 pointer-events-none ">
                         <div className="w-full h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-green-900/20 via-transparent to-transparent"></div>
@@ -494,7 +506,7 @@ export default function Landing() {
                 </div>
             </section>
 
-            <section className="max-w-6xl mx-auto px-4 py-14 mb-20">
+            <section className="max-w-5xl mx-auto px-4 py-14 mb-20">
                 <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
                     Useful External Resources
                 </h2>
@@ -503,7 +515,7 @@ export default function Landing() {
                         href="https://www.da.gov.ph/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-green-900/90 rounded-3xl shadow-xl border border-green-800 p-8 flex flex-col items-center hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10 delay-100"
+                        className="bg-green-900/90 rounded-full shadow-xl border border-green-800 p-8 flex flex-col items-center hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10 delay-100"
                     >
                         <span className="bg-green-700 rounded-full p-4 mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-green-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -519,7 +531,7 @@ export default function Landing() {
                         href="https://ati.da.gov.ph/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-green-900/90 rounded-3xl shadow-xl border border-green-800 p-8 flex flex-col items-center hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10 delay-200"
+                        className="bg-green-900/90 rounded-full shadow-xl border border-green-800 p-8 flex flex-col items-center hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10 delay-200"
                     >
                         <span className="bg-green-700 rounded-full p-4 mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-green-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -535,7 +547,7 @@ export default function Landing() {
                         href="https://www.philrice.gov.ph/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-green-900/90 rounded-3xl shadow-xl border border-green-800 p-8 flex flex-col items-center hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10 delay-300"
+                        className="bg-green-900/90 rounded-full shadow-xl border border-green-800 p-8 flex flex-col items-center hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10 delay-300"
                     >
                         <span className="bg-green-700 rounded-full p-4 mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-green-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -245,14 +245,7 @@ export default function User_Details({ user, isEdit, setRowUpdate }) {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-end gap-2 mt-8">
-                <button
-                    onClick={() => setIsEditing(true)}
-                    className="bg-blue-500 text-white px-5 py-2 rounded-lg font-semibold shadow hover:bg-blue-600 transition"
-                >
-                    Edit
-                </button>
-            </div>
+          
         </div>
     );
 

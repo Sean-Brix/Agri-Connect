@@ -26,8 +26,6 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                                                         className={`p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer ${isActive("home") ? "bg-blue-700 font-bold" : ""}`}
                                                                         onClick={() => {
                                                                                 setPage(elements.current["home"]);
-                                                                                // Don't mutate props directly; trigger parent state update instead
-                                                                                // Use navigate for SPA navigation
                                                                                 navigate("/");
                                                                         }}
                                                                 >
@@ -40,10 +38,7 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                                                 </li>
                                                                 <li
                                                                         className={`p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer ${isActive("analytics") ? "bg-blue-700 font-bold" : ""}`}
-                                                                        onClick={() => {
-                                                                                setPage(elements.current["analytics"]);
-                                                                                // Don't mutate props directly
-                                                                        }}
+                                                                        onClick={() => setPage(elements.current["analytics"])}
                                                                 >
                                                                         <div className="flex items-center space-x-4">
                                                                                 <span>
@@ -54,10 +49,7 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                                                 </li>
                                                                 <li
                                                                         className={`p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer ${isActive("profiles") ? "bg-blue-700 font-bold" : ""}`}
-                                                                        onClick={() => {
-                                                                                setPage(elements.current["profiles"]);
-                                                                                // Don't mutate props directly
-                                                                        }}
+                                                                        onClick={() => setPage(elements.current["profiles"])}
                                                                 >
                                                                         <div className="flex items-center space-x-4">
                                                                                 <span>
@@ -68,10 +60,7 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                                                 </li>
                                                                 <li
                                                                         className={`p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer ${isActive("enrollment") ? "bg-blue-700 font-bold" : ""}`}
-                                                                        onClick={() => {
-                                                                                setPage(elements.current["enrollment"]);
-                                                                                // Don't mutate props directly
-                                                                        }}
+                                                                        onClick={() => setPage(elements.current["enrollment"])}
                                                                 >
                                                                         <div className="flex items-center space-x-4">
                                                                                 <span>
@@ -82,10 +71,7 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                                                 </li>
                                                                 <li
                                                                         className={`p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer ${isActive("eic") ? "bg-blue-700 font-bold" : ""}`}
-                                                                        onClick={() => {
-                                                                                setPage(elements.current["eic"]);
-                                                                                // Don't mutate props directly
-                                                                        }}
+                                                                        onClick={() => setPage(elements.current["eic"])}
                                                                 >
                                                                         <div className="flex items-center space-x-4">
                                                                                 <span>
@@ -96,10 +82,7 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                                                 </li>
                                                                 <li
                                                                         className={`p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer ${isActive("content") ? "bg-blue-700 font-bold" : ""}`}
-                                                                        onClick={() => {
-                                                                                setPage(elements.current["content"]);
-                                                                                // Don't mutate props directly
-                                                                        }}
+                                                                        onClick={() => setPage(elements.current["content"])}
                                                                 >
                                                                         <div className="flex items-center space-x-4">
                                                                                 <span>
@@ -110,10 +93,7 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                                                 </li>
                                                                 <li
                                                                         className={`p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer ${isActive("audit") ? "bg-blue-700 font-bold" : ""}`}
-                                                                        onClick={() => {
-                                                                                setPage(elements.current["audit"]);
-                                                                                // Don't mutate props directly
-                                                                        }}
+                                                                        onClick={() => setPage(elements.current["audit"])}
                                                                 >
                                                                         <div className="flex items-center space-x-4">
                                                                                 <span>
@@ -124,10 +104,7 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                                                 </li>
                                                                 <li
                                                                         className={`p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer ${isActive("survey") ? "bg-blue-700 font-bold" : ""}`}
-                                                                        onClick={() => {
-                                                                                setPage(elements.current["survey"]);
-                                                                                // Don't mutate props directly
-                                                                        }}
+                                                                        onClick={() => setPage(elements.current["survey"])}
                                                                 >
                                                                         <div className="flex items-center space-x-4">
                                                                                 <span>
@@ -138,10 +115,7 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                                                 </li>
                                                                 <li
                                                                         className={`p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer ${isActive("settings") ? "bg-blue-700 font-bold" : ""}`}
-                                                                        onClick={() => {
-                                                                                setPage(elements.current["settings"]);
-                                                                                // Don't mutate props directly
-                                                                        }}
+                                                                        onClick={() => setPage(elements.current["settings"])}
                                                                 >
                                                                         <div className="flex items-center space-x-4">
                                                                                 <span>
@@ -153,25 +127,32 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                                         </ul>
                                                 </nav>
                                         </div>
-                                        <div
-                                                className="flex items-start mb-4 w-full justify-evenly cursor-pointer hover:font-bold hover:italic neon-profile-hover"
-                                                onClick={() => {
-                                                        setPage(elements.current["account"]);
-                                                        // Don't mutate props directly
-                                                }}
-                                        >
-                                                <div className="relative rounded-full border-3 border-blue-800 neon-avatar">
-                                                        <img
-                                                                src={details.picture}
-                                                                alt="Profile"
-                                                                className="h-10 w-10 rounded-full border-2 border-white object-cover"
-                                                        />
-                                                        <span className="neon-border"></span>
+                                        {/* Profile and Logout at the bottom, styled like mobile */}
+                                        <div className="p-4 border-t logout flex flex-col items-center mt-auto bg-gradient-to-t from-blue-900/80 via-blue-900/60 to-transparent">
+                                                <div className="flex items-start mb-4 w-full justify-evenly neon-profile-hover">
+                                                        <div className="relative rounded-full border-3 border-blue-800 neon-avatar">
+                                                                <img
+                                                                        src={details.picture}
+                                                                        alt="Profile"
+                                                                        className="h-10 w-10 rounded-full border-2 border-white object-cover"
+                                                                />
+                                                                <span className="neon-border"></span>
+                                                        </div>
+                                                        <div className="flex-col flex flex-start">
+                                                                <span className="font-bold">{details.username}</span>
+                                                                <span className="text-sm text-gray-300">{details.position}</span>
+                                                        </div>
                                                 </div>
-                                                <div className="flex-col flex flex-start">
-                                                        <span className="font-bold">{details.username}</span>
-                                                        <span className="text-sm text-gray-300">{details.position}</span>
-                                                </div>
+                                                {/* Logout button (desktop sidebar, bottom) */}
+                                                <button
+                                                        className="flex items-center justify-center space-x-2 px-4 py-2 element hover:element rounded-lg transition text w-full border"
+                                                        onClick={logging}
+                                                >
+                                                        <span className="flex items-center py-2k">
+                                                                <i className="fas fa-sign-out-alt h-5 w-5 translate-y-1"></i>
+                                                        </span>
+                                                        <span className="font-bold">Logout</span>
+                                                </button>
                                         </div>
                                 </div>
                         </aside>

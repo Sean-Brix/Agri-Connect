@@ -198,126 +198,100 @@ export default function EIC_Request() {
         const eic = eics.find((eic) => eic.id === request.eic_id);
 
         return (
-            <div className="w-full p-6 rounded-lg shadow-xl bg-white flex flex-col justify-between h-[500px]">
-                <div>
-                    <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                        {eic?.Name}
-                    </h3>
-                    <p className="text-sm text-gray-500 mb-2">
-                        Requested by: {account?.username}
-                    </p>
-
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full leading-normal">
-                            <tbody>
-                                <tr>
-                                    <td className="px-2 py-1 border-b border-gray-200 bg-white text-sm">
-                                        Item ID
-                                    </td>
-                                    <td className="px-2 py-1 border-b border-gray-200 bg-white text-sm">
-                                        {eic?.id}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="px-2 py-1 border-b border-gray-200 bg-white text-sm">
-                                        Quantity
-                                    </td>
-                                    <td className="px-2 py-1 border-b border-gray-200 bg-white text-sm">
-                                        {request.quantity}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="px-2 py-1 border-b border-gray-200 bg-white text-sm">
-                                        Status
-                                    </td>
-                                    <td className="px-2 py-1 border-b border-gray-200 bg-white text-sm">
-                                        {request.status}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="px-2 py-1 border-b border-gray-200 bg-white text-sm">
-                                        Borrow Date
-                                    </td>
-                                    <td className="px-2 py-1 border-b border-gray-200 bg-white text-sm">
-                                        {request.borrow_date}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="px-2 py-1 border-b border-gray-200 bg-white text-sm">
-                                        Return Date
-                                    </td>
-                                    <td className="px-2 py-1 border-b border-gray-200 bg-white text-sm">
-                                        {request.return_date}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="px-2 py-1 border-b border-gray-200 bg-white text-sm">
-                                        Current Stock
-                                    </td>
-                                    <td className="px-2 py-1 border-b border-gray-200 bg-white text-sm">
-                                        {eic?.stock}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="px-2 py-1 border-b border-gray-200 bg-white text-sm">
-                                        EIC Category
-                                    </td>
-                                    <td className="px-2 py-1 border-b border-gray-200 bg-white text-sm">
-                                        {eic?.category}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="px-2 py-1 border-b border-gray-200 bg-white text-sm">
-                                        Request Note
-                                    </td>
-                                    <td className="px-2 py-1 border-b border-gray-200 bg-white text-sm">
-                                        <div className="relative">
-                                            <details className="dropdown">
-                                                <summary className="m-1 btn">
-                                                    View Note
-                                                </summary>
-                                                <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
-                                                    <li>
-                                                        <span>
-                                                            {
-                                                                request.request_note
-                                                            }
-                                                        </span>
-                                                    </li>
-                                                </ul>
-                                            </details>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div className="flex justify-end gap-2 mt-4">
-                    <button
-                        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700"
-                        onClick={() => handleApprove(request.id)}
-                    >
-                        Approve
-                    </button>
-                    <button
-                        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
-                        onClick={() => handleReject(request.id)}
-                    >
-                        Reject
-                    </button>
-                </div>
+            <div className="w-full p-6 rounded-3xl shadow-xl bg-white flex flex-col justify-between h-[400px] border border-gray-100 transition-all hover:shadow-2xl group relative overflow-hidden">
+            <div>
+            <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl font-semibold text-gray-900 truncate">{eic?.Name}</h3>
+            <span
+                className={`font-medium px-3 py-1 rounded-full text-xs border transition ${
+                request.status === 'Approved'
+                ? 'bg-green-50 text-green-600 border-green-100'
+                : request.status === 'Rejected'
+                ? 'bg-red-50 text-red-500 border-red-100'
+                : request.status === 'Processing'
+                ? 'bg-yellow-50 text-yellow-600 border-yellow-100'
+                : 'bg-gray-50 text-gray-600 border-gray-100'
+                }`}
+            >
+                {request.status}
+            </span>
+            </div>
+            <p className="text-xs text-gray-400 mb-6">
+            Requested by <span className="font-semibold text-gray-700">{account?.username}</span>
+            </p>
+            <div className="space-y-2">
+            <div className="flex justify-between text-xs text-gray-500">
+                <span className="font-medium">Item ID</span>
+                <span>{eic?.id}</span>
+            </div>
+            <div className="flex justify-between text-xs text-gray-500">
+                <span className="font-medium">Quantity</span>
+                <span>{request.quantity}</span>
+            </div>
+            <div className="flex justify-between text-xs text-gray-500">
+                <span className="font-medium">Borrow</span>
+                <span>{request.borrow_date}</span>
+            </div>
+            <div className="flex justify-between text-xs text-gray-500">
+                <span className="font-medium">Return</span>
+                <span>{request.return_date}</span>
+            </div>
+            <div className="flex justify-between text-xs text-gray-500">
+                <span className="font-medium">Stock</span>
+                <span>{eic?.stock}</span>
+            </div>
+            <div className="flex justify-between text-xs text-gray-500">
+                <span className="font-medium">Category</span>
+                <span>{eic?.category}</span>
+            </div>
+            <div className="flex justify-between text-xs text-gray-500">
+                <span className="font-medium">Note</span>
+                <button
+                className="text-gray-400 hover:text-green-600 focus:outline-none transition"
+                title="View note"
+                onClick={() => alert(request.request_note)}
+                type="button"
+                >
+                <svg xmlns="http://www.w3.org/2000/svg" className="inline w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z" />
+                </svg>
+                </button>
+            </div>
+            </div>
+            </div>
+            <div className="flex justify-end gap-3 mt-10">
+            <button
+            className={`px-6 py-2 rounded-full bg-gradient-to-r from-blue-400 to-blue-500 text-white text-sm font-semibold shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:opacity-40 hover:from-blue-500 hover:to-blue-600`}
+            onClick={() => handleApprove(request.id)}
+            disabled={request.status === 'Approved'}
+            >
+            Approve
+            </button>
+            <button
+            className={`px-6 py-2 rounded-full bg-gradient-to-r from-red-400 to-red-500 text-white text-sm font-semibold shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-300 disabled:opacity-40 hover:from-red-500 hover:to-red-600`}
+            onClick={() => handleReject(request.id)}
+            disabled={request.status === 'Rejected'}
+            >
+            Reject
+            </button>
+            </div>
             </div>
         );
     };
 
     return (
         <>
-            <div className="flex flex-col md:flex-col justify-between items-center mb-10 max-w-7xl mx-auto gap-4 p-6">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-7xl mx-auto gap-4 p-6">
                 <div className="flex-1 flex flex-col md:flex-row gap-4 w-full">
                     <div className="relative w-full max-w-lg">
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <input
+                            type="text"
+                            placeholder="Search requests..."
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                            className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-green-400 text-black bg-white shadow-sm transition-all duration-200 placeholder-gray-400"
+                        />
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                             <svg
                                 className="w-5 h-5 text-gray-400"
                                 fill="none"
@@ -329,35 +303,66 @@ export default function EIC_Request() {
                                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
                             </svg>
                         </span>
-                        <input
-                            type="text"
-                            placeholder="Search requests..."
-                            value={searchQuery}
-                            onChange={handleSearchChange}
-                            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 text-black bg-white shadow"
-                        />
                     </div>
-                    <select
-                        onChange={handleStatusChange}
-                        className="w-full md:w-44 border border-gray-200 rounded-xl px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700 shadow"
-                        value={statusFilter}
-                    >
-                        <option value="">All Statuses</option>
-                        <option value="Waiting">Waiting</option>
-                        <option value="Approved">Approved</option>
-                        <option value="Rejected">Rejected</option>
-                        <option value="Processing">Processing</option>
-                    </select>
+                    <div className="relative w-full md:w-48">
+                        <select
+                            onChange={handleStatusChange}
+                            className="appearance-none w-full px-4 py-3 border border-gray-200 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700 shadow-sm transition-all duration-200 cursor-pointer"
+                            value={statusFilter}
+                        >
+                            <option value="">All Statuses</option>
+                            <option value="Waiting">Waiting</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                            <option value="Processing">Processing</option>
+                        </select>
+                        <span className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <path d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full h-auto p-4 rounded-2xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full h-auto p-4 rounded-2xl">
                 {filteredRequests.length === 0 ? (
-                    <div className="text-center w-full">No requests found</div>
+                    <div className="text-center w-full text-gray-400 py-10 bg-white rounded-2xl shadow">
+                        <svg className="mx-auto mb-2 w-10 h-10 text-gray-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M8 15h8M9 9h.01M15 9h.01" />
+                        </svg>
+                        No requests found
+                    </div>
                 ) : (
-                    filteredRequests.map((request) => (
-                        <RequestCard key={request.id} request={request} />
-                    ))
+                    filteredRequests.map((request) => {
+                        // Color indicator based on status
+                        let indicatorColor = '';
+                        switch (request.status) {
+                            case 'Approved':
+                                indicatorColor = 'bg-green-500';
+                                break;
+                            case 'Rejected':
+                                indicatorColor = 'bg-red-500';
+                                break;
+                            case 'Processing':
+                                indicatorColor = 'bg-yellow-400';
+                                break;
+                            case 'Waiting':
+                            default:
+                                indicatorColor = 'bg-gray-400';
+                                break;
+                        }
+                        return (
+                            <div className="relative" key={request.id}>
+                                <span
+                                    className={`absolute top-4 right-4 w-3 h-3 rounded-full shadow ${indicatorColor} border-2 border-white z-10`}
+                                    title={request.status}
+                                ></span>
+                                <RequestCard request={request} />
+                            </div>
+                        );
+                    })
                 )}
             </div>
         </>

@@ -217,22 +217,14 @@ function Content() {
                 placeholder="Description"
                 className="border border-blue-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 shadow text-sm sm:text-base"
               />
-              <div>
-                <label className="block text-sm font-semibold text-blue-700 mb-2">Image (choose file):</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="block w-full text-sm text-blue-700 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
+              {/* Image upload removed */}
+              {/* {form.image && (
+                <img
+                  src={form.image}
+                  alt="Preview"
+                  className="mt-3 w-20 h-20 object-cover rounded-xl shadow-lg border border-blue-200"
                 />
-                {form.image && (
-                  <img
-                    src={form.image}
-                    alt="Preview"
-                    className="mt-3 w-20 h-20 object-cover rounded-xl shadow-lg border border-blue-200"
-                  />
-                )}
-              </div>
+              )} */}
               <button
                 type="submit"
                 className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold py-2 rounded-xl hover:from-blue-600 hover:to-blue-800 transition shadow-lg mt-2 text-sm sm:text-base"
@@ -258,7 +250,7 @@ function Content() {
                     aria-label="Select all"
                   />
                 </th>
-                <th className="py-2 sm:py-3 px-1 sm:px-2 md:px-4 border-b text-left text-xs md:text-sm text-blue-700 font-semibold">Image</th>
+                {/* Image column removed */}
                 <th className="py-2 sm:py-3 px-1 sm:px-2 md:px-4 border-b text-left text-xs md:text-sm text-blue-700 font-semibold">Name</th>
                 <th className="py-2 sm:py-3 px-1 sm:px-2 md:px-4 border-b text-left text-xs md:text-sm text-blue-700 font-semibold">Quantity</th>
                 <th className="py-2 sm:py-3 px-1 sm:px-2 md:px-4 border-b text-left text-xs md:text-sm text-blue-700 font-semibold">Description</th>
@@ -268,7 +260,7 @@ function Content() {
             <tbody>
               {filteredItems.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-6 text-center text-blue-400 font-semibold">
+                  <td colSpan={5} className="py-6 text-center text-blue-400 font-semibold">
                     No items found.
                   </td>
                 </tr>
@@ -283,13 +275,7 @@ function Content() {
                         aria-label={`Select ${item.name}`}
                       />
                     </td>
-                    <td className="py-2 sm:py-3 px-1 sm:px-2 md:px-4 border-b">
-                      <img
-                        src={item.image || getImage(item.name)}
-                        alt={item.name}
-                        className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 object-cover rounded-xl shadow border border-blue-100"
-                      />
-                    </td>
+                    {/* Image cell removed */}
                     <td className="py-2 sm:py-3 px-1 sm:px-2 md:px-4 border-b font-semibold text-blue-900">{item.name}</td>
                     <td className="py-2 sm:py-3 px-1 sm:px-2 md:px-4 border-b text-blue-700">{item.quantity}</td>
                     <td className="py-2 sm:py-3 px-1 sm:px-2 md:px-4 border-b text-blue-700">

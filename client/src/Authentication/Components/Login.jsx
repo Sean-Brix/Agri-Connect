@@ -40,13 +40,37 @@ export default function Login() {
         navigate('/admin');
     };
 
+    // Modern Alert State
+    const [alert, setAlert] = React.useState({ show: false, message: '', type: '' });
+
+    // Helper to show alert
+    const showAlert = (message, type = 'success') => {
+        setAlert({ show: true, message, type });
+        setTimeout(() => setAlert({ show: false, message: '', type: '' }), 2000);
+    };
+
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-100">
+        <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-green-100 min-h-screen">
             <img
                 src={cover}
                 alt="Background"
-                className="absolute inset-0 w-full h-full object-cover opacity-60 blur-sm"
+                className="absolute inset-0 w-full h-full object-cover opacity-50 blur-md pointer-events-none select-none"
             />
+
+            {/* Modern Centered Alert */}
+            {alert.show && (
+                <div className={`fixed top-6 left-1/2 z-50 transform -translate-x-1/2 px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3
+                    ${alert.type === 'success' ? 'bg-green-500/90 text-white' : 'bg-red-500/90 text-white'}`}>
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        {alert.type === 'success' ? (
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        ) : (
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        )}
+                    </svg>
+                    <span className="font-medium">{alert.message}</span>
+                </div>
+            )}
 
             <div className="relative z-10 flex flex-col items-center justify-center  w-full h-full px-4 py-8">
                 <div className="flex items-center justify-center mb-10 text-center flex-col">
@@ -64,7 +88,37 @@ export default function Login() {
                     <h2 className="text-2xl font-bold text-center text-gray-800">
                         Sign in to your account
                     </h2>
-                    <form className="space-y-4" onSubmit={login}>
+                    <form className="space-y-4" onSubmit={async (event) => {
+                        event.preventDefault();
+
+                        const response = await fetch('/api/Authentication/login', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                username: username.current.value,
+                                password: password.current.value,
+                            }),
+                        });
+
+                        const data = await response.json();
+
+                        if (!response.ok) {
+                            showAlert(data.message || 'Login failed', 'error');
+                            return;
+                        }
+
+                        showAlert('Signed in successfully!', 'success');
+
+                        setTimeout(() => {
+                            if (data.payload.access == 'User') {
+                                navigate('/');
+                                return;
+                            }
+                            navigate('/admin');
+                        }, 1200);
+                    }}>
                         <div>
                             <label
                                 htmlFor="email"
@@ -122,7 +176,7 @@ export default function Login() {
                             type="submit"
                             className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-500"
                         >
-                            Next
+                            Sign In
                         </button>
 
                         <div className="flex items-center my-4">

@@ -17,7 +17,7 @@ export default function EIC() {
             {Section_Buttons(section, setSection)}
 
             {/* SECTION CONTAINER */}
-            <div className='mt-[21vh] bg-green-50 w-[100%]'>
+            <div className='mt-[21vh] bg-blue-300 rounded-lg w-[100%]'>
 
                 {/* NAVIGATION */}
                 {

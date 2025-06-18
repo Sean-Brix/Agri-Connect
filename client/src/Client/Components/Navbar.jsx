@@ -33,11 +33,23 @@ export default function Navbar() {
 
     // Add a state to simulate logout
     const [loggedIn, setLoggedIn] = useState(isLoggedIn);
+    const [showAlert, setShowAlert] = useState(false);
 
     // Helper for logout
     const handleLogout = (navigate) => {
         setLoggedIn(false);
         setOpen(false);
+        setShowAlert(true);
+        // Show alert for 10 seconds, then fade out smoothly
+        setTimeout(() => {
+            // Start fade out by adding a class
+            const alert = document.getElementById('logout-alert');
+            if (alert) {
+                alert.classList.add('opacity-0');
+            }
+            // Wait for fade-out transition, then hide alert
+            setTimeout(() => setShowAlert(false), 1000);
+        }, 10000); // 10 seconds
         if (navigate) navigate('/login');
     };
 
@@ -75,11 +87,72 @@ export default function Navbar() {
             window.history.replaceState = origReplaceState;
         };
     }, []);
+    
 
     return (
-          <nav className="bg-white shadow-lg fixed w-full z-30 top-0 left-0">
-            <div className="max-w-7xl mx-auto flex items-center justify-between px-2 md:px-8 py-6">
-                {/* Logo */}
+        
+        <>
+{/* Custom Alert */}
+{showAlert && (
+    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/30 backdrop-blur-sm">
+        <div
+            id="logout-alert"
+            className="bg-white rounded-2xl shadow-2xl px-8 py-6 flex flex-col items-center border border-blue-200 transition-opacity duration-700 animate-fade-in-up"
+        >
+            {/* Modern animated icon */}
+            <svg
+                className="w-14 h-14 text-blue-600 mb-3 animate-bounce"
+                viewBox="0 0 64 64"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+            >
+                <circle
+                    cx="32"
+                    cy="32"
+                    r="28"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    fill="#e0f2fe"
+                />
+                <path
+                    d="M40 24L24 40"
+                    stroke="#2563eb"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                />
+                <path
+                    d="M24 24L40 40"
+                    stroke="#2563eb"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                />
+                <circle
+                    cx="32"
+                    cy="32"
+                    r="28"
+                    strokeDasharray="175"
+                    strokeDashoffset="0"
+                    stroke="#60a5fa"
+                    strokeWidth="3"
+                    fill="none"
+                >
+                    <animate
+                        attributeName="stroke-dashoffset"
+                        values="175;0"
+                        dur="1s"
+                        fill="freeze"
+                    />
+                </circle>
+            </svg>
+            <span className="text-lg font-semibold text-blue-700 mb-1">Logged out</span>
+            <span className="text-gray-500 text-sm">You have been successfully logged out.</span>
+        </div>
+    </div>
+)}
+<nav className="bg-white shadow-lg fixed w-full z-30 top-0 left-0">
+    <div className="max-w-7xl mx-auto flex items-center justify-between px-2 md:px-8 py-6">
+        {/* Logo */}
                 <img
                     src={logo}
                     alt="FITS -Tanza Logo"
@@ -1027,5 +1100,6 @@ export default function Navbar() {
                 />
             )}
         </nav>
+        </>
     );
 }
