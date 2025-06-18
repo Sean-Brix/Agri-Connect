@@ -164,6 +164,50 @@ export default function Seminar() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [currentPage]);
 
+    // Modal state and handlers
+    const [showModal, setShowModal] = useState(false);
+    const [modalData, setModalData] = useState(null);
+    const [newData, setNewData] = useState({});
+    const [image, setImage] = useState(default_seminar_pic);
+
+    // Open modal and populate data
+    const openModal = (program) => {
+        setModalData(program);
+        setNewData({
+            status: program.status || "Ongoing",
+            title: program.title || "",
+            location: program.location || "",
+            start_date: program.start_date || "",
+            end_date: program.end_date || "",
+            start_time: program.start_time || "",
+            end_time: program.end_time || "",
+            capacity: program.capacity || "",
+            speaker: program.speaker || "",
+            registration_deadline: program.registration_deadline || "",
+            description: program.description || "",
+        });
+        setImage(program.photo || default_seminar_pic);
+        setShowModal(true);
+    };
+
+    // Close modal
+    const toggleOff = () => setShowModal(false);
+
+    // Handle image change
+    const changeImage = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(URL.createObjectURL(file));
+        }
+    };
+
+    // Dummy save handler
+    const saveSeminar = (e) => {
+        e.preventDefault();
+        // You can add your save logic here
+        setShowModal(false);
+    };
+
     return (
         <>
             <Navbar />
@@ -202,6 +246,7 @@ export default function Seminar() {
                                         value={search}
                                         onChange={e => setSearch(e.target.value)}
                                         style={{ boxShadow: 'none' }}
+                                        readOnly
                                     />
                                 </div>
                             </div>
@@ -210,10 +255,10 @@ export default function Seminar() {
                                 <button
                                     id="modernFilterButton"
                                     className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-green-700 font-semibold border border-gray-200 shadow transition-all duration-200 hover:bg-blue-50 focus:outline-none text-base sm:text-lg w-full"
-                                    onClick={() => setShowFilter((f) => !f)}
                                     type="button"
                                     aria-label="Show filter options"
                                     style={{ minHeight: '3rem' }}
+                                    disabled
                                 >
                                     <i className="fa-solid fa-filter text-green-700 text-base sm:text-lg"></i>
                                     <span className="  sm:inline">
@@ -225,44 +270,6 @@ export default function Seminar() {
                                         } ml-2 text-green-700`}
                                     ></i>
                                 </button>
-                                {/* Dropdown below the filter button */}
-                                {showFilter && (
-                                    <div
-                                        className="absolute left-0 right-0 translate-y-12 mt-2 bg-white rounded-2xl shadow-2xl border border-blue-100 z-20 animate-fade-in py-2 px-2 w-full sm:w-auto"
-                                        style={{
-                                            minWidth: '100%',
-                                            width: '100%',
-                                            maxWidth: '100%',
-                                        }}
-                                    >
-                                        {filterOptions.map((opt) => (
-                                            <button
-                                                key={opt.value}
-                                                className={`flex items-center gap-3 w-full text-left px-3 sm:px-4 py-2 rounded-xl font-semibold transition text-sm sm:text-base ${
-                                                    filterBy === opt.value
-                                                        ? 'bg-green-600 text-white'
-                                                        : 'text-green-900 hover:bg-blue-50'
-                                                }`}
-                                                onClick={() => {
-                                                    setFilterBy(opt.value);
-                                                    setShowFilter(false);
-                                                }}
-                                            >
-                                                <i
-                                                    className={
-                                                        opt.value === 'title'
-                                                            ? 'fa-solid fa-heading'
-                                                            : opt.value ===
-                                                              'speaker'
-                                                            ? 'fa-solid fa-user'
-                                                            : 'fa-solid fa-location-dot'
-                                                    }
-                                                ></i>
-                                                {opt.label}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
                             </div>
                         </div>
 
@@ -353,11 +360,15 @@ export default function Seminar() {
                                             <div className="flex gap-3 w-full justify-end mt-6">
                                                 <button
                                                     onClick={()=>apply_user(program.id)}
-                                                    className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-green-900 font-bold shadow-lg hover:bg-green-100 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400">
+                                                    className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-green-900 font-bold shadow-lg hover:bg-green-100 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400" disabled>
                                                     <i className="fa-solid fa-paper-plane"></i>
                                                     Apply
                                                 </button>
-                                                <button className="flex items-center gap-2 px-8 py-2 rounded-xl border-2 border-white text-white bg-green-900 font-bold shadow-lg hover:bg-green-800 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400">
+                                                <button
+                                                    className="flex items-center gap-2 px-8 py-2 rounded-xl border-2 border-white text-white bg-green-900 font-bold shadow-lg hover:bg-green-800 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400"
+                                                    onClick={() => openModal(program)}
+                                                    type="button"
+                                                >
                                                     <i className="fa-solid fa-circle-info"></i>
                                                     Details
                                                 </button>
@@ -419,6 +430,180 @@ export default function Seminar() {
                     </section>
                 </main>
             </div>
+            {/* Modal */}
+            {showModal && (
+                <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+                    <div
+                        className="bg-white rounded-3xl shadow-2xl p-0 w-full max-w-2xl max-h-[95vh] relative border border-blue-200 flex flex-col"
+                        style={{ minWidth: 320 }}
+                    >
+                        {/* Header */}
+                        <div className="flex justify-between items-center border-b border-blue-100 px-8 py-5 bg-green-900 rounded-t-3xl">
+                            <h2 className="text-xl font-bold text-white tracking-tight">
+                                Seminar Details
+                            </h2>
+                            <button
+                                type="button"
+                                className="text-green-400 hover:text-green-600 text-3xl leading-none transition"
+                                onClick={toggleOff}
+                                aria-label="Close"
+                            >
+                                &times;
+                            </button>
+                        </div>
+                        {/* Content */}
+                        <div className="flex flex-col md:flex-row gap-10 px-8 py-8 overflow-y-auto">
+                            {/* Left: Form Fields */}
+                            <div className="flex-1 flex flex-col gap-5">
+                                <div>
+                                    <label className="block text-xs font-semibold text-green-800 mb-1">
+                                        Status
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="w-full border border-blue-200 rounded-xl px-3 py-2 bg-white text-gray-700 shadow-sm"
+                                        value={newData.status}
+                                        readOnly
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-semibold text-green-800 mb-1">
+                                        Title
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 text-gray-700"
+                                        value={newData.title}
+                                        readOnly
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-semibold text-green-800 mb-1">
+                                        Location
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 text-gray-700"
+                                        value={newData.location}
+                                        readOnly
+                                    />
+                                </div>
+                                <div className="flex gap-3 flex-col sm:flex-row">
+                                    <div className="flex-1">
+                                        <label className="block text-xs font-semibold text-green-800 mb-1">
+                                            Start Date
+                                        </label>
+                                        <input
+                                            type="date"
+                                            className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 text-gray-700"
+                                            value={newData.start_date}
+                                            readOnly
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <label className="block text-xs font-semibold text-green-800 mb-1">
+                                            End Date
+                                        </label>
+                                        <input
+                                            type="date"
+                                            className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 text-gray-700"
+                                            value={newData.end_date}
+                                            readOnly
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex gap-3 flex-col sm:flex-row">
+                                    <div className="flex-1">
+                                        <label className="block text-xs font-semibold text-green-800 mb-1">
+                                            Opening Time
+                                        </label>
+                                        <input
+                                            type="time"
+                                            className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 text-gray-700"
+                                            value={newData.start_time}
+                                            readOnly
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <label className="block text-xs font-semibold text-green-800 mb-1">
+                                            Closing Time
+                                        </label>
+                                        <input
+                                            type="time"
+                                            className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 text-gray-700"
+                                            value={newData.end_time}
+                                            readOnly
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-semibold text-green-800 mb-1">
+                                        Maximum Participants
+                                    </label>
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 text-gray-700"
+                                        value={newData.capacity}
+                                        readOnly
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-semibold text-green-800 mb-1">
+                                        Speaker Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 text-gray-700"
+                                        value={newData.speaker}
+                                        readOnly
+                                        placeholder="Enter speaker name"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-semibold text-green-800 mb-1">
+                                        Registration Deadline
+                                    </label>
+                                    <input
+                                        type="date"
+                                        className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 text-gray-700"
+                                        value={newData.registration_deadline}
+                                        readOnly
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-semibold text-green-800 mb-1">
+                                        Description
+                                    </label>
+                                    <textarea
+                                        className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 text-gray-700 resize-none"
+                                        value={newData.description}
+                                        readOnly
+                                        rows={3}
+                                    />
+                                </div>
+                            </div>
+                            {/* Right: Image Upload */}
+                            <div className="flex flex-col items-center gap-4 w-full md:w-64">
+                                <label className="block text-xs font-semibold text-green-800 mb-1 self-start">
+                                    Seminar Image
+                                </label>
+                                <div className="w-full flex justify-center">
+                                    <img
+                                        src={image}
+                                        alt="Seminar"
+                                        className="w-full max-w-[200px] max-h-[200px] bg-blue-50 object-cover mt-2 rounded-xl border border-blue-200 shadow"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        {/* Footer */}
+                        <div className="px-8 py-5 border-t border-blue-100 bg-green-900 rounded-b-3xl flex justify-end">
+                            {/* No actions in preview mode */}
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

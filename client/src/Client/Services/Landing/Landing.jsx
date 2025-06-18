@@ -185,7 +185,7 @@ export default function Landing() {
                                 <h2 className="text-3xl font-extrabold text-green-900 mb-15 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
                                     Our Programs
                                 </h2>
-                                <div className="relative max-w-5xl mx-auto">
+                                <div className="relative max-w-6xl mx-auto">
                                     <div
                                         className="flex gap-8  overflow-x-auto scrollbar-modern scrollbar-thumb-dark-green scrollbar-track-green-100 py-6 px-8 rounded-2xl "
                                         style={{
@@ -220,103 +220,118 @@ export default function Landing() {
                                         ))}
                                     </div>
                                     {/* Custom dark green modern scrollbar style */}
-                                    <style>{`
-                                        .scrollbar-modern {
-                                            scrollbar-width: thin;
-                                            scrollbar-color: #064e3b #dcfce7;
-                                        }
-                                        .scrollbar-modern::-webkit-scrollbar {
-                                            height: 12px;
-                                            background: #dcfce7;
-                                            border-radius: 8px;
-                                        }
-                                        .scrollbar-modern::-webkit-scrollbar-thumb {
-                                            background: linear-gradient(135deg, #064e3b 60%, #065f46 100%);
-                                            border-radius: 8px;
-                                            border: 2px solid #dcfce7;
-                                        }
-                                        .scrollbar-modern::-webkit-scrollbar-track {
-                                            background: #dcfce7;
-                                            border-radius: 8px;
-                                        }
-                                    `}</style>
-                                </div>
-                            </div>
+                                                                        <style>{`
+                                                                            .scrollbar-modern {
+                                                                                scrollbar-width: thin;
+                                                                                scrollbar-color: #064e3b #dcfce7;
+                                                                            }
+                                                                            .scrollbar-modern::-webkit-scrollbar {
+                                                                                height: 12px;
+                                                                                background: #dcfce7;
+                                                                                border-radius: 8px;
+                                                                            }
+                                                                            .scrollbar-modern::-webkit-scrollbar-thumb {
+                                                                                background: linear-gradient(135deg, #064e3b 60%, #065f46 100%);
+                                                                                border-radius: 8px;
+                                                                                border: 2px solid #dcfce7;
+                                                                            }
+                                                                            .scrollbar-modern::-webkit-scrollbar-track {
+                                                                                background: #dcfce7;
+                                                                                border-radius: 8px;
+                                                                            }
+                                                                        `}</style>
+                                                                    </div>
+                                                                </div>
 
-                            <section className="max-w-6xl mx-auto px-4 py-14 mb-20">
-                                <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
-                                    Latest News & Updates
-                                </h2>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                    {/* News Card 1 */}
-                                    <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-100 p-8 flex flex-col hover:shadow-2xl group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
-                                        <div className="relative mb-5">
-                                            <img src={fits} alt="FITS Center" className="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
-                                            <span className="absolute top-3 right-3 bg-green-700 text-green-50 text-xs px-3 py-1 rounded-full font-bold shadow">New</span>
-                                        </div>
-                                        <h3 className="font-bold text-lg text-green-900 mb-2">FITS Center Launches New Farmer Training</h3>
-                                        <p className="text-gray-800 text-base mb-4 font-semibold">
-                                            The FITS Center recently conducted a hands-on training session for local farmers, focusing on sustainable crop management and modern agricultural techniques.
-                                        </p>
-                                        <div className="flex items-center justify-between mt-auto">
-                                            <span className="text-green-700 text-sm font-semibold">June 2024</span>
-                                            <span className="text-green-700 font-bold flex items-center gap-1 transition">
-                                                Read More
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                                </svg>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    {/* News Card 2 */}
-                            <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-100 p-8 flex flex-col hover:shadow-2xl group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-200">
-                                <div className="relative mb-5">
-                                    <img src={img4} alt="Organic Farming" className="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
-                                    <span className="absolute top-3 right-3 bg-green-600 text-green-50 text-xs px-3 py-1 rounded-full font-bold shadow">Update</span>
-                                </div>
-                                <h3 className="font-bold text-lg text-green-900 mb-2">Organic Farming Initiative Expands</h3>
-                                <p className="text-gray-800 text-base mb-4 font-semibold">
-                                    Our organic farming program has expanded to include more barangays, promoting healthier produce and eco-friendly practices across the region.
-                                </p>
-                                <div className="flex items-center justify-between mt-auto">
-                                    <span className="text-green-700 text-sm font-semibold">May 2024</span>
-                                    <a href="#" className="text-green-700 font-bold hover:underline flex items-center gap-1 transition">
-                                        Read More
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                            {/* News Card 3 */}
-                            <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-100 p-8 flex flex-col hover:shadow-2xl group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-300">
-                                <div className="relative mb-5">
-                                    <img src={img5} alt="Rabies Control" className="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
-                                    <span className="absolute top-3 right-3 bg-green-500 text-green-50 text-xs px-3 py-1 rounded-full font-bold shadow">Event</span>
-                                </div>
-                                <h3 className="font-bold text-lg text-green-900 mb-2">Rabies Awareness Campaign</h3>
-                                <p className="text-gray-800 text-base mb-4 font-semibold">
-                                    The Rabies Control team held a successful awareness drive, educating pet owners and distributing free vaccines to ensure community safety.
-                                </p>
-                                <div className="flex items-center justify-between mt-auto">
-                                    <span className="text-green-700 text-sm font-semibold">April 2024</span>
-                                    <a href="#" className="text-green-700 font-bold hover:underline flex items-center gap-1 transition">
-                                        Read More
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                                                                <section className="max-w-6xl mx-auto px-4 py-14 mb-20">
+                                                                    <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
+                                                                        Latest News & Updates
+                                                                    </h2>
+                                                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                                                        {/* News Card 1 */}
+                                                                        <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-100 p-8 flex flex-col hover:shadow-2xl group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100">
+                                                                            <div className="relative mb-5">
+                                                                                <img src={fits} alt="FITS Center" className="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
+                                                                                <span className="absolute top-3 right-3 bg-green-700 text-green-50 text-xs px-3 py-1 rounded-full font-bold shadow">New</span>
+                                                                            </div>
+                                                                            <h3 className="font-bold text-lg text-green-900 mb-2">FITS Center Launches New Farmer Training</h3>
+                                                                            <p className="text-gray-800 text-base mb-4 font-semibold">
+                                                                                The FITS Center recently conducted a hands-on training session for local farmers, focusing on sustainable crop management and modern agricultural techniques.
+                                                                            </p>
+                                                                            <div className="flex items-center justify-between mt-auto">
+                                                                                <span className="text-green-700 text-sm font-semibold">June 2024</span>
+                                                                                <a
+                                                                                    href="https://ati.da.gov.ph/"
+                                                                                    target="_blank"
+                                                                                    rel="noopener noreferrer"
+                                                                                    className="text-green-700 font-bold hover:underline flex items-center gap-1 transition"
+                                                                                >
+                                                                                    Read More
+                                                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                                                    </svg>
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                        {/* News Card 2 */}
+                                                                <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-100 p-8 flex flex-col hover:shadow-2xl group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-200">
+                                                                    <div className="relative mb-5">
+                                                                        <img src={img4} alt="Organic Farming" className="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
+                                                                        <span className="absolute top-3 right-3 bg-green-600 text-green-50 text-xs px-3 py-1 rounded-full font-bold shadow">Update</span>
+                                                                    </div>
+                                                                    <h3 className="font-bold text-lg text-green-900 mb-2">Organic Farming Initiative Expands</h3>
+                                                                    <p className="text-gray-800 text-base mb-4 font-semibold">
+                                                                        Our organic farming program has expanded to include more barangays, promoting healthier produce and eco-friendly practices across the region.
+                                                                    </p>
+                                                                    <div className="flex items-center justify-between mt-auto">
+                                                                        <span className="text-green-700 text-sm font-semibold">May 2024</span>
+                                                                        <a
+                                                                                    href="https://ati.da.gov.ph/"
+                                                                                    target="_blank"
+                                                                                    rel="noopener noreferrer"
+                                                                                    className="text-green-700 font-bold hover:underline flex items-center gap-1 transition"
+                                                                                >
+                                                                            Read More
+                                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                                            </svg>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                {/* News Card 3 */}
+                                                                <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-green-100 p-8 flex flex-col hover:shadow-2xl group reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-300">
+                                                                    <div className="relative mb-5">
+                                                                        <img src={img5} alt="Rabies Control" className="w-full h-40 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300" />
+                                                                        <span className="absolute top-3 right-3 bg-green-500 text-green-50 text-xs px-3 py-1 rounded-full font-bold shadow">Event</span>
+                                                                    </div>
+                                                                    <h3 className="font-bold text-lg text-green-900 mb-2">Rabies Awareness Campaign</h3>
+                                                                    <p className="text-gray-800 text-base mb-4 font-semibold">
+                                                                        The Rabies Control team held a successful awareness drive, educating pet owners and distributing free vaccines to ensure community safety.
+                                                                    </p>
+                                                                    <div className="flex items-center justify-between mt-auto">
+                                                                        <span className="text-green-700 text-sm font-semibold">April 2024</span>
+                                                                        <a
+                                                                                    href="https://ati.da.gov.ph/"
+                                                                                    target="_blank"
+                                                                                    rel="noopener noreferrer"
+                                                                                    className="text-green-700 font-bold hover:underline flex items-center gap-1 transition"
+                                                                                >
+                                                                            Read More
+                                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                                            </svg>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </section>
 
-                    <div>
-                        <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100 ">
-                            Why Choose Us?
-                        </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-15 max-w-5xl mx-auto">
-                            {/* Card 1 */}
+                                                        <div>
+                                                            <h2 className="text-3xl font-extrabold text-green-900 mb-10 text-center tracking-tight reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100 ">
+                                                                Why Choose Us?
+                                                            </h2>
+                                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-15 max-w-5xl mx-auto">
+                                                                {/* Card 1 */}
                             <div className="flex-1 bg-gradient-to-br from-green-900 via-green-800 to-green-700 shadow-xl border border-green-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10 delay-100">
                                 <div className="bg-green-800 rounded-full p-4 mb-5 shadow">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-green-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -426,7 +441,12 @@ export default function Landing() {
                         </div>
                     </div>
                     <footer className="mt-10 border-t border-gray-700 pt-6 text-green-400 text-xs text-center font-mono">
-                        For more stories, visit our <span className="underline text-green-300">Newsroom</span> or follow us on social media.
+                        For more stories, visit our <span className="underline text-green-300"><a
+                                                                                    href="https://ati.da.gov.ph/"
+                                                                                    target="_blank"
+                                                                                    rel="noopener noreferrer"
+                                                                                    className="text-green-200 font-bold hover:underline  transition"
+                                                                                >Newsroom</a></span> or follow us on social media.
                     </footer>
                 </div>
             </section>
@@ -578,13 +598,31 @@ export default function Landing() {
                         <h4 className="font-semibold text-green-100 mb-3">Quick Links</h4>
                         <ul className="space-y-2 text-green-100 text-base font-semibold">
                             <li>
-                                <a href="#about" className="hover:text-green-400 transition">About Us</a>
+                                <a
+                                    href="/about"
+                                    className="hover:text-green-400 transition"
+                                    onClick={e => { e.preventDefault(); window.location = '/about'; }}
+                                >
+                                    About Us
+                                </a>
                             </li>
                             <li>
-                                <a href="#programs" className="hover:text-green-400 transition">Programs</a>
+                                <a
+                                    href="/seminar"
+                                    className="hover:text-green-400 transition"
+                                    onClick={e => { e.preventDefault(); window.location = '/seminar'; }}
+                                >
+                                    Programs
+                                </a>
                             </li>
                             <li>
-                                <a href="#" className="hover:text-green-400 transition">Contact</a>
+                                <a
+                                    href="/contact"
+                                    className="hover:text-green-400 transition"
+                                    onClick={e => { e.preventDefault(); window.location = '/contact'; }}
+                                >
+                                    Contact
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -593,7 +631,7 @@ export default function Landing() {
                         <h4 className="font-semibold text-green-100 mb-3">Connect with us</h4>
                         <div className="flex gap-5 mb-4">
                             <a
-                                href="https://facebook.com/"
+                                href="https://facebook.com/fitstanza"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="Facebook"
@@ -604,7 +642,7 @@ export default function Landing() {
                                 </svg>
                             </a>
                             <a
-                                href="https://twitter.com/"
+                                href="https://twitter.com/fitstanza"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="Twitter"
@@ -615,7 +653,7 @@ export default function Landing() {
                                 </svg>
                             </a>
                             <a
-                                href="https://instagram.com/"
+                                href="https://instagram.com/fitstanzacavite"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="Instagram"

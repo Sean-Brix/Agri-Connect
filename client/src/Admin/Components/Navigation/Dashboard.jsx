@@ -319,7 +319,7 @@ export default function Dashboard() {
       {/* Mobile menu overlay */}
       {mobileMenuOpen && (
         <div
-          className="fixed inset-0 bg-grey bg-opacity-10 backdrop-blur-sm z-40 md:hidden"
+          className="fixed inset-0 bg-black/60 z-40 md:hidden"
           onClick={() => setMobileMenuOpen(false)}
           aria-label="Close menu overlay"
         />
