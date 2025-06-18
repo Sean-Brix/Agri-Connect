@@ -36,11 +36,18 @@ $req = getJsonBody();
 // Create New
 $Distribution = new Distribution(null);
 
+$quantity = $req['quantity'];
+$status = $req['status'];
+
+if ($quantity == 0) {
+    $status = 'Out of Stock';
+}
+
 $new = $Distribution->create([
     'name' => $req['name'],
     'description' => $req['description'],
-    'quantity' => $req['quantity'],
-    'status' => $req['status'],
+    'quantity' => $quantity,
+    'status' => $status,
     'category' => $req['category'],
     'added_by' => $user['ID']
 ]);

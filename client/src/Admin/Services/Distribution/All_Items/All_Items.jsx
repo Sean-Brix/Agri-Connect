@@ -132,7 +132,7 @@ export default function All_Items() {
                     originalItems.filter(
                         (item) => !selectedItems.includes(item.id)
                     )
-                ); // Update originalItems as well
+                );
                 setSelectedItems([]);
                 setIsDeleting(false);
             } else {

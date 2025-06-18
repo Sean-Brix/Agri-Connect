@@ -9,7 +9,6 @@ import Profiles from '../../Services/Profiles/Profiles.jsx';
 import Seminar from '../../Services/Seminar/Seminar.jsx';
 import EIC from '../../Services/EIC/EIC.jsx';
 import Content from '../../Services/Content/Content.jsx';
-import Audit from '../../Services/Logs/Audit.jsx';
 import Survey from '../../Services/Survey/Survey.jsx';
 import Distribution from '../../Services/Distribution/Distribution.jsx';
 
@@ -42,7 +41,6 @@ export default function Dashboard() {
     enrollment: ()=>Seminar,
     eic: ()=> EIC,
     content: ()=> Content,
-    audit: ()=> Audit,
     survey: ()=> Survey,
     distribution: ()=> Distribution,
 

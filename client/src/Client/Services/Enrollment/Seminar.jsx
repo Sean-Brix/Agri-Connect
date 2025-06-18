@@ -16,6 +16,7 @@ export default function Seminar() {
     // Programs data
     const [allPrograms, setAllPrograms] = useState([]);
     const [filteredPrograms, setFilteredPrograms] = useState([]);
+    const [appliedSeminars, setAppliedSeminars] = useState(new Set());
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,21 +37,24 @@ export default function Seminar() {
                                 );
                                 let photoUrl = default_seminar_pic;
 
-                                if (imageFetch.ok && imageFetch.status !== 204) {
-                            const blob = await imageFetch.blob();
+                                if (
+                                    imageFetch.ok &&
+                                    imageFetch.status !== 204
+                                ) {
+                                    const blob = await imageFetch.blob();
                                     photoUrl = URL.createObjectURL(blob);
-                        }
+                                }
 
                                 return { ...item, photo: photoUrl };
                             } catch (imageError) {
-                        console.error(
-                            `Error fetching image for seminar ${item.id}:`,
+                                console.error(
+                                    `Error fetching image for seminar ${item.id}:`,
                                     imageError
-                        );
+                                );
                                 return { ...item, photo: default_seminar_pic };
-                    }
-                })
-            );
+                            }
+                        })
+                    );
                     setAllPrograms(programsWithPhotos);
                     setFilteredPrograms(programsWithPhotos);
                 } else {
@@ -87,6 +91,7 @@ export default function Seminar() {
 
         setFilteredPrograms(filtered);
     }, [search, filterBy, allPrograms]);
+
     const apply_user = async (seminarId) => {
         const check = await fetch('/api/authentication/gotToken');
         if (!check.ok) {
@@ -96,25 +101,35 @@ export default function Seminar() {
         }
 
         try {
-            const response = await fetch(
-                '/api/seminars/participants/user_apply',
-                {
-                    method: 'POST',
-                    headers: {
+            const isApplied = appliedSeminars.has(seminarId);
+            const endpoint = isApplied
+                ? '/api/seminars/participants/user_cancel'
+                : '/api/seminars/participants/user_apply';
+            const method = 'POST';
+
+            const response = await fetch(endpoint, {
+                method: method,
+                headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ id: seminarId }),
-            } 
-            );
-
+            });
             if (response.ok) {
-                alert('Successfully applied!');
+                setAppliedSeminars((prev) => {
+                    const newSet = new Set(prev);
+                    isApplied
+                        ? newSet.delete(seminarId)
+                        : newSet.add(seminarId);
+                    return newSet;
+                });
+                alert(`Successfully ${isApplied ? 'cancelled' : 'applied'}!`);
             } else {
-                alert('Failed to apply.');
-        } 
+                const message = await response.text();
+                alert(message || 'Operation failed.');
+            }
         } catch (error) {
-            console.error('Error applying for seminar:', error);
-            alert('Error applying for seminar.');
+            console.error('Error applying/cancelling for seminar:', error);
+            alert('Error processing application.');
         }
     };
 
@@ -180,7 +195,9 @@ export default function Seminar() {
         setSelectedSeminarId(seminarId);
     };
 
-    const selectedSeminar = filteredPrograms.find(program => program.id === selectedSeminarId);
+    const selectedSeminar = filteredPrograms.find(
+        (program) => program.id === selectedSeminarId
+    );
 
     return (
         <>
@@ -219,7 +236,9 @@ export default function Seminar() {
                                         className="w-full pl-10 pr-4 py-2 rounded-xl border border-transparent focus:outline-none focus:ring-0 text-gray-900 bg-transparent transition placeholder:text-gray-400"
                                         placeholder={`Search by ${filterBy.toLowerCase()}...`}
                                         value={search}
-                                        onChange={(e) => setSearch(e.target.value)}
+                                        onChange={(e) =>
+                                            setSearch(e.target.value)
+                                        }
                                         style={{ boxShadow: 'none' }}
                                     />
                                 </div>
@@ -235,7 +254,9 @@ export default function Seminar() {
                                     style={{ minHeight: '3rem' }}
                                 >
                                     <i className="fa-solid fa-filter text-green-700 text-base sm:text-lg"></i>
-                                    <span className="  sm:inline">{filterBy}</span>
+                                    <span className="  sm:inline">
+                                        {filterBy}
+                                    </span>
                                     <i
                                         className={`fa-solid fa-chevron-${
                                             showFilter ? 'up' : 'down'
@@ -375,10 +396,18 @@ export default function Seminar() {
                                                     className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-green-900 font-bold shadow-lg hover:bg-green-100 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400"
                                                 >
                                                     <i className="fa-solid fa-paper-plane"></i>
-                                                    Apply
+                                                    {appliedSeminars.has(
+                                                        program.id
+                                                    )
+                                                        ? 'Cancel'
+                                                        : 'Apply'}
                                                 </button>
                                                 <button
-                                                    onClick={() => handleDetailsClick(program.id)}
+                                                    onClick={() =>
+                                                        handleDetailsClick(
+                                                            program.id
+                                                        )
+                                                    }
                                                     className="flex items-center gap-2 px-8 py-2 rounded-xl border-2 border-white text-white bg-green-900 font-bold shadow-lg hover:bg-green-800 transition text-base focus:outline-none focus:ring-2 focus:ring-green-400"
                                                 >
                                                     <i className="fa-solid fa-circle-info"></i>
@@ -458,7 +487,12 @@ function SeminarDetails({ seminar, onClose }) {
             <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
                 <div className="bg-white p-6 rounded-md">
                     <p>Loading...</p>
-                    <button onClick={onClose} className="mt-4 px-4 py-2 bg-gray-200 rounded">Close</button>
+                    <button
+                        onClick={onClose}
+                        className="mt-4 px-4 py-2 bg-gray-200 rounded"
+                    >
+                        Close
+                    </button>
                 </div>
             </div>
         );
@@ -468,11 +502,24 @@ function SeminarDetails({ seminar, onClose }) {
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-md max-w-md">
                 <h2 className="text-2xl font-bold mb-4">{seminar.title}</h2>
-                <p className="mb-2"><strong>Description:</strong> {seminar.description}</p>
-                <p className="mb-2"><strong>Speaker:</strong> {seminar.speaker}</p>
-                <p className="mb-2"><strong>Location:</strong> {seminar.location}</p>
-                <p className="mb-2"><strong>Category:</strong> {seminar.category}</p>
-                <button onClick={onClose} className="mt-4 px-4 py-2 bg-gray-200 rounded">Close</button>
+                <p className="mb-2">
+                    <strong>Description:</strong> {seminar.description}
+                </p>
+                <p className="mb-2">
+                    <strong>Speaker:</strong> {seminar.speaker}
+                </p>
+                <p className="mb-2">
+                    <strong>Location:</strong> {seminar.location}
+                </p>
+                <p className="mb-2">
+                    <strong>Category:</strong> {seminar.category}
+                </p>
+                <button
+                    onClick={onClose}
+                    className="mt-4 px-4 py-2 bg-gray-200 rounded"
+                >
+                    Close
+                </button>
             </div>
         </div>
     );

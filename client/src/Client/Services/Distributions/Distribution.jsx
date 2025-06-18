@@ -192,12 +192,15 @@ export default function Distribution() {
         }
     };
 
-    const cancelRequest = async(request)=>{
-        if(!confirm("Are you sure you want to cancel this request?"))return;
+    const cancelRequest = async (request) => {
+        if (!confirm('Are you sure you want to cancel this request?')) return;
 
-        const response = await fetch(`/api/distribution/deleteRequest?id=${request.id}`, {
-            method: 'GET',
-        });
+        const response = await fetch(
+            `/api/distribution/deleteRequest?id=${request.id}`,
+            {
+                method: 'GET',
+            }
+        );
 
         if (response.ok) {
             setMyRequests(myRequests.filter((req) => req.id !== request.id));
@@ -205,7 +208,7 @@ export default function Distribution() {
         } else {
             alert('Failed to cancel request.');
         }
-    }
+    };
 
     const handleCloseModal = () => {
         setModalOpen(false);
@@ -936,7 +939,11 @@ export default function Distribution() {
                                                 <td className="py-3">
                                                     <button
                                                         className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                                        onClick={()=>cancelRequest(request)}
+                                                        onClick={() =>
+                                                            cancelRequest(
+                                                                request
+                                                            )
+                                                        }
                                                     >
                                                         Cancel Request
                                                     </button>

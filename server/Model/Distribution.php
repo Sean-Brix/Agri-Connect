@@ -233,10 +233,25 @@ class Distribution{
         }
         $distribution_item_items = array();
         while ($row = mysqli_fetch_assoc($result)) {
-            $distribution_item_items[] = $row;
+                    // Update status based on quantity
+                    if ($row['quantity'] == 0 && $row['status'] != 'Out of Stock') {
+                        self::updateStatus($row['id'], 'Out of Stock');
+                        $row['status'] = 'Out of Stock'; // Reflect the change in the current result set
+                    } elseif ($row['quantity'] != 0 && $row['status'] == 'Out of Stock') {
+                        self::updateStatus($row['id'], 'Available');
+                        $row['status'] = 'Available'; // Reflect the change in the current result set
         }
-        return $distribution_item_items;
+                    $distribution_item_items[] = $row;
     }
+                return $distribution_item_items;
+            }
+
+            private static function updateStatus($id, $status) {
+                $query = "UPDATE distribution_items SET status = ? WHERE id = ?";
+                $params = [$status, $id];
+                $types = "si";
+                statement($query, $params, $types);
+            }
     /**
      * What it Does: Creates a new DistributionItem request in the database.
      * Returns What: The ID of the newly inserted request, or false on failure.

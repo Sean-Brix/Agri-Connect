@@ -134,7 +134,7 @@ function RequestModal({ itemId, onClose }) {
                     <div className="overflow-x-auto">
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 min-w-0">
                             <div className="flex flex-col items-center bg-gray-50 rounded-lg p-2 sm:p-3 shadow-sm text-xs sm:text-sm min-w-0">
-                                <span className="text-[10px] sm:text-xs text-gray-500">
+                                <span className="text-[10px sm:text-xs text-gray-500">
                                     Total
                                 </span>
                                 <span className="font-bold text-base sm:text-lg text-gray-800">
@@ -489,7 +489,8 @@ function render_edit(
                     id: editedItem.id,
                     name: editedItem.name,
                     description: editedItem.description,
-                    quantity: editedItem.quantity,
+
+                    quantity: parseInt(editedItem.quantity),
                     status: editedItem.status,
                     category: editedItem.category,
                 }),
@@ -622,7 +623,26 @@ function render_edit(
                                 </option>
                             </select>
                         </div>
-                        {/* IMAGE UPLOAD */}
+
+                        {/* QUANTITY */}
+                        <div>
+                            <label
+                                htmlFor="quantity"
+                                className="block text-sm font-medium text-gray-700 mb-2"
+                            >
+                                Quantity
+                            </label>
+                            <input
+                                type="number"
+                                id="quantity"
+                                name="quantity"
+                                value={editedItem.quantity}
+                                onChange={handleChange}
+                                className="w-full rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50"
+                                placeholder="Quantity"
+                                autoComplete="off"
+                            />
+                        </div>
                         <div>
                             <label
                                 htmlFor="photo"

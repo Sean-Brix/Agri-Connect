@@ -88,6 +88,15 @@ class Seminars {
         return $result;
     }
 
+    public function cancelParticipant($account_id) {
+        $query = "UPDATE `seminar_participants` SET status = 'Cancelled' WHERE seminar_id = ? AND account_id = ?";
+        $params = [$this->id, $account_id];
+        $types = getTypes($params);
+        $result = statement($query, $params, $types);
+
+        return $result;
+    }
+
     public function initialize(){
         $query = "SELECT * FROM `seminars` WHERE id = ?";
         $result = statement($query, [$this->id], "s");

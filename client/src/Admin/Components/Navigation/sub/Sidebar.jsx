@@ -144,23 +144,7 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                         <span>Inventory</span>
                                     </div>
                                 </li>
-                                <li
-                                    className={`p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer ${
-                                        isActive('audit')
-                                            ? 'bg-blue-700 font-bold'
-                                            : ''
-                                    }`}
-                                    onClick={() =>
-                                        setPage(elements.current['audit'])
-                                    }
-                                >
-                                    <div className="flex items-center space-x-4">
-                                        <span>
-                                            <i className="fas fa-id-card h-6 w-6"></i>
-                                        </span>
-                                        <span>Logs / Audit Trail</span>
-                                    </div>
-                                </li>
+
                                 <li
                                     className={`p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer ${
                                         isActive('survey')
