@@ -13,7 +13,6 @@ import Survey from '../../Services/Survey/Survey.jsx';
 import Distribution from '../../Services/Distribution/Distribution.jsx';
 
 // GLOBAL
-import Settings from '../../../Components/settings/Setting.jsx';
 import AccountProfile from '../../../Components/settings/AccountProfile/AccountProfile.jsx';
 
 // SUB COMPONENT
@@ -45,7 +44,6 @@ export default function Dashboard() {
     distribution: ()=> Distribution,
 
     // GLOBAL
-    settings: ()=> Settings,
     account: ()=> AccountProfile,
   });
 

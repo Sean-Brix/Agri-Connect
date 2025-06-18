@@ -162,7 +162,7 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                         <span>Survey Forms</span>
                                     </div>
                                 </li>
-                                <li
+                                {/* <li
                                     className={`p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer ${
                                         isActive('settings')
                                             ? 'bg-blue-700 font-bold'
@@ -178,7 +178,7 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                         </span>
                                         <span>Settings</span>
                                     </div>
-                                </li>
+                                </li> */}
                             </ul>
                         </nav>
                     </div>
