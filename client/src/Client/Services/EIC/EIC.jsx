@@ -22,7 +22,30 @@ export default function Eic() {
         request_note: '',
         quantity: 1,
     });
-    const [myRequests, setMyRequests] = useState([]);
+    const [myRequests, setMyRequests] = useState([
+        // Sample data - replace with actual fetched data
+        {
+            id: 1,
+            item_name: 'Tractor',
+            borrow_date: '2024-01-20',
+            return_date: '2024-01-27',
+            status: 'Approved',
+        },
+        {
+            id: 2,
+            item_name: 'Harvester',
+            borrow_date: '2024-02-01',
+            return_date: '2024-02-08',
+            status: 'Pending',
+        },
+        {
+            id: 3,
+            item_name: 'Plow',
+            borrow_date: '2024-02-15',
+            return_date: '2024-02-22',
+            status: 'Rejected',
+        },
+    ]);
     const [showMyRequestsModal, setShowMyRequestsModal] = useState(false);
 
     const categories = [
@@ -275,7 +298,7 @@ export default function Eic() {
             // if (requestsResponse.ok) {
             //     const requestsData = await requestsResponse.json();
             //     setMyRequests(requestsData.payload);
-                setShowMyRequestsModal(true);
+            setShowMyRequestsModal(true);
             // } else {
             //     console.error(
             //         'Failed to fetch user requests:',
@@ -536,9 +559,8 @@ export default function Eic() {
                     </section>
                 </main>
             </div>
-
             {modalOpen && (
-                  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70  backdrop-blur-sm transition-all">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm transition-all">
                     <div className="bg-white rounded-3xl shadow-2xl p-0 max-w-lg w-full relative overflow-hidden animate-fade-in">
                         {/* Modal Header */}
                         <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100 bg-gradient-to-r from-green-700 to-green-600">
@@ -555,7 +577,10 @@ export default function Eic() {
                             </button>
                         </div>
                         {/* Modal Body */}
-                        <form onSubmit={handleSubmit} className="px-8 py-6 space-y-5">
+                        <form
+                            onSubmit={handleSubmit}
+                            className="px-8 py-6 space-y-5"
+                        >
                             <div className="flex items-center gap-4 mb-2">
                                 <img
                                     src={selectedItem?.img}
@@ -660,6 +685,70 @@ export default function Eic() {
                                 </button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            )}
+            {showMyRequestsModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm transition-all">
+                    <div className="bg-white rounded-3xl shadow-2xl p-0 max-w-2xl w-full relative overflow-hidden animate-fade-in">
+                        {/* Modal Header */}
+                        <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100 bg-gradient-to-r from-green-700 to-green-600">
+                            <h2 className="text-xl font-bold text-white">
+                                <i className="fa-solid fa-list mr-2"></i>
+                                My Requests
+                            </h2>
+                            <button
+                                className="text-white text-2xl hover:text-green-200 transition"
+                                onClick={handleCloseMyRequestsModal}
+                                aria-label="Close"
+                            >
+                                <i className="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        {/* Modal Body */}
+                        <div className="px-8 py-6 space-y-5">
+                            {myRequests.length > 0 ? (
+                                <table className="w-full">
+                                    <thead>
+                                        <tr className="text-left text-gray-600">
+                                            <th className="py-2">Item</th>
+                                            <th className="py-2">
+                                                Borrow Date
+                                            </th>
+                                            <th className="py-2">
+                                                Return Date
+                                            </th>
+                                            <th className="py-2">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {myRequests.map((request) => (
+                                            <tr
+                                                key={request.id}
+                                                className="border-b border-gray-100"
+                                            >
+                                                <td className="py-3">
+                                                    {request.item_name}
+                                                </td>
+                                                <td className="py-3">
+                                                    {request.borrow_date}
+                                                </td>
+                                                <td className="py-3">
+                                                    {request.return_date}
+                                                </td>
+                                                <td className="py-3">
+                                                    {request.status}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            ) : (
+                                <div className="text-center text-gray-500 py-10">
+                                    No requests found.
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}
