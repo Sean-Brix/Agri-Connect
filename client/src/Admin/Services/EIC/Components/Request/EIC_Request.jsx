@@ -180,135 +180,188 @@ export default function EIC_Request() {
         );
         const eic = eics?.find((eic) => eic.id === request.eic_id);
 
+        const [showNote, setShowNote] = useState(false);
+
         return (
             <div className="w-full p-6 rounded-3xl shadow-xl bg-white flex flex-col justify-between h-[400px] border border-gray-100 transition-all hover:shadow-2xl group relative overflow-hidden">
-                <div>
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-xl font-semibold text-gray-900 truncate">
-                            {request?.item_name}
-                        </h3>
-                        <span
-                            className={`font-medium px-3 py-1 rounded-full text-xs border transition ${
-                                request.status === 'Approved'
-                                    ? 'bg-green-50 text-green-600 border-green-100'
-                                    : request.status === 'Rejected'
-                                    ? 'bg-red-50 text-red-500 border-red-100'
-                                    : request.status === 'Processing'
-                                    ? 'bg-yellow-50 text-yellow-600 border-yellow-100'
-                                    : 'bg-gray-50 text-gray-600 border-gray-100'
-                            }`}
-                        >
-                            {request.status}
-                        </span>
+            <div>
+                <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-semibold text-gray-900 truncate">
+                    {request?.item_name}
+                </h3>
+                <span
+                    className={`font-medium px-3 py-1 rounded-full text-xs border transition ${
+                    request.status === 'Approved'
+                        ? 'bg-green-50 text-green-600 border-green-100'
+                        : request.status === 'Rejected'
+                        ? 'bg-red-50 text-red-500 border-red-100'
+                        : request.status === 'Processing'
+                        ? 'bg-yellow-50 text-yellow-600 border-yellow-100'
+                        : 'bg-gray-50 text-gray-600 border-gray-100'
+                    }`}
+                >
+                    {request.status}
+                </span>
+                </div>
+                <p className="text-xs text-gray-400 mb-6">
+                Requested by{' '}
+                <span className="font-semibold text-gray-700">
+                    {account?.firstname} {account?.lastname}
+                </span>
+                </p>
+                <div className="space-y-2">
+                <div className="flex justify-between text-xs text-gray-500">
+                    <span className="font-medium">Item ID</span>
+                    <span>{eic?.id}</span>
+                </div>
+                <div className="flex justify-between text-xs text-gray-500">
+                    <span className="font-medium">Quantity</span>
+                    <span>{request.quantity}</span>
+                </div>
+                <div className="flex justify-between text-xs text-gray-500">
+                    <span className="font-medium">Borrow</span>
+                    <span>{request.borrow_date}</span>
+                </div>
+                <div className="flex justify-between text-xs text-gray-500">
+                    <span className="font-medium">Return</span>
+                    <span>{request.return_date}</span>
+                </div>
+                {eic && (
+                    <>
+                    <div className="flex justify-between text-xs text-gray-500">
+                        <span className="font-medium">Stock</span>
+                        <span>{eic?.quantity}</span>
                     </div>
-                    <p className="text-xs text-gray-400 mb-6">
-                        Requested by{' '}
-                        <span className="font-semibold text-gray-700">
-                            {account?.firstname} {account?.lastname}
+                    <div className="flex justify-between text-xs text-gray-500">
+                        <span className="font-medium">
+                        Category
                         </span>
-                    </p>
-                    <div className="space-y-2">
-                        <div className="flex justify-between text-xs text-gray-500">
-                            <span className="font-medium">Item ID</span>
-                            <span>{eic?.id}</span>
-                        </div>
-                        <div className="flex justify-between text-xs text-gray-500">
-                            <span className="font-medium">Quantity</span>
-                            <span>{request.quantity}</span>
-                        </div>
-                        <div className="flex justify-between text-xs text-gray-500">
-                            <span className="font-medium">Borrow</span>
-                            <span>{request.borrow_date}</span>
-                        </div>
-                        <div className="flex justify-between text-xs text-gray-500">
-                            <span className="font-medium">Return</span>
-                            <span>{request.return_date}</span>
-                        </div>
-                        {eic && (
-                            <>
-                                <div className="flex justify-between text-xs text-gray-500">
-                                    <span className="font-medium">Stock</span>
-                                    <span>{eic?.quantity}</span>
-                                </div>
-                                <div className="flex justify-between text-xs text-gray-500">
-                                    <span className="font-medium">
-                                        Category
-                                    </span>
-                                    <span>{eic?.category}</span>
-                                </div>
-                            </>
-                        )}
+                        <span>{eic?.category}</span>
+                    </div>
+                    </>
+                )}
 
-                        <div className="flex justify-between text-xs text-gray-500">
-                            <span className="font-medium">Note</span>
-                            <button
-                                className="text-gray-400 hover:text-green-600 focus:outline-none transition"
-                                title="View note"
-                                onClick={() => alert(request.request_note)}
-                                type="button"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="inline w-5 h-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z"
-                                    />
-                                </svg>
-                            </button>
+                <div className="flex flex-col text-xs text-gray-500 relative">
+                    <div className="flex justify-between items-center">
+                    <span className="font-medium">Note</span>
+                    <button
+                        className={`transition-colors rounded-full p-1 focus:outline-none ${
+                        showNote
+                            ? 'bg-green-100 text-green-600'
+                            : 'bg-gray-100 text-gray-400 hover:bg-green-50 hover:text-green-600'
+                        }`}
+                        title="View note"
+                        onClick={() => setShowNote((prev) => !prev)}
+                        type="button"
+                    >
+                        <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className={`w-5 h-5 transition-transform duration-200 ${
+                            showNote ? 'rotate-180' : ''
+                        }`}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M13 16h-1v-4h-1m1-4h.01M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z"
+                        />
+                        </svg>
+                    </button>
+                    {/* Popup Note */}
+                    {showNote && (
+                        <div
+                        className="absolute z-20 right-0 top-10 min-w-[220px] max-w-xs bg-white border border-green-200 rounded-xl shadow-2xl p-4 animate-fade-in"
+                        style={{ minWidth: 220, wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}
+                        >
+                        <div className="flex items-start gap-2">
+                            <div className="w-1 h-8 bg-gradient-to-b from-green-400 to-green-200 rounded-full opacity-30 mt-1"></div>
+                            <div className="flex-1 text-gray-700 text-sm font-medium break-words whitespace-pre-wrap">
+                            {request.request_note ? (
+                                <span>
+                                {request.request_note}
+                                </span>
+                            ) : (
+                                <span className="italic text-gray-400">
+                                No note provided.
+                                </span>
+                            )}
+                            </div>
                         </div>
+                        <button
+                            className="absolute top-2 right-2 text-gray-400 hover:text-green-600"
+                            onClick={() => setShowNote(false)}
+                            type="button"
+                            aria-label="Close note"
+                        >
+                            <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-4 h-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M6 18L18 6M6 6l12 12"
+                            />
+                            </svg>
+                        </button>
+                        </div>
+                    )}
                     </div>
                 </div>
-                <div className="flex justify-end mt-4">
-                    <select
-                        className="w-full md:w-auto px-4 py-2 border border-gray-200 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700 shadow-sm transition-all duration-200 cursor-pointer"
-                        defaultValue={request.status}
-                        onChange={(e) => {
-                            if (e.target.value === 'Approved') {
-                                handleApprove(request.id);
-                            } else if (e.target.value === 'Rejected') {
-                                handleReject(request.id);
-                            } else if (e.target.value === 'Processing') {
-                                handleProcessing(request.id);
-                            }
-                        }}
-                    >
-                        <option
-                            value="Waiting"
-                            disabled={request.status !== 'Waiting'}
-                        >
-                            Waiting
-                        </option>
-                        <option
-                            value="Approved"
-                            disabled={request.status === 'Approved'}
-                        >
-                            Approve
-                        </option>
-                        <option
-                            value="Rejected"
-                            disabled={request.status === 'Rejected'}
-                        >
-                            Reject
-                        </option>
-                        <option
-                            value="Processing"
-                            disabled={request.status === 'Processing'}
-                        >
-                            Processing
-                        </option>
-                    </select>
                 </div>
+            </div>
+            <div className="flex justify-end mt-4">
+                <select
+                className="w-full md:w-auto px-4 py-2 border border-gray-200 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700 shadow-sm transition-all duration-200 cursor-pointer"
+                defaultValue={request.status}
+                onChange={(e) => {
+                    if (e.target.value === 'Approved') {
+                    handleApprove(request.id);
+                    } else if (e.target.value === 'Rejected') {
+                    handleReject(request.id);
+                    } else if (e.target.value === 'Processing') {
+                    handleProcessing(request.id);
+                    }
+                }}
+                >
+                <option
+                    value="Waiting"
+                    disabled={request.status !== 'Waiting'}
+                >
+                    Waiting
+                </option>
+                <option
+                    value="Approved"
+                    disabled={request.status === 'Approved'}
+                >
+                    Approve
+                </option>
+                <option
+                    value="Rejected"
+                    disabled={request.status === 'Rejected'}
+                >
+                    Reject
+                </option>
+                <option
+                    value="Processing"
+                    disabled={request.status === 'Processing'}
+                >
+                    Processing
+                </option>
+                </select>
+            </div>
             </div>
         );
     };
-
+    // No extra code needed here, the RequestCard already defined above is used below.
     return (
         <>
             <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-7xl mx-auto gap-4 p-6">

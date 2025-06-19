@@ -481,7 +481,7 @@ export default function Navbar() {
                         <div className="relative hidden md:block">
                             <button
                                 onClick={() => setOpen((open) => !open)}
-                                className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-blue-700 to-green-400 hover:from-blue-800 hover:to-green-500 transition-all duration-200 focus:outline-none shadow-lg border border-blue-100"
+                                className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-blue-700 to-blue-400 hover:from-blue-800 hover:to-blue-500 transition-all duration-200 focus:outline-none shadow-lg border border-blue-100"
                                 aria-haspopup="true"
                                 aria-expanded={open}
                             >
