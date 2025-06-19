@@ -61,6 +61,13 @@ class Account {
         return $details;
     }
 
+    public static function getTotalUserCount(){
+        $query = "SELECT COUNT(*) as total FROM `accounts`";
+        $result = statement($query, [], "");
+        $row = mysqli_fetch_assoc($result);
+        return $row['total'];
+    }
+
     public function initialize(){
 
         // Initialized all fields
