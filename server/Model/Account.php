@@ -224,6 +224,43 @@ class Account {
         return $accounts;
     }
 
+   public function updateAccount(array $params) {
+        $queryParts = [];
+        $values = [];
+        $types = "";
+
+        foreach ($params as $key => $value) {
+            // Check if the property exists and is not the id
+            if (property_exists($this, $key) && $key !== 'id') {
+                $queryParts[] = "`$key` = ?";
+                $values[] = $value;
+
+                // Determine type based on value
+                if (is_int($value)) {
+                    $types .= "i";
+                } elseif (is_float($value)) {
+                    $types .= "d";
+                } else {
+                    $types .= "s"; // Default to string for other types
+                }
+
+                $this->$key = $value; // Update the object's property
+            }
+        }
+
+        //If no fields to update, return true, it avoids an unnecessary and potentially problematic query
+        if (empty($queryParts)) {
+            return true;
+        }
+
+        $query = "UPDATE `accounts` SET " . implode(", ", $queryParts) . " WHERE `id` = ?";
+        $values[] = $this->id;
+        $types .= "s"; //id is a string
+
+        $result = statement($query, $values, $types);
+        return $result;
+    }
+
     public function setFields(array $fields){
         foreach ($fields as $key => $value) {
             if (property_exists($this, $key)) {

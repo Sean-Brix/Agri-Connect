@@ -144,41 +144,6 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                         <span>Inventory</span>
                                     </div>
                                 </li>
-
-                                <li
-                                    className={`p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer ${
-                                        isActive('survey')
-                                            ? 'bg-blue-700 font-bold'
-                                            : ''
-                                    }`}
-                                    onClick={() =>
-                                        setPage(elements.current['survey'])
-                                    }
-                                >
-                                    <div className="flex items-center space-x-4">
-                                        <span>
-                                            <i className="fas fa-home h-6 w-6"></i>
-                                        </span>
-                                        <span>Survey Forms</span>
-                                    </div>
-                                </li>
-                                {/* <li
-                                    className={`p-5 text-lg hover:bg-blue-700 rounded-lg transition cursor-pointer ${
-                                        isActive('settings')
-                                            ? 'bg-blue-700 font-bold'
-                                            : ''
-                                    }`}
-                                    onClick={() =>
-                                        setPage(elements.current['settings'])
-                                    }
-                                >
-                                    <div className="flex items-center space-x-4">
-                                        <span>
-                                            <i className="fas fa-cog h-6 w-6"></i>
-                                        </span>
-                                        <span>Settings</span>
-                                    </div>
-                                </li> */}
                             </ul>
                         </nav>
                     </div>
