@@ -101,7 +101,7 @@ export default function Landing() {
                             style={{
                                 animation: 'none',
                                 transition: 'none',
-                                filter: 'brightness(0.5) hue-rotate(150deg) saturate(2)',
+                                filter: 'brightness(0.5) hue-rotate(160deg) saturate(2.5)',
                                 
                             }}></video>
                         {/* Text and Buttons */}
@@ -200,7 +200,7 @@ export default function Landing() {
                                         {programs.map((program, idx) => (
                                             <div
                                                 key={idx}
-                                                className="flex-shrink-0 w-80 md:w-96 bg-gradient-to-br from-blue-800 via-blue-700 to-blue-900 rounded-3xl shadow-2xl border border-blue-900 p-8 flex flex-col items-center text-center mx-2 transition-transform duration-300 hover:scale-105 hover:shadow-blue-700/40"
+                                                className="flex-shrink-0 w-80 md:w-96 bg-gradient-to-br from-blue-600 via-blue-400 to-blue-600 rounded-3xl shadow-2xl border border-blue-900 p-8 flex flex-col items-center text-center mx-2 transition-transform duration-300 hover:scale-105 hover:shadow-blue-700/40"
                                                 style={{
                                                     scrollSnapAlign: 'start',
                                                     minWidth: '20rem',
@@ -336,7 +336,7 @@ export default function Landing() {
                                 </h2>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-15 max-w-5xl mx-auto">
                                     {/* Card 1 */}
-                                    <div className="flex-1 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 shadow-xl border border-blue-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10 delay-100">
+                                    <div className="flex-1 bg-gradient-to-br from-blue-600 via-blue-400 to-blue-600 shadow-xl rounded-lg border border-blue-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10 delay-100">
                                         <div className="bg-blue-800 rounded-full p-4 mb-5 shadow">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 1.343-3 3 0 1.657 1.343 3 3 3s3-1.343 3-3c0-1.657-1.343-3-3-3zm0 10c-4.418 0-8-3.582-8-8 0-4.418 3.582-8 8-8s8 3.582 8 8c0 4.418-3.582 8-8 8z" />
@@ -348,7 +348,7 @@ export default function Landing() {
                                         </p>
                                     </div>
                                     {/* Card 2 */}
-                                    <div className="flex-1 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 shadow-xl border border-blue-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-300">
+                                    <div className="flex-1 bg-gradient-to-br from-blue-600 via-blue-400 to-blue-600 shadow-xl rounded-lg border border-blue-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10 delay-100">
                                         <div className="bg-blue-800 rounded-full p-4 mb-5 shadow">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2a4 4 0 018 0v2m-4-6a4 4 0 100-8 4 4 0 000 8z" />
@@ -360,7 +360,7 @@ export default function Landing() {
                                         </p>
                                     </div>
                                     {/* Card 3 */}
-                                    <div className="flex-1 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 shadow-xl border border-blue-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-300">
+                                    <div className="flex-1 bg-gradient-to-br from-blue-600 via-blue-400 to-blue-600 shadow-xl rounded-lg border border-blue-900 flex flex-col items-center p-10 hover:scale-105 hover:shadow-2xl transition-all duration-300 reveal-on-scroll opacity-0 translate-y-10 delay-100">
                                         <div className="bg-blue-800 rounded-full p-4 mb-5 shadow">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a5 5 0 00-10 0v2a2 2 0 00-2 2v7a2 2 0 002 2h10a2 2 0 002-2v-7a2 2 0 00-2-2z" />
