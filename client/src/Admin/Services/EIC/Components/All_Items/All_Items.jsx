@@ -29,43 +29,39 @@ export default function All_Items() {
     }, [statusFilter, categoryFilter, search]);
 
     const fetchItems = async () => {
-        try {
-            const response = await fetch(
-                `/api/eic/getAll?status=${statusFilter}&category=${categoryFilter}&search=${search}`
-            );
-            const data = await response.json();
+        const response = await fetch(
+            `/api/eic/getAll?status=${statusFilter}&category=${categoryFilter}&search=${search}`
+        );
+        const data = await response.json();
 
-            if (!data.payload || data.payload.length === 0) {
-                setItems([]);
-                return;
-            }
+        if (!data.payload || data.payload.length === 0) {
+            setItems([]);
+            return;
+        }
 
-            const itemsWithImages = await Promise.all(
-                data.payload.map(async (item) => {
-                    try {
-                        const imageResponse = await fetch(
-                            `/api/eic/getImage?id=${item.id}`
-                        );
-                        if (imageResponse.ok) {
-                            if (imageResponse.status === 204) {
-                                return { ...item, photo: default_image };
-                            }
-                            const imageBlob = await imageResponse.blob();
-                            const imageUrl = URL.createObjectURL(imageBlob);
-                            return { ...item, photo: imageUrl };
-                        } else {
+        const itemsWithImages = await Promise.all(
+            data.payload.map(async (item) => {
+                try {
+                    const imageResponse = await fetch(
+                        `/api/eic/getImage?id=${item.id}`
+                    );
+                    if (imageResponse.ok) {
+                        if (imageResponse.status === 204) {
                             return { ...item, photo: default_image };
                         }
-                    } catch (error) {
-                        console.error('Error fetching image:', error);
+                        const imageBlob = await imageResponse.blob();
+                        const imageUrl = URL.createObjectURL(imageBlob);
+                        return { ...item, photo: imageUrl };
+                    } else {
                         return { ...item, photo: default_image };
                     }
-                })
-            );
-            setItems(itemsWithImages);
-        } catch (error) {
-            console.error('Error fetching items:', error);
-        }
+                } catch (error) {
+                    console.error('Error fetching image:', error);
+                    return { ...item, photo: default_image };
+                }
+            })
+        );
+        setItems(itemsWithImages);
     };
 
     const handleDelete = async () => {
@@ -75,38 +71,30 @@ export default function All_Items() {
         }
 
         try {
-            setIsDeleting(true);
             const deletePromises = selectedItems.map(async (id) => {
                 const response = await fetch(`/api/eic/deleteEIC?id=${id}`);
                 const data = await response.json();
 
                 if (response.ok && data.status === 'Success') {
-                    return id;
+                    return true;
                 } else {
                     console.error(
                         `Failed to delete item with id ${id}: ${
                             data.message || 'Unknown error'
                         }`
                     );
-                    return null;
+                    return false;
                 }
             });
 
             const results = await Promise.all(deletePromises);
-            const successfullyDeletedIds = results.filter((id) => id !== null);
-
-            if (successfullyDeletedIds.length > 0) {
-                setItems((prevItems) =>
-                    prevItems.filter(
-                        (item) => !successfullyDeletedIds.includes(item.id)
-                    )
-                );
-                setSelectedItems((prevSelectedItems) =>
-                    prevSelectedItems.filter(
-                        (id) => !successfullyDeletedIds.includes(id)
-                    )
-                );
+            if (results.every((result) => result)) {
                 alert('Items deleted successfully.');
+                setItems(
+                    items.filter((item) => !selectedItems.includes(item.id))
+                );
+                setSelectedItems([]);
+                setIsDeleting(false);
             } else {
                 alert(
                     'Some items failed to delete. Please check the console for errors.'
@@ -115,8 +103,6 @@ export default function All_Items() {
         } catch (error) {
             console.error('Error deleting items:', error);
             alert('Failed to delete items. Please try again.');
-        } finally {
-            setIsDeleting(false);
         }
     };
 
@@ -383,92 +369,71 @@ export default function All_Items() {
 
             {/* Modern Pagination Controls */}
             {totalPages > 1 && (
-                <div className="flex justify-center items-center mt-8 ">
-                    <nav className="inline-flex rounded-md shadow-sm bg-white border border-gray-200 mb-8 px-2 py-1">
+                <div className="flex justify-center mt-6 mb-2">
+                    <nav className="flex items-center gap-1 bg-white rounded-xl shadow px-4 py-2 mb-8" aria-label="Pagination">
                         <button
-                            className={`px-3 py-2 rounded-l-md focus:outline-none transition-colors ${
-                                currentPage === 1
-                                    ? 'text-gray-400 cursor-not-allowed'
-                                    : 'text-blue-600 hover:bg-blue-50'
-                            }`}
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={currentPage === 1}
+                            className={`w-9 h-9 flex items-center justify-center rounded-full transition-all text-gray-500 hover:bg-blue-100 hover:text-blue-600 ${
+                                currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
+                            }`}
                             aria-label="Previous"
                         >
-                            <svg
-                                className="w-5 h-5"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M15 19l-7-7 7-7"
-                                />
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <path d="M15 19l-7-7 7-7" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                         </button>
-                        {Array.from({ length: totalPages }, (_, i) => {
-                            // Show first, last, current, and neighbors
-                            if (
-                                i + 1 === 1 ||
-                                i + 1 === totalPages ||
-                                Math.abs(currentPage - (i + 1)) <= 1
-                            ) {
-                                return (
-                                    <button
-                                        key={i + 1}
-                                        className={`mx-1 px-3 py-2 rounded focus:outline-none transition-colors ${
-                                            currentPage === i + 1
-                                                ? 'bg-blue-500 text-white'
-                                                : 'text-gray-700 hover:bg-blue-100'
-                                        }`}
-                                        onClick={() => handlePageChange(i + 1)}
-                                    >
-                                        {i + 1}
-                                    </button>
-                                );
-                            }
-                            // Ellipsis
-                            if (
-                                (i === 1 && currentPage > 3) ||
-                                (i === totalPages - 2 &&
-                                    currentPage < totalPages - 2)
-                            ) {
-                                return (
-                                    <span
-                                        key={i + 1}
-                                        className="mx-1 px-3 py-2 text-gray-400 select-none"
-                                    >
-                                        ...
-                                    </span>
-                                );
-                            }
-                            return null;
-                        })}
+                        {totalPages > 6 ? (
+                            <>
+                                <button
+                                    onClick={() => handlePageChange(1)}
+                                    className={`w-9 h-9 flex items-center justify-center rounded-full transition-all font-semibold ${
+                                        currentPage === 1 ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-blue-100'
+                                    }`}
+                                >1</button>
+                                {currentPage > 3 && <span className="px-1 text-gray-400">...</span>}
+                                {Array.from({ length: 3 }, (_, i) => {
+                                    const page = Math.max(2, Math.min(currentPage - 1 + i, totalPages - 2));
+                                    if (page <= 1 || page >= totalPages) return null;
+                                    return (
+                                        <button
+                                            key={page}
+                                            onClick={() => handlePageChange(page)}
+                                            className={`w-9 h-9 flex items-center justify-center rounded-full transition-all font-semibold ${
+                                                currentPage === page ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-blue-100'
+                                            }`}
+                                        >{page}</button>
+                                    );
+                                })}
+                                {currentPage < totalPages - 2 && <span className="px-1 text-gray-400">...</span>}
+                                <button
+                                    onClick={() => handlePageChange(totalPages)}
+                                    className={`w-9 h-9 flex items-center justify-center rounded-full transition-all font-semibold ${
+                                        currentPage === totalPages ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-blue-100'
+                                    }`}
+                                >{totalPages}</button>
+                            </>
+                        ) : (
+                            Array.from({ length: totalPages }, (_, i) => (
+                                <button
+                                    key={i + 1}
+                                    onClick={() => handlePageChange(i + 1)}
+                                    className={`w-9 h-9 flex items-center justify-center rounded-full transition-all font-semibold ${
+                                        currentPage === i + 1 ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-blue-100'
+                                    }`}
+                                >{i + 1}</button>
+                            ))
+                        )}
                         <button
-                            className={`px-3 py-2 rounded-r-md focus:outline-none transition-colors ${
-                                currentPage === totalPages
-                                    ? 'text-gray-400 cursor-not-allowed'
-                                    : 'text-blue-600 hover:bg-blue-50'
-                            }`}
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage === totalPages}
+                            className={`w-9 h-9 flex items-center justify-center rounded-full transition-all text-gray-500 hover:bg-blue-100 hover:text-blue-600 ${
+                                currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+                            }`}
                             aria-label="Next"
                         >
-                            <svg
-                                className="w-5 h-5"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M9 5l7 7-7 7"
-                                />
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                         </button>
                     </nav>
