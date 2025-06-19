@@ -17,6 +17,30 @@ export default function Seminar() {
     const [showFilter, setShowFilter] = useState(false);
     const [selectedSeminarId, setSelectedSeminarId] = useState(null);
 
+    // My Requests Modal state
+    const [showMyRequestsModal, setShowMyRequestsModal] = useState(false);
+    const [myRequests, setMyRequests] = useState([]);
+
+    // Handler to close modal
+    const handleCloseMyRequestsModal = () => setShowMyRequestsModal(false);
+
+    // Fetch my requests (dummy fetch, replace with your API if needed)
+    useEffect(() => {
+        if (showMyRequestsModal) {
+            // Example fetch, replace endpoint and logic as needed
+            fetch('/api/seminars/myrequests')
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.payload) {
+                        setMyRequests(data.payload);
+                    } else {
+                        setMyRequests([]);
+                    }
+                })
+                .catch(() => setMyRequests([]));
+        }
+    }, [showMyRequestsModal]);
+
     // Programs data
     const [allPrograms, setAllPrograms] = useState([]);
     const [filteredPrograms, setFilteredPrograms] = useState([]);
@@ -199,33 +223,68 @@ export default function Seminar() {
             return;
         }
 
+        // Show a custom alert instead of window.alert
+        const showCustomAlert = (message, type = 'success') => {
+            // Remove any existing alert
+            const existing = document.getElementById('seminar-custom-alert');
+            if (existing) existing.remove();
+
+            const alertDiv = document.createElement('div');
+            alertDiv.id = 'seminar-custom-alert';
+            alertDiv.className = `fixed top-8 left-1/2 transform -translate-x-1/2 z-[9999] px-6 py-3 rounded-xl shadow-lg flex items-center gap-3 text-base font-semibold transition-all duration-300 ${
+            type === 'success'
+                ? 'bg-blue-700 text-white'
+                : 'bg-red-600 text-white'
+            }`;
+            alertDiv.innerHTML = `
+            <i class="fa-solid ${
+                type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'
+            }"></i>
+            <span>${message}</span>
+            `;
+            document.body.appendChild(alertDiv);
+
+            setTimeout(() => {
+            alertDiv.style.opacity = '0';
+            alertDiv.style.transform += ' translateY(-20px)';
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 300);
+            }, 2000);
+        };
+
         try {
             const response = await fetch(
-                '/api/seminars/participants/user_apply',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ id: seminarId }),
-                }
+            '/api/seminars/participants/user_apply',
+            {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: seminarId }),
+            }
             );
 
             if (response.ok) {
-                alert('Successfully applied!');
-                setAppliedSeminars((prev) => [...prev, seminarId]);
+            showCustomAlert('Successfully applied!', 'success');
+            setAppliedSeminars((prev) => [...prev, seminarId]);
+            // Change alert color to green on success
+            const alertDiv = document.getElementById('seminar-custom-alert');
+            if (alertDiv) {
+            alertDiv.className = alertDiv.className.replace('bg-blue-700', 'bg-green-600');
+            }
             } else {
-                alert('Already Applied.');
-                setAppliedSeminars((prev) => [...prev, seminarId]);
-                return;
+            showCustomAlert('Already Applied.', 'error');
+            setAppliedSeminars((prev) => [...prev, seminarId]);
+            return;
             }
         } catch (error) {
             console.error('Error applying for seminar:', error);
-            alert('Error applying for seminar.');
+            showCustomAlert('Error applying for seminar.', 'error');
         }
-    };
+        };
 
-    const cancel_user = async (seminarId) => {
+        const cancel_user = async (seminarId) => {
         const check = await fetch('/api/authentication/gotToken');
         if (!check.ok) {
             alert('Login First');
@@ -233,29 +292,58 @@ export default function Seminar() {
             return;
         }
 
+        // Modern custom alert for cancel
+        const showCustomAlert = (message, type = 'success') => {
+            const existing = document.getElementById('seminar-custom-alert');
+            if (existing) existing.remove();
+
+            const alertDiv = document.createElement('div');
+            alertDiv.id = 'seminar-custom-alert';
+            alertDiv.className = `fixed top-8 left-1/2 transform -translate-x-1/2 z-[9999] px-6 py-3 rounded-xl shadow-lg flex items-center gap-3 text-base font-semibold transition-all duration-300 ${
+            type === 'success'
+            ? 'bg-blue-700 text-white'
+            : 'bg-red-600 text-white'
+            }`;
+            alertDiv.innerHTML = `
+            <i class="fa-solid ${
+            type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'
+            }"></i>
+            <span>${message}</span>
+            `;
+            document.body.appendChild(alertDiv);
+
+            setTimeout(() => {
+            alertDiv.style.opacity = '0';
+            alertDiv.style.transform += ' translateY(-20px)';
+            setTimeout(() => {
+            alertDiv.remove();
+            }, 300);
+            }, 2000);
+        };
+
         try {
             const response = await fetch(
-                '/api/seminars/participants/user_cancel',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ id: seminarId }),
-                }
+            '/api/seminars/participants/user_cancel',
+            {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: seminarId }),
+            }
             );
 
             if (response.ok) {
-                alert('Application cancelled.');
-                setAppliedSeminars((prev) =>
-                    prev.filter((id) => id !== seminarId)
-                );
+            showCustomAlert('Application cancelled.', 'success');
+            setAppliedSeminars((prev) =>
+            prev.filter((id) => id !== seminarId)
+            );
             } else {
-                alert('Unable to cancel application.');
+            showCustomAlert('Unable to cancel application.', 'error');
             }
         } catch (error) {
             console.error('Error cancelling seminar application:', error);
-            alert('Error cancelling seminar application.');
+            showCustomAlert('Error cancelling seminar application.', 'error');
         }
     };
 
@@ -362,15 +450,93 @@ export default function Seminar() {
                                     </div>
                                 )}
                             </div>
-                        </div>
-
-                        <div className="flex flex-col gap-8 w-full max-w-3xl mt-6">
-                            {paginatedPrograms.length === 0 ? (
-                                <div className="text-blue-300 text-center py-12 text-base">
-                                    No programs found.
+                            
+                            <button
+                                className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-blue-900 font-semibold border border-gray-200 shadow transition-all duration-200 hover:bg-gray-50 focus:outline-none text-base sm:text-lg ml-2"
+                                onClick={() => setShowMyRequestsModal(true)}
+                                type="button"
+                                aria-label="View your seminar requests"
+                                style={{ minHeight: '3rem' }}
+                            >
+                                <i className="fa-solid fa-list text-blue-900 text-base sm:text-lg"></i>
+                                <span className="hidden sm:inline">
+                                    My Requests
+                                </span>
+                            </button>
+                            </div>
+                            {/* My Requests Modal */}
+                            {showMyRequestsModal && (
+                                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm transition-all">
+                                    <div className="bg-white rounded-3xl shadow-2xl p-0 max-w-2xl w-full relative overflow-hidden animate-fade-in">
+                                        {/* Modal Header */}
+                                        <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100 bg-gradient-to-r from-blue-700 to-blue-600">
+                                            <h2 className="text-xl font-bold text-white">
+                                                <i className="fa-solid fa-list mr-2"></i>
+                                                My Requests
+                                            </h2>
+                                            <button
+                                                className="text-white text-2xl hover:text-blue-200 transition"
+                                                onClick={handleCloseMyRequestsModal}
+                                                aria-label="Close"
+                                            >
+                                                <i className="fa-solid fa-xmark"></i>
+                                            </button>
+                                        </div>
+                                        {/* Modal Body */}
+                                        <div className="px-8 py-6 space-y-5">
+                                            {myRequests.length > 0 ? (
+                                                <table className="w-full">
+                                                    <thead>
+                                                        <tr className="text-left text-gray-600">
+                                                            <th className="py-2">Item</th>
+                                                            <th className="py-2">
+                                                                Borrow Date
+                                                            </th>
+                                                            <th className="py-2">
+                                                                Return Date
+                                                            </th>
+                                                            <th className="py-2">Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {myRequests.map((request) => (
+                                                            <tr
+                                                                key={request.id}
+                                                                className="border-b border-gray-100"
+                                                            >
+                                                                <td className="py-3">
+                                                                    {request.item_name}
+                                                                </td>
+                                                                <td className="py-3">
+                                                                    {request.borrow_date}
+                                                                </td>
+                                                                <td className="py-3">
+                                                                    {request.return_date}
+                                                                </td>
+                                                                <td className="py-3">
+                                                                    {request.status}
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            ) : (
+                                                <div className="text-center text-gray-500 py-10">
+                                                    No requests found.
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
-                            ) : (
-                                paginatedPrograms.map((program) => {
+                            )}
+                            <div className="flex flex-col gap-8 w-full max-w-3xl mt-6">
+
+                                {paginatedPrograms.length === 0 ? (
+                                    <div className="text-blue-300 text-center py-12 text-base">
+                                        No programs found.
+                                    </div>
+                                ) : (
+                                    paginatedPrograms.map((program) => {
                                     const isApplied = appliedSeminars.includes(
                                         program.id
                                     );

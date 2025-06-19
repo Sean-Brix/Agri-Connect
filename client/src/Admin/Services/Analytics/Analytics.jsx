@@ -107,75 +107,108 @@ function Analytics() {
   };
 
   return (
-    <div className="w-full mx-auto px-2 py-8 bg-white min-h-screen">
-     <div className="relative mt-5 sm:mt-30 mb-15">
-                <hr className="border-black-300" />
-                <span className="absolute left-1/4 md:left-1/8 -translate-x-1/4 family -top-5 bg-white rounded-lg px-4 text-2xl font-semibold text-gray-700">
-                    Analytics Dashboard
-                </span>
-            </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div className="bg-gradient-to-br from-blue-100 via-blue-50 to-white border-2 border-blue-200 rounded-2xl p-6 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-200">
-          <span className="text-xs text-blue-600 mb-1 font-medium">Total Users</span>
-          <span className="text-2xl font-bold mb-2 text-blue-800 drop-shadow">{userStats[userStats.length - 1]}</span>
-          <LineChart data={userStats} color="#3b82f6" />
-          <span className="text-xs text-green-600 mt-2 font-semibold">
+    <div className="w-full mx-auto px-4 py-10 bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen">
+      <div className="relative mb-12">
+        <h1 className="text-3xl md:text-4xl font-extrabold mt-10 sm:20 text-blue-800 text-center tracking-tight">
+          <span className="bg-gradient-to-r from-blue-500 via-blue-400 to-blue-700 bg-clip-text text-transparent">
+            Analytics Dashboard
+          </span>
+        </h1>
+        <p className="text-center text-blue-500 mt-2 text-base">
+          Modern insights at a glance
+        </p>
+      </div>
+
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col items-center hover:shadow-2xl transition">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
+              <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m13-7a4 4 0 11-8 0 4 4 0 018 0zm-8 0a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+            </span>
+            <span className="text-sm font-medium text-blue-500">Total Users</span>
+          </div>
+          <span className="text-3xl font-bold text-blue-700 mb-1">{userStats[userStats.length - 1]}</span>
+          <span className="text-xs text-blue-500 font-semibold mb-2">
             +{userStats[userStats.length - 1] - userStats[userStats.length - 2]} this month
           </span>
+          <div className="w-full mt-2">
+            <LineChart data={userStats} color="#3b82f6" />
+          </div>
         </div>
-        <div className="bg-gradient-to-br from-green-100 via-green-50 to-white border-2 border-green-200 rounded-2xl p-6 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-200">
-          <span className="text-xs text-green-700 mb-1 font-medium">Active Sessions</span>
-          <span className="text-2xl font-bold mb-2 text-green-800 drop-shadow">{sessionStats[sessionStats.length - 1]}</span>
-          <AreaChart data={sessionStats} color="#10b981" />
-          <span className="text-xs text-green-700 mt-2 font-semibold">
+        <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col items-center hover:shadow-2xl transition">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
+              <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m4 0h-1v-4h-1m4 0h-1v-4h-1m-4 0h-1v-4h-1" /></svg>
+            </span>
+            <span className="text-sm font-medium text-blue-500">Active Sessions</span>
+          </div>
+          <span className="text-3xl font-bold text-blue-700 mb-1">{sessionStats[sessionStats.length - 1]}</span>
+          <span className="text-xs text-blue-500 font-semibold mb-2">
             +{sessionStats[sessionStats.length - 1] - sessionStats[sessionStats.length - 2]} this month
           </span>
+          <div className="w-full mt-2">
+            <AreaChart data={sessionStats} color="#3b82f6" />
+          </div>
         </div>
-        <div className="bg-gradient-to-br from-purple-100 via-purple-50 to-white border-2 border-purple-200 rounded-2xl p-6 flex flex-col items-center shadow-lg hover:scale-105 transition-transform duration-200">
-          <span className="text-xs text-purple-700 mb-1 font-medium">Revenue</span>
-          <span className="text-2xl font-bold mb-2 text-purple-800 drop-shadow">${revenueStats[revenueStats.length - 1]}</span>
-          <DonutChart value={revenueStats[revenueStats.length - 1]} max={15000} color="#a78bfa" />
-          <span className="text-xs text-green-700 mt-2 font-semibold">
+        <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col items-center hover:shadow-2xl transition">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
+              <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" /></svg>
+            </span>
+            <span className="text-sm font-medium text-blue-500">Revenue</span>
+          </div>
+          <span className="text-3xl font-bold text-blue-700 mb-1">${revenueStats[revenueStats.length - 1]}</span>
+          <span className="text-xs text-blue-500 font-semibold mb-2">
             +${revenueStats[revenueStats.length - 1] - revenueStats[revenueStats.length - 2]} this month
           </span>
+          <div className="w-full flex justify-center mt-2">
+            <DonutChart value={revenueStats[revenueStats.length - 1]} max={15000} color="#3b82f6" />
+          </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10">
-        <div className="bg-gradient-to-br from-indigo-100 via-white to-blue-50 border-2 border-indigo-200 rounded-2xl p-6 shadow-lg">
-          <h2 className="text-lg font-semibold text-indigo-700 mb-3 text-center tracking-wide">Monthly Growth</h2>
-          <LineChart data={userStats} color="#6366f1" />
-          <div className="flex justify-between mt-3 text-xs text-indigo-400 font-semibold">
+
+      {/* Modern Graphs Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div className="bg-gradient-to-br from-blue-100 via-white to-blue-200 rounded-2xl shadow-lg p-8">
+          <h2 className="text-lg font-semibold text-blue-700 mb-4 text-center tracking-wide">Monthly User Growth</h2>
+          <div className="w-full">
+            <LineChart data={userStats} color="#2563eb" />
+          </div>
+          <div className="flex justify-between mt-4 text-xs text-blue-400 font-semibold">
             {months.map((m, i) => (
               <span key={i}>{m}</span>
             ))}
           </div>
         </div>
-        <div className="bg-gradient-to-br from-pink-100 via-white to-purple-50 border-2 border-pink-200 rounded-2xl p-6 shadow-lg flex flex-col items-center">
-          <h2 className="text-lg font-semibold text-pink-700 mb-3 text-center tracking-wide">Key Metrics</h2>
-          <div className="flex flex-col gap-3 w-full">
-            <div className="flex justify-between text-base">
-              <span className="text-pink-600">Conversion Rate</span>
-              <span className="font-bold text-pink-700">12%</span>
+        <div className="bg-gradient-to-br from-blue-100 via-white to-blue-200 rounded-2xl shadow-lg p-8 flex flex-col items-center">
+          <h2 className="text-lg font-semibold text-blue-700 mb-4 text-center tracking-wide">Key Metrics</h2>
+          <div className="grid grid-cols-2 gap-4 w-full">
+            <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
+              <span className="text-blue-600 font-semibold">Conversion Rate</span>
+              <span className="text-xl font-bold text-blue-700 mt-1">12%</span>
             </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Bounce Rate</span>
-              <span className="font-semibold text-gray-700">38%</span>
+            <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
+              <span className="text-blue-600 font-semibold">Bounce Rate</span>
+              <span className="text-xl font-bold text-blue-700 mt-1">38%</span>
             </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-500">Avg. Session Duration</span>
-              <span className="font-semibold text-gray-700">3m 12s</span>
+            <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
+              <span className="text-blue-600 font-semibold">Avg. Session</span>
+              <span className="text-xl font-bold text-blue-700 mt-1">3m 12s</span>
             </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-500">New Users</span>
-              <span className="font-semibold text-gray-700">+87</span>
+            <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
+              <span className="text-blue-600 font-semibold">New Users</span>
+              <span className="text-xl font-bold text-blue-700 mt-1">+87</span>
             </div>
           </div>
         </div>
       </div>
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="bg-white border rounded-lg p-4 shadow-sm">
-          <h2 className="text-base font-medium text-gray-700 mb-2 text-center">Top Performing Months</h2>
-          <ul className="text-sm text-gray-600">
+
+      {/* Bottom Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="bg-white rounded-2xl shadow-lg p-6">
+          <h2 className="text-base font-semibold text-blue-700 mb-4 text-center">Top Performing Months</h2>
+          <ul className="divide-y divide-blue-100">
             {months
               .map((m, i) => ({
                 month: m,
@@ -185,17 +218,18 @@ function Analytics() {
               .sort((a, b) => b.revenue - a.revenue)
               .slice(0, 3)
               .map((item, idx) => (
-                <li key={idx} className="flex justify-between py-1">
-                  <span>{item.month}</span>
-                  <span>Users: {item.users}, Revenue: ${item.revenue}</span>
+                <li key={idx} className="flex justify-between py-3 px-2">
+                  <span className="font-medium text-blue-700">{item.month}</span>
+                  <span className="text-blue-500">Users: <span className="font-semibold">{item.users}</span></span>
+                  <span className="text-blue-700 font-semibold">${item.revenue}</span>
                 </li>
               ))}
           </ul>
         </div>
-        <div className="bg-white border rounded-lg p-4 shadow-sm">
-          <h2 className="text-base font-medium text-gray-700 mb-2 text-center">User Growth Rate</h2>
+        <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center">
+          <h2 className="text-base font-semibold text-blue-700 mb-4 text-center">User Growth Rate</h2>
           <div className="flex flex-col items-center">
-            <span className="text-2xl font-bold text-green-600">
+            <span className="text-4xl font-extrabold text-blue-600">
               {(
                 ((userStats[userStats.length - 1] - userStats[0]) /
                   userStats[0]) *
@@ -203,7 +237,7 @@ function Analytics() {
               ).toFixed(1)}
               %
             </span>
-            <span className="text-xs text-gray-500 mt-1">
+            <span className="text-xs text-blue-400 mt-1">
               Since {months[0]}
             </span>
           </div>

@@ -147,7 +147,7 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                             </ul>
                         </nav>
                     </div>
-                    {/* Modern centered profile and Logout at the bottom */}
+                    
                     <div className="p-6 border-t logout flex flex-col items-center mt-auto bg-gradient-to-t from-blue-900/80 via-blue-900/60 to-transparent">
                         <button
                             className="flex flex-col items-center w-full mb-4 focus:outline-none group"
@@ -159,15 +159,17 @@ export default function Sidebar({ setPage, details = {}, logging, elements }) {
                                 cursor: 'pointer',
                             }}
                         >
-                            <div className="relative mb-2">
-                                <img
-                                    src={details.picture}
-                                    alt="Profile"
-                                    className="h-16 w-16 rounded-full border-4 border-blue-500 shadow-lg object-cover transition-transform duration-200 group-hover:scale-105"
-                                />
-                                <span className="absolute bottom-1 right-1 h-4 w-4 bg-green-400 border-2 border-white rounded-full"></span>
+                            <div className="flex flex-col items-center">
+                                <div className="relative mb-2">
+                                    <img
+                                        src={details.picture}
+                                        alt="Profile"
+                                        className="h-16 w-16 rounded-full border-4 border-blue-500 shadow-lg object-cover transition-transform duration-200 group-hover:scale-105"
+                                    />
+                                    <span className="absolute bottom-1 right-1 h-4 w-4 bg-green-400 border-2 border-white rounded-full"></span>
+                                </div>
+                                <span className="font-semibold text-white text-lg text-center">{details.username}</span>
                             </div>
-                            <span className="font-semibold text-white text-lg">{details.username}</span>
                         </button>
                         {/* Logout button (desktop sidebar, bottom) */}
                         <button

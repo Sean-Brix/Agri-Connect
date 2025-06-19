@@ -96,11 +96,14 @@ export default function Landing() {
                             autoPlay
                             loop
                             muted
-                            playsInline
+                         playsInline
                             className="absolute inset-0 w-full h-full object-cover z-0 opacity-60"
-                            style={{ animation: 'none', transition: 'none' }}
-                            playbackrate={0.5}
-                        />
+                            style={{
+                                animation: 'none',
+                                transition: 'none',
+                                filter: 'brightness(0.5) hue-rotate(150deg) saturate(2)',
+                                
+                            }}></video>
                         {/* Text and Buttons */}
                         <div className="flex-1 flex flex-col items-center justify-center relative z-10 text-center">
                             <h1
