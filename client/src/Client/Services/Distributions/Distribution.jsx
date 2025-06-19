@@ -1,3 +1,5 @@
+// All green color classes and hex codes are replaced with blue equivalents.
+
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -136,19 +138,19 @@ export default function Distribution() {
 
     const typeIcon = (type) => {
         if (type === 'Seeds')
-            return <i className="fa-solid fa-seedling text-green-500"></i>;
+            return <i className="fa-solid fa-seedling text-blue-500"></i>;
         if (type === 'Fertilizers')
             return <i className="fa-solid fa-flask text-blue-500"></i>;
         if (type === 'Livestock')
             return <i className="fa-solid fa-horse text-yellow-500"></i>;
         if (type === 'Fish Fingerlings')
-            return <i className="fa-solid fa-fish text-indigo-500"></i>;
+            return <i className="fa-solid fa-fish text-blue-500"></i>;
         if (type === 'Organic Inputs')
-            return <i className="fa-solid fa-leaf text-green-700"></i>;
+            return <i className="fa-solid fa-leaf text-blue-700"></i>;
         if (type === 'Tools')
             return <i className="fa-solid fa-toolbox text-gray-500"></i>;
         if (type === 'Plants')
-            return <i className="fa-solid fa-tree text-green-900"></i>;
+            return <i className="fa-solid fa-tree text-blue-900"></i>;
         if (type === 'Compost')
             return <i className="fa-solid fa-recycle text-orange-500"></i>;
         return <i className="fa-solid fa-question text-gray-500"></i>;
@@ -247,12 +249,12 @@ export default function Distribution() {
                         left: 50%;
                         transform: translate(-50%, -50%) scale(0.95);
                         z-index: 9999;
-                        background: rgba(22,163,74,0.98);
-                        background: linear-gradient(100deg, #16a34a 0%, #22c55e 100%);
+                        background: rgba(37,99,235,0.98);
+                        background: linear-gradient(100deg, #2563eb 0%, #3b82f6 100%);
                         color: #fff;
                         padding: 1.5rem 2.8rem;
                         border-radius: 2rem;
-                        box-shadow: 0 12px 40px 0 rgba(34,197,94,0.22);
+                        box-shadow: 0 12px 40px 0 rgba(59,130,246,0.22);
                         font-size: 1.18rem;
                         font-weight: 700;
                         display: flex;
@@ -271,9 +273,9 @@ export default function Distribution() {
                             border-radius: 50%;
                             width: 2.8rem;
                             height: 2.8rem;
-                            box-shadow: 0 2px 8px 0 rgba(34,197,94,0.10);
+                            box-shadow: 0 2px 8px 0 rgba(59,130,246,0.10);
                         ">
-                            <i class="fa-solid fa-circle-check" style="font-size:2rem; color: #fff; filter: drop-shadow(0 2px 8px #22c55e88);"></i>
+                            <i class="fa-solid fa-circle-check" style="font-size:2rem; color: #fff; filter: drop-shadow(0 2px 8px #3b82f688);"></i>
                         </span>
                         <span style="letter-spacing:0.01em;">Request submitted successfully!</span>
                         <span class="eic-alert-bar" style="
@@ -281,7 +283,7 @@ export default function Distribution() {
                             bottom: 0; left: 0;
                             height: 4px;
                             width: 100%;
-                            background: linear-gradient(90deg, #bbf7d0 0%, #22c55e 100%);
+                            background: linear-gradient(90deg, #dbeafe 0%, #2563eb 100%);
                             animation: eicAlertBar 2.1s linear;
                         "></span>
                     </div>
@@ -421,7 +423,7 @@ export default function Distribution() {
                     font-size: 1.18rem;
                     font-weight: 700;
                     display: flex;
-                    align-items: center;
+                    align-items: center ;
                     gap: 1.1rem;
                     min-width: 320px;
                     max-width: 90vw;
@@ -554,20 +556,20 @@ export default function Distribution() {
                             <div className="relative h-12 flex items-center">
                                 <button
                                     id="modernFilterButton"
-                                    className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-green-900 font-semibold border border-gray-200 shadow transition-all duration-200 hover:bg-gray-50 focus:outline-none text-base sm:text-lg"
+                                    className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-blue-900 font-semibold border border-gray-200 shadow transition-all duration-200 hover:bg-gray-50 focus:outline-none text-base sm:text-lg"
                                     onClick={() => setShowFilter((f) => !f)}
                                     type="button"
                                     aria-label="Show filter options"
                                     style={{ minHeight: '3rem' }}
                                 >
-                                    <i className="fa-solid fa-filter text-green-900 text-base sm:text-lg"></i>
+                                    <i className="fa-solid fa-filter text-blue-900 text-base sm:text-lg"></i>
                                     <span className="hidden sm:inline">
                                         {filterBy}
                                     </span>
                                     <i
                                         className={`fa-solid fa-chevron-${
                                             showFilter ? 'up' : 'down'
-                                        } ml-2 text-green-900`}
+                                        } ml-2 text-blue-900`}
                                     ></i>
                                 </button>
                                 {showFilter && (
@@ -613,13 +615,13 @@ export default function Distribution() {
                                 </div>
                             </div>
                             <button
-                                className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-green-900 font-semibold border border-gray-200 shadow transition-all duration-200 hover:bg-gray-50 focus:outline-none text-base sm:text-lg"
+                                className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-blue-900 font-semibold border border-gray-200 shadow transition-all duration-200 hover:bg-gray-50 focus:outline-none text-base sm:text-lg"
                                 onClick={handleMyRequestsClick}
                                 type="button"
                                 aria-label="View your requests"
                                 style={{ minHeight: '3rem' }}
                             >
-                                <i className="fa-solid fa-list text-green-900 text-base sm:text-lg"></i>
+                                <i className="fa-solid fa-list text-blue-900 text-base sm:text-lg"></i>
                                 <span className="hidden sm:inline">
                                     My Requests
                                 </span>
@@ -629,7 +631,7 @@ export default function Distribution() {
                             {paginatedItems.map((item) => (
                                 <div
                                     key={item.id}
-                                    className="max-w-full max-h-[370px] rounded-xl overflow-hidden shadow-2xl hover:shadow-[0_8px_32px_0_rgba(60,60,60,0.25)] bg-green-700 m-4 border-2 border-green-800 transition duration-200 hover:border-green-700 hover:scale-[1.025 backdrop-blur-lg"
+                                    className="max-w-full max-h-[370px] rounded-xl overflow-hidden shadow-2xl hover:shadow-[0_8px_32px_0_rgba(60,60,60,0.25)] bg-blue-700 m-4 border-2 border-blue-800 transition duration-200 hover:border-blue-700 hover:scale-[1.025] backdrop-blur-lg"
                                 >
                                     <div className="relative">
                                         <img
@@ -651,7 +653,7 @@ export default function Distribution() {
                                                                 ? 'bg-gray-900'
                                                                 : item.category ===
                                                                   'Fish Fingerlings'
-                                                                ? 'bg-green-500'
+                                                                ? 'bg-blue-500'
                                                                 : item.category ===
                                                                   'Organic Inputs'
                                                                 ? 'bg-blue-500'
@@ -705,7 +707,7 @@ export default function Distribution() {
                                             </span>
                                             <div className="flex gap-2">
                                                 <button
-                                                    className="bg-white hover:bg-green-700 text-green-900 hover:text-white font-bold py-2 px-5 rounded-2xl text-base border-2 border-green-700 transition-colors shadow-lg"
+                                                    className="bg-white hover:bg-blue-700 text-blue-900 hover:text-white font-bold py-2 px-5 rounded-2xl text-base border-2 border-blue-700 transition-colors shadow-lg"
                                                     onClick={() =>
                                                         handleRequestClick(item)
                                                     }
@@ -771,13 +773,13 @@ export default function Distribution() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm transition-all">
                     <div className="bg-white rounded-3xl shadow-2xl p-0 max-w-lg w-full relative overflow-hidden animate-fade-in">
                         {/* Modal Header */}
-                        <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100 bg-gradient-to-r from-green-700 to-green-600">
+                        <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100 bg-gradient-to-r from-blue-700 to-blue-600">
                             <h2 className="text-xl font-bold text-white">
                                 <i className="fa-solid fa-paper-plane mr-2"></i>
                                 Request Item
                             </h2>
                             <button
-                                className="text-white text-2xl hover:text-green-200 transition"
+                                className="text-white text-2xl hover:text-blue-200 transition"
                                 onClick={handleCloseModal}
                                 aria-label="Close"
                             >
@@ -793,10 +795,10 @@ export default function Distribution() {
                                 <img
                                     src={selectedItem?.img}
                                     alt={selectedItem?.name}
-                                    className="w-16 h-16 rounded-xl object-cover border-2 border-green-700 shadow"
+                                    className="w-16 h-16 rounded-xl object-cover border-2 border-blue-700 shadow"
                                 />
                                 <div>
-                                    <div className="text-lg font-semibold text-green-900 truncate">
+                                    <div className="text-lg font-semibold text-blue-900 truncate">
                                         {selectedItem?.name}
                                     </div>
                                     <div className="text-xs text-gray-500">
@@ -818,7 +820,7 @@ export default function Distribution() {
                                         name="schedule_date"
                                         value={requestData.schedule_date}
                                         onChange={handleInputChange}
-                                        className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none transition"
+                                        className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition"
                                         required
                                     />
                                 </div>
@@ -835,7 +837,7 @@ export default function Distribution() {
                                         name="quantity"
                                         value={requestData.quantity}
                                         onChange={handleInputChange}
-                                        className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none transition"
+                                        className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition"
                                         required
                                         min="1"
                                     />
@@ -854,7 +856,7 @@ export default function Distribution() {
                                     value={requestData.request_note}
                                     onChange={handleInputChange}
                                     rows="3"
-                                    className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none transition resize-none"
+                                    className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition resize-none"
                                     placeholder="Optional"
                                 ></textarea>
                             </div>
@@ -868,7 +870,7 @@ export default function Distribution() {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="bg-green-700 hover:bg-green-800 text-white font-semibold px-6 py-2 rounded-xl shadow transition focus:outline-none"
+                                    className="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-2 rounded-xl shadow transition focus:outline-none"
                                 >
                                     Submit Request
                                 </button>
@@ -881,13 +883,13 @@ export default function Distribution() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm transition-all">
                     <div className="bg-white rounded-3xl shadow-2xl p-0 max-w-3xl w-full relative overflow-hidden animate-fade-in">
                         {/* Modal Header */}
-                        <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100 bg-gradient-to-r from-green-700 to-green-600">
+                        <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100 bg-gradient-to-r from-blue-700 to-blue-600">
                             <h2 className="text-xl font-bold text-white">
                                 <i className="fa-solid fa-list mr-2"></i>
                                 My Requests
                             </h2>
                             <button
-                                className="text-white text-2xl hover:text-green-200 transition"
+                                className="text-white text-2xl hover:text-blue-200 transition"
                                 onClick={handleCloseMyRequestsModal}
                                 aria-label="Close"
                             >
@@ -967,7 +969,7 @@ export default function Distribution() {
                 }
 
                 .eic-title {
-                    color: #14532d !important;
+                    color: #1e3a8a !important;
                 }
 
                 @media (max-width: 640px) {

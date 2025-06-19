@@ -651,19 +651,41 @@ export default function Eic() {
                             </button>
                         </div>
                         <div className="grid  grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl">
-                            {paginatedItems.map((item) => (
-                                <div
-                                    key={item.id}
-                                    className="max-w-full max-h-[370px] rounded-xl overflow-hidden shadow-2xl hover:shadow-[0_8px_32px_0_rgba(60,60,60,0.25)] bg-blue-700 m-4 border-2 border-blue-800 transition duration-200 hover:border-blue-700 hover:scale-[1.025] backdrop-blur-lg"
-                                >
-                                    <div className="relative">
-                                        <img
-                                            className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
-                                            src={item.img}
-                                            alt={item.name}
-                                        />
-                                        <span
-                                            className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold shadow-sm
+                            {paginatedItems.map((item) => {
+                                // Status color mapping
+                                let statusColor = 'bg-gray-400';
+                                switch (item.status) {
+                                    case 'Available':
+                                        statusColor = 'bg-green-300';
+                                        break;
+                                    case 'Borrowed':
+                                        statusColor = 'bg-borrowed-500';
+                                        break;
+                                    case 'Reserved':
+                                        statusColor = 'bg-yellow-400';
+                                        break;
+                                    case 'Returned':
+                                        statusColor = 'bg-green-500';
+                                        break;
+                                    case 'Maintenance':
+                                        statusColor = 'bg-orange-500';
+                                        break;
+                                    default:
+                                        statusColor = 'bg-gray-400';
+                                }
+                                return (
+                                    <div
+                                        key={item.id}
+                                        className="max-w-full max-h-[370px] rounded-xl overflow-hidden shadow-2xl hover:shadow-[0_8px_32px_0_rgba(60,60,60,0.25)] bg-blue-700 m-4 border-2 border-blue-800 transition duration-200 hover:border-blue-700 hover:scale-[1.025] backdrop-blur-lg"
+                                    >
+                                        <div className="relative">
+                                            <img
+                                                className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+                                                src={item.img}
+                                                alt={item.name}
+                                            />
+                                            <span
+                                                className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold shadow-sm
                                             ${
                                                 item.category ===
                                                 'Farming Equipment'
@@ -676,60 +698,48 @@ export default function Eic() {
                                                     ? 'bg-gray-900'
                                                     : 'bg-gray-400'
                                             } text-white`}
-                                            style={{
-                                                boxShadow:
-                                                    '0 2px 8px 0 rgba(60,60,60,0.12)',
-                                            }}
-                                        >
-                                            {item.category}
-                                        </span>
-                                    </div>
-                                    <div className="p-5 flex flex-col h-[170px]">
-                                        <h3 className="text-xl font-bold mb-1 truncate text-white">
-                                            {item.Name}
-                                        </h3>
-                                        <p
-                                            className="text-gray-200 text-sm mb-4 truncate"
-                                            title={item.description}
-                                        >
-                                            {item.description}
-                                        </p>
-                                        <div className="flex items-center justify-between mt-auto">
-                                            <span className="text-xs text-gray-200 flex items-center gap-1">
-                                                <span
-                                                    className={`inline-block w-2 h-2 rounded-full mr-1
-                                                    ${
-                                                        item.status ===
-                                                        'Available'
-                                                            ? 'bg-blue-400'
-                                                            : item.status ===
-                                                              'Borrowed'
-                                                            ? 'bg-yellow-400'
-                                                            : item.status ===
-                                                              'Reserved'
-                                                            ? 'bg-red-400'
-                                                            : item.status ===
-                                                              'Returned'
-                                                            ? 'bg-blue-400'
-                                                            : 'bg-gray-400'
-                                                    }`}
-                                                ></span>
-                                                {item.status}
+                                                style={{
+                                                    boxShadow:
+                                                        '0 2px 8px 0 rgba(60,60,60,0.12)',
+                                                }}
+                                            >
+                                                {item.category}
                                             </span>
-                                            <div className="flex gap-2">
-                                                <button
-                                                    className="bg-white hover:bg-blue-700 text-blue-900 hover:text-white font-bold py-2 px-5 rounded-2xl text-base border-2 border-blue-700 transition-colors shadow-lg"
-                                                    onClick={() =>
-                                                        handleRequestClick(item)
-                                                    }
-                                                >
-                                                    Request
-                                                </button>
+                                        </div>
+                                        <div className="p-5 flex flex-col h-[170px]">
+                                            <h3 className="text-xl font-bold mb-1 truncate text-white">
+                                                {item.Name}
+                                            </h3>
+                                            <p
+                                                className="text-gray-200 text-sm mb-4 truncate"
+                                                title={item.description}
+                                            >
+                                                {item.description}
+                                            </p>
+                                            <div className="flex items-center justify-between mt-auto">
+                                                <span className="text-xs text-gray-200 flex items-center gap-1">
+                                                    <span
+                                                        className={`inline-block w-2 h-2 rounded-full mr-1 ${statusColor}`}
+                                                    ></span>
+                                                    {item.status}
+                                                </span>
+                                                <div className="flex gap-2">
+                                                    <button
+                                                        className="bg-white hover:bg-blue-700 text-blue-900 hover:text-white font-bold py-2 px-5 rounded-2xl text-base border-2 border-blue-700 transition-colors shadow-lg"
+                                                        onClick={() =>
+                                                            handleRequestClick(
+                                                                item
+                                                            )
+                                                        }
+                                                    >
+                                                        Request
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                         {filteredItems.length === 0 && (
                             <div className="text-center text-gray-400 py-10 sm:py-16 text-base sm:text-lg font-medium">
