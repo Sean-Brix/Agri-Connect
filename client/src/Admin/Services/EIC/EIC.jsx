@@ -12,9 +12,17 @@ export default function EIC() {
 
     return (
         <>
+            {/* TITLE */}
+            <div className="flex items-center ml-8 mt-20 space-x-3">
+                <img src={default_image} alt="EIC Logo" className="w-10 h-10 rounded-full shadow-md" />
+                <h1 className="text-4xl font-extrabold bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400 text-transparent bg-clip-text tracking-tight">
+                    EIC Services
+                </h1>
+            </div>
+
             {/* HEADER SECTIONS */}
             {Section_Buttons(section, setSection)}
-
+            
             {/* SECTION CONTAINER */}
             <div className='mt-[21vh] bg-blue-300 h-100%rounded-lg w-[100%]'>
 

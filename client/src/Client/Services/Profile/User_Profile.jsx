@@ -224,66 +224,12 @@ export default function User_Profile() {
                                     <span className="text-blue-900">{profile.altPhone}</span>
                                 )}
                             </div>
-                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-5 gap-2">
-                                <span className="font-semibold text-blue-900 flex items-center gap-2">
-                                    <i className="fa-brands fa-facebook text-blue-300"></i> Facebook
-                                </span>
-                                {editMode ? (
-                                    <input
-                                        type="text"
-                                        name="facebook"
-                                        className="text-blue-900 break-all border border-blue-300 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 transition"
-                                        value={profile.facebook}
-                                        onChange={handleChange}
-                                    />
-                                ) : (
-                                    <span className="text-blue-900 break-all">{profile.facebook}</span>
-                                )}
-                            </div>
+                            
                         </div>
                     </div>
 
                     {/* More Contents - Dark Themed */}
-                    <div className="bg-gradient-to-bl from-blue-200 to-blue-900  border border-blue-800 rounded-3xl shadow-2xl p-10 mt-14">
-                        <div className="flex flex-col sm:flex-row items-center mb-8 gap-4">
-                            <span className="bg-blue-800 px-8 py-3 rounded-2xl text-2xl font-bold text-white border border-blue-700 shadow-lg flex items-center gap-2">
-                                <i className="fa-solid fa-star text-yellow-400"></i>
-                                Achievements
-                            </span>
-                            <hr className="flex-1 border-blue-700 w-full sm:w-auto" />
-                        </div>
-                        <ul className="list-disc pl-8 text-blue-100 space-y-3">
-                            <li>Recognized as Top Field Supervisor 2023</li>
-                            <li>Completed Advanced Agricultural Training</li>
-                            <li>Community Outreach Volunteer</li>
-                        </ul>
-                    </div>
-                    <div className="bg-gradient-to-bl from-blue-200 to-blue-900 border border-blue-800 rounded-3xl shadow-2xl p-10 mt-10">
-                        <div className="flex flex-col sm:flex-row items-center mb-8 gap-4">
-                            <span className="bg-gradient-to-tr from-blue-700 to-blue-900 px-8 py-3 rounded-2xl text-2xl font-bold text-white border border-blue-700 shadow-lg flex items-center gap-2">
-                                <i className="fa-solid fa-clock-rotate-left text-blue-300"></i>
-                                Recent Activities
-                            </span>
-                            <hr className="flex-1 border-blue-700 w-full sm:w-auto" />
-                        </div>
-                        <ul className="divide-y divide-blue-700 text-blue-100">
-                            <li className="py-3 flex items-center gap-3">
-                                <i className="fa-solid fa-check-circle text-green-400"></i>
-                                Updated profile information
-                                <span className="ml-auto text-xs text-blue-400">2 days ago</span>
-                            </li>
-                            <li className="py-3 flex items-center gap-3">
-                                <i className="fa-solid fa-leaf text-green-400"></i>
-                                Added new commodity: Rice
-                                <span className="ml-auto text-xs text-blue-400">1 week ago</span>
-                            </li>
-                            <li className="py-3 flex items-center gap-3">
-                                <i className="fa-solid fa-users text-blue-400"></i>
-                                Joined Agri-Connect Community
-                                <span className="ml-auto text-xs text-blue-400">3 weeks ago</span>
-                            </li>
-                        </ul>
-                    </div>
+                 
                 </div>
             </div>
             <style>{`

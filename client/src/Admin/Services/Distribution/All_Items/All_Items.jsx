@@ -273,6 +273,20 @@ export default function All_Items() {
         }
     };
 
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 9;
+
+    // Calculate paginated items
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(items.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     return (
         <>
             <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-7xl mx-auto gap-4 p-6">
@@ -360,10 +374,10 @@ export default function All_Items() {
                 </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full h-auto p-4 rounded-2xl">
-                {items.length === 0 ? (
+                {currentItems.length === 0 ? (
                     <div className="text-center w-full">No items found</div>
                 ) : (
-                    items.map((item) => (
+                    currentItems.map((item) => (
                         <div
                             key={item.id}
                             className="relative"
@@ -386,145 +400,231 @@ export default function All_Items() {
                     ))
                 )}
             </div>
+            {/* Modern Pagination Controls */}
+            {totalPages > 1 && (
+                <div className="flex justify-center items-center mt-8 gap-2">
+                    <button
+                        className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors ${
+                            currentPage === 1
+                                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                : 'bg-white hover:bg-green-100 text-green-600'
+                        } shadow`}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        aria-label="Previous page"
+                    >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    {Array.from({ length: totalPages }, (_, i) => {
+                        // Show first, last, current, and neighbors, with ellipsis
+                        if (
+                            i === 0 ||
+                            i === totalPages - 1 ||
+                            Math.abs(currentPage - (i + 1)) <= 1
+                        ) {
+                            return (
+                                <button
+                                    key={i + 1}
+                                    className={`flex items-center justify-center w-10 h-10 rounded-full font-semibold transition-colors ${
+                                        currentPage === i + 1
+                                            ? 'bg-green-500 text-white shadow'
+                                            : 'bg-white hover:bg-green-100 text-green-600'
+                                    }`}
+                                    onClick={() => handlePageChange(i + 1)}
+                                >
+                                    {i + 1}
+                                </button>
+                            );
+                        }
+                        // Ellipsis logic
+                        if (
+                            (i === 1 && currentPage > 3) ||
+                            (i === totalPages - 2 && currentPage < totalPages - 2)
+                        ) {
+                            return (
+                                <span key={i} className="px-2 text-gray-400 select-none">
+                                    ...
+                                </span>
+                            );
+                        }
+                        return null;
+                    })}
+                    <button
+                        className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors ${
+                            currentPage === totalPages
+                                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                : 'bg-white hover:bg-green-100 text-green-600'
+                        } shadow`}
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        aria-label="Next page"
+                    >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            )}
             {newItemModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center">
-                    <div className="bg-white rounded-lg p-8 max-w-md w-full border-2">
-                        <h2 className="text-2xl font-bold mb-4">New Item</h2>
-                        <div className="mb-4">
-                            <label
-                                htmlFor="name"
-                                className="block text-gray-700 text-sm font-bold mb-2"
-                            >
-                                Name:
-                            </label>
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                value={newItem.name}
-                                onChange={handleNewItemInputChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label
-                                htmlFor="description"
-                                className="block text-gray-700 text-sm font-bold mb-2"
-                            >
-                                Description:
-                            </label>
-                            <textarea
-                                id="description"
-                                name="description"
-                                value={newItem.description}
-                                onChange={handleNewItemInputChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label
-                                htmlFor="quantity"
-                                className="block text-gray-700 text-sm font-bold mb-2"
-                            >
-                                Quantity:
-                            </label>
-                            <input
-                                type="number"
-                                id="quantity"
-                                name="quantity"
-                                value={newItem.quantity}
-                                onChange={handleNewItemInputChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label
-                                htmlFor="status"
-                                className="block text-gray-700 text-sm font-bold mb-2"
-                            >
-                                Status:
-                            </label>
-                            <select
-                                id="status"
-                                name="status"
-                                value={newItem.status}
-                                onChange={handleNewItemInputChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            >
-                                <option value="Available">Available</option>
-                                <option value="Out of Stock">
-                                    Out of Stock
-                                </option>
-                                <option value="Scheduled">Scheduled</option>
-                                <option value="Discontinued">
-                                    Discontinued
-                                </option>
-                            </select>
-                        </div>
-                        <div className="mb-4">
-                            <label
-                                htmlFor="category"
-                                className="block text-gray-700 text-sm font-bold mb-2"
-                            >
-                                Category:
-                            </label>
-                            <select
-                                id="category"
-                                name="category"
-                                value={newItem.category}
-                                onChange={handleNewItemInputChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            >
-                                <option value="Seeds">Seeds</option>
-                                <option value="Fertilizers">Fertilizers</option>
-                                <option value="Livestock">Livestock</option>
-                                <option value="Fish Fingerlings">
-                                    Fish Fingerlings
-                                </option>
-                                <option value="Organic Inputs">
-                                    Organic Inputs
-                                </option>
-                                <option value="Tools">Tools</option>
-                                <option value="Plants">Plants</option>
-                                <option value="Compost">Compost</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div className="mb-4">
-                            <label
-                                htmlFor="image"
-                                className="block text-gray-700 text-sm font-bold mb-2"
-                            >
-                                Image:
-                            </label>
-                            <input
-                                type="file"
-                                id="image"
-                                name="image"
-                                onChange={handleNewItemImageChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            />
-                            {newItem.imagePreview && (
-                                <img
-                                    src={newItem.imagePreview}
-                                    alt="Image Preview"
-                                    className="mt-2 max-h-48"
-                                />
-                            )}
-                        </div>
-                        <div className="flex justify-end">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 ">
+                    <div className="relative w-full max-w-md mx-2 sm:mx-auto">
+                        <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 border-2 border-gray-100 max-h-[90vh] overflow-y-auto transition-all duration-300">
                             <button
-                                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
+                                className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 transition"
                                 onClick={handleCloseNewItemModal}
+                                aria-label="Close"
                             >
-                                Cancel
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
                             </button>
-                            <button
-                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                onClick={handleCreateNewItem}
+                            <h2 className="text-2xl font-bold mb-6 text-center text-blue-700">Add New Item</h2>
+                            <form
+                                className="space-y-4"
+                                onSubmit={e => {
+                                    e.preventDefault();
+                                    handleCreateNewItem();
+                                }}
                             >
-                                Create
-                            </button>
+                                <div>
+                                    <label
+                                        htmlFor="name"
+                                        className="block text-gray-700 text-sm font-semibold mb-1"
+                                    >
+                                        Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        value={newItem.name}
+                                        onChange={handleNewItemInputChange}
+                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-gray-50"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        htmlFor="description"
+                                        className="block text-gray-700 text-sm font-semibold mb-1"
+                                    >
+                                        Description
+                                    </label>
+                                    <textarea
+                                        id="description"
+                                        name="description"
+                                        value={newItem.description}
+                                        onChange={handleNewItemInputChange}
+                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-gray-50 resize-none"
+                                        rows={3}
+                                    />
+                                </div>
+                                <div className="flex flex-col sm:flex-row gap-4">
+                                    <div className="flex-1">
+                                        <label
+                                            htmlFor="quantity"
+                                            className="block text-gray-700 text-sm font-semibold mb-1"
+                                        >
+                                            Quantity
+                                        </label>
+                                        <input
+                                            type="number"
+                                            id="quantity"
+                                            name="quantity"
+                                            value={newItem.quantity}
+                                            onChange={handleNewItemInputChange}
+                                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-gray-50"
+                                            min={1}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <label
+                                            htmlFor="status"
+                                            className="block text-gray-700 text-sm font-semibold mb-1"
+                                        >
+                                            Status
+                                        </label>
+                                        <select
+                                            id="status"
+                                            name="status"
+                                            value={newItem.status}
+                                            onChange={handleNewItemInputChange}
+                                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-gray-50"
+                                        >
+                                            <option value="Available">Available</option>
+                                            <option value="Out of Stock">Out of Stock</option>
+                                            <option value="Scheduled">Scheduled</option>
+                                            <option value="Discontinued">Discontinued</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label
+                                        htmlFor="category"
+                                        className="block text-gray-700 text-sm font-semibold mb-1"
+                                    >
+                                        Category
+                                    </label>
+                                    <select
+                                        id="category"
+                                        name="category"
+                                        value={newItem.category}
+                                        onChange={handleNewItemInputChange}
+                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-gray-50"
+                                    >
+                                        <option value="Seeds">Seeds</option>
+                                        <option value="Fertilizers">Fertilizers</option>
+                                        <option value="Livestock">Livestock</option>
+                                        <option value="Fish Fingerlings">Fish Fingerlings</option>
+                                        <option value="Organic Inputs">Organic Inputs</option>
+                                        <option value="Tools">Tools</option>
+                                        <option value="Plants">Plants</option>
+                                        <option value="Compost">Compost</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label
+                                        htmlFor="image"
+                                        className="block text-gray-700 text-sm font-semibold mb-1"
+                                    >
+                                        Image
+                                    </label>
+                                    <input
+                                        type="file"
+                                        id="image"
+                                        name="image"
+                                        accept="image/*"
+                                        onChange={handleNewItemImageChange}
+                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-gray-50"
+                                    />
+                                    {newItem.imagePreview && (
+                                        <img
+                                            src={newItem.imagePreview}
+                                            alt="Image Preview"
+                                            className="mt-3 rounded-lg border max-h-40 mx-auto"
+                                        />
+                                    )}
+                                </div>
+                                <div className="flex justify-end gap-2 pt-2">
+                                    <button
+                                        type="button"
+                                        className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-5 rounded-lg transition focus:outline-none"
+                                        onClick={handleCloseNewItemModal}
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg shadow transition focus:outline-none"
+                                    >
+                                        Create
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

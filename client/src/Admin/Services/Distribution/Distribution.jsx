@@ -9,10 +9,19 @@ export default function Distribution() {
     const [section, setSection] = useState('all');
     return (
         <>
+            {/* TITLE */}
+            <div className="flex flex-col items-start mt-8 ml-8">
+                <h1 className="text-3xl font-bold text-blue-700 tracking-tight mb-2 mt-10">
+                    Distribution Management
+                </h1>
+                <p className="text-gray-500 text-base">
+                    Manage all items and distribution requests efficiently.
+                </p>
+            </div>
             {/* HEADER SECTIONS */}
             {Section_Buttons(section, setSection)}
             {/* SECTION CONTAINER */}
-            <div className="mt-[21vh] bg-blue-300 rounded-lg w-[100%]">
+            <div className="mt-[21vh] bg-gradient-to-br from-blue-200 via-blue-100 to-white w-full shadow-lg p-6">
                 {/* NAVIGATION */}
                 {section === 'requests' ? (
                     <Distribution_Request />
