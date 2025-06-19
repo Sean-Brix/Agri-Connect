@@ -17,13 +17,14 @@ if(!$user){
     exit();
 }
 
-$account = new Account(null);
-$total_user_count = $account->getTotalUserCount();
+$Seminar = new Seminars(null);
+$total_Seminar_count = $Seminar->getTotalUserCount();
 
 sendResponse(
     200,
     "OK",
-    [$total_user_count],
-    "get total user count success"
+    [$total_Seminar_count],
+    "get total seminar count success"
 );
+
 

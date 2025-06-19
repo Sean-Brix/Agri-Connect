@@ -307,35 +307,7 @@ export default function Account() {
                                 </div>
                             </div>
                         </div>
-                        {editMode && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-                                <div>
-                                    <label className="block mb-1 font-semibold text-gray-700">New Password</label>
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        value={profile.password}
-                                        onChange={handleChange}
-                                        placeholder="New Password"
-                                        className="w-full px-3 py-2 rounded-lg border focus:ring-2 focus:ring-blue-200 focus:outline-none"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block mb-1 font-semibold text-gray-700">Confirm Password</label>
-                                    <input
-                                        type="password"
-                                        name="confirmPassword"
-                                        value={profile.confirmPassword}
-                                        onChange={handleChange}
-                                        placeholder="Confirm Password"
-                                        className="w-full px-3 py-2 rounded-lg border focus:ring-2 focus:ring-blue-200 focus:outline-none"
-                                    />
-                                    {passwordError && (
-                                        <div className="text-red-600 text-sm mt-1">{passwordError}</div>
-                                    )}
-                                </div>
-                            </div>
-                        )}
+                    
                         <div className="flex gap-4 pt-8">
                             {editMode && (
                                 <button
@@ -345,13 +317,7 @@ export default function Account() {
                                     Save Changes
                                 </button>
                             )}
-                            <button
-                                type="button"
-                                onClick={() => setShowDeleteModal(true)}
-                                className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 transition text-white rounded-lg font-semibold shadow"
-                            >
-                                Delete Account
-                            </button>
+                          
                         </div>
                     </form>
                 </div>

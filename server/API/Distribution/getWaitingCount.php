@@ -17,13 +17,14 @@ if(!$user){
     exit();
 }
 
-$account = new Account(null);
-$total_user_count = $account->getTotalUserCount();
+$distribution = new Distribution(null);
+$total_waiting_count = $distribution->getTotalWaitingCount();
 
 sendResponse(
     200,
     "OK",
-    [$total_user_count],
-    "get total user count success"
+    [$total_waiting_count],
+    "get total waiting request count success"
 );
+
 

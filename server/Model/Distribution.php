@@ -69,6 +69,14 @@ class Distribution{
             $this->updated_at = $row["updated_at"];
         }
     }
+
+    public static function getTotalWaitingCount(){
+        $query = "SELECT COUNT(*) as total FROM `distribution_request` WHERE status='Waiting'";
+        $result = statement($query, [], "");
+        $row = mysqli_fetch_assoc($result);
+        return $row['total'];
+    }
+
     /**
      * What it Does: Creates a new DistributionItem record in the database.
      * Returns What: The result of the statement execution.

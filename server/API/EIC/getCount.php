@@ -17,13 +17,14 @@ if(!$user){
     exit();
 }
 
-$account = new Account(null);
-$total_user_count = $account->getTotalUserCount();
+$EIC = new EIC(null);
+$total_EIC_count = $EIC->getTotalUserCount();
 
 sendResponse(
     200,
     "OK",
-    [$total_user_count],
-    "get total user count success"
+    [$total_EIC_count],
+    "get total seminar count success"
 );
+
 

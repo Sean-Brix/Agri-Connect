@@ -160,6 +160,13 @@ class EIC{
         return $result !== false;
     }
 
+    public static function getTotalUserCount(){
+        $query = "SELECT COUNT(*) as total FROM `eic`";
+        $result = statement($query, [], "");
+        $row = mysqli_fetch_assoc($result);
+        return $row['total'];
+    }
+
     /**
      * What it Does: Returns a string representation of the EIC object.
      * Returns What: A string representation of the EIC object, including its name.

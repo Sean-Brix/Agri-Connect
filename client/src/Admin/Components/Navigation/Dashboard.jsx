@@ -60,7 +60,11 @@ export default function Dashboard() {
           const response = await fetch("/api/accounts/details");
           const data = (await response.json()).payload;
 
+          console.log(data)
           if (!response.ok) {
+            throw new Error(data.error);
+          }
+          if(data.access === "User"){
             throw new Error(data.error);
           }
 

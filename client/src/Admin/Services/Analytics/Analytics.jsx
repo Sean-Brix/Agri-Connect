@@ -31,19 +31,31 @@ function Analytics() {
     useEffect(() => {
         const fetchData = async () => {
             try {
+
+                const userRes = await fetch('/api/accounts/getCount');
+                let usercount = await userRes.json();
+                const semRes = await fetch('/api/seminars/getCount');
+                let semcount = await semRes.json();
+                const eicRes = await fetch('/api/eic/getCount');
+                let eiccount = await eicRes.json();
+                const waitRes = await fetch('/api/distribution/getWaitingCount');
+                let waitcount = await waitRes.json();
+                console.log(waitcount)
+
+                
                 // Replace with actual API call when available
                 const data = {
                     payload: {
-                        total_users: 1250,
-                        total_seminars: 35,
-                        available_eic: 11200,
-                        waiting_distributions: 7,
-                        top_client_profile: 'Retailer',
+                        total_users: usercount.payload, 
+                        total_seminars: semcount.payload,
+                        available_eic: eiccount.payload,
+                        waiting_distributions: waitcount.payload    ,
+                        top_client_profile: 'Pechay Seeds',
                         client_profile_counts: {
-                            Retailer: 450,
-                            Wholesaler: 300,
-                            Distributor: 250,
-                            'End User': 250,
+                            'Pechay Seeds': 450,
+                            'Mangroove Seeds': 300,
+                            Shovel: 250,
+                            'Fertilizer ': 250,
                         },
                         top_eic_category: 'Category A',
                         eic_category_counts: {
@@ -66,18 +78,7 @@ function Analytics() {
                 setEICCategoryCounts(data.payload.eic_category_counts);
 
                 setUserStats([
-                    100,
-                    150,
-                    220,
-                    300,
-                    400,
-                    520,
-                    650,
-                    790,
-                    940,
-                    1080,
-                    1160,
-                    data.payload.total_users,
+                    data.payload,
                 ]);
                 setSeminarStats([
                     5,
@@ -94,17 +95,17 @@ function Analytics() {
                     data.payload.total_seminars,
                 ]);
                 setEicStats([
-                    1000,
-                    1500,
-                    2200,
-                    3000,
-                    4000,
-                    5200,
-                    6500,
-                    7900,
-                    9400,
-                    10000,
-                    10600,
+                    2,
+                    1,
+                    4,
+                    2,
+                    3,
+                    2,
+                    1,
+                    5,
+                    8,
+                    2,
+                    4,
                     data.payload.available_eic,
                 ]);
             } catch (error) {
@@ -318,7 +319,7 @@ function Analytics() {
                     <div className="w-full flex justify-center mt-2">
                         <DonutChart
                             value={eicStats[eicStats.length - 1]}
-                            max={15000}
+                            max={23}
                             color="#3b82f6"
                         />
                     </div>

@@ -554,7 +554,7 @@ export default function Eic() {
                                 Welcome to
                             </span>
                             <h1 className="text-4xl xs:text-2xl sm:text-4xl md:text-5xl font-extrabold text-center eic-title">
-                                Farming Equipment & Inventory Center
+                                Equipments, Inputs & Commodities 
                             </h1>
                             <div className="mt-3 w-16 sm:w-24 h-2 rounded-full bg-gray-200 opacity-80"></div>
                         </header>

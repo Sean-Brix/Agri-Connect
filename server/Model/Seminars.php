@@ -54,6 +54,13 @@ class Seminars {
         return null;
     }
 
+    public static function getTotalUserCount(){
+        $query = "SELECT COUNT(*) as total FROM `seminars`";
+        $result = statement($query, [], "");
+        $row = mysqli_fetch_assoc($result);
+        return $row['total'];
+    }
+
 
     public function getParticipants(){
 
