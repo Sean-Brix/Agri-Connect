@@ -631,7 +631,7 @@ export default function Distribution() {
                             {paginatedItems.map((item) => (
                                 <div
                                     key={item.id}
-                                    className="max-w-full max-h-[370px] rounded-xl overflow-hidden shadow-2xl hover:shadow-[0_8px_32px_0_rgba(60,60,60,0.25)] bg-blue-700 m-4 border-2 border-blue-800 transition duration-200 hover:border-blue-700 hover:scale-[1.025] backdrop-blur-lg"
+                                    className="max-w-full max-h-[370px] rounded-xl overflow-hidden shadow-2xl hover:shadow-[0_8px_32px_0_rgba(60,60,60,0.25)] bg-blue-200 m-4 border-2 border-blue-300 transition duration-200 hover:border-blue-400 hover:scale-[1.025] backdrop-blur-lg"
                                 >
                                     <div className="relative">
                                         <img
@@ -677,17 +677,17 @@ export default function Distribution() {
                                         </span>
                                     </div>
                                     <div className="p-5 flex flex-col h-[170px]">
-                                        <h3 className="text-xl font-bold mb-1 truncate text-white">
+                                        <h3 className="text-xl font-bold mb-1 truncate text-blue-900">
                                             {item.name}
                                         </h3>
                                         <p
-                                            className="text-gray-200 text-sm mb-4 truncate"
+                                            className="text-gray-700 text-sm mb-4 truncate"
                                             title={item.description}
                                         >
                                             {item.description}
                                         </p>
                                         <div className="flex items-center justify-between mt-auto">
-                                            <span className="text-xs text-gray-200 flex items-center gap-1">
+                                            <span className="text-xs text-gray-700 flex items-center gap-1">
                                                 <span
                                                     className={`inline-block w-2 h-2 rounded-full mr-1
                                                         ${
@@ -787,102 +787,103 @@ export default function Distribution() {
                             </button>
                         </div>
                         {/* Modal Body */}
-                        <form
-                            onSubmit={handleSubmit}
-                            className="px-8 py-6 space-y-5"
-                        >
-                            <div className="flex items-center gap-4 mb-2">
-                                <img
-                                    src={selectedItem?.img}
-                                    alt={selectedItem?.name}
-                                    className="w-16 h-16 rounded-xl object-cover border-2 border-blue-700 shadow"
-                                />
-                                <div>
-                                    <div className="text-lg font-semibold text-blue-900 truncate">
-                                        {selectedItem?.name}
-                                    </div>
-                                    <div className="text-xs text-gray-500">
-                                        {selectedItem?.category}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div>
-                                    <label
-                                        htmlFor="schedule_date"
-                                        className="block text-gray-700 text-sm font-medium mb-1"
-                                    >
-                                        Pickup Date
-                                    </label>
-                                    <input
-                                        type="date"
-                                        id="schedule_date"
-                                        name="schedule_date"
-                                        value={requestData.schedule_date}
-                                        onChange={handleInputChange}
-                                        className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        htmlFor="quantity"
-                                        className="block text-gray-700 text-sm font-medium mb-1"
-                                    >
-                                        Quantity
-                                    </label>
-                                    <input
-                                        type="number"
-                                        id="quantity"
-                                        name="quantity"
-                                        value={requestData.quantity}
-                                        onChange={handleInputChange}
-                                        className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition"
-                                        required
-                                        min="1"
-                                    />
-                                </div>
-                            </div>
-                            <div>
-                                <label
-                                    htmlFor="request_note"
-                                    className="block text-gray-700 text-sm font-medium mb-1"
-                                >
-                                    Notes
-                                </label>
-                                <textarea
-                                    id="request_note"
-                                    name="request_note"
-                                    value={requestData.request_note}
-                                    onChange={handleInputChange}
-                                    rows="3"
-                                    className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition resize-none"
-                                    placeholder="Optional"
-                                ></textarea>
-                            </div>
-                            <div className="flex justify-end gap-3 pt-2">
-                                <button
-                                    type="button"
-                                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-5 py-2 rounded-xl transition focus:outline-none"
-                                    onClick={handleCloseModal}
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-2 rounded-xl shadow transition focus:outline-none"
-                                >
-                                    Submit Request
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
-            {showMyRequestsModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm transition-all">
-                    <div className="bg-white rounded-3xl shadow-2xl p-0 max-w-3xl w-full relative overflow-hidden animate-fade-in">
-                        {/* Modal Header */}
+                                                <form
+                                                    onSubmit={handleSubmit}
+                                                    className="px-8 py-6 space-y-5"
+                                                >
+                                                    <div className="flex items-center gap-4 mb-2">
+                                                        <img
+                                                            src={selectedItem?.img}
+                                                            alt={selectedItem?.name}
+                                                            className="w-16 h-16 rounded-xl object-cover border-2 border-blue-700 shadow"
+                                                        />
+                                                        <div>
+                                                            <div className="text-lg font-semibold text-blue-900 truncate">
+                                                                {selectedItem?.name}
+                                                            </div>
+                                                            <div className="text-xs text-gray-500">
+                                                                {selectedItem?.category}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                        <div>
+                                                            <label
+                                                                htmlFor="schedule_date"
+                                                                className="block text-gray-700 text-sm font-medium mb-1"
+                                                            >
+                                                                Pickup Date
+                                                            </label>
+                                                            <input
+                                                                type="date"
+                                                                id="schedule_date"
+                                                                name="schedule_date"
+                                                                value={requestData.schedule_date}
+                                                                onChange={handleInputChange}
+                                                                className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition"
+                                                                required
+                                                                min={new Date().toISOString().split('T')[0]}
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <label
+                                                                htmlFor="quantity"
+                                                                className="block text-gray-700 text-sm font-medium mb-1"
+                                                            >
+                                                                Quantity
+                                                            </label>
+                                                            <input
+                                                                type="number"
+                                                                id="quantity"
+                                                                name="quantity"
+                                                                value={requestData.quantity}
+                                                                onChange={handleInputChange}
+                                                                className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition"
+                                                                required
+                                                                min="1"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <label
+                                                            htmlFor="request_note"
+                                                            className="block text-gray-700 text-sm font-medium mb-1"
+                                                        >
+                                                            Notes
+                                                        </label>
+                                                        <textarea
+                                                            id="request_note"
+                                                            name="request_note"
+                                                            value={requestData.request_note}
+                                                            onChange={handleInputChange}
+                                                            rows="3"
+                                                            className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition resize-none"
+                                                            placeholder="Optional"
+                                                        ></textarea>
+                                                    </div>
+                                                    <div className="flex justify-end gap-3 pt-2">
+                                                        <button
+                                                            type="button"
+                                                            className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-5 py-2 rounded-xl transition focus:outline-none"
+                                                            onClick={handleCloseModal}
+                                                        >
+                                                            Cancel
+                                                        </button>
+                                                        <button
+                                                            type="submit"
+                                                            className="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-2 rounded-xl shadow transition focus:outline-none"
+                                                        >
+                                                            Submit Request
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    )}
+                                    {showMyRequestsModal && (
+                                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm transition-all">
+                                            <div className="bg-white rounded-3xl shadow-2xl p-0 max-w-3xl w-full relative overflow-hidden animate-fade-in">
+                                                {/* Modal Header */}
                         <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100 bg-gradient-to-r from-blue-700 to-blue-600">
                             <h2 className="text-xl font-bold text-white">
                                 <i className="fa-solid fa-list mr-2"></i>

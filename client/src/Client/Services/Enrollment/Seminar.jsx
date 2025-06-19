@@ -545,7 +545,7 @@ export default function Seminar() {
                                     return (
                                         <article
                                             key={program.id}
-                                            className="relative flex flex-col md:flex-row gap-6 bg-blue-800 rounded-xl shadow-2xl p-0 border border-blue-800 overflow-hidden group transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-105"
+                                            className="relative flex flex-col md:flex-row gap-6 bg-blue-100 rounded-xl shadow-2xl p-0 border border-blue-200 overflow-hidden group transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-105"
                                             style={{ transition: '0.3s' }}
                                         >
                                             {/* Image with border and outline */}
@@ -573,7 +573,7 @@ export default function Seminar() {
                                                             ></i>
                                                         </span>
                                                         <span
-                                                            className="font-bold text-2xl text-white tracking-tight truncate"
+                                                            className="font-bold text-2xl text-blue-900 tracking-tight truncate"
                                                             title={
                                                                 program.title
                                                             }
@@ -582,7 +582,7 @@ export default function Seminar() {
                                                         </span>
                                                     </div>
                                                     <div
-                                                        className="text-white text-base mb-4 line-clamp-2 truncate"
+                                                        className="text-blue-900 text-base mb-4 line-clamp-2 truncate"
                                                         title={
                                                             program.description
                                                         }
@@ -676,7 +676,7 @@ export default function Seminar() {
                                                                     }
                                                                 );
                                                             }}
-                                                            className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-blue-900 font-bold shadow-lg hover:bg-blue-100 transition text-base focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                                            className="flex items-center gap-2 px-8 py-2 rounded-xl bg-blue-900 text-white font-bold shadow-lg hover:bg-blue-800 transition text-base focus:outline-none focus:ring-2 focus:ring-blue-400"
                                                         >
                                                             <i className="fa-solid fa-paper-plane"></i>
                                                             Apply
@@ -688,7 +688,7 @@ export default function Seminar() {
                                                                 program.id
                                                             )
                                                         }
-                                                        className="flex items-center gap-2 px-8 py-2 rounded-xl border-2 border-white text-white bg-blue-900 font-bold shadow-lg hover:bg-blue-800 transition text-base focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                                        className="flex items-center gap-2 px-8 py-2 rounded-xl border-2 border-blue-900 text-blue-900 bg-white font-bold shadow-lg hover:bg-blue-100 transition text-base focus:outline-none focus:ring-2 focus:ring-blue-400"
                                                     >
                                                         <i className="fa-solid fa-circle-info"></i>
                                                         Details
