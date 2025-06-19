@@ -487,27 +487,54 @@ function SeminarDetails({ seminar, onClose }) {
     }
 
     return (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-md max-w-md">
-                <h2 className="text-2xl font-bold mb-4">{seminar.title}</h2>
-                <p className="mb-2">
-                    <strong>Description:</strong> {seminar.description}
-                </p>
-                <p className="mb-2">
-                    <strong>Speaker:</strong> {seminar.speaker}
-                </p>
-                <p className="mb-2">
-                    <strong>Location:</strong> {seminar.location}
-                </p>
-                <p className="mb-2">
-                    <strong>Category:</strong> {seminar.category}
-                </p>
-                <button
-                    onClick={onClose}
-                    className="mt-4 px-4 py-2 bg-gray-200 rounded"
-                >
-                    Close
-                </button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+            <div className="relative bg-white rounded-3xl shadow-2xl max-w-2xl w-full flex flex-col overflow-hidden animate-fade-in max-h-[90vh]">
+                {/* Seminar Image on Top, Large and Responsive */}
+                <div className="w-full flex-shrink-0 bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
+                    <img
+                        src={seminar.photo}
+                        alt={seminar.title}
+                        className="object-contain w-full max-h-[350px] sm:max-h-[400px] md:max-h-[450px] rounded-t-3xl"
+                        style={{ background: '#f0fdf4' }}
+                    />
+                </div>
+                {/* Seminar Details, Scrollable if needed */}
+                <div className="flex-1 p-8 flex flex-col relative overflow-y-auto"
+                    style={{ maxHeight: 'calc(90vh - 350px)' }}>
+                    <button
+                        onClick={onClose}
+                        className="absolute top-4 right-4 text-gray-400 hover:text-green-700 text-2xl focus:outline-none"
+                        aria-label="Close"
+                    >
+                        <i className="fa-solid fa-xmark"></i>
+                    </button>
+                    <h2 className="text-3xl font-extrabold text-green-900 mb-2 mt-2">{seminar.title}</h2>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                        <span className="inline-flex items-center gap-1 text-xs text-green-900 bg-green-200 px-3 py-1 rounded-lg font-semibold border border-green-300 shadow-sm">
+                            <i className="fa-solid fa-user"></i>
+                            {seminar.speaker}
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-xs text-green-900 bg-green-200 px-3 py-1 rounded-lg font-semibold border border-green-300 shadow-sm">
+                            <i className="fa-solid fa-location-dot"></i>
+                            {seminar.location}
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-xs text-green-900 bg-green-200 px-3 py-1 rounded-lg font-semibold border border-green-300 shadow-sm">
+                            <i className="fa-solid fa-layer-group"></i>
+                            {seminar.category}
+                        </span>
+                    </div>
+                    <div className="text-gray-700 text-base mb-6 whitespace-pre-line">
+                        {seminar.description}
+                    </div>
+                    <div className="flex justify-end mt-auto">
+                        <button
+                            onClick={onClose}
+                            className="px-6 py-2 rounded-xl bg-green-700 text-white font-bold shadow hover:bg-green-800 transition focus:outline-none focus:ring-2 focus:ring-green-400"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );
