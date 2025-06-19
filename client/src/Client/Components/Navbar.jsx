@@ -98,29 +98,29 @@ export default function Navbar() {
                         className="bg-white rounded-2xl shadow-xl px-7 py-7 flex flex-col items-center gap-5 border border-blue-100 transition-all duration-500 animate-fade-in-up"
                         style={{ minWidth: 220, maxWidth: 300 }}
                     >
-                            <svg
-                                className="w-8 h-8 text-blue-500 animate-bounce"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
+                        <svg
+                            className="w-8 h-8 text-blue-500 animate-bounce"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.2"
+                        >
+                            <circle
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="#3b82f6"
                                 strokeWidth="2.2"
-                            >
-                                <circle
-                                    cx="12"
-                                    cy="12"
-                                    r="10"
-                                    stroke="#3b82f6"
-                                    strokeWidth="2.2"
-                                    fill="#eff6ff"
-                                />
-                                <path
-                                    d="M12 16h.01M12 8a2 2 0 012 2c0 1-2 2-2 4"
-                                    stroke="#2563eb"
-                                    strokeWidth="2.2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
-                            </svg>
+                                fill="#eff6ff"
+                            />
+                            <path
+                                d="M12 16h.01M12 8a2 2 0 012 2c0 1-2 2-2 4"
+                                stroke="#2563eb"
+                                strokeWidth="2.2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                        </svg>
                         <span className="text-base font-semibold text-blue-700 text-center">Logout?</span>
                         <span className="block text-gray-500 text-sm text-center">You will need to login again.</span>
                         <div className="flex gap-2 mt-1">
@@ -533,24 +533,16 @@ export default function Navbar() {
                                 aria-haspopup="true"
                                 aria-expanded={open}
                             >
-                                {loggedIn ? (
-                                    <img
-                                        src={user.avatar}
-                                        alt={user.name}
-                                        className="w-8 h-8 rounded-full object-cover border-2 border-white shadow"
-                                    />
-                                ) : (
-                                    <svg
-                                        className="w-6 h-6 text-white"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <circle cx="12" cy="7" r="4" />
-                                        <path d="M5.5 21a8.38 8.38 0 0113 0" />
-                                    </svg>
-                                )}
+                                <svg
+                                    className="w-6 h-6 text-white"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle cx="12" cy="7" r="4" />
+                                    <path d="M5.5 21a8.38 8.38 0 0113 0" />
+                                </svg>
                             </button>
                             {open && (
                                 <ul
@@ -698,16 +690,23 @@ export default function Navbar() {
                             </button>
                         </div>
                         <div className="flex flex-col items-center gap-4 py-10 border-b border-blue-100 bg-gradient-to-b from-blue-50 to-white">
+                            <div className="relative flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-tr from-blue-700 to-blue-400 shadow-lg">
+                                <svg
+                                    className="w-12 h-12 text-white"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle cx="12" cy="7" r="4" />
+                                    <path d="M5.5 21a8.38 8.38 0 0113 0" />
+                                </svg>
+                                {loggedIn && (
+                                    <span className="absolute bottom-2 right-2 w-4 h-4 bg-green-400 border-2 border-white rounded-full"></span>
+                                )}
+                            </div>
                             {loggedIn ? (
                                 <>
-                                    <div className="relative">
-                                        <img
-                                            src={user.avatar}
-                                            alt={user.name}
-                                            className="w-20 h-20 rounded-full border-4 border-blue-700 shadow-lg object-cover"
-                                        />
-                                        <span className="absolute bottom-0 right-0 w-4 h-4 bg-green-400 border-2 border-white rounded-full"></span>
-                                    </div>
                                     <span className="font-semibold text-blue-800 text-lg">
                                         {user.name}
                                     </span>
