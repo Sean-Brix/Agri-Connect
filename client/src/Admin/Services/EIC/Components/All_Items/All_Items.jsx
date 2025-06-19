@@ -242,7 +242,9 @@ export default function All_Items() {
     return (
         <>
             <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-7xl mx-auto gap-4 p-6">
+                {/* ...filters and buttons (unchanged) */}
                 <div className="flex-1 flex flex-col md:flex-row gap-4 w-full">
+                    {/* ...search, category, status filters */}
                     <div className="relative w-full max-w-lg">
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <svg
@@ -367,7 +369,7 @@ export default function All_Items() {
                 )}
             </div>
 
-            {/* Modern Pagination Controls */}
+            {/* Pagination Controls (unchanged) */}
             {totalPages > 1 && (
                 <div className="flex justify-center mt-6 mb-2">
                     <nav className="flex items-center gap-1 bg-white rounded-xl shadow px-4 py-2 mb-8" aria-label="Pagination">
@@ -440,158 +442,182 @@ export default function All_Items() {
                 </div>
             )}
 
+            {/* Responsive New Item Modal */}
             {newItemModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center">
-                    <div className="bg-white rounded-lg p-8 max-w-md w-full border-2">
-                        <h2 className="text-2xl font-bold mb-4">New Item</h2>
-                        <div className="mb-4">
-                            <label
-                                htmlFor="Name"
-                                className="block text-gray-700 text-sm font-bold mb-2"
-                            >
-                                Name:
-                            </label>
-                            <input
-                                type="text"
-                                id="Name"
-                                name="Name"
-                                value={newItem.Name}
-                                onChange={handleNewItemInputChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label
-                                htmlFor="description"
-                                className="block text-gray-700 text-sm font-bold mb-2"
-                            >
-                                Description:
-                            </label>
-                            <textarea
-                                id="description"
-                                name="description"
-                                value={newItem.description}
-                                onChange={handleNewItemInputChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label
-                                htmlFor="quantity"
-                                className="block text-gray-700 text-sm font-bold mb-2"
-                            >
-                                Quantity:
-                            </label>
-                            <input
-                                type="number"
-                                id="quantity"
-                                name="quantity"
-                                value={newItem.quantity}
-                                onChange={handleNewItemInputChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label
-                                htmlFor="status"
-                                className="block text-gray-700 text-sm font-bold mb-2"
-                            >
-                                Status:
-                            </label>
-                            <select
-                                id="status"
-                                name="status"
-                                value={newItem.status}
-                                onChange={handleNewItemInputChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            >
-                                <option value="Available">Available</option>
-                                <option value="Returned">Returned</option>
-                                <option value="Reserved">Reserved</option>
-                                <option value="Borrowed">Borrowed</option>
-                            </select>
-                        </div>
-                        <div className="mb-4">
-                            <label
-                                htmlFor="category"
-                                className="block text-gray-700 text-sm font-bold mb-2"
-                            >
-                                Category:
-                            </label>
-                            <select
-                                id="category"
-                                name="category"
-                                value={newItem.category}
-                                onChange={handleNewItemInputChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            >
-                                <option value="Farming Equipment">
-                                    Farming Equipment
-                                </option>
-                                <option value="Harvesting Tools">
-                                    Harvesting Tools
-                                </option>
-                                <option value="Irrigation Systems">
-                                    Irrigation Systems
-                                </option>
-                                <option value="Storage Equipment">
-                                    Storage Equipment
-                                </option>
-                                <option value="Processing Equipment">
-                                    Processing Equipment
-                                </option>
-                                <option value="Safety Gear">Safety Gear</option>
-                                <option value="Pest Control">
-                                    Pest Control
-                                </option>
-                                <option value="Livestock Equipment">
-                                    Livestock Equipment
-                                </option>
-                                <option value="Measuring Tools">
-                                    Measuring Tools
-                                </option>
-                                <option value="Fisheries">Fisheries</option>
-                                <option value="Machinery">Machinery</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div className="mb-4">
-                            <label
-                                htmlFor="image"
-                                className="block text-gray-700 text-sm font-bold mb-2"
-                            >
-                                Image:
-                            </label>
-                            <input
-                                type="file"
-                                id="image"
-                                name="image"
-                                onChange={handleNewItemImageChange}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            />
-                            {newItem.imagePreview && (
-                                <img
-                                    src={newItem.imagePreview}
-                                    alt="Image Preview"
-                                    className="mt-2 max-h-48"
-                                />
-                            )}
-                        </div>
-                        <div className="flex justify-end">
+                <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+                    <form
+                        className="bg-white rounded-3xl shadow-2xl p-0 w-full max-w-2xl max-h-[95vh] relative border border-blue-200 flex flex-col"
+                        style={{ minWidth: 320 }}
+                        onSubmit={e => {
+                            e.preventDefault();
+                            handleCreateNewItem();
+                        }}
+                    >
+                        {/* Header */}
+                        <div className="flex justify-between items-center border-b border-blue-100 px-6 md:px-8 py-5 bg-gradient-to-r from-blue-500/10 to-blue-100 rounded-t-3xl">
+                            <h2 className="text-xl font-bold text-blue-700 tracking-tight">
+                                Add New Item
+                            </h2>
                             <button
-                                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
+                                type="button"
+                                className="text-blue-400 hover:text-blue-700 text-3xl leading-none transition"
+                                onClick={handleCloseNewItemModal}
+                                aria-label="Close"
+                            >
+                                &times;
+                            </button>
+                        </div>
+                        {/* Content */}
+                        <div className="flex flex-col md:flex-row gap-8 md:gap-10 px-6 md:px-8 py-8 overflow-y-auto">
+                            {/* Left: Form Fields */}
+                            <div className="flex-1 flex flex-col gap-5">
+                                <div>
+                                    <label className="block text-xs font-semibold text-blue-600 mb-1">
+                                        Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="Name"
+                                        value={newItem.Name}
+                                        onChange={handleNewItemInputChange}
+                                        className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                                        required
+                                        autoFocus
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-semibold text-blue-600 mb-1">
+                                        Description
+                                    </label>
+                                    <textarea
+                                        name="description"
+                                        value={newItem.description}
+                                        onChange={handleNewItemInputChange}
+                                        className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition resize-none"
+                                        required
+                                        rows={3}
+                                    />
+                                </div>
+                                <div className="flex gap-3 flex-col sm:flex-row">
+                                    <div className="flex-1">
+                                        <label className="block text-xs font-semibold text-blue-600 mb-1">
+                                            Quantity
+                                        </label>
+                                        <input
+                                            type="number"
+                                            name="quantity"
+                                            value={newItem.quantity}
+                                            min={1}
+                                            onChange={handleNewItemInputChange}
+                                            className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <label className="block text-xs font-semibold text-blue-600 mb-1">
+                                            Status
+                                        </label>
+                                        <select
+                                            name="status"
+                                            value={newItem.status}
+                                            onChange={handleNewItemInputChange}
+                                            className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                                            required
+                                        >
+                                            <option value="Available">Available</option>
+                                            <option value="Returned">Returned</option>
+                                            <option value="Reserved">Reserved</option>
+                                            <option value="Borrowed">Borrowed</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-semibold text-blue-600 mb-1">
+                                        Category
+                                    </label>
+                                    <select
+                                        name="category"
+                                        value={newItem.category}
+                                        onChange={handleNewItemInputChange}
+                                        className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                                        required
+                                    >
+                                        <option value="Farming Equipment">
+                                            Farming Equipment
+                                        </option>
+                                        <option value="Harvesting Tools">
+                                            Harvesting Tools
+                                        </option>
+                                        <option value="Irrigation Systems">
+                                            Irrigation Systems
+                                        </option>
+                                        <option value="Storage Equipment">
+                                            Storage Equipment
+                                        </option>
+                                        <option value="Processing Equipment">
+                                            Processing Equipment
+                                        </option>
+                                        <option value="Safety Gear">Safety Gear</option>
+                                        <option value="Pest Control">
+                                            Pest Control
+                                        </option>
+                                        <option value="Livestock Equipment">
+                                            Livestock Equipment
+                                        </option>
+                                        <option value="Measuring Tools">
+                                            Measuring Tools
+                                        </option>
+                                        <option value="Fisheries">Fisheries</option>
+                                        <option value="Machinery">Machinery</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            {/* Right: Image Upload */}
+                            <div className="flex flex-col items-center gap-4 w-full md:w-64">
+                                <label className="block text-xs font-semibold text-blue-600 mb-1 self-start">
+                                    Upload Image <span className="text-blue-300">(optional)</span>
+                                </label>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    id="image"
+                                    name="image"
+                                    onChange={handleNewItemImageChange}
+                                    className="w-full border border-blue-100 rounded-xl px-3 py-2 bg-blue-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+                                />
+                                <div className="w-full flex justify-center">
+                                    {newItem.imagePreview ? (
+                                        <img
+                                            src={newItem.imagePreview}
+                                            alt="Image Preview"
+                                            className="w-full max-w-[200px] max-h-[200px] bg-blue-50 object-cover mt-2 rounded-xl border border-blue-200 shadow"
+                                        />
+                                    ) : (
+                                        <div className="w-full max-w-[200px] max-h-[200px] bg-blue-50 mt-2 rounded-xl border border-blue-200 flex items-center justify-center text-blue-200 text-sm">
+                                            No image
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                        {/* Footer */}
+                        <div className="px-6 md:px-8 py-5 border-t border-blue-100 bg-gradient-to-r from-blue-50 to-blue-100 rounded-b-3xl flex justify-end gap-2">
+                            <button
+                                type="button"
+                                className="bg-gray-400 hover:bg-gray-500 text-white font-semibold rounded-xl py-2 px-6 transition-colors shadow focus:ring-2 focus:ring-blue-200 focus:outline-none"
                                 onClick={handleCloseNewItemModal}
                             >
                                 Cancel
                             </button>
                             <button
-                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                onClick={handleCreateNewItem}
+                                type="submit"
+                                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl py-2 px-8 transition-colors shadow focus:ring-2 focus:ring-blue-200 focus:outline-none"
                             >
                                 Create
                             </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             )}
         </>

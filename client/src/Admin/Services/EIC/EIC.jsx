@@ -43,7 +43,7 @@ export default function EIC() {
 // SECTION CONTROL
 function Section_Buttons(section, setSection) {
     return (
-        <div className="flex mt-[12vh] ml-8 space-x-4 justify-center fixed z-10 ">
+        <div className="flex mt-[5vh] ml-8 space-x-4 justify-center fixed z-10 ">
             {[
                 { key: 'all', label: 'All Items' },
                 { key: 'requests', label: 'Requests' },

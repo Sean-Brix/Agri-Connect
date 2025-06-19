@@ -93,39 +93,6 @@ export default function Seminar() {
         setFilteredPrograms(filtered);
     }, [search, filterBy, allPrograms]);
 
-    const apply_user = async (seminarId) => {
-        const check = await fetch('/api/authentication/gotToken');
-        if (!check.ok) {
-            alert('Login First');
-            navigate('/login');
-            return;
-        }
-
-        try {
-            const response = await fetch(
-                '/api/seminars/participants/user_apply',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ id: seminarId }),
-                }
-            );
-
-            if (response.ok) {
-                alert('Successfully applied!');
-            } 
-            else {
-                alert('Already Applied.');
-                return
-            }
-        } 
-        catch (error) {
-            console.error('Error applying for seminar:', error);
-            alert('Error applying for seminar.');
-        }
-    };
 
     const filterOptions = [
         { label: 'Title', value: 'Title' },
@@ -192,6 +159,99 @@ export default function Seminar() {
     const selectedSeminar = filteredPrograms.find(
         (program) => program.id === selectedSeminarId
     );
+
+    // Track which seminars the user has applied to
+    const [appliedSeminars, setAppliedSeminars] = useState([]);
+
+    // Check applied seminars on mount
+    useEffect(() => {
+        const fetchApplied = async () => {
+            const check = await fetch('/api/authentication/gotToken');
+            if (!check.ok) return;
+            try {
+                const res = await fetch('/api/seminars/participants/user_applied');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && Array.isArray(data.appliedIds)) {
+                        setAppliedSeminars(data.appliedIds);
+                    }
+                }
+            } catch (e) {
+                // ignore
+            }
+        };
+        fetchApplied();
+    }, []);
+
+    const apply_user = async (seminarId) => {
+        const check = await fetch('/api/authentication/gotToken');
+        if (!check.ok) {
+            alert('Login First');
+            navigate('/login');
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                '/api/seminars/participants/user_apply',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: seminarId }),
+                }
+            );
+
+            if (response.ok) {
+                alert('Successfully applied!');
+                setAppliedSeminars((prev) => [...prev, seminarId]);
+            } 
+            else {
+                alert('Already Applied.');
+                setAppliedSeminars((prev) => [...prev, seminarId]);
+                return;
+            }
+        } 
+        catch (error) {
+            console.error('Error applying for seminar:', error);
+            alert('Error applying for seminar.');
+        }
+    };
+
+    const cancel_user = async (seminarId) => {
+        const check = await fetch('/api/authentication/gotToken');
+        if (!check.ok) {
+            alert('Login First');
+            navigate('/login');
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                '/api/seminars/participants/user_cancel',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: seminarId }),
+                }
+            );
+
+            if (response.ok) {
+                alert('Application cancelled.');
+                setAppliedSeminars((prev) =>
+                    prev.filter((id) => id !== seminarId)
+                );
+            } else {
+                alert('Unable to cancel application.');
+            }
+        } catch (error) {
+            console.error('Error cancelling seminar application:', error);
+            alert('Error cancelling seminar application.');
+        }
+    };
 
     return (
         <>
@@ -304,109 +364,134 @@ export default function Seminar() {
                                     No programs found.
                                 </div>
                             ) : (
-                                paginatedPrograms.map((program) => (
-                                    <article
-                                        key={program.id}
-                                        className="relative flex flex-col md:flex-row gap-6 bg-blue-800 rounded-xl shadow-2xl p-0 border border-blue-800 overflow-hidden group transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1) hover:scale-105"
-                                        style={{ transition: '0.3s' }}
-                                    >
-                                        {/* Image with border and outline */}
-                                        <div className="flex-shrink-0 flex items-center justify-center w-full md:w-56 h-56">
-                                            <div className="w-52 h-52 sm:w-44 sm:h-44 md:w-40 md:h-40 rounded-2xl bg-white shadow-lg flex items-center justify-center overflow-hidden border-4 border-blue-500 outline outline-blue-200 transition-all duration-300 ease-in-out">
-                                                <img
-                                                    src={
-                                                        program.photo ||
-                                                        default_seminar_pic
-                                                    }
-                                                    alt="Sample"
-                                                    className="w-full h-full object-contain rounded-xl"
-                                                />
-                                            </div>
-                                        </div>
-                                        {/* Content */}
-                                        <div className="flex flex-col justify-between flex-1 px-6 py-6">
-                                            <div>
-                                                <div className="flex items-center gap-3 mb-2">
-                                                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-blue-200 to-blue-400 text-blue-900 text-lg shadow">
-                                                        <i
-                                                            className={
-                                                                faIcons.All
-                                                            }
-                                                        ></i>
-                                                    </span>
-                                                    <span
-                                                        className="font-bold text-2xl text-white tracking-tight truncate"
-                                                        title={program.title}
-                                                    >
-                                                        {program.title}
-                                                    </span>
+                                paginatedPrograms.map((program) => {
+                                    const isApplied = appliedSeminars.includes(program.id);
+                                    return (
+                                        <article
+                                            key={program.id}
+                                            className="relative flex flex-col md:flex-row gap-6 bg-blue-800 rounded-xl shadow-2xl p-0 border border-blue-800 overflow-hidden group transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-105"
+                                            style={{ transition: '0.3s' }}
+                                        >
+                                            {/* Image with border and outline */}
+                                            <div className="flex-shrink-0 flex items-center justify-center w-full md:w-56 h-56">
+                                                <div className="w-52 h-52 sm:w-44 sm:h-44 md:w-40 md:h-40 rounded-2xl bg-white shadow-lg flex items-center justify-center overflow-hidden border-4 border-blue-500 outline outline-blue-200 transition-all duration-300 ease-in-out">
+                                                    <img
+                                                        src={
+                                                            program.photo ||
+                                                            default_seminar_pic
+                                                        }
+                                                        alt="Sample"
+                                                        className="w-full h-full object-contain rounded-xl"
+                                                    />
                                                 </div>
-                                                <div
-                                                    className="text-white text-base mb-4 line-clamp-2 truncate"
-                                                    title={program.description}
-                                                >
-                                                    {truncate(
-                                                        program.description,
-                                                        80
+                                            </div>
+                                            {/* Content */}
+                                            <div className="flex flex-col justify-between flex-1 px-6 py-6">
+                                                <div>
+                                                    <div className="flex items-center gap-3 mb-2">
+                                                        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-blue-200 to-blue-400 text-blue-900 text-lg shadow">
+                                                            <i
+                                                                className={
+                                                                    faIcons.All
+                                                                }
+                                                            ></i>
+                                                        </span>
+                                                        <span
+                                                            className="font-bold text-2xl text-white tracking-tight truncate"
+                                                            title={program.title}
+                                                        >
+                                                            {program.title}
+                                                        </span>
+                                                    </div>
+                                                    <div
+                                                        className="text-white text-base mb-4 line-clamp-2 truncate"
+                                                        title={program.description}
+                                                    >
+                                                        {truncate(
+                                                            program.description,
+                                                            80
+                                                        )}
+                                                    </div>
+                                                    <div className="flex flex-wrap gap-3 mt-2">
+                                                        <span
+                                                            className="inline-flex items-center gap-1 text-xs text-blue-900 bg-blue-200 px-3 py-1 rounded-lg font-semibold border border-blue-300 shadow-sm truncate"
+                                                            title={program.category}
+                                                        >
+                                                            <i
+                                                                className={
+                                                                    faIcons[
+                                                                        program
+                                                                            .category
+                                                                    ] || faIcons.All
+                                                                }
+                                                            ></i>
+                                                            {program.category}
+                                                        </span>
+                                                        <span
+                                                            className="inline-flex items-center gap-1 text-xs text-blue-900 bg-blue-200 px-3 py-1 rounded-lg font-semibold border border-blue-300 shadow-sm truncate"
+                                                            title={program.location}
+                                                        >
+                                                            <i className="fa-solid fa-location-dot"></i>
+                                                            {program.location}
+                                                        </span>
+                                                        <span
+                                                            className="inline-flex items-center gap-1 text-xs text-blue-900 bg-blue-200 px-3 py-1 rounded-lg font-semibold border border-blue-300 shadow-sm truncate"
+                                                            title={program.speaker}
+                                                        >
+                                                            <i className="fa-solid fa-user"></i>
+                                                            {program.speaker}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                {/* Buttons */}
+                                                <div className="flex gap-3 w-full justify-end mt-6">
+                                                    {isApplied ? (
+                                                        <button
+                                                            onClick={async () => {
+                                                                await cancel_user(program.id);
+                                                                // After cancel, remove from appliedSeminars
+                                                                setAppliedSeminars((prev) =>
+                                                                    prev.filter((id) => id !== program.id)
+                                                                );
+                                                            }}
+                                                            className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-blue-900 font-bold shadow-lg hover:bg-blue-100 transition text-base focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                                        >
+                                                            <i className="fa-solid fa-xmark"></i>
+                                                            Cancel
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            onClick={async () => {
+                                                                await apply_user(program.id);
+                                                                // After apply, add to appliedSeminars if not already present
+                                                                setAppliedSeminars((prev) =>
+                                                                    prev.includes(program.id)
+                                                                        ? prev
+                                                                        : [...prev, program.id]
+                                                                );
+                                                            }}
+                                                            className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-blue-900 font-bold shadow-lg hover:bg-blue-100 transition text-base focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                                        >
+                                                            <i className="fa-solid fa-paper-plane"></i>
+                                                            Apply
+                                                        </button>
                                                     )}
-                                                </div>
-                                                <div className="flex flex-wrap gap-3 mt-2">
-                                                    <span
-                                                        className="inline-flex items-center gap-1 text-xs text-blue-900 bg-blue-200 px-3 py-1 rounded-lg font-semibold border border-blue-300 shadow-sm truncate"
-                                                        title={program.category}
+                                                    <button
+                                                        onClick={() =>
+                                                            handleDetailsClick(
+                                                                program.id
+                                                            )
+                                                        }
+                                                        className="flex items-center gap-2 px-8 py-2 rounded-xl border-2 border-white text-white bg-blue-900 font-bold shadow-lg hover:bg-blue-800 transition text-base focus:outline-none focus:ring-2 focus:ring-blue-400"
                                                     >
-                                                        <i
-                                                            className={
-                                                                faIcons[
-                                                                    program
-                                                                        .category
-                                                                ] || faIcons.All
-                                                            }
-                                                        ></i>
-                                                        {program.category}
-                                                    </span>
-                                                    <span
-                                                        className="inline-flex items-center gap-1 text-xs text-blue-900 bg-blue-200 px-3 py-1 rounded-lg font-semibold border border-blue-300 shadow-sm truncate"
-                                                        title={program.location}
-                                                    >
-                                                        <i className="fa-solid fa-location-dot"></i>
-                                                        {program.location}
-                                                    </span>
-                                                    <span
-                                                        className="inline-flex items-center gap-1 text-xs text-blue-900 bg-blue-200 px-3 py-1 rounded-lg font-semibold border border-blue-300 shadow-sm truncate"
-                                                        title={program.speaker}
-                                                    >
-                                                        <i className="fa-solid fa-user"></i>
-                                                        {program.speaker}
-                                                    </span>
+                                                        <i className="fa-solid fa-circle-info"></i>
+                                                        Details
+                                                    </button>
                                                 </div>
                                             </div>
-                                            {/* Buttons */}
-                                            <div className="flex gap-3 w-full justify-end mt-6">
-                                                <button
-                                                    onClick={() =>
-                                                        apply_user(program.id)
-                                                    }
-                                                    className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-blue-900 font-bold shadow-lg hover:bg-blue-100 transition text-base focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                                >
-                                                    <i className="fa-solid fa-paper-plane"></i>
-                                                    Apply
-                                                </button>
-                                                <button
-                                                    onClick={() =>
-                                                        handleDetailsClick(
-                                                            program.id
-                                                        )
-                                                    }
-                                                    className="flex items-center gap-2 px-8 py-2 rounded-xl border-2 border-white text-white bg-blue-900 font-bold shadow-lg hover:bg-blue-800 transition text-base focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                                >
-                                                    <i className="fa-solid fa-circle-info"></i>
-                                                    Details
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </article>
-                                ))
+                                        </article>
+                                    );
+                                })
                             )}
                         </div>
                         {totalPages > 1 && (
