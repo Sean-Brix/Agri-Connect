@@ -12,7 +12,7 @@ import img3 from './Assets/3.jpg'
 import img4 from './Assets/4.jpg'
 import img5 from './Assets/rabies.jpg'
 import img6 from './Assets/bg.jpg'
-import video from './Assets/bgs.mp4'
+import video from './Assets/rice.mp4'
 
 export default function Landing() {
     // Slider state
@@ -101,7 +101,7 @@ export default function Landing() {
                             style={{
                                 animation: 'none',
                                 transition: 'none',
-                                filter: 'brightness(0.5) hue-rotate(160deg) saturate(2.5)',
+                                // filter: 'brightness(0.5) hue-rotate(160deg) saturate(2.5)',
                                 
                             }}></video>
                         {/* Text and Buttons */}
