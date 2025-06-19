@@ -182,6 +182,17 @@ class Seminars {
         $this->speaker = $params['speaker'] ?? $this->speaker;
         $this->registration_deadline = $params['registration_deadline'] ?? $this->registration_deadline;
     }
+   public static function getUserSeminars($account_id){
+        $query = "SELECT seminars.id, title, description, location, start_date, end_date, start_time, end_time, capacity, seminars.status, speaker, registration_deadline, seminars.created_at, seminars.updated_at FROM `seminars` JOIN `seminar_participants` ON seminars.id = seminar_participants.seminar_id WHERE seminar_participants.account_id = ?";
+        $result = statement($query, [$account_id], "s");
+
+        $seminars = [];
+        while($row = mysqli_fetch_assoc($result)){
+            $seminars[] = $row;
+        }
+
+        return $seminars;
+    }
 
     public function save(){
         $query = "UPDATE `seminars` SET 

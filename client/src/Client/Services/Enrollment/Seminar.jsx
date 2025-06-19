@@ -3,7 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+//SUB COMPONENT
 import Navbar from '../../Components/Navbar';
+import Survey from '../../../Components/Survey/Survey.jsx';
 
 // ASSETS
 import default_seminar_pic from './Assets/default_seminar_pic.jpg';
@@ -93,7 +95,6 @@ export default function Seminar() {
         setFilteredPrograms(filtered);
     }, [search, filterBy, allPrograms]);
 
-
     const filterOptions = [
         { label: 'Title', value: 'Title' },
         { label: 'Speaker', value: 'Speaker' },
@@ -168,16 +169,23 @@ export default function Seminar() {
         const fetchApplied = async () => {
             const check = await fetch('/api/authentication/gotToken');
             if (!check.ok) return;
+
             try {
-                const res = await fetch('/api/seminars/participants/user_applied');
+                const res = await fetch(
+                    `/api/seminars/participants/user_applied`
+                );
+                const data = await res.json();
                 if (res.ok) {
-                    const data = await res.json();
-                    if (data && Array.isArray(data.appliedIds)) {
-                        setAppliedSeminars(data.appliedIds);
+                    if (data && data.payload && Array.isArray(data.payload)) {
+                        // Extract seminar IDs from the payload
+                        const seminarIds = data.payload.map(
+                            (seminar) => seminar.id
+                        );
+                        setAppliedSeminars(seminarIds);
                     }
                 }
             } catch (e) {
-                // ignore
+                console.error('Error fetching applied seminars:', e);
             }
         };
         fetchApplied();
@@ -206,14 +214,12 @@ export default function Seminar() {
             if (response.ok) {
                 alert('Successfully applied!');
                 setAppliedSeminars((prev) => [...prev, seminarId]);
-            } 
-            else {
+            } else {
                 alert('Already Applied.');
                 setAppliedSeminars((prev) => [...prev, seminarId]);
                 return;
             }
-        } 
-        catch (error) {
+        } catch (error) {
             console.error('Error applying for seminar:', error);
             alert('Error applying for seminar.');
         }
@@ -365,7 +371,9 @@ export default function Seminar() {
                                 </div>
                             ) : (
                                 paginatedPrograms.map((program) => {
-                                    const isApplied = appliedSeminars.includes(program.id);
+                                    const isApplied = appliedSeminars.includes(
+                                        program.id
+                                    );
                                     return (
                                         <article
                                             key={program.id}
@@ -398,14 +406,18 @@ export default function Seminar() {
                                                         </span>
                                                         <span
                                                             className="font-bold text-2xl text-white tracking-tight truncate"
-                                                            title={program.title}
+                                                            title={
+                                                                program.title
+                                                            }
                                                         >
                                                             {program.title}
                                                         </span>
                                                     </div>
                                                     <div
                                                         className="text-white text-base mb-4 line-clamp-2 truncate"
-                                                        title={program.description}
+                                                        title={
+                                                            program.description
+                                                        }
                                                     >
                                                         {truncate(
                                                             program.description,
@@ -415,28 +427,35 @@ export default function Seminar() {
                                                     <div className="flex flex-wrap gap-3 mt-2">
                                                         <span
                                                             className="inline-flex items-center gap-1 text-xs text-blue-900 bg-blue-200 px-3 py-1 rounded-lg font-semibold border border-blue-300 shadow-sm truncate"
-                                                            title={program.category}
+                                                            title={
+                                                                program.category
+                                                            }
                                                         >
                                                             <i
                                                                 className={
                                                                     faIcons[
                                                                         program
                                                                             .category
-                                                                    ] || faIcons.All
+                                                                    ] ||
+                                                                    faIcons.All
                                                                 }
                                                             ></i>
                                                             {program.category}
                                                         </span>
                                                         <span
                                                             className="inline-flex items-center gap-1 text-xs text-blue-900 bg-blue-200 px-3 py-1 rounded-lg font-semibold border border-blue-300 shadow-sm truncate"
-                                                            title={program.location}
+                                                            title={
+                                                                program.location
+                                                            }
                                                         >
                                                             <i className="fa-solid fa-location-dot"></i>
                                                             {program.location}
                                                         </span>
                                                         <span
                                                             className="inline-flex items-center gap-1 text-xs text-blue-900 bg-blue-200 px-3 py-1 rounded-lg font-semibold border border-blue-300 shadow-sm truncate"
-                                                            title={program.speaker}
+                                                            title={
+                                                                program.speaker
+                                                            }
                                                         >
                                                             <i className="fa-solid fa-user"></i>
                                                             {program.speaker}
@@ -448,10 +467,18 @@ export default function Seminar() {
                                                     {isApplied ? (
                                                         <button
                                                             onClick={async () => {
-                                                                await cancel_user(program.id);
-                                                                // After cancel, remove from appliedSeminars
-                                                                setAppliedSeminars((prev) =>
-                                                                    prev.filter((id) => id !== program.id)
+                                                                await cancel_user(
+                                                                    program.id
+                                                                );
+                                                                setAppliedSeminars(
+                                                                    (prev) =>
+                                                                        prev.filter(
+                                                                            (
+                                                                                id
+                                                                            ) =>
+                                                                                id !==
+                                                                                program.id
+                                                                        )
                                                                 );
                                                             }}
                                                             className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-blue-900 font-bold shadow-lg hover:bg-blue-100 transition text-base focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -462,12 +489,23 @@ export default function Seminar() {
                                                     ) : (
                                                         <button
                                                             onClick={async () => {
-                                                                await apply_user(program.id);
-                                                                // After apply, add to appliedSeminars if not already present
-                                                                setAppliedSeminars((prev) =>
-                                                                    prev.includes(program.id)
-                                                                        ? prev
-                                                                        : [...prev, program.id]
+                                                                await apply_user(
+                                                                    program.id
+                                                                );
+                                                                setAppliedSeminars(
+                                                                    (prev) => {
+                                                                        if (
+                                                                            !prev.includes(
+                                                                                program.id
+                                                                            )
+                                                                        ) {
+                                                                            return [
+                                                                                ...prev,
+                                                                                program.id,
+                                                                            ];
+                                                                        }
+                                                                        return prev;
+                                                                    }
                                                                 );
                                                             }}
                                                             className="flex items-center gap-2 px-8 py-2 rounded-xl bg-white text-blue-900 font-bold shadow-lg hover:bg-blue-100 transition text-base focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -586,8 +624,10 @@ function SeminarDetails({ seminar, onClose }) {
                     />
                 </div>
                 {/* Seminar Details, Scrollable if needed */}
-                <div className="flex-1 p-8 flex flex-col relative overflow-y-auto"
-                    style={{ maxHeight: 'calc(90vh - 350px)' }}>
+                <div
+                    className="flex-1 p-8 flex flex-col relative overflow-y-auto"
+                    style={{ maxHeight: 'calc(90vh - 350px)' }}
+                >
                     <button
                         onClick={onClose}
                         className="absolute top-4 right-4 text-gray-400 hover:text-blue-700 text-2xl focus:outline-none"
@@ -595,7 +635,9 @@ function SeminarDetails({ seminar, onClose }) {
                     >
                         <i className="fa-solid fa-xmark"></i>
                     </button>
-                    <h2 className="text-3xl font-extrabold text-blue-900 mb-2 mt-2">{seminar.title}</h2>
+                    <h2 className="text-3xl font-extrabold text-blue-900 mb-2 mt-2">
+                        {seminar.title}
+                    </h2>
                     <div className="flex flex-wrap gap-2 mb-4">
                         <span className="inline-flex items-center gap-1 text-xs text-blue-900 bg-blue-200 px-3 py-1 rounded-lg font-semibold border border-blue-300 shadow-sm">
                             <i className="fa-solid fa-user"></i>
