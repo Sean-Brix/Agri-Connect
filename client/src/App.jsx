@@ -21,6 +21,7 @@ import Seminar from './Client/Services/Enrollment/Seminar.jsx';
 import Contact from './Client/Services/Info/contact.jsx';
 import About from './Client/Services/Info/About.jsx';
 import Distribution from './Client/Services/Distributions/Distribution.jsx';
+import Survery from './Components/Survey/Survey.jsx';
 
 function App() {
     return (
@@ -40,7 +41,7 @@ function App() {
                 <Route path="/settings/account" element={<Account />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/distribution" element={<Distribution />} />
-
+                <Route path="/survey" element={<Survery />} />
 
 
                 {/* ADMIN ROUTES */}
