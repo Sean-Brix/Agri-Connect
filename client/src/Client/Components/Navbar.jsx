@@ -9,7 +9,7 @@ export default function Navbar() {
 
     // Dummy user data (replace with real user data as needed)
     const user = {
-        name: 'John Doe',
+       
         avatar: 'https://ui-avatars.com/api/?name=John+Doe&background=1e40af&color=fff',
     };
     const [infoOpen, setInfoOpen] = useState(false);
@@ -427,17 +427,10 @@ export default function Navbar() {
                                     </li>
                                 </ul>
                             </li>
-                            <li className="relative group">
-                                <button
-                                    type="button"
-                                    onClick={() => setSettingsOpen(!settingsOpen)}
-                                    onBlur={() =>
-                                        setTimeout(
-                                            () => setSettingsOpen(false),
-                                            150
-                                        )
-                                    }
-                                    className="flex items-center gap-2 text-blue-700 hover:bg-blue-50 px-4 py-3 rounded-lg font-semibold transition focus:outline-none"
+                            <li>
+                                <Link
+                                    to="/settings/profile"
+                                    className="flex items-center gap-2 text-blue-700 hover:bg-blue-50 px-4 py-3 rounded-lg font-semibold transition"
                                 >
                                     <svg
                                         className="w-5 h-5 text-blue-500"
@@ -446,82 +439,11 @@ export default function Navbar() {
                                         strokeWidth="2"
                                         viewBox="0 0 24 24"
                                     >
-                                        <circle cx="12" cy="12" r="3" />
-                                        <path
-                                            d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33h.09a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51h.09a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v.09a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
+                                        <circle cx="12" cy="7" r="4" />
+                                        <path d="M5.5 21a8.38 8.38 0 0113 0" />
                                     </svg>
-                                    {!isMidScreen && 'Settings'}
-                                    <svg
-                                        className={`w-4 h-4 ml-1 transition-transform duration-200 ${
-                                            settingsOpen ? 'rotate-180' : ''
-                                        }`}
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            d="M19 9l-7 7-7-7"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                </button>
-                                <ul
-                                    className={`absolute left-0 mt-2 w-44 bg-white rounded-xl shadow-lg py-2 z-40 border border-blue-100 transition-all duration-200 ${
-                                        settingsOpen
-                                            ? 'opacity-100 translate-y-0 pointer-events-auto'
-                                            : 'opacity-0 -translate-y-2 pointer-events-none'
-                                    }`}
-                                >
-                                    <li>
-                                        <Link
-                                            to="/settings/profile"
-                                            className="flex items-center gap-2 px-6 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
-                                        >
-                                            <svg
-                                                className="w-5 h-5 text-blue-500"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth="2"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <circle cx="12" cy="7" r="4" />
-                                                <path d="M5.5 21a8.38 8.38 0 0113 0" />
-                                            </svg>
-                                            {'Profile Settings'}
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            to="/settings/account"
-                                            className="flex items-center gap-2 px-6 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
-                                        >
-                                            <svg
-                                                className="w-5 h-5 text-blue-500"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                strokeWidth="2"
-                                                viewBox="0 0 24 24"
-                                            >
-                                                <rect
-                                                    x="3"
-                                                    y="7"
-                                                    width="18"
-                                                    height="13"
-                                                    rx="2"
-                                                />
-                                                <path d="M16 3v4M8 3v4" />
-                                            </svg>
-                                            {'Account Settings'}
-                                        </Link>
-                                    </li>
-                                </ul>
+                                    {!isMidScreen && 'Profile Settings'}
+                                </Link>
                             </li>
                         </ul>
                     </div>
@@ -999,84 +921,22 @@ export default function Navbar() {
                                 </details>
                             </li>
                             <li>
-                                <details className="group">
-                                    <summary className="flex items-center gap-2 px-6 py-6 text-blue-700 hover:bg-blue-50 font-semibold rounded-lg cursor-pointer transition focus:outline-none">
-                                        <svg
-                                            className="w-5 h-5 text-blue-500"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <circle cx="12" cy="12" r="3" />
-                                            <path
-                                                d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33h.09a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51h.09a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v.09a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"
-                                                stroke="currentColor"
-                                                strokeWidth="2"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            />
-                                        </svg>
-                                        Settings
-                                        <svg
-                                            className="w-4 h-4 ml-1 transition-transform duration-200 group-open:rotate-180"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                d="M19 9l-7 7-7-7"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            />
-                                        </svg>
-                                    </summary>
-                                    <ul className="bg-white rounded-xl shadow-lg py-2 mt-2 border border-blue-100">
-                                        <li>
-                                            <Link
-                                                to="/settings/profile"
-                                                className="flex items-center gap-2 px-8 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
-                                            >
-                                                <svg
-                                                    className="w-5 h-5 text-blue-500"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    strokeWidth="2"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <circle cx="12" cy="7" r="4" />
-                                                    <path d="M5.5 21a8.38 8.38 0 0113 0" />
-                                                </svg>
-                                                Profile Settings
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link
-                                                to="/settings/account"
-                                                className="flex items-center gap-2 px-8 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
-                                            >
-                                                <svg
-                                                    className="w-5 h-5 text-blue-500"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    strokeWidth="2"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <rect
-                                                        x="3"
-                                                        y="7"
-                                                        width="18"
-                                                        height="13"
-                                                        rx="2"
-                                                    />
-                                                    <path d="M16 3v4M8 3v4" />
-                                                </svg>
-                                                Account Settings
-                                            </Link>
-                                        </li>
-                                    </ul>
-                                </details>
+                                <Link
+                                    to="/settings/profile"
+                                    className="flex items-center gap-2 px-6 py-6 text-blue-700 hover:bg-blue-50 font-semibold rounded-lg transition"
+                                >
+                                    <svg
+                                        className="w-5 h-5 text-blue-500"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <circle cx="12" cy="7" r="4" />
+                                        <path d="M5.5 21a8.38 8.38 0 0113 0" />
+                                    </svg>
+                                    Profile Settings
+                                </Link>
                             </li>
                         </ul>
                     </div>

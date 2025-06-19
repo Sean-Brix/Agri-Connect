@@ -58,7 +58,7 @@ function Survey() {
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
             <div className="relative w-full max-w-xs sm:max-w-sm bg-transparent">
                 <form
                     onSubmit={handleSubmit}
