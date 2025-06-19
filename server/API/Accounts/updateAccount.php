@@ -21,15 +21,6 @@ if(!$user){
 $Account = new Account($user['ID']);
 $details = $Account->getDetails();
 
-if(strtolower($details['access']) != "super admin"){
-    sendResponse(
-        401,
-        "Unauthorize",
-        ["Error"=>"Only Super Admin can update all accounts"],
-        "Unauthorize Post Request"
-    );
-    exit();
-}
 
 // Query Parameter
 $data = getJsonBody();

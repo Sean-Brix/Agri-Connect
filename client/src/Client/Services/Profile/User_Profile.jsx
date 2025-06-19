@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../../Components/Navbar';
 import { Link } from 'react-router-dom';
 
-import default_picture from '../../../Assets/default_picture.png'
+import default_picture from '../../../Assets/default_picture.png';
 
 export default function User_Profile() {
     const [profile, setProfile] = useState({
@@ -60,8 +60,6 @@ export default function User_Profile() {
         }));
     };
 
-
-    // Add image upload state and handler
     const [imageFile, setImageFile] = useState(null);
 
     const handleImageChange = (e) => {
@@ -81,22 +79,22 @@ export default function User_Profile() {
         setEditMode(false);
 
         try {
-            // If image changed, upload it first
             if (imageFile) {
                 const formData = new FormData();
-                formData.append('profile_pic', imageFile);
-                await fetch('/api/accounts/uploadProfilePic', {
+                formData.append('image', imageFile);
+                await fetch('/api/accounts/uploadProfile', {
                     method: 'POST',
                     body: formData,
                 });
             }
 
-            const response = await fetch('/api/accounts/updateUser', {
+            const response = await fetch('/api/accounts/updateAccount', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                    id: profile.id,
                     occupation: profile.occupation,
                     address: profile.address,
                     cellphone_no: profile.cellphone_no,
@@ -264,7 +262,6 @@ export default function User_Profile() {
                                     />
                                 </div>
                             </div>
-                            {/* Contact Information moved here */}
                             <div className="bg-white border border-blue-200 rounded-3xl shadow-2xl p-10 mt-10">
                                 <div className="flex flex-col sm:flex-row items-center mb-8 gap-4">
                                     <span className="bg-blue-800 px-8 py-3 rounded-2xl text-2xl font-bold text-white border border-blue-700 shadow-lg flex items-center gap-2">
@@ -284,7 +281,9 @@ export default function User_Profile() {
                                                 type="email"
                                                 name="email_address"
                                                 className="text-blue-900 break-all border border-blue-300 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 transition"
-                                                value={profile.email_address || ''}
+                                                value={
+                                                    profile.email_address || ''
+                                                }
                                                 onChange={handleChange}
                                             />
                                         ) : (
@@ -303,7 +302,9 @@ export default function User_Profile() {
                                                 type="text"
                                                 name="telephone_no"
                                                 className="text-blue-900 border border-blue-300 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 transition"
-                                                value={profile.telephone_no || ''}
+                                                value={
+                                                    profile.telephone_no || ''
+                                                }
                                                 onChange={handleChange}
                                             />
                                         ) : (
