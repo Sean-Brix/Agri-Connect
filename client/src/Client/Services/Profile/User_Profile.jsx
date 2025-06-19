@@ -60,11 +60,37 @@ export default function User_Profile() {
         }));
     };
 
+
+    // Add image upload state and handler
+    const [imageFile, setImageFile] = useState(null);
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImageFile(file);
+            const imageObjectURL = URL.createObjectURL(file);
+            setProfile((prev) => ({
+                ...prev,
+                profile_pic: imageObjectURL,
+            }));
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setEditMode(false);
 
         try {
+            // If image changed, upload it first
+            if (imageFile) {
+                const formData = new FormData();
+                formData.append('profile_pic', imageFile);
+                await fetch('/api/accounts/uploadProfilePic', {
+                    method: 'POST',
+                    body: formData,
+                });
+            }
+
             const response = await fetch('/api/accounts/updateUser', {
                 method: 'POST',
                 headers: {
@@ -107,12 +133,23 @@ export default function User_Profile() {
 
                     <div className="bg-white border border-blue-200 rounded-3xl shadow-2xl mb-14 flex flex-col lg:flex-row overflow-hidden transition-all duration-300">
                         <div className="bg-gradient-to-b from-blue-300 via-blue-200 to-blue-900 flex flex-col items-center justify-center p-12 lg:w-1/3 gap-5">
-                            <div className="rounded-full border-4 border-blue-700 shadow-2xl p-1 mb-2 bg-gradient-to-tr from-blue-700 to-blue-900">
+                            <div className="relative rounded-full border-4 border-blue-700 shadow-2xl p-1 mb-2 bg-gradient-to-tr from-blue-700 to-blue-900">
                                 <img
                                     src={profile.profile_pic || default_picture}
                                     alt="Profile"
                                     className="w-32 h-32 md:w-44 md:h-44 object-cover rounded-full border-4 border-blue-800"
                                 />
+                                {editMode && (
+                                    <label className="absolute bottom-2 right-2 bg-blue-800 text-white rounded-full p-2 cursor-pointer shadow-lg hover:bg-blue-700 transition">
+                                        <i className="fa-solid fa-camera"></i>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleImageChange}
+                                            className="hidden"
+                                        />
+                                    </label>
+                                )}
                             </div>
                             <span className="bg-blue-800 border-2 border-blue-700 rounded-2xl px-8 py-2 text-2xl font-bold text-white mb-1 shadow-lg tracking-wide">
                                 {profile.firstname} {profile.lastname}
@@ -158,7 +195,10 @@ export default function User_Profile() {
                                 </button>
                             ) : (
                                 <button
-                                    onClick={() => setEditMode(false)}
+                                    onClick={() => {
+                                        setEditMode(false);
+                                        setImageFile(null);
+                                    }}
                                     className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-blue-700 to-blue-900 text-white font-semibold rounded-xl hover:bg-blue-800 transition border-2 border-blue-700 shadow-lg"
                                 >
                                     <i className="fa-solid fa-xmark"></i>
@@ -167,63 +207,115 @@ export default function User_Profile() {
                             )}
                         </div>
                         <form
-                            className="flex-1 p-10 grid grid-cols-1 gap-8 md:grid-cols-2 bg-white"
+                            className="flex-1 p-10 bg-white"
                             onSubmit={handleSubmit}
                         >
-                            <div>
-                                <label className="block mb-2 text-blue-900 font-semibold tracking-wide">
-                                    💼 Occupation
-                                </label>
-                                <input
-                                    type="text"
-                                    name="occupation"
-                                    className="block w-full border border-blue-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 text-blue-900 transition"
-                                    value={profile.occupation || ''}
-                                    onChange={handleChange}
-                                    disabled={!editMode}
-                                />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div>
+                                    <label className="block mb-2 text-blue-900 font-semibold tracking-wide">
+                                        💼 Occupation
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="occupation"
+                                        className="block w-full border border-blue-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 text-blue-900 transition"
+                                        value={profile.occupation || ''}
+                                        onChange={handleChange}
+                                        disabled={!editMode}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block mb-2 text-blue-900 font-semibold tracking-wide">
+                                        📍 Address
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="address"
+                                        className="block w-full border border-blue-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 text-blue-900 transition"
+                                        value={profile.address || ''}
+                                        onChange={handleChange}
+                                        disabled={!editMode}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block mb-2 text-blue-900 font-semibold tracking-wide">
+                                        📞 Cellphone
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="cellphone_no"
+                                        className="block w-full border border-blue-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 text-blue-900 transition"
+                                        value={profile.cellphone_no || ''}
+                                        onChange={handleChange}
+                                        disabled={!editMode}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block mb-2 text-blue-900 font-semibold tracking-wide">
+                                        🏢 Institution
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="institution"
+                                        className="block w-full border border-blue-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 text-blue-900 transition"
+                                        value={profile.institution || ''}
+                                        onChange={handleChange}
+                                        disabled={!editMode}
+                                    />
+                                </div>
                             </div>
-                            <div>
-                                <label className="block mb-2 text-blue-900 font-semibold tracking-wide">
-                                    📍 Address
-                                </label>
-                                <input
-                                    type="text"
-                                    name="address"
-                                    className="block w-full border border-blue-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 text-blue-900 transition"
-                                    value={profile.address || ''}
-                                    onChange={handleChange}
-                                    disabled={!editMode}
-                                />
-                            </div>
-                            <div>
-                                <label className="block mb-2 text-blue-900 font-semibold tracking-wide">
-                                    📞 Cellphone
-                                </label>
-                                <input
-                                    type="text"
-                                    name="cellphone_no"
-                                    className="block w-full border border-blue-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 text-blue-900 transition"
-                                    value={profile.cellphone_no || ''}
-                                    onChange={handleChange}
-                                    disabled={!editMode}
-                                />
-                            </div>
-                            <div>
-                                <label className="block mb-2 text-blue-900 font-semibold tracking-wide">
-                                    🏢 Institution
-                                </label>
-                                <input
-                                    type="text"
-                                    name="institution"
-                                    className="block w-full border border-blue-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 text-blue-900 transition"
-                                    value={profile.institution || ''}
-                                    onChange={handleChange}
-                                    disabled={!editMode}
-                                />
+                            {/* Contact Information moved here */}
+                            <div className="bg-white border border-blue-200 rounded-3xl shadow-2xl p-10 mt-10">
+                                <div className="flex flex-col sm:flex-row items-center mb-8 gap-4">
+                                    <span className="bg-blue-800 px-8 py-3 rounded-2xl text-2xl font-bold text-white border border-blue-700 shadow-lg flex items-center gap-2">
+                                        <i className="fa-solid fa-address-book text-blue-300"></i>
+                                        Contacts Information
+                                    </span>
+                                    <hr className="flex-1 border-blue-700 w-full sm:w-auto" />
+                                </div>
+                                <div className="divide-y divide-blue-100">
+                                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-5 gap-2">
+                                        <span className="font-semibold text-blue-900 flex items-center gap-2">
+                                            <i className="fa-solid fa-envelope text-blue-300"></i>{' '}
+                                            Email
+                                        </span>
+                                        {editMode ? (
+                                            <input
+                                                type="email"
+                                                name="email_address"
+                                                className="text-blue-900 break-all border border-blue-300 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 transition"
+                                                value={profile.email_address || ''}
+                                                onChange={handleChange}
+                                            />
+                                        ) : (
+                                            <span className="text-blue-900 break-all">
+                                                {profile.email_address}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-5 gap-2">
+                                        <span className="font-semibold text-blue-900 flex items-center gap-2">
+                                            <i className="fa-solid fa-phone text-blue-300"></i>{' '}
+                                            Alternate Phone
+                                        </span>
+                                        {editMode ? (
+                                            <input
+                                                type="text"
+                                                name="telephone_no"
+                                                className="text-blue-900 border border-blue-300 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 transition"
+                                                value={profile.telephone_no || ''}
+                                                onChange={handleChange}
+                                            />
+                                        ) : (
+                                            <span className="text-blue-900">
+                                                {profile.telephone_no}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
                             {editMode && (
-                                <div className="md:col-span-2 flex justify-end">
+                                <div className="flex justify-end mt-8">
                                     <button
                                         type="submit"
                                         className="px-8 py-3 bg-blue-700 text-white font-bold rounded-xl hover:bg-blue-800 transition shadow-lg"
@@ -233,56 +325,6 @@ export default function User_Profile() {
                                 </div>
                             )}
                         </form>
-                    </div>
-
-                    <div className="bg-white border border-blue-200 rounded-3xl shadow-2xl p-10">
-                        <div className="flex flex-col sm:flex-row items-center mb-8 gap-4">
-                            <span className="bg-blue-800 px-8 py-3 rounded-2xl text-2xl font-bold text-white border border-blue-700 shadow-lg flex items-center gap-2">
-                                <i className="fa-solid fa-address-book text-blue-300"></i>
-                                Contacts Information
-                            </span>
-                            <hr className="flex-1 border-blue-700 w-full sm:w-auto" />
-                        </div>
-                        <div className="divide-y divide-blue-100">
-                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-5 gap-2">
-                                <span className="font-semibold text-blue-900 flex items-center gap-2">
-                                    <i className="fa-solid fa-envelope text-blue-300"></i>{' '}
-                                    Email
-                                </span>
-                                {editMode ? (
-                                    <input
-                                        type="email"
-                                        name="email_address"
-                                        className="text-blue-900 break-all border border-blue-300 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 transition"
-                                        value={profile.email_address || ''}
-                                        onChange={handleChange}
-                                    />
-                                ) : (
-                                    <span className="text-blue-900 break-all">
-                                        {profile.email_address}
-                                    </span>
-                                )}
-                            </div>
-                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center py-5 gap-2">
-                                <span className="font-semibold text-blue-900 flex items-center gap-2">
-                                    <i className="fa-solid fa-phone text-blue-300"></i>{' '}
-                                    Alternate Phone
-                                </span>
-                                {editMode ? (
-                                    <input
-                                        type="text"
-                                        name="telephone_no"
-                                        className="text-blue-900 border border-blue-300 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-50 transition"
-                                        value={profile.telephone_no || ''}
-                                        onChange={handleChange}
-                                    />
-                                ) : (
-                                    <span className="text-blue-900">
-                                        {profile.telephone_no}
-                                    </span>
-                                )}
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

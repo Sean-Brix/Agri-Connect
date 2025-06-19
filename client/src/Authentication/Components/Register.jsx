@@ -222,7 +222,7 @@ class Register extends Component {
                             >
                                 Next
                             </button>
-                            <div className="flex items-center my-4">
+                            {/* <div className="flex items-center my-4">
                                 <span className="flex-grow border-t border-black-300"></span>
                                 <span className="mx-2 text-black-500 text-sm">
                                     or
@@ -239,7 +239,7 @@ class Register extends Component {
                                     className="h-5 w-5 mr-2"
                                 />
                                 Connect with Google
-                            </button>
+                            </button> */}
                             <p className="mt-4 text-center text-sm text-gray-700">
                                 Already have an account?{' '}
                                 <Link
@@ -562,7 +562,7 @@ class Register extends Component {
                                 Register
                             </button>
 
-                            <div className="flex items-center my-2">
+                            {/* <div className="flex items-center my-2">
                                 <span className="flex-grow border-t border-gray-300"></span>
                                 <span className="mx-2 text-gray-500 text-sm">
                                     or
@@ -580,7 +580,7 @@ class Register extends Component {
                                     className="h-5 w-5 mr-2"
                                 />
                                 Connect with Google
-                            </button>
+                            </button> */}
 
                             <p className="mt-4 text-center text-sm text-gray-700">
                                 Already have an account?{' '}
