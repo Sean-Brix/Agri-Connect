@@ -58,30 +58,30 @@ function Survey() {
     };
 
     return (
-        <div className="fixed top-0 left-0 w-full h-full min-h-screen bg-gradient-to-br from-blue-100 via-white to-blue-200 py-8 px-4 flex items-center justify-center z-50">
-            <div className="w-full max-w-md max-h-screen overflow-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+            <div className="relative w-full max-w-xs sm:max-w-sm bg-transparent">
                 <form
                     onSubmit={handleSubmit}
-                    className="bg-white/90 backdrop-blur-lg shadow-xl rounded-2xl overflow-hidden border border-blue-100"
+                    className="bg-white/95 backdrop-blur-lg shadow-2xl rounded-xl overflow-hidden border border-blue-100"
                 >
                     {/* Header */}
-                    <div className="bg-gradient-to-r from-blue-800 via-blue-700 to-blue-600 text-white p-6 text-center rounded-t-2xl">
-                        <h2 className="text-2xl font-bold mb-2 tracking-tight drop-shadow">
+                    <div className="bg-gradient-to-r from-blue-800 via-blue-700 to-blue-600 text-white p-4 text-center rounded-t-xl">
+                        <h2 className="text-lg font-bold mb-1 tracking-tight drop-shadow">
                             {surveyTitle}
                         </h2>
-                        <p className="text-base opacity-90">{surveyDesc}</p>
+                        <p className="text-xs opacity-90">{surveyDesc}</p>
                     </div>
 
                     {/* Satisfaction Section */}
-                    <div className="p-6 pb-4">
-                        <p className="text-gray-900 font-semibold mb-3 text-base">
+                    <div className="p-4 pb-2">
+                        <p className="text-gray-900 font-semibold mb-2 text-sm">
                             {satisfactionQuestion}
                         </p>
-                        <div className="flex flex-col gap-3">
+                        <div className="flex flex-col gap-2">
                             {satisfactionOptions.map((option) => (
                                 <label
                                     key={option}
-                                    className={`flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer border transition-all duration-200 ${
+                                    className={`flex items-center gap-2 px-3 py-1.5 rounded-lg cursor-pointer border transition-all duration-200 ${
                                         satisfaction === option
                                             ? 'bg-blue-50 border-blue-700 ring-2 ring-blue-400'
                                             : 'bg-white border-gray-200 hover:bg-blue-50'
@@ -97,7 +97,7 @@ function Survey() {
                                         required
                                         disabled={submitted}
                                     />
-                                    <span className="text-gray-900 text-sm">
+                                    <span className="text-gray-900 text-xs">
                                         {option}
                                     </span>
                                 </label>
@@ -106,13 +106,13 @@ function Survey() {
                     </div>
 
                     {/* Remarks Section */}
-                    <div className="px-6 pb-4">
-                        <label className="block text-gray-900 font-semibold mb-2 text-base">
+                    <div className="px-4 pb-2">
+                        <label className="block text-gray-900 font-semibold mb-1 text-sm">
                             {remarksLabel}
                         </label>
                         <textarea
-                            className="w-full p-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition text-gray-800 bg-white/80 text-sm"
-                            rows="3"
+                            className="w-full p-2 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition text-gray-800 bg-white/80 text-xs"
+                            rows="2"
                             placeholder="Write your feedback here..."
                             value={remarks}
                             onChange={(e) => setRemarks(e.target.value)}
@@ -122,23 +122,23 @@ function Survey() {
                     </div>
 
                     {/* Submit/Edit Buttons */}
-                    <div className="px-6 pb-6 flex flex-col gap-2">
+                    <div className="px-4 pb-4 flex flex-col gap-2">
                         {!submitted ? (
                             <button
                                 type="submit"
-                                className="w-full bg-gradient-to-r from-blue-800 to-blue-600 text-white py-2 rounded-lg font-semibold text-base shadow-md hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
+                                className="w-full bg-gradient-to-r from-blue-800 to-blue-600 text-white py-2 rounded-lg font-semibold text-sm shadow-md hover:from-blue-700 hover:to-blue-500 transition-all duration-200"
                             >
                                 Submit
                             </button>
                         ) : (
                             <>
-                                <div className="mt-1 text-green-700 text-center font-semibold text-sm">
+                                <div className="mt-1 text-green-700 text-center font-semibold text-xs">
                                     Thank you for your feedback!
                                 </div>
                                 <button
                                     type="button"
                                     onClick={handleEdit}
-                                    className="w-full mt-1 bg-gray-100 text-blue-900 py-2 rounded-lg font-semibold text-sm shadow hover:bg-gray-200 transition-all duration-200"
+                                    className="w-full mt-1 bg-gray-100 text-blue-900 py-2 rounded-lg font-semibold text-xs shadow hover:bg-gray-200 transition-all duration-200"
                                 >
                                     Edit Response
                                 </button>
