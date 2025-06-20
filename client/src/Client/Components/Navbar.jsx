@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Router } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import logo from '../../Assets/Logo.png'; // Adjust the path as necessary
-
+import logo from '../../Assets/Logo.png';
+import Chat from '../../Components/Chats/Chat';
 export default function Navbar() {
     const [open, setOpen] = useState(false);
     const [servicesOpen, setServicesOpen] = useState(false);
@@ -91,6 +91,7 @@ export default function Navbar() {
 
     return (
         <>
+            <Chat />
             {showAlert && (
                 <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70 transition-all duration-300">
                     <div
