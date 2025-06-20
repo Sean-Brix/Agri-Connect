@@ -453,18 +453,6 @@ export default function Seminar() {
                                 )}
                             </div>
                             
-                            <button
-                                className="flex items-center gap-2 px-4 sm:px-5 py-2 h-12 rounded-xl bg-white text-blue-900 font-semibold border border-gray-200 shadow transition-all duration-200 hover:bg-gray-50 focus:outline-none text-base sm:text-lg ml-2"
-                                onClick={() => setShowMyRequestsModal(true)}
-                                type="button"
-                                aria-label="View your seminar requests"
-                                style={{ minHeight: '3rem' }}
-                            >
-                                <i className="fa-solid fa-list text-blue-900 text-base sm:text-lg"></i>
-                                <span className="hidden sm:inline">
-                                    My Requests
-                                </span>
-                            </button>
                             </div>
                             {/* My Requests Modal */}
                             {showMyRequestsModal && (
