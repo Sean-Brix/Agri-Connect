@@ -1,6 +1,6 @@
 // Replace all green color classes and hex codes with blue equivalents
 
-// 1. Tailwind classes: 
+// 1. Tailwind classes:
 // - green-700 -> blue-700
 // - green-800 -> blue-800
 // - green-900 -> blue-900
@@ -23,7 +23,6 @@
 // - #22c55e (green-500) -> #3b82f6 (blue-500)
 // - #16a34a (green-600) -> #2563eb (blue-600)
 // - #bbf7d0 (green-100) -> #dbeafe (blue-100)
-
 
 // The following is your code with all green colors replaced with blue:
 
@@ -116,7 +115,10 @@ export default function Eic() {
                     );
                     setEquipmentList(equipmentWithImages);
                 } else {
-                    console.warn('Payload is not an array or is empty:', payload);
+                    console.warn(
+                        'Payload is not an array or is empty:',
+                        payload
+                    );
                     setEquipmentList([]);
                 }
             } catch (error) {
@@ -326,9 +328,11 @@ export default function Eic() {
                     if (el) {
                         el.style.transition = 'opacity 0.35s, transform 0.35s';
                         el.style.opacity = '0';
-                        el.style.transform = 'translate(-50%, -50%) scale(0.95)';
+                        el.style.transform =
+                            'translate(-50%, -50%) scale(0.95)';
                         setTimeout(() => {
-                            if (alertDiv.parentNode) alertDiv.parentNode.removeChild(alertDiv);
+                            if (alertDiv.parentNode)
+                                alertDiv.parentNode.removeChild(alertDiv);
                         }, 350);
                     }
                 }, 2100);
@@ -408,9 +412,11 @@ export default function Eic() {
                     if (el) {
                         el.style.transition = 'opacity 0.35s, transform 0.35s';
                         el.style.opacity = '0';
-                        el.style.transform = 'translate(-50%, -50%) scale(0.95)';
+                        el.style.transform =
+                            'translate(-50%, -50%) scale(0.95)';
                         setTimeout(() => {
-                            if (alertDiv.parentNode) alertDiv.parentNode.removeChild(alertDiv);
+                            if (alertDiv.parentNode)
+                                alertDiv.parentNode.removeChild(alertDiv);
                         }, 350);
                     }
                 }, 2100);
@@ -493,7 +499,8 @@ export default function Eic() {
                     el.style.opacity = '0';
                     el.style.transform = 'translate(-50%, -50%) scale(0.95)';
                     setTimeout(() => {
-                        if (alertDiv.parentNode) alertDiv.parentNode.removeChild(alertDiv);
+                        if (alertDiv.parentNode)
+                            alertDiv.parentNode.removeChild(alertDiv);
                     }, 350);
                 }
             }, 2100);
@@ -518,7 +525,11 @@ export default function Eic() {
             const requestsResponse = await fetch('/api/eic/myRequest');
             if (requestsResponse.ok) {
                 const requestsData = await requestsResponse.json();
-                setMyRequests(Array.isArray(requestsData.payload) ? requestsData.payload : []);
+                setMyRequests(
+                    Array.isArray(requestsData.payload)
+                        ? requestsData.payload
+                        : []
+                );
                 setShowMyRequestsModal(true);
             } else {
                 console.error(
@@ -554,7 +565,7 @@ export default function Eic() {
                                 Welcome to
                             </span>
                             <h1 className="text-4xl xs:text-2xl sm:text-4xl md:text-5xl font-extrabold text-center eic-title">
-                                Equipments, Inputs & Commodities 
+                                Equipments, Inputs & Commodities
                             </h1>
                             <div className="mt-3 w-16 sm:w-24 h-2 rounded-full bg-gray-200 opacity-80"></div>
                         </header>
@@ -808,123 +819,163 @@ export default function Eic() {
                             </button>
                         </div>
                         {/* Modal Body */}
-                                                <form
-                                                    onSubmit={handleSubmit}
-                                                    className="px-8 py-6 space-y-5"
-                                                >
-                                                    <div className="flex items-center gap-4 mb-2">
-                                                        <img
-                                                            src={selectedItem?.img}
-                                                            alt={selectedItem?.Name}
-                                                            className="w-16 h-16 rounded-xl object-cover border-2 border-blue-700 shadow"
-                                                        />
-                                                        <div>
-                                                            <div className="text-lg font-semibold text-blue-900 truncate">
-                                                                {selectedItem?.Name}
-                                                            </div>
-                                                            <div className="text-xs text-gray-500">
-                                                                {selectedItem?.category}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                        <div>
-                                                            <label
-                                                                htmlFor="borrow_date"
-                                                                className="block text-gray-700 text-sm font-medium mb-1"
-                                                            >
-                                                                Borrow Date
-                                                            </label>
-                                                            <input
-                                                                type="date"
-                                                                id="borrow_date"
-                                                                name="borrow_date"
-                                                                value={requestData.borrow_date}
-                                                                onChange={handleInputChange}
-                                                                className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition"
-                                                                required
-                                                                min={new Date().toISOString().split('T')[0]}
-                                                            />
-                                                        </div>
-                                                        <div>
-                                                            <label
-                                                                htmlFor="return_date"
-                                                                className="block text-gray-700 text-sm font-medium mb-1"
-                                                            >
-                                                                Return Date
-                                                            </label>
-                                                            <input
-                                                                type="date"
-                                                                id="return_date"
-                                                                name="return_date"
-                                                                value={requestData.return_date}
-                                                                onChange={handleInputChange}
-                                                                className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition"
-                                                                required
-                                                                min={requestData.borrow_date || new Date().toISOString().split('T')[0]}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                        <div>
-                                                            <label
-                                                                htmlFor="quantity"
-                                                                className="block text-gray-700 text-sm font-medium mb-1"
-                                                            >
-                                                                Quantity
-                                                            </label>
-                                                            <input
-                                                                type="number"
-                                                                id="quantity"
-                                                                name="quantity"
-                                                                value={requestData.quantity}
-                                                                onChange={handleInputChange}
-                                                                className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition"
-                                                                required
-                                                                min="1"
-                                                            />
-                                                        </div>
-                                                        <div>
-                                                            <label
-                                                                htmlFor="request_note"
-                                                                className="block text-gray-700 text-sm font-medium mb-1"
-                                                            >
-                                                                Notes
-                                                            </label>
-                                                            <textarea
-                                                                id="request_note"
-                                                                name="request_note"
-                                                                value={requestData.request_note}
-                                                                onChange={handleInputChange}
-                                                                rows="2"
-                                                                className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition resize-none"
-                                                                placeholder="Optional"
-                                                            ></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex justify-end gap-3 pt-2">
-                                                        <button
-                                                            type="button"
-                                                            className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-5 py-2 rounded-xl transition focus:outline-none"
-                                                            onClick={handleCloseModal}
-                                                        >
-                                                            Cancel
-                                                        </button>
-                                                        <button
-                                                            type="submit"
-                                                            className="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-2 rounded-xl shadow transition focus:outline-none"
-                                                        >
-                                                            Submit Request
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
+                        <form
+                            onSubmit={handleSubmit}
+                            className="px-8 py-6 space-y-5"
+                        >
+                            <div className="flex items-center gap-4 mb-2">
+                                <img
+                                    src={selectedItem?.img}
+                                    alt={selectedItem?.Name}
+                                    className="w-16 h-16 rounded-xl object-cover border-2 border-blue-700 shadow"
+                                />
+                                <div>
+                                    <div className="text-lg font-semibold text-blue-900 truncate">
+                                        {selectedItem?.Name}
+                                    </div>
+                                    <div className="text-xs text-gray-500">
+                                        {selectedItem?.category}
+                                    </div>
+                                    <div className="text-xs text-gray-500">
+                                        Stock: {selectedItem?.quantity}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label
+                                        htmlFor="borrow_date"
+                                        className="block text-gray-700 text-sm font-medium mb-1"
+                                    >
+                                        Borrow Date
+                                    </label>
+                                    <input
+                                        type="date"
+                                        id="borrow_date"
+                                        name="borrow_date"
+                                        value={requestData.borrow_date}
+                                        onChange={handleInputChange}
+                                        className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition"
+                                        required
+                                        min={
+                                            new Date()
+                                                .toISOString()
+                                                .split('T')[0]
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        htmlFor="return_date"
+                                        className="block text-gray-700 text-sm font-medium mb-1"
+                                    >
+                                        Return Date
+                                    </label>
+                                    <input
+                                        type="date"
+                                        id="return_date"
+                                        name="return_date"
+                                        value={requestData.return_date}
+                                        onChange={(e) => {
+                                            handleInputChange(e);
+                                            if (
+                                                e.target.value <
+                                                requestData.borrow_date
+                                            ) {
+                                                setRequestData((prevData) => ({
+                                                    ...prevData,
+                                                    borrow_date: e.target.value,
+                                                    return_date: e.target.value,
+                                                }));
+                                            }
+                                        }}
+                                        className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition"
+                                        required
+                                        min={
+                                            requestData.borrow_date
+                                                ? requestData.borrow_date
+                                                : new Date()
+                                                      .toISOString()
+                                                      .split('T')[0]
+                                        }
+                                    />
+                                    {requestData.return_date <
+                                        requestData.borrow_date && (
+                                        <p className="text-red-500 text-xs mt-1">
+                                            Return date must be after borrow
+                                            date.
+                                        </p>
                                     )}
-                                    {showMyRequestsModal && (
-                                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm transition-all">
-                                            <div className="bg-white rounded-3xl shadow-2xl p-0 max-w-2xl w-full relative overflow-hidden animate-fade-in">
-                                                {/* Modal Header */}
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label
+                                        htmlFor="quantity"
+                                        className="block text-gray-700 text-sm font-medium mb-1"
+                                    >
+                                        Quantity
+                                    </label>
+                                    <input
+                                        type="number"
+                                        id="quantity"
+                                        name="quantity"
+                                        value={requestData.quantity}
+                                        onChange={handleInputChange}
+                                        className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition"
+                                        required
+                                        min="1"
+                                        max={selectedItem?.quantity}
+                                        title=""
+                                    />
+                                    {requestData.quantity >
+                                        selectedItem?.quantity && (
+                                        <p className="text-red-500 text-xs mt-1">
+                                            Quantity exceeds available stock.
+                                        </p>
+                                    )}
+                                </div>
+                                <div>
+                                    <label
+                                        htmlFor="request_note"
+                                        className="block text-gray-700 text-sm font-medium mb-1"
+                                    >
+                                        Notes
+                                    </label>
+                                    <textarea
+                                        id="request_note"
+                                        name="request_note"
+                                        value={requestData.request_note}
+                                        onChange={handleInputChange}
+                                        rows="2"
+                                        className="w-full rounded-xl border border-gray-200 px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:outline-none transition resize-none"
+                                        placeholder="Optional"
+                                    ></textarea>
+                                </div>
+                            </div>
+                            <div className="flex justify-end gap-3 pt-2">
+                                <button
+                                    type="button"
+                                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-5 py-2 rounded-xl transition focus:outline-none"
+                                    onClick={handleCloseModal}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-2 rounded-xl shadow transition focus:outline-none"
+                                >
+                                    Submit Request
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+            {showMyRequestsModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm transition-all">
+                    <div className="bg-white rounded-3xl shadow-2xl p-0 max-w-2xl w-full relative overflow-hidden animate-fade-in">
+                        {/* Modal Header */}
                         <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100 bg-gradient-to-r from-blue-700 to-blue-600">
                             <h2 className="text-xl font-bold text-white">
                                 <i className="fa-solid fa-list mr-2"></i>

@@ -360,7 +360,7 @@ class EIC{
          * Returns What: An array of associative arrays, where each array represents an EIC request.
         */
     public static function getAllRequests() {
-        $query = "SELECT * FROM eic_request";
+        $query = "SELECT * FROM eic_request ORDER BY FIELD(status, 'Waiting', 'Processing', 'Approved', 'Rejected', 'Returned'), id DESC";
         $result = statement($query);
 
         $requests = array();
@@ -377,7 +377,7 @@ class EIC{
          * Returns What: The result of the statement execution.
          */
     public static function approveRequest($request_id, $admin_id, $status) {
-        $allowedStatuses = ['Approved', 'Rejected', 'Processing', 'Waiting'];
+        $allowedStatuses = ['Approved', 'Rejected', 'Processing', 'Waiting', 'Returned'];
         if (!in_array($status, $allowedStatuses)) {
             return false;
         }

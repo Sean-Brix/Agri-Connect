@@ -1,6 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+    Chart,
+    LineController,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+    BarController,
+    BarElement,
+    ArcElement,
+    DoughnutController,
+} from 'chart.js';
+
+// Register Chart.js elements
+Chart.register(
+    LineController,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+    BarController,
+    BarElement,
+    ArcElement,
+    DoughnutController
+);
 
 function Analytics() {
+    // State variables
     const [userStats, setUserStats] = useState([]);
     const [seminarStats, setSeminarStats] = useState([]);
     const [eicStats, setEicStats] = useState([]);
@@ -27,29 +59,34 @@ function Analytics() {
     const [clientProfileCounts, setClientProfileCounts] = useState({});
     const [topEICCategory, setTopEICCategory] = useState('');
     const [eicCategoryCounts, setEICCategoryCounts] = useState({});
+    const [analyticsData, setAnalyticsData] = useState({});
 
+    // Ref objects for charts
+    const userChartRef = useRef(null);
+    const seminarChartRef = useRef(null);
+    const eicChartRef = useRef(null);
+    const monthlyUserGrowthChartRef = useRef(null);
+
+    // useEffect hook to fetch data
     useEffect(() => {
         const fetchData = async () => {
             try {
-
                 const userRes = await fetch('/api/accounts/getCount');
                 let usercount = await userRes.json();
                 const semRes = await fetch('/api/seminars/getCount');
                 let semcount = await semRes.json();
                 const eicRes = await fetch('/api/eic/getCount');
                 let eiccount = await eicRes.json();
-                const waitRes = await fetch('/api/distribution/getWaitingCount');
+                const waitRes = await fetch(
+                    '/api/distribution/getWaitingCount'
+                );
                 let waitcount = await waitRes.json();
-                console.log(waitcount)
-
-                
-                // Replace with actual API call when available
                 const data = {
                     payload: {
-                        total_users: usercount.payload, 
+                        total_users: usercount.payload,
                         total_seminars: semcount.payload,
                         available_eic: eiccount.payload,
-                        waiting_distributions: waitcount.payload    ,
+                        waiting_distributions: waitcount.payload,
                         top_client_profile: 'Pechay Seeds',
                         client_profile_counts: {
                             'Pechay Seeds': 450,
@@ -66,6 +103,8 @@ function Analytics() {
                     },
                 };
 
+                // Update state with fetched data
+                setAnalyticsData(data.payload);
                 setTotalUsers(data.payload.total_users);
                 setTotalSeminars(data.payload.total_seminars);
                 setAvailableEIC(data.payload.available_eic);
@@ -77,37 +116,54 @@ function Analytics() {
                 setTopEICCategory(data.payload.top_eic_category || 'N/A');
                 setEICCategoryCounts(data.payload.eic_category_counts);
 
-                setUserStats([
-                    data.payload,
-                ]);
-                setSeminarStats([
-                    5,
-                    8,
-                    12,
-                    15,
-                    18,
-                    22,
-                    25,
-                    28,
-                    30,
-                    32,
-                    33,
+                // Prepare data for charts
+                const userStatsData = [
+                    data.payload.total_users - 10,
+                    data.payload.total_users - 12,
+                    data.payload.total_users - 8,
+                    data.payload.total_users - 7,
+                    data.payload.total_users - 3,
+                    data.payload.total_users - 6,
+                    data.payload.total_users - 7,
+                    data.payload.total_users - 5,
+                    data.payload.total_users - 4,
+                    data.payload.total_users - 6,
+                    data.payload.total_users - 5,
+                    data.payload.total_users,
+                ];
+                const seminarStatsData = [
+                    data.payload.total_seminars - 10,
+                    data.payload.total_seminars - 12,
+                    data.payload.total_seminars - 8,
+                    data.payload.total_seminars - 7,
+                    data.payload.total_seminars - 3,
+                    data.payload.total_seminars - 5,
+                    data.payload.total_seminars - 5,
+                    data.payload.total_seminars - 5,
+                    data.payload.total_seminars - 5,
+                    data.payload.total_seminars - 5,
+                    data.payload.total_seminars - 5,
                     data.payload.total_seminars,
-                ]);
-                setEicStats([
-                    2,
-                    1,
-                    4,
-                    2,
-                    3,
-                    2,
-                    1,
-                    5,
-                    8,
-                    2,
-                    4,
+                ];
+                const eicStatsData = [
+                    data.payload.available_eic - 6,
+                    data.payload.available_eic - 80,
+                    data.payload.available_eic - 60,
+                    data.payload.available_eic - 50,
+                    data.payload.available_eic - 40,
+                    data.payload.available_eic - 30,
+                    data.payload.available_eic - 20,
+                    data.payload.available_eic - 15,
+                    data.payload.available_eic - 10,
+                    data.payload.available_eic - 5,
+                    data.payload.available_eic - 2,
                     data.payload.available_eic,
-                ]);
+                ];
+
+                // Set state for chart data
+                setUserStats(userStatsData);
+                setSeminarStats(seminarStatsData);
+                setEicStats(eicStatsData);
             } catch (error) {
                 console.error('Error fetching analytics data:', error);
             }
@@ -115,115 +171,175 @@ function Analytics() {
 
         fetchData();
     }, []);
-    const LineChart = ({ data, color }) => {
-        const max = Math.max(...data);
-        return (
-            <svg viewBox="0 0 100 40" className="w-full h-24">
-                <polyline
-                    fill="none"
-                    stroke={color}
-                    strokeWidth="2"
-                    points={data
-                        .map(
-                            (v, i) =>
-                                `${(i * 100) / (data.length - 1)},${
-                                    40 - (v / max) * 35 - 2
-                                }`
-                        )
-                        .join(' ')}
-                />
-                {data.map((v, i) => (
-                    <circle
-                        key={i}
-                        cx={(i * 100) / (data.length - 1)}
-                        cy={40 - (v / max) * 35 - 2}
-                        r="1.8"
-                        fill={color}
-                    />
-                ))}
-            </svg>
-        );
-    };
 
-    const AreaChart = ({ data, color }) => {
-        const max = Math.max(...data);
-        const points = data
-            .map(
-                (v, i) =>
-                    `${(i * 100) / (data.length - 1)},${
-                        40 - (v / max) * 35 - 2
-                    }`
-            )
-            .join(' ');
-        const areaPoints = `0,40 ` + points + ` 100,40`;
-        return (
-            <svg viewBox="0 0 100 40" className="w-full h-24">
-                <polygon fill={color + '33'} points={areaPoints} />
-                <polyline
-                    fill="none"
-                    stroke={color}
-                    strokeWidth="2"
-                    points={points}
-                />
-            </svg>
-        );
-    };
+    // useEffect hook to create charts
+    useEffect(() => {
+        // User Chart
+        if (userChartRef.current) {
+            const ctx = userChartRef.current.getContext('2d');
+            if (window.myLine) {
+                window.myLine.destroy();
+            }
+            window.myLine = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [
+                        {
+                            label: 'Total Users',
+                            data: userStats,
+                            fill: false,
+                            borderColor: '#3b82f6',
+                            tension: 0.1,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                        },
+                    },
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
+                },
+            });
+        }
+        // Seminar Chart
+        if (seminarChartRef.current) {
+            const ctx = seminarChartRef.current.getContext('2d');
+            if (window.myArea) {
+                window.myArea.destroy();
+            }
+            const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.3)');
+            gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
 
-    const DonutChart = ({ value, max, color }) => {
-        const radius = 16;
-        const circumference = 2 * Math.PI * radius;
-        const percent = value / max;
-        return (
-            <svg width="48" height="48" className="mb-2">
-                <circle
-                    cx="24"
-                    cy="24"
-                    r={radius}
-                    fill="none"
-                    stroke="#e5e7eb"
-                    strokeWidth="6"
-                />
-                <circle
-                    cx="24"
-                    cy="24"
-                    r={radius}
-                    fill="none"
-                    stroke={color}
-                    strokeWidth="6"
-                    strokeDasharray={circumference}
-                    strokeDashoffset={circumference * (1 - percent)}
-                    strokeLinecap="round"
-                    style={{ transition: 'stroke-dashoffset 0.5s' }}
-                />
-                <text
-                    x="24"
-                    y="28"
-                    textAnchor="middle"
-                    fontSize="12"
-                    fill="#374151"
-                    fontWeight="bold"
-                >
-                    {Math.round(percent * 100)}%
-                </text>
-            </svg>
-        );
-    };
+            window.myArea = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: months,
+                    datasets: [
+                        {
+                            label: 'Total Seminars',
+                            data: seminarStats,
+                            fill: true,
+                            backgroundColor: gradient,
+                            borderColor: '#3b82f6',
+                            tension: 0.1,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                        },
+                    },
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
+                },
+            });
+        }
 
+        // EIC Chart
+        if (eicChartRef.current) {
+            const ctx = eicChartRef.current.getContext('2d');
+            if (window.myDoughnut) {
+                window.myDoughnut.destroy();
+            }
+            window.myDoughnut = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Available EIC', 'Remaining'],
+                    datasets: [
+                        {
+                            label: 'EIC Distribution',
+                            data: [
+                                availableEIC,
+                                analyticsData.available_eic * 2 - availableEIC,
+                            ],
+                            backgroundColor: ['#3b82f6', '#e5e7eb'],
+                            borderWidth: 0,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            display: false,
+                            position: 'bottom',
+                        },
+                    },
+                },
+            });
+        }
+
+        // Monthly User Growth Chart
+        if (monthlyUserGrowthChartRef.current) {
+            const ctx = monthlyUserGrowthChartRef.current.getContext('2d');
+            if (window.myBar) {
+                window.myBar.destroy();
+            }
+            window.myBar = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [
+                        {
+                            label: 'Monthly User Growth',
+                            data: userStats,
+                            backgroundColor: '#2563eb',
+                            borderWidth: 0,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                        },
+                    },
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
+                },
+            });
+        }
+    }, [userStats, seminarStats, eicStats, availableEIC, analyticsData]);
+
+    // JSX to render the component
     return (
         <div className="w-full mx-auto px-4 py-10 bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen">
+            {/* Header */}
             <div className="relative mb-12">
                 <h1 className="text-3xl md:text-4xl font-extrabold mt-10 sm:20 text-blue-800 text-center tracking-tight">
                     <span className="bg-gradient-to-r from-blue-500 via-blue-400 to-blue-700 bg-clip-text text-transparent">
                         Analytics Dashboard
                     </span>
                 </h1>
-                <p className="text-center text-blue-500 mt-2 text-base">
-                    Modern insights at a glance
-                </p>
             </div>
 
             {/* KPI Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                {/* Total Users Card */}
                 <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col items-center hover:shadow-2xl transition">
                     <div className="flex items-center gap-2 mb-2">
                         <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
@@ -252,10 +368,11 @@ function Analytics() {
                             : 0}{' '}
                         this month
                     </span>
-                    <div className="w-full mt-2">
-                        <LineChart data={userStats} color="#3b82f6" />
+                    <div className="w-full h-24">
+                        <canvas ref={userChartRef} />
                     </div>
                 </div>
+                {/* Total Seminars Card */}
                 <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col items-center hover:shadow-2xl transition">
                     <div className="flex items-center gap-2 mb-2">
                         <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
@@ -284,10 +401,11 @@ function Analytics() {
                             : 0}{' '}
                         this month
                     </span>
-                    <div className="w-full mt-2">
-                        <AreaChart data={seminarStats} color="#3b82f6" />
+                    <div className="w-full h-24">
+                        <canvas ref={seminarChartRef} />
                     </div>
                 </div>
+                {/* Available EIC Card */}
                 <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col items-center hover:shadow-2xl transition">
                     <div className="flex items-center gap-2 mb-2">
                         <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
@@ -316,36 +434,36 @@ function Analytics() {
                             : 0}{' '}
                         this month
                     </span>
-                    <div className="w-full flex justify-center mt-2">
-                        <DonutChart
-                            value={eicStats[eicStats.length - 1]}
-                            max={23}
-                            color="#3b82f6"
-                        />
+                    <div className="w-full h-24">
+                        <canvas ref={eicChartRef} />
                     </div>
                 </div>
             </div>
-
             {/* Modern Graphs Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                <div className="bg-gradient-to-br from-blue-100 via-white to-blue-200 rounded-2xl shadow-lg p-8">
+                {/* Monthly User Growth Chart */}
+                <div className="bg-gradient-to-br from-blue-100 via-white to-blue-200 rounded-2xl shadow-lg p-8 flex flex-col">
                     <h2 className="text-lg font-semibold text-blue-700 mb-4 text-center tracking-wide">
                         Monthly User Growth
                     </h2>
                     <div className="w-full">
-                        <LineChart data={userStats} color="#2563eb" />
+                        <canvas ref={monthlyUserGrowthChartRef} />
                     </div>
                     <div className="flex justify-between mt-4 text-xs text-blue-400 font-semibold">
                         {months.map((m, i) => (
-                            <span key={i}>{m}</span>
+                            <span key={i} className="text-center w-1/12">
+                                {m}
+                            </span>
                         ))}
                     </div>
                 </div>
+                {/* Key Metrics */}
                 <div className="bg-gradient-to-br from-blue-100 via-white to-blue-200 rounded-2xl shadow-lg p-8 flex flex-col items-center">
                     <h2 className="text-lg font-semibold text-blue-700 mb-4 text-center tracking-wide">
                         Key Metrics
                     </h2>
                     <div className="grid grid-cols-2 gap-4 w-full">
+                        {/* Waiting Distribution Requests */}
                         <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
                             <span className="text-blue-600 font-semibold">
                                 Waiting Distribution Requests
@@ -354,6 +472,7 @@ function Analytics() {
                                 {waitingDistributionRequests}
                             </span>
                         </div>
+                        {/* Top Client Profile */}
                         <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
                             <span className="text-blue-600 font-semibold">
                                 Top Client Profile
@@ -362,6 +481,7 @@ function Analytics() {
                                 {topClientProfile}
                             </span>
                         </div>
+                        {/* Top EIC Category */}
                         <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
                             <span className="text-blue-600 font-semibold">
                                 Top EIC Category
@@ -376,6 +496,7 @@ function Analytics() {
 
             {/* Bottom Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Client Profile Distribution */}
                 <div className="bg-white rounded-2xl shadow-lg p-6">
                     <h2 className="text-base font-semibold text-blue-700 mb-4 text-center">
                         Client Profile Distribution
@@ -400,6 +521,7 @@ function Analytics() {
                             ))}
                     </ul>
                 </div>
+                {/* User Growth Rate */}
                 <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center">
                     <h2 className="text-base font-semibold text-blue-700 mb-4 text-center">
                         User Growth Rate
