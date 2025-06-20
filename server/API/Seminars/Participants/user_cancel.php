@@ -37,12 +37,13 @@ $Seminar = new Seminars($seminar_id);
 
 $result = $Seminar->cancelParticipant($user['ID']);
 
+
 if($result){
 sendResponse(
     200,
     "Success",
     [],
-    "Successfully enrolled in seminar"
+    "Successfully Cancelled in seminar"
 );
 
 } 
@@ -51,6 +52,6 @@ else {
         409,
         "Error",
         ["error"=>"Failed to enroll in seminar"],
-        "Already Enrolled to the seminar"
+        "Failed to cancel the seminar"
     );
 }

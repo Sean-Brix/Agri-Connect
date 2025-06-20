@@ -276,7 +276,7 @@ export default function Seminar() {
             alertDiv.className = alertDiv.className.replace('bg-blue-700', 'bg-green-600');
             }
             } else {
-            showCustomAlert('Already Applied.', 'error');
+            showCustomAlert('Successfully applied!', 'success');
             setAppliedSeminars((prev) => [...prev, seminarId]);
             return;
             }
@@ -286,7 +286,7 @@ export default function Seminar() {
         }
         };
 
-        const cancel_user = async (seminarId) => {
+    const cancel_user = async (seminarId) => {
         const check = await fetch('/api/authentication/gotToken');
         if (!check.ok) {
             alert('Login First');
@@ -335,19 +335,25 @@ export default function Seminar() {
             }
             );
 
+            console.log(await response.text())
+
             if (response.ok) {
             showCustomAlert('Application cancelled.', 'success');
             setAppliedSeminars((prev) =>
             prev.filter((id) => id !== seminarId)
             );
-            } else {
-            showCustomAlert('Unable to cancel application.', 'error');
+            } 
+            else {
+                showCustomAlert('Unable to cancel application.', 'error');
             }
-        } catch (error) {
+
+  
+        }
+        catch (error) {
             console.error('Error cancelling seminar application:', error);
             showCustomAlert('Error cancelling seminar application.', 'error');
         }
-    };
+    };  
 
     return (
         <>

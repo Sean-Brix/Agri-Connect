@@ -500,7 +500,7 @@ const RequestCard = ({
                         <div className="flex justify-between items-center">
                             <span className="font-medium">Note</span>
                             <button
-                                className={`transition-colors rounded-full p-1 focus:outline-none ${
+                                className={`transition-colors rounded-full p-1 focus:outline-none z-9999 ${
                                     showNote
                                         ? 'bg-green-100 text-green-600'
                                         : 'bg-gray-100 text-gray-400 hover:bg-green-50 hover:text-green-600'
