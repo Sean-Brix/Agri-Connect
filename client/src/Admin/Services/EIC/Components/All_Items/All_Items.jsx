@@ -303,8 +303,7 @@ export default function All_Items() {
                     >
                         <option value="">All Items</option>
                         <option value="Available">Available</option>
-                        <option value="Returned">Returned</option>
-                        <option value="Reserved">Reserved</option>
+                        <option value="Not Available">Not Available</option>
                         <option value="Borrowed">Borrowed</option>
                     </select>
                 </div>

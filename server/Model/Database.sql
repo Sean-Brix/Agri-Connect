@@ -76,7 +76,7 @@ CREATE TABLE EIC (
     Name VARCHAR(255) NOT NULL,
     description TEXT,
     quantity INT NOT NULL,
-    status ENUM('Available', 'Borrowed', 'Maintenance', 'Damaged', 'Returned', 'Reserved') NOT NULL,
+    status ENUM('Available', 'Borrowed', 'Not Available') NOT NULL,
     category ENUM('Farming Equipment', 'Harvesting Tools', 'Irrigation Systems', 'Storage Equipment', 'Processing Equipment', 'Safety Gear', 'Pest Control', 'Livestock Equipment', 'Measuring Tools', 'Fisheries', 'Machinery', 'Other') NOT NULL,
     added_by INT NOT NULL,
     photo LONGBLOB,
@@ -95,7 +95,7 @@ CREATE TABLE eic_request (
     admin_id INT,
 
     quantity INT NOT NULL,
-    status ENUM('Waiting', 'Approved', 'Rejected', 'Processing') NOT NULL DEFAULT 'Waiting',
+    status ENUM('Waiting', 'Approved', 'Rejected', 'Processing', 'Returned') NOT NULL DEFAULT 'Waiting',
 
     request_note TEXT,
     borrow_date DATE,

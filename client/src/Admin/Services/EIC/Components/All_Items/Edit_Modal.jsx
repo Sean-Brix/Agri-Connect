@@ -124,7 +124,8 @@ function RequestModal({ itemId, onClose }) {
                 {/* Header */}
                 <div className="flex items-center justify-between px-6 py-5 border-b bg-gradient-to-r from-blue-50 to-blue-100">
                     <h2 className="text-2xl font-bold text-gray-900 truncate">
-                        Item: <span className="text-blue-700">"{item_name}"</span>
+                        Item:{' '}
+                        <span className="text-blue-700">"{item_name}"</span>
                     </h2>
                     <button
                         className="text-3xl text-gray-400 hover:text-blue-600 transition-colors"
@@ -143,24 +144,44 @@ function RequestModal({ itemId, onClose }) {
                     <div className="overflow-x-auto">
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 min-w-0">
                             <div className="flex flex-col items-center bg-gray-50 rounded-lg p-2 sm:p-3 shadow-sm text-xs sm:text-sm min-w-0">
-                                <span className="text-[10px] sm:text-xs text-gray-500">Total</span>
-                                <span className="font-bold text-base sm:text-lg text-gray-800">{requestStats.total}</span>
+                                <span className="text-[10px sm:text-xs text-gray-500">
+                                    Total
+                                </span>
+                                <span className="font-bold text-base sm:text-lg text-gray-800">
+                                    {requestStats.total}
+                                </span>
                             </div>
                             <div className="flex flex-col items-center bg-yellow-50 rounded-lg p-2 sm:p-3 shadow-sm text-xs sm:text-sm min-w-0">
-                                <span className="text-[10px] sm:text-xs text-yellow-700">Pending</span>
-                                <span className="font-bold text-base sm:text-lg text-yellow-700">{requestStats.pending}</span>
+                                <span className="text-[10px] sm:text-xs text-yellow-700">
+                                    Pending
+                                </span>
+                                <span className="font-bold text-base sm:text-lg text-yellow-700">
+                                    {requestStats.pending}
+                                </span>
                             </div>
                             <div className="flex flex-col items-center bg-blue-50 rounded-lg p-2 sm:p-3 shadow-sm text-xs sm:text-sm min-w-0">
-                                <span className="text-[10px] sm:text-xs text-blue-700">Processing</span>
-                                <span className="font-bold text-base sm:text-lg text-blue-700">{requestStats.processing}</span>
+                                <span className="text-[10px] sm:text-xs text-blue-700">
+                                    Processing
+                                </span>
+                                <span className="font-bold text-base sm:text-lg text-blue-700">
+                                    {requestStats.processing}
+                                </span>
                             </div>
                             <div className="flex flex-col items-center bg-green-50 rounded-lg p-2 sm:p-3 shadow-sm text-xs sm:text-sm min-w-0">
-                                <span className="text-[10px] sm:text-xs text-green-700">Approved</span>
-                                <span className="font-bold text-base sm:text-lg text-green-700">{requestStats.approved}</span>
+                                <span className="text-[10px] sm:text-xs text-green-700">
+                                    Approved
+                                </span>
+                                <span className="font-bold text-base sm:text-lg text-green-700">
+                                    {requestStats.approved}
+                                </span>
                             </div>
                             <div className="flex flex-col items-center bg-red-50 rounded-lg p-2 sm:p-3 shadow-sm text-xs sm:text-sm min-w-0">
-                                <span className="text-[10px] sm:text-xs text-red-700">Rejected</span>
-                                <span className="font-bold text-base sm:text-lg text-red-700">{requestStats.rejected}</span>
+                                <span className="text-[10px] sm:text-xs text-red-700">
+                                    Rejected
+                                </span>
+                                <span className="font-bold text-base sm:text-lg text-red-700">
+                                    {requestStats.rejected}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -180,45 +201,66 @@ function RequestModal({ itemId, onClose }) {
                                             <span className="inline-block px-2 py-1 rounded bg-blue-100 text-blue-700 text-xs font-semibold">
                                                 User ID: {request.account_id}
                                             </span>
-                                            <span className={`inline-block px-2 py-1 rounded text-xs font-semibold
-                                                ${request.status === 'Approved'
-                                                    ? 'bg-green-100 text-green-700'
-                                                    : request.status === 'Rejected'
-                                                    ? 'bg-red-100 text-red-700'
-                                                    : request.status === 'Processing'
-                                                    ? 'bg-blue-100 text-blue-700'
-                                                    : request.status === 'Waiting'
-                                                    ? 'bg-yellow-100 text-yellow-700'
-                                                    : 'bg-gray-100 text-gray-700'
-                                                }`
-                                            }>
+                                            <span
+                                                className={`inline-block px-2 py-1 rounded text-xs font-semibold
+                                                ${
+                                                    request.status ===
+                                                    'Approved'
+                                                        ? 'bg-green-100 text-green-700'
+                                                        : request.status ===
+                                                          'Rejected'
+                                                        ? 'bg-red-100 text-red-700'
+                                                        : request.status ===
+                                                          'Processing'
+                                                        ? 'bg-blue-100 text-blue-700'
+                                                        : request.status ===
+                                                          'Waiting'
+                                                        ? 'bg-yellow-100 text-yellow-700'
+                                                        : 'bg-gray-100 text-gray-700'
+                                                }`}
+                                            >
                                                 {request.status}
                                             </span>
                                         </div>
                                         <div className="flex flex-wrap gap-4 mt-2 text-sm text-gray-600">
                                             <span>
-                                                <strong>Request:</strong>{" "}
-                                                {new Date(request.created_at).toLocaleDateString(undefined, {
-                                                    month: 'short',
-                                                    day: 'numeric',
-                                                    year: 'numeric',
-                                                })}
+                                                <strong>Request:</strong>{' '}
+                                                {new Date(
+                                                    request.created_at
+                                                ).toLocaleDateString(
+                                                    undefined,
+                                                    {
+                                                        month: 'short',
+                                                        day: 'numeric',
+                                                        year: 'numeric',
+                                                    }
+                                                )}
                                             </span>
                                             <span>
-                                                <strong>Borrow:</strong>{" "}
-                                                {new Date(request.borrow_date).toLocaleDateString(undefined, {
-                                                    month: 'short',
-                                                    day: 'numeric',
-                                                    year: 'numeric',
-                                                })}
+                                                <strong>Borrow:</strong>{' '}
+                                                {new Date(
+                                                    request.borrow_date
+                                                ).toLocaleDateString(
+                                                    undefined,
+                                                    {
+                                                        month: 'short',
+                                                        day: 'numeric',
+                                                        year: 'numeric',
+                                                    }
+                                                )}
                                             </span>
                                             <span>
-                                                <strong>Return:</strong>{" "}
-                                                {new Date(request.return_date).toLocaleDateString(undefined, {
-                                                    month: 'short',
-                                                    day: 'numeric',
-                                                    year: 'numeric',
-                                                })}
+                                                <strong>Return:</strong>{' '}
+                                                {new Date(
+                                                    request.return_date
+                                                ).toLocaleDateString(
+                                                    undefined,
+                                                    {
+                                                        month: 'short',
+                                                        day: 'numeric',
+                                                        year: 'numeric',
+                                                    }
+                                                )}
                                             </span>
                                         </div>
                                     </div>
@@ -228,8 +270,18 @@ function RequestModal({ itemId, onClose }) {
                     ) : (
                         <div className="text-center text-gray-500 py-8">
                             <>
-                                <svg className="mx-auto mb-2 w-12 h-12 text-gray-300" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 17v-2a4 4 0 014-4h2a4 4 0 014 4v2M7 7a4 4 0 118 0 4 4 0 01-8 0z" />
+                                <svg
+                                    className="mx-auto mb-2 w-12 h-12 text-gray-300"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M9 17v-2a4 4 0 014-4h2a4 4 0 014 4v2M7 7a4 4 0 118 0 4 4 0 01-8 0z"
+                                    />
                                 </svg>
                                 <p>No requests found for this item.</p>
                             </>
@@ -242,7 +294,6 @@ function RequestModal({ itemId, onClose }) {
 }
 
 function render_details(onClose, editedItem, onShowRequests) {
-    
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/60">
             <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden flex flex-col">
@@ -518,7 +569,6 @@ function render_edit(
             );
         }
     };
-
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-2">
             <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-2xl flex flex-col overflow-hidden max-h-[95vh]">
@@ -598,7 +648,9 @@ function render_edit(
                                     Processing Equipment
                                 </option>
                                 <option value="Safety Gear">Safety Gear</option>
-                                <option value="Pest Control">Pest Control</option>
+                                <option value="Pest Control">
+                                    Pest Control
+                                </option>
                                 <option value="Livestock Equipment">
                                     Livestock Equipment
                                 </option>
@@ -633,47 +685,70 @@ function render_edit(
                             </select>
                         </div>
 
-                        {/* IMAGE UPLOAD */}
+                        {/* QUANTITY */}
                         <div>
+                            <label
+                                htmlFor="quantity"
+                                className="block text-sm font-medium text-gray-700 mb-2"
+                            >
+                                Quantity
+                            </label>
+                            <input
+                                type="number"
+                                id="quantity"
+                                name="quantity"
+                                value={editedItem.quantity}
+                                onChange={handleChange}
+                                className="w-full rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50"
+                                placeholder="Quantity"
+                                autoComplete="off"
+                            />
+                        </div>
+                        {/* IMAGE UPLOAD */}
+                        <div className="md:col-span-2">
                             <label
                                 htmlFor="photo"
                                 className="block text-sm font-medium text-gray-700 mb-2"
                             >
                                 Photo
                             </label>
-                            <input
-                                type="file"
-                                id="photo"
-                                name="photo"
-                                accept="image/*"
-                                onChange={(e) => {
-                                    const file = e.target.files[0];
-                                    if (file) {
-                                        const reader = new FileReader();
-                                        reader.onloadend = () => {
-                                            setEditedItem((prev) => ({
-                                                ...prev,
-                                                photo: reader.result,
-                                            }));
-                                            setNew_Photo(file);
-                                        };
-                                        reader.readAsDataURL(file);
-                                    }
-                                }}
-                                className="w-full rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50"
-                            />
-                            {/* IMAGE PREVIEW */}
-                            <div className="mt-3 flex items-center gap-3">
-                                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg border border-gray-200 bg-gray-50 flex items-center justify-center overflow-hidden">
-                                    <img
-                                        src={
-                                            editedItem.photo ||
-                                            editedItem.image ||
-                                            default_image
-                                        }
-                                        alt="Preview"
-                                        className="object-cover w-full h-full"
+                            <div className="flex flex-col sm:flex-row items-start gap-4">
+                                <div className="flex-1">
+                                    <input
+                                        type="file"
+                                        id="photo"
+                                        name="photo"
+                                        accept="image/*"
+                                        onChange={(e) => {
+                                            const file = e.target.files[0];
+                                            if (file) {
+                                                const reader = new FileReader();
+                                                reader.onloadend = () => {
+                                                    setEditedItem((prev) => ({
+                                                        ...prev,
+                                                        photo: reader.result,
+                                                    }));
+                                                    setNew_Photo(file);
+                                                };
+                                                reader.readAsDataURL(file);
+                                            }
+                                        }}
+                                        className="w-full rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition px-4 py-2 bg-gray-50"
                                     />
+                                </div>
+                                {/* IMAGE PREVIEW */}
+                                <div>
+                                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-lg border border-gray-200 bg-gray-50 flex items-center justify-center overflow-hidden">
+                                        <img
+                                            src={
+                                                editedItem.photo ||
+                                                editedItem.image ||
+                                                default_image
+                                            }
+                                            alt="Preview"
+                                            className="object-cover w-full h-full"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>

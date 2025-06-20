@@ -13,9 +13,9 @@ import {
     BarElement,
     ArcElement,
     DoughnutController,
+    Filler,
 } from 'chart.js';
 
-// Register Chart.js elements
 Chart.register(
     LineController,
     CategoryScale,
@@ -28,11 +28,11 @@ Chart.register(
     BarController,
     BarElement,
     ArcElement,
-    DoughnutController
+    DoughnutController,
+    Filler
 );
 
 function Analytics() {
-    // State variables
     const [userStats, setUserStats] = useState([]);
     const [seminarStats, setSeminarStats] = useState([]);
     const [eicStats, setEicStats] = useState([]);
@@ -61,13 +61,11 @@ function Analytics() {
     const [eicCategoryCounts, setEICCategoryCounts] = useState({});
     const [analyticsData, setAnalyticsData] = useState({});
 
-    // Ref objects for charts
     const userChartRef = useRef(null);
     const seminarChartRef = useRef(null);
     const eicChartRef = useRef(null);
     const monthlyUserGrowthChartRef = useRef(null);
 
-    // useEffect hook to fetch data
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -103,7 +101,6 @@ function Analytics() {
                     },
                 };
 
-                // Update state with fetched data
                 setAnalyticsData(data.payload);
                 setTotalUsers(data.payload.total_users);
                 setTotalSeminars(data.payload.total_seminars);
@@ -116,7 +113,6 @@ function Analytics() {
                 setTopEICCategory(data.payload.top_eic_category || 'N/A');
                 setEICCategoryCounts(data.payload.eic_category_counts);
 
-                // Prepare data for charts
                 const userStatsData = [
                     data.payload.total_users - 10,
                     data.payload.total_users - 12,
@@ -160,7 +156,6 @@ function Analytics() {
                     data.payload.available_eic,
                 ];
 
-                // Set state for chart data
                 setUserStats(userStatsData);
                 setSeminarStats(seminarStatsData);
                 setEicStats(eicStatsData);
@@ -172,9 +167,7 @@ function Analytics() {
         fetchData();
     }, []);
 
-    // useEffect hook to create charts
     useEffect(() => {
-        // User Chart
         if (userChartRef.current) {
             const ctx = userChartRef.current.getContext('2d');
             if (window.myLine) {
@@ -210,7 +203,6 @@ function Analytics() {
                 },
             });
         }
-        // Seminar Chart
         if (seminarChartRef.current) {
             const ctx = seminarChartRef.current.getContext('2d');
             if (window.myArea) {
@@ -252,7 +244,6 @@ function Analytics() {
             });
         }
 
-        // EIC Chart
         if (eicChartRef.current) {
             const ctx = eicChartRef.current.getContext('2d');
             if (window.myDoughnut) {
@@ -288,7 +279,6 @@ function Analytics() {
             });
         }
 
-        // Monthly User Growth Chart
         if (monthlyUserGrowthChartRef.current) {
             const ctx = monthlyUserGrowthChartRef.current.getContext('2d');
             if (window.myBar) {
@@ -325,10 +315,8 @@ function Analytics() {
         }
     }, [userStats, seminarStats, eicStats, availableEIC, analyticsData]);
 
-    // JSX to render the component
     return (
         <div className="w-full mx-auto px-4 py-10 bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen">
-            {/* Header */}
             <div className="relative mb-12">
                 <h1 className="text-3xl md:text-4xl font-extrabold mt-10 sm:20 text-blue-800 text-center tracking-tight">
                     <span className="bg-gradient-to-r from-blue-500 via-blue-400 to-blue-700 bg-clip-text text-transparent">
@@ -337,9 +325,7 @@ function Analytics() {
                 </h1>
             </div>
 
-            {/* KPI Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                {/* Total Users Card */}
                 <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col items-center hover:shadow-2xl transition">
                     <div className="flex items-center gap-2 mb-2">
                         <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
@@ -372,7 +358,6 @@ function Analytics() {
                         <canvas ref={userChartRef} />
                     </div>
                 </div>
-                {/* Total Seminars Card */}
                 <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col items-center hover:shadow-2xl transition">
                     <div className="flex items-center gap-2 mb-2">
                         <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
@@ -405,7 +390,6 @@ function Analytics() {
                         <canvas ref={seminarChartRef} />
                     </div>
                 </div>
-                {/* Available EIC Card */}
                 <div className="bg-white rounded-2xl shadow-xl p-6 flex flex-col items-center hover:shadow-2xl transition">
                     <div className="flex items-center gap-2 mb-2">
                         <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
@@ -439,9 +423,7 @@ function Analytics() {
                     </div>
                 </div>
             </div>
-            {/* Modern Graphs Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                {/* Monthly User Growth Chart */}
                 <div className="bg-gradient-to-br from-blue-100 via-white to-blue-200 rounded-2xl shadow-lg p-8 flex flex-col">
                     <h2 className="text-lg font-semibold text-blue-700 mb-4 text-center tracking-wide">
                         Monthly User Growth
@@ -457,13 +439,11 @@ function Analytics() {
                         ))}
                     </div>
                 </div>
-                {/* Key Metrics */}
                 <div className="bg-gradient-to-br from-blue-100 via-white to-blue-200 rounded-2xl shadow-lg p-8 flex flex-col items-center">
                     <h2 className="text-lg font-semibold text-blue-700 mb-4 text-center tracking-wide">
                         Key Metrics
                     </h2>
                     <div className="grid grid-cols-2 gap-4 w-full">
-                        {/* Waiting Distribution Requests */}
                         <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
                             <span className="text-blue-600 font-semibold">
                                 Waiting Distribution Requests
@@ -472,7 +452,6 @@ function Analytics() {
                                 {waitingDistributionRequests}
                             </span>
                         </div>
-                        {/* Top Client Profile */}
                         <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
                             <span className="text-blue-600 font-semibold">
                                 Top Client Profile
@@ -481,7 +460,6 @@ function Analytics() {
                                 {topClientProfile}
                             </span>
                         </div>
-                        {/* Top EIC Category */}
                         <div className="bg-white rounded-xl shadow p-4 flex flex-col items-center">
                             <span className="text-blue-600 font-semibold">
                                 Top EIC Category
@@ -494,9 +472,7 @@ function Analytics() {
                 </div>
             </div>
 
-            {/* Bottom Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Client Profile Distribution */}
                 <div className="bg-white rounded-2xl shadow-lg p-6">
                     <h2 className="text-base font-semibold text-blue-700 mb-4 text-center">
                         Client Profile Distribution
@@ -521,7 +497,6 @@ function Analytics() {
                             ))}
                     </ul>
                 </div>
-                {/* User Growth Rate */}
                 <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center">
                     <h2 className="text-base font-semibold text-blue-700 mb-4 text-center">
                         User Growth Rate

@@ -110,6 +110,35 @@ export default function EIC_Request() {
             navigate('/login');
         }
     };
+    const updateEicStatus = async (id, status) => {
+        try {
+            const response = await fetch(`/api/eic/updateItem`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: id,
+                    status: status,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            setEics((prevEics) =>
+                prevEics.map((eic) =>
+                    eic.id === id ? { ...eic, status: status } : eic
+                )
+            );
+            setRefresh((prev) => !prev);
+        } catch (error) {
+            console.error('Error updating EIC status:', error);
+            alert('Unauthorize, Only Admin Account');
+            navigate('/login');
+        }
+    };
+
     const handleApprove = async (id) => {
         try {
             const request = requests.find((req) => req.id === id);
@@ -126,16 +155,22 @@ export default function EIC_Request() {
             }
             await updateRequestStatus(id, 'Approved');
 
+            let newQuantity = eic.quantity - request.quantity;
+
             setEics((prevEics) =>
                 prevEics.map((item) =>
                     item.id === eic.id
                         ? {
                               ...item,
-                              quantity: item.quantity - request.quantity,
+                              quantity: newQuantity,
                           }
                         : item
                 )
             );
+
+            if (newQuantity === 0) {
+                await updateEicStatus(eic.id, 'Borrowed');
+            }
             setRefresh((prev) => !prev);
         } catch (error) {
             console.error('Error approving request:', error);
@@ -149,14 +184,70 @@ export default function EIC_Request() {
     };
 
     const handleReject = async (id) => {
-        await updateRequestStatus(id, 'Rejected');
+        try {
+            const request = requests.find((req) => req.id === id);
+            const eic = eics.find((eic) => eic.id === request.eic_id);
+
+            await updateRequestStatus(id, 'Rejected');
+
+            if (request.previousStatus === 'Approved' && eic) {
+                let newQuantity = eic.quantity + request.quantity;
+
+                setEics((prevEics) =>
+                    prevEics.map((item) =>
+                        item.id === eic.id
+                            ? {
+                                  ...item,
+                                  quantity: newQuantity,
+                              }
+                            : item
+                    )
+                );
+
+                if (eic.status === 'Borrowed') {
+                    await updateEicStatus(eic.id, 'Available');
+                }
+            }
+            setRefresh((prev) => !prev);
+        } catch (error) {
+            console.error('Error rejecting request:', error);
+            alert('Unauthorize, Only Admin Account');
+            navigate('/login');
+        }
     };
 
     const handleReturned = async (id) => {
-        await updateRequestStatus(id, 'Returned');
+        try {
+            const request = requests.find((req) => req.id === id);
+            const eic = eics.find((eic) => eic.id === request.eic_id);
+
+            await updateRequestStatus(id, 'Returned');
+
+            if (eic) {
+                let newQuantity = eic.quantity + request.quantity;
+
+                setEics((prevEics) =>
+                    prevEics.map((item) =>
+                        item.id === eic.id
+                            ? {
+                                  ...item,
+                                  quantity: newQuantity,
+                              }
+                            : item
+                    )
+                );
+                if (newQuantity > 0) {
+                    await updateEicStatus(eic.id, 'Available');
+                }
+            }
+            setRefresh((prev) => !prev);
+        } catch (error) {
+            console.error('Error handling returned request:', error);
+            alert('Unauthorize, Only Admin Account');
+            navigate('/login');
+        }
     };
 
-    // No extra code needed here, the RequestCard already defined above is used below.
     return (
         <>
             <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-7xl mx-auto gap-4 p-6">
@@ -227,7 +318,6 @@ export default function EIC_Request() {
                     </div>
                 ) : (
                     filteredRequests.map((request) => {
-                        // Color indicator based on status
                         let indicatorColor = '';
                         switch (request.status) {
                             case 'Approved':
@@ -248,22 +338,19 @@ export default function EIC_Request() {
                                 break;
                         }
                         return (
-                            <div className="relative" key={request.id}>
-                                <span
-                                    className={`absolute top-4 right-4 w-3 h-3 rounded-full shadow ${indicatorColor} border-2 border-white z-10`}
-                                    title={request.status}
-                                ></span>
-                                <RequestCard
-                                    request={request}
-                                    accounts={accounts}
-                                    eics={eics}
-                                    handleApprove={handleApprove}
-                                    handleReject={handleReject}
-                                    handleProcessing={handleProcessing}
-                                    handleReturned={handleReturned}
-                                    updateRequestStatus={updateRequestStatus}
-                                />
-                            </div>
+                            <RequestCardWrapper
+                                key={request.id}
+                                request={request}
+                                accounts={accounts}
+                                eics={eics}
+                                handleApprove={handleApprove}
+                                handleReject={handleReject}
+                                handleProcessing={handleProcessing}
+                                handleReturned={handleReturned}
+                                updateRequestStatus={updateRequestStatus}
+                                refresh={refresh}
+                                setRefresh={setRefresh}
+                            />
                         );
                     })
                 )}
@@ -271,6 +358,43 @@ export default function EIC_Request() {
         </>
     );
 }
+
+const RequestCardWrapper = ({
+    request,
+    accounts,
+    eics,
+    handleApprove,
+    handleReject,
+    handleProcessing,
+    handleReturned,
+    updateRequestStatus,
+    refresh,
+    setRefresh,
+}) => {
+    const [localRequest, setLocalRequest] = useState(request);
+    const [localEics, setLocalEics] = useState(eics);
+
+    useEffect(() => {
+        setLocalRequest(request);
+        setLocalEics(eics);
+    }, [request, eics, refresh]);
+    return (
+        <div className="relative">
+            <RequestCard
+                request={localRequest}
+                accounts={accounts}
+                eics={localEics}
+                handleApprove={handleApprove}
+                handleReject={handleReject}
+                handleProcessing={handleProcessing}
+                handleReturned={handleReturned}
+                updateRequestStatus={updateRequestStatus}
+                setRefresh={setRefresh}
+                refresh={refresh}
+            />
+        </div>
+    );
+};
 
 const RequestCard = ({
     request,
@@ -281,13 +405,40 @@ const RequestCard = ({
     handleProcessing,
     handleReturned,
     updateRequestStatus,
+    refresh,
+    setRefresh,
 }) => {
     const account = accounts?.find((account) => account.id === request.user_id);
     const eic = eics?.find((eic) => eic.id === request.eic_id);
 
     const [showNote, setShowNote] = useState(false);
+    const isStatusChanged = request.previousStatus !== null;
+
+    let indicatorColor = '';
+    switch (request.status) {
+        case 'Approved':
+            indicatorColor = 'bg-green-500';
+            break;
+        case 'Rejected':
+            indicatorColor = 'bg-red-500';
+            break;
+        case 'Processing':
+            indicatorColor = 'bg-yellow-400';
+            break;
+        case 'Returned':
+            indicatorColor = 'bg-blue-500';
+            break;
+        case 'Waiting':
+        default:
+            indicatorColor = 'bg-gray-400';
+            break;
+    }
     return (
-        <div className="w-full p-6 rounded-3xl shadow-xl bg-white flex flex-col justify-between h-[400px] border border-gray-100 transition-all hover:shadow-2xl group relative overflow-hidden">
+        <div className="w-full p-6 rounded-3xl shadow-xl bg-white flex flex-col justify-between h-[400px border border-gray-100 transition-all hover:shadow-2xl group relative overflow-hidden">
+            <span
+                className={`absolute top-4 right-4 w-3 h-3 rounded-full shadow ${indicatorColor} border-2 border-white z-10`}
+                title={request.status}
+            ></span>
             <div>
                 <div className="flex items-center justify-between mb-4">
                     <h3 className="text-xl font-semibold text-gray-900 truncate">
@@ -375,10 +526,9 @@ const RequestCard = ({
                                     />
                                 </svg>
                             </button>
-                            {/* Popup Note */}
                             {showNote && (
                                 <div
-                                    className="absolute z-20 right-0 top-10 min-w-[220px] max-w-xs bg-white border border-green-200 rounded-xl shadow-2xl p-4 animate-fade-in"
+                                    className="absolute z-20 right-0 top-10 min-w-[220px max-w-xs bg-white border border-green-200 rounded-xl shadow-2xl p-4 animate-fade-in"
                                     style={{
                                         minWidth: 220,
                                         wordBreak: 'break-word',
@@ -430,28 +580,39 @@ const RequestCard = ({
                 <select
                     className="w-full md:w-auto px-4 py-2 border border-gray-200 rounded-2xl bg-white focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700 shadow-sm transition-all duration-200 cursor-pointer"
                     value={request.status}
-                    onChange={(e) => {
+                    onChange={async (e) => {
                         const newStatus = e.target.value;
                         if (newStatus !== request.status) {
                             if (newStatus === 'Approved') {
-                                handleApprove(request.id);
+                                await handleApprove(request.id);
                             } else if (newStatus === 'Rejected') {
-                                handleReject(request.id);
+                                await handleReject(request.id);
                             } else if (newStatus === 'Processing') {
-                                handleProcessing(request.id);
+                                await handleProcessing(request.id);
                             } else if (newStatus === 'Returned') {
-                                handleReturned(request.id);
+                                await handleReturned(request.id);
                             } else {
-                                updateRequestStatus(request.id, newStatus);
+                                await updateRequestStatus(
+                                    request.id,
+                                    newStatus
+                                );
                             }
+                            setRefresh((prev) => !prev);
                         }
                     }}
                 >
-                    <option value="Waiting">Waiting</option>
-                    <option value="Approved">Approve</option>
-                    <option value="Rejected">Reject</option>
-                    <option value="Processing">Processing</option>
-                    <option value="Returned">Returned</option>
+                    <option value="Waiting" disabled={isStatusChanged}>
+                        Waiting
+                    </option>
+                    <option value="Approved" disabled={request.status == 'Returned'}>Approve</option>
+                    <option value="Rejected" disabled={request.status == 'Returned'}>Reject</option>
+                    <option value="Processing" disabled={request.status == 'Returned'}>Processing</option>
+                    <option
+                        value="Returned"
+                        disabled={request.status !== 'Approved'}
+                    >
+                        Returned
+                    </option>
                 </select>
             </div>
         </div>
