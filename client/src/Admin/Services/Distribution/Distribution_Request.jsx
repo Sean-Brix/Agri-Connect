@@ -213,12 +213,38 @@ export default function Distribution_Request() {
         }
     };
 
-    const handleClaimed = async (id) => {
-        setRequests((prevRequests) =>
-            prevRequests.map((request) =>
-                request.id === id ? { ...request, status: 'Claimed' } : request
-            )
-        );
+    const handleClaimed = async (id, quantity, distribution_item_id) => {
+        try {
+            const response = await fetch(`/api/distribution/approve_request`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    request_id: id,
+                    status: 'Claimed',
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            await updateItemStock(distribution_item_id, +quantity);
+
+
+            setRequests((prevRequests) =>
+                prevRequests.map((request) =>
+                    request.id === id
+                        ? { ...request, status: 'Claimed' }
+                        : request
+                )
+            );
+        } catch (error) {
+            console.error('Error rejecting request:', error);
+            alert('Unauthorized, Only Admin Account');
+            navigate('/login');
+        }
     };
 
     const RequestCard = ({ request }) => {
@@ -331,7 +357,7 @@ export default function Distribution_Request() {
                             } else if (e.target.value === 'Processing') {
                                 handleProcessing(request.id);
                             } else if (e.target.value === 'Claimed') {
-                                handleClaimed(request.id);
+                                handleClaimed(request.id, request.quantity, request.distribution_item_id,);
                             }
                         }}
                     >

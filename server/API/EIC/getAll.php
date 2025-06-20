@@ -3,9 +3,9 @@
 require_once __DIR__.'../../../global.php';
 
 try {
-    $status = $_GET['status'];
-    $category = $_GET['category'];
-    $search = $_GET['search'];
+    $status = $_GET['status'] ?? null;
+    $category = $_GET['category'] ?? [];
+    $search = $_GET['search'] ?? '';
 
     $EIC = new EIC(null);
 
