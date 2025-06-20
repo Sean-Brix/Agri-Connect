@@ -503,35 +503,61 @@ export default function Navbar() {
                                     onMouseLeave={() => setOpen(false)}
                                 >
                                     {loggedIn ? (
-                                        <li>
-                                            <button
-                                                className="w-full text-left flex items-center gap-2 px-5 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
-                                                onClick={() => {
-                                                    setShowAlert(true);
-                                                    setOpen(false);
-                                                }}
-                                            >
-                                                <svg
-                                                    className="w-5 h-5 text-blue-500"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    strokeWidth="2"
-                                                    viewBox="0 0 24 24"
+                                        <>
+                                            <li>
+                                                <button
+                                                    className="w-full text-left flex items-center gap-2 px-5 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
+                                                    onClick={() => {
+                                                        setShowAlert(true);
+                                                        setOpen(false);
+                                                    }}
                                                 >
-                                                    <path
-                                                        d="M17 16l4-4m0 0l-4-4m4 4H7"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                    />
-                                                    <path
-                                                        d="M3 12a9 9 0 0118 0"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                    />
-                                                </svg>
-                                                Logout
-                                            </button>
-                                        </li>
+                                                    <svg
+                                                        className="w-5 h-5 text-blue-500"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        strokeWidth="2"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            d="M17 16l4-4m0 0l-4-4m4 4H7"
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                        />
+                                                        <path
+                                                            d="M3 12a9 9 0 0118 0"
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                        />
+                                                    </svg>
+                                                    Logout
+                                                </button>
+                                            </li>
+                                            
+                                                <li>
+                                                    <Link
+                                                        to="/admin"
+                                                        className="flex items-center gap-2 px-5 py-3 text-blue-700 hover:bg-blue-50 rounded-lg transition font-medium"
+                                                        onClick={() => setOpen(false)}
+                                                    >
+                                                        <svg
+                                                            className="w-5 h-5 text-blue-500"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeWidth="2"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <path
+                                                                d="M12 11V7m0 0V3m0 4h4m-4 0H8m8 8v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4a2 2 0 012-2h8a2 2 0 012 2z"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                            />
+                                                        </svg>
+                                                        Admin Panel
+                                                    </Link>
+                                                </li>
+                                            
+                                        </>
                                     ) : (
                                         <li>
                                             <Link
