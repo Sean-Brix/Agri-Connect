@@ -22,19 +22,52 @@ export default function Chat() {
     return (
         <>
             
-            {/* Floating Chat Icon with Modern Tooltip */}
+            /* Floating Chat Icon with Modern Tooltip */
             <div className="fixed bottom-8 right-8 z-50 group">
                 <button
                     onClick={() => setOpen(true)}
                     className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-blue-400 text-white shadow-2xl flex items-center justify-center text-xl cursor-pointer hover:scale-105 transition-transform relative"
                     aria-label="Open Chat"
                 >
+                   
                     {/* Modern Tooltip - now floats to the left of the icon */}
                     <div className="absolute left-[-220px] top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200">
                         <div className="bg-white text-blue-700 font-semibold px-4 py-2 rounded-xl shadow-lg border border-blue-100 flex items-center gap-2 animate-fade-in-down">
                             <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M18 10c0-3.314-2.686-6-6-6S6 6.686 6 10c0 2.386 1.676 4.434 4 4.899V18h4v-3.101c2.324-.465 4-2.513 4-4.899z" />
-                            </svg>
+                            </svg> {/* Waving Hand on Hover */}
+                    <span
+                        className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"
+                        style={{ zIndex: 2 }}
+                    >
+                        <span
+                            className="inline-block text-3xl"
+                            role="img"
+                            aria-label="Waving Hand"
+                            style={{
+                                display: 'inline-block',
+                                transformOrigin: '70% 70%',
+                                animation: 'wave-hand 1.2s infinite'
+                            }}
+                        >
+                            👋
+                        </span>
+                        {/* Keyframes for waving hand */}
+                        <style>
+                            {`
+                            @keyframes wave-hand {
+                                0% { transform: rotate(0deg); }
+                                10% { transform: rotate(14deg); }
+                                20% { transform: rotate(-8deg); }
+                                30% { transform: rotate(14deg); }
+                                40% { transform: rotate(-4deg); }
+                                50% { transform: rotate(10deg); }
+                                60% { transform: rotate(0deg); }
+                                100% { transform: rotate(0deg); }
+                            }
+                            `}
+                        </style>
+                    </span>
                             Customer Service
                         </div>
                         <div className="absolute right-[-8px] top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-t border-r border-blue-100 rotate-45"></div>
@@ -45,7 +78,7 @@ export default function Chat() {
                     </svg>
                 </button>
             </div>
-            {/* Chat Modal */}
+            /* Chat Modal */}
             {open && (
                 <div
                     className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 transition-all"
