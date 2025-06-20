@@ -318,7 +318,7 @@ class Distribution{
      * Returns What: An array of associative arrays, where each array represents a DistributionItem request.
      */
     public static function getAllRequests() {
-        $query = "SELECT * FROM distribution_request";
+        $query = "SELECT * FROM distribution_request ORDER BY FIELD(status, 'Waiting', 'Processing', 'Rejected', 'Claimed'), created_at DESC";
         $result = statement($query);
         $requests = array();
         while ($row = mysqli_fetch_assoc($result)) {

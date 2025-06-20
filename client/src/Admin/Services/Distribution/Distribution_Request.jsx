@@ -1,65 +1,66 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 export default function Distribution_Request() {
     const navigate = useNavigate();
     const [requests, setRequests] = useState([]);
-    const [distributionItems, setDistributionItems] = useState([]);
+    const [eicItems, setEicItems] = useState([]);
+    const [accounts, setAccounts] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState('');
-    const [accounts, setAccounts] = useState([]);
 
     useEffect(() => {
         const fetchRequests = async () => {
-          try {
-            const response = await fetch('/api/distribution/getAll_Request');
-            const data = await response.json();
-            setRequests(data?.payload || []);
-          } catch (error) {
-            console.error('Error fetching requests:', error);
-            alert('Unauthorized, Only Admin Account');
-            navigate('/login');
-          }
+            try {
+                const response = await fetch(
+                    '/api/distribution/getAll_Request'
+                );
+                const data = await response.json();
+                setRequests(data?.payload || []);
+            } catch (error) {
+                console.error('Error fetching requests:', error);
+                alert('Unauthorized, Only Admin Account');
+                navigate('/login');
+            }
+        };
+
+        const fetchEicItems = async () => {
+            try {
+                const response = await fetch('/api/distribution/getAll');
+                const data = await response.json();
+                setEicItems(data?.payload || []);
+            } catch (error) {
+                console.error('Error fetching items:', error);
+                alert('Unauthorized, Only Admin Account');
+                navigate('/login');
+            }
         };
 
         const fetchAccounts = async () => {
-          try {
-            const response = await fetch('/api/accounts/allAccounts');
-            const data = await response.json();
-            setAccounts(data?.payload || []);
-          } catch (error) {
-            console.error('Error fetching accounts:', error);
-            alert('Unauthorized, Only Admin Account');
-            navigate('/login');
-          }
-        };
-
-        const fetchDistributionItems = async () => {
-          try {
-            const response = await fetch('/api/distribution/getAll');
-            const data = await response.json();
-            setDistributionItems(data?.payload || []);
-          } catch (error) {
-            console.error('Error fetching distribution items:', error);
-            alert('Unauthorized, Only Admin Account');
-            navigate('/login');
-          }
+            try {
+                const response = await fetch('/api/accounts/allAccounts');
+                const data = await response.json();
+                setAccounts(data?.payload || []);
+            } catch (error) {
+                console.error('Error fetching accounts:', error);
+                alert('Unauthorized, Only Admin Account');
+                navigate('/login');
+            }
         };
 
         fetchRequests();
+        fetchEicItems();
         fetchAccounts();
-        fetchDistributionItems();
-
-    }, []);
+    }, [navigate]);
 
     const filteredRequests =
         requests?.filter((request) => {
             const account = accounts?.find(
                 (account) => account.id === request.account_id
             );
-            const distributionItem = distributionItems?.find(
+            const eicItem = eicItems?.find(
                 (item) => item.id === request.distribution_item_id
             );
-
             const searchMatch =
                 request.request_note
                     ?.toLowerCase()
@@ -67,13 +68,12 @@ export default function Distribution_Request() {
                 account?.username
                     ?.toLowerCase()
                     .includes(searchQuery.toLowerCase()) ||
-                distributionItem?.name
+                eicItem?.name
                     ?.toLowerCase()
                     .includes(searchQuery.toLowerCase());
 
             const statusMatch =
                 statusFilter === '' || request.status === statusFilter;
-
             return searchMatch && statusMatch;
         }) || [];
 
@@ -85,92 +85,131 @@ export default function Distribution_Request() {
         setStatusFilter(e.target.value);
     };
 
-    const handleApprove = async (id) => {
+    const updateItemStock = async (itemId, quantityChange) => {
         try {
-          const response = await fetch(`/api/distribution/approve_request`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              request_id: id,
-              status: 'Approved',
-            }),
-          });
+            const response = await fetch('/api/distribution/updateItem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: itemId,
+                    quantity: quantityChange,
+                }),
+            });
 
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
 
-        setRequests((prevRequests) =>
-            prevRequests.map((request) =>
-                request.id === id ? { ...request, status: 'Approved' } : request
-            )
-        );
+            setEicItems((prevItems) =>
+                prevItems.map((item) =>
+                    item.id === itemId
+                        ? { ...item, quantity: item.quantity + quantityChange }
+                        : item
+                )
+            );
         } catch (error) {
-          console.error('Error approving request:', error);
-          alert('Unauthorized, Only Admin Account');
-          navigate('/login');
+            console.error('Error updating item stock:', error);
+            alert('Failed to update item stock.');
+        }
+    };
+
+    const handleApprove = async (id, distribution_item_id, quantity) => {
+        try {
+            const response = await fetch(`/api/distribution/approve_request`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    request_id: id,
+                    status: 'Approved',
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            await updateItemStock(distribution_item_id, -quantity);
+
+            setRequests((prevRequests) =>
+                prevRequests.map((request) =>
+                    request.id === id
+                        ? { ...request, status: 'Approved' }
+                        : request
+                )
+            );
+        } catch (error) {
+            console.error('Error approving request:', error);
+            alert('Unauthorized, Only Admin Account');
+            navigate('/login');
+        }
+    };
+
+    const handleReject = async (id, distribution_item_id, quantity) => {
+        try {
+            const response = await fetch(`/api/distribution/approve_request`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    request_id: id,
+                    status: 'Rejected',
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            await updateItemStock(distribution_item_id, +quantity);
+
+
+            setRequests((prevRequests) =>
+                prevRequests.map((request) =>
+                    request.id === id
+                        ? { ...request, status: 'Rejected' }
+                        : request
+                )
+            );
+        } catch (error) {
+            console.error('Error rejecting request:', error);
+            alert('Unauthorized, Only Admin Account');
+            navigate('/login');
         }
     };
 
     const handleProcessing = async (id) => {
         try {
-          const response = await fetch(`/api/distribution/approve_request`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              request_id: id,
-              status: 'Processing',
-            }),
-          });
+            const response = await fetch(`/api/distribution/approve_request`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    request_id: id,
+                    status: 'Processing',
+                }),
+            });
 
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
 
-        setRequests((prevRequests) =>
-            prevRequests.map((request) =>
-                request.id === id
-                    ? { ...request, status: 'Processing' }
-                    : request
-            )
-        );
+            setRequests((prevRequests) =>
+                prevRequests.map((request) =>
+                    request.id === id
+                        ? { ...request, status: 'Processing' }
+                        : request
+                )
+            );
         } catch (error) {
-          console.error('Error approving request:', error);
-          alert('Unauthorized, Only Admin Account');
-          navigate('/login');
-        }
-    };
-
-    const handleReject = async (id) => {
-        try {
-          const response = await fetch(`/api/distribution/approve_request`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              request_id: id,
-              status: 'Rejected',
-            }),
-          });
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-
-        setRequests((prevRequests) =>
-            prevRequests.map((request) =>
-                request.id === id ? { ...request, status: 'Rejected' } : request
-            )
-        );
-        } catch (error) {
-          console.error('Error rejecting request:', error);
-          alert('Unauthorized, Only Admin Account');
-          navigate('/login');
+            console.error('Error approving request:', error);
+            alert('Unauthorized, Only Admin Account');
+            navigate('/login');
         }
     };
 
@@ -186,7 +225,7 @@ export default function Distribution_Request() {
         const account = accounts?.find(
             (account) => account.id === request.account_id
         );
-        const distributionItem = distributionItems?.find(
+        const eicItem = eicItems?.find(
             (item) => item.id === request.distribution_item_id
         );
 
@@ -195,7 +234,7 @@ export default function Distribution_Request() {
                 <div>
                     <div className="flex items-center justify-between mb-4">
                         <h3 className="text-xl font-semibold text-gray-900 truncate">
-                            {distributionItem?.name}
+                            {eicItem?.name}
                         </h3>
                         <span
                             className={`font-medium px-3 py-1 rounded-full text-xs border transition ${
@@ -222,7 +261,7 @@ export default function Distribution_Request() {
                     <div className="space-y-2">
                         <div className="flex justify-between text-xs text-gray-500">
                             <span className="font-medium">Item ID</span>
-                            <span>{distributionItem?.id}</span>
+                            <span>{eicItem?.id}</span>
                         </div>
                         <div className="flex justify-between text-xs text-gray-500">
                             <span className="font-medium">Quantity</span>
@@ -232,17 +271,17 @@ export default function Distribution_Request() {
                             <span className="font-medium">Schedule</span>
                             <span>{request.schedule_date}</span>
                         </div>
-                        {distributionItem && (
+                        {eicItem && (
                             <>
                                 <div className="flex justify-between text-xs text-gray-500">
                                     <span className="font-medium">Stock</span>
-                                    <span>{distributionItem?.quantity}</span>
+                                    <span>{eicItem?.quantity}</span>
                                 </div>
                                 <div className="flex justify-between text-xs text-gray-500">
                                     <span className="font-medium">
                                         Category
                                     </span>
-                                    <span>{distributionItem?.category}</span>
+                                    <span>{eicItem?.category}</span>
                                 </div>
                             </>
                         )}
@@ -278,9 +317,17 @@ export default function Distribution_Request() {
                         defaultValue={request.status}
                         onChange={(e) => {
                             if (e.target.value === 'Approved') {
-                                handleApprove(request.id);
+                                handleApprove(
+                                    request.id,
+                                    request.distribution_item_id,
+                                    request.quantity
+                                );
                             } else if (e.target.value === 'Rejected') {
-                                handleReject(request.id);
+                                handleReject(
+                                    request.id,
+                                    request.distribution_item_id,
+                                    request.quantity
+                                );
                             } else if (e.target.value === 'Processing') {
                                 handleProcessing(request.id);
                             } else if (e.target.value === 'Claimed') {

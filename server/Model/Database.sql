@@ -145,7 +145,7 @@ CREATE TABLE distribution_items (
     name VARCHAR(255) NOT NULL,
     description TEXT,
     quantity INT NOT NULL,
-    status ENUM('Available', 'Out of Stock', 'Scheduled', 'Discontinued') NOT NULL DEFAULT 'Available',
+    status ENUM('Available', 'Out of Stock', 'Discontinued') NOT NULL DEFAULT 'Available',
     category ENUM(
         'Seeds',
         'Fertilizers',
